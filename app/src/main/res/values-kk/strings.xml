@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Салем</string>
+    <string name="app_name">ChangeLang</string>
+    <string name="navigation_drawer_open">Ашу</string>
+    <string name="navigation_drawer_close">Жабу</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">Проект</string>
+    <string name="nav_header_desc">Хэдхэд</string>
+    <string name="action_settings">Настройки</string>
+    <string name="menu1">Төрт-түлік</string>
+    <string name="menu2">Үй Жануарлары</string>
+    <string name="menu3">Жем</string>
+    <string name="menu4">Көтерме сауда</string>
+    <string name="menu5">Қызметтер және техника</string>
+    <string name="menu6">Азық-түлік</string>
+    <string name="menu7">Жұмыспен қамту</string>
+    <string name="menu8">Тегін хабарландыру беру</string>
+    <string name="menu82">Қарапайым жедел және тегін</string>
+    <string name="title">Жоспар</string>
+    <string name="Cabinet">Жеке кабинет</string>
+    <string name="Option1">Бірінші селект</string>
+    <string name="Option2">Екінші селект</string>
+    <string name="Search">Қажетті сөзді теруді бастаңыз</string>
+    <string name="select">Тандау</string>
+</resources>
