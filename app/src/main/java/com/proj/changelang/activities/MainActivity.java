@@ -1,8 +1,11 @@
 package com.proj.changelang.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -35,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import io.paperdb.Paper;
 import okhttp3.OkHttpClient;
@@ -48,23 +52,30 @@ public class MainActivity extends AppCompatActivity
     private Button select1,select2;
     private EditText editText;
     private JSONObject ff;
-    private Intent nextSelect;
+    private Dialog epicDialog;
+    private Intent nextSelect, nextSelect2, nextSelect3, nextSelect4, nextSelect5, nextSelect6, nextSelect7;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SetActivityView();
+        epicDialog = new Dialog(this);
+        sDialog();
         if (isConnected())
         {
             GetCategories();
             GetDictionary();
         }
+    }
+
+    private void SetActivityView(){
         setContentView(R.layout.activity_main);
         select1 = (Button) findViewById(R.id.select1);
         select2 = (Button) findViewById(R.id.select2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        nextSelect = new Intent(this, ShowCategory.class);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         Paper.init(this);
         String language = Paper.book().read("language");
 
@@ -113,8 +124,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-
     private void initListeners() {
+        nextSelect = new Intent(this, ShowCategory.class);
+        nextSelect2 = new Intent(this, ShowCategory2.class);
+        nextSelect3 = new Intent(this, ShowCategory3.class);
+        nextSelect4 = new Intent(this, ShowCategory4.class);
+        nextSelect5 = new Intent(this, ShowCategory5.class);
+        nextSelect6 = new Intent(this, ShowCategory6.class);
+        nextSelect7 = new Intent(this, ShowCategory7.class);
         menu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,43 +142,43 @@ public class MainActivity extends AppCompatActivity
         menu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextSelect.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(4));
-                startActivity(nextSelect);
+                nextSelect2.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(4));
+                startActivity(nextSelect2);
             }
         });
         menu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextSelect.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(2));
-                startActivity(nextSelect);
+                nextSelect3.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(2));
+                startActivity(nextSelect3);
             }
         });
         menu4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextSelect.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(0));
-                startActivity(nextSelect);
+                nextSelect4.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(0));
+                startActivity(nextSelect4);
             }
         });
         menu5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextSelect.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(3));
-                startActivity(nextSelect);
+                nextSelect5.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(3));
+                startActivity(nextSelect5);
             }
         });
         menu6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextSelect.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(5));
-                startActivity(nextSelect);
+                nextSelect6.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(5));
+                startActivity(nextSelect6);
             }
         });
         menu7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextSelect.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(6));
-                startActivity(nextSelect);
+                nextSelect7.putExtra(Category.class.getCanonicalName(), Maltabu.categories.get(6));
+                startActivity(nextSelect7);
             }
         });
 
@@ -314,8 +331,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     public void categsList() throws JSONException {
         Gson googleJson = new Gson();
         ArrayList<Region> regionArrayList = new ArrayList<>();
@@ -402,6 +417,7 @@ public class MainActivity extends AppCompatActivity
                 if (s != null) {
                     try {
                         Maltabu.jsonObject = new JSONObject(s).getJSONObject("kk_KZ");
+                        epicDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -410,4 +426,11 @@ public class MainActivity extends AppCompatActivity
         };
         asyncTask1.execute();
     }
+
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+    }
+
 }

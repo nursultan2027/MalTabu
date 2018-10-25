@@ -6,9 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,16 +42,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-public class ShowCategory extends AppCompatActivity {
+public class ShowCategory2 extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
@@ -64,32 +53,30 @@ public class ShowCategory extends AppCompatActivity {
     private JSONArray resObj;
     private ArrayList< ArrayList<Post> >  posts = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.show_catalog);
-            category = getIntent().getParcelableExtra(Category.class.getCanonicalName());
-            epicDialog = new Dialog(this);
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            if(Maltabu.lang.toLowerCase().equals("ru")) {
-                setTitle(category.getName());
-            } else {
-                String kazName = null;
-                try {
-                    kazName = Maltabu.jsonObject.getString(category.getName());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                setTitle(kazName);
+        setContentView(R.layout.show_catalog);
+        category = getIntent().getParcelableExtra(Category.class.getCanonicalName());
+        epicDialog = new Dialog(this);
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        if(Maltabu.lang.toLowerCase().equals("ru")) {
+            setTitle(category.getName());
+        } else {
+            String kazName = null;
+            try {
+                kazName = Maltabu.jsonObject.getString(category.getName());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            setTitle(kazName);
+        }
         sDialog();
         HTTPAsyncTask task = new HTTPAsyncTask();
         HTTPAsyncTask2 task1 = new HTTPAsyncTask2();
@@ -98,7 +85,6 @@ public class ShowCategory extends AppCompatActivity {
         HTTPAsyncTask5 task4 = new HTTPAsyncTask5();
         HTTPAsyncTask6 task5 = new HTTPAsyncTask6();
         HTTPAsyncTask7 task6 = new HTTPAsyncTask7();
-        HTTPAsyncTask8 task7 = new HTTPAsyncTask8();
         task.execute();
         task1.execute();
         task2.execute();
@@ -106,7 +92,8 @@ public class ShowCategory extends AppCompatActivity {
         task4.execute();
         task5.execute();
         task6.execute();
-        task7.execute();
+
+
 //        final Resources resources = getResources();
 //        final int [] imgRes = new int[]{R.id.imageView10,R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView15,R.id.imageView16};
 //        int [] conRes = new int[]{R.id.con1,R.id.con2,R.id.con3,R.id.con4,R.id.con5,R.id.con6,R.id.con7};
@@ -165,7 +152,6 @@ public class ShowCategory extends AppCompatActivity {
         ConstraintLayout con = (ConstraintLayout) headerView.findViewById(R.id.con);
         tabLayout.getTabAt(0).setCustomView(con);
     }
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Bundle bundle1 = new Bundle();
@@ -248,7 +234,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("categoryID", "5ab672c9559d5e049c25a62b");
+        jsonObject.accumulate("categoryID", "5ab672c9559d5e049c25a644");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -316,7 +302,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62c");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a645");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -376,7 +362,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62d");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a646");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -436,7 +422,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62e");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a647");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -496,7 +482,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62f");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a648");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -556,7 +542,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a630");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a649");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -616,7 +602,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a631");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a64a");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -626,65 +612,6 @@ public class ShowCategory extends AppCompatActivity {
         return jsonObject;
     }
 
-    private class HTTPAsyncTask8 extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            try {
-                try {
-                    return HttpPost8("http://maltabu.kz/v1/api/clients/posts");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return "Error!";
-                }
-            } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
-            }
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                JSONObject Obj = new JSONObject(result);
-                resObj = Obj.getJSONArray("posts");
-                catalogList(7);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private String HttpPost8(String myUrl) throws IOException, JSONException {
-        StringBuilder res = new StringBuilder();
-        URL url = new URL(myUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        conn.setRequestProperty("isAuthorized", "false");
-        conn.setDoOutput(true);
-        JSONObject jsonObject = buidJsonObject8();
-        setPostRequestContent(conn, jsonObject);
-        conn.connect();
-
-        InputStream in = new BufferedInputStream(conn.getInputStream());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            res.append(line);
-        }
-
-        return res.toString();
-    }
-    private JSONObject buidJsonObject8() throws JSONException {
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a632");
-        jsonObject.accumulate("countPosts", true);
-        jsonObject.accumulate("increment", true);
-        jsonObject.accumulate("onlyEmergency", false);
-        jsonObject.accumulate("onlyExchange", false);
-        jsonObject.accumulate("onlyImages",  false);
-        jsonObject.accumulate("page",  1);
-        return jsonObject;
-    }
 
     private void catalogList(int numb) throws JSONException {
         Gson googleJson = new Gson();
@@ -725,14 +652,14 @@ public class ShowCategory extends AppCompatActivity {
                     }
                 }
                 else {
-                  if (price.equals("free")){
-                      if(Maltabu.lang.toLowerCase().equals("ru")) {
-                          price = "Отдам даром";
-                      } else {
-                          String kazName = Maltabu.jsonObject.getString("Отдам даром");
-                          price = kazName;
-                      }
-                  }
+                    if (price.equals("free")){
+                        if(Maltabu.lang.toLowerCase().equals("ru")) {
+                            price = "Отдам даром";
+                        } else {
+                            String kazName = Maltabu.jsonObject.getString("Отдам даром");
+                            price = kazName;
+                        }
+                    }
                 }
             }
             if (postObject.getBoolean("hasContent")){
@@ -744,7 +671,7 @@ public class ShowCategory extends AppCompatActivity {
                 posts.get(numb).add(post);
             }
         }
-        if(numb==7){
+        if(numb==6){
             viewInit();
             epicDialog.dismiss();
         }
@@ -764,4 +691,5 @@ public class ShowCategory extends AppCompatActivity {
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
     }
+
 }

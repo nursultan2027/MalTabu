@@ -6,9 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,16 +42,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-public class ShowCategory extends AppCompatActivity {
+public class ShowCategory5 extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
@@ -68,28 +57,28 @@ public class ShowCategory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.show_catalog);
-            category = getIntent().getParcelableExtra(Category.class.getCanonicalName());
-            epicDialog = new Dialog(this);
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            posts.add(new ArrayList<Post>());
-            if(Maltabu.lang.toLowerCase().equals("ru")) {
-                setTitle(category.getName());
-            } else {
-                String kazName = null;
-                try {
-                    kazName = Maltabu.jsonObject.getString(category.getName());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                setTitle(kazName);
+        setContentView(R.layout.show_catalog);
+        category = getIntent().getParcelableExtra(Category.class.getCanonicalName());
+        epicDialog = new Dialog(this);
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        posts.add(new ArrayList<Post>());
+        if(Maltabu.lang.toLowerCase().equals("ru")) {
+            setTitle(category.getName());
+        } else {
+            String kazName = null;
+            try {
+                kazName = Maltabu.jsonObject.getString(category.getName());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            setTitle(kazName);
+        }
         sDialog();
         HTTPAsyncTask task = new HTTPAsyncTask();
         HTTPAsyncTask2 task1 = new HTTPAsyncTask2();
@@ -248,7 +237,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("categoryID", "5ab672c9559d5e049c25a62b");
+        jsonObject.accumulate("categoryID", "5ab672c9559d5e049c25a63e");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -316,7 +305,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62c");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a63f");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -376,7 +365,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62d");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a640");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -436,7 +425,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62e");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a641");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -496,7 +485,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a62f");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a642");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -556,7 +545,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a630");
+        jsonObject.accumulate("catalogID", "5b0bffe2530c6256285a19b1");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -616,7 +605,7 @@ public class ShowCategory extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a631");
+        jsonObject.accumulate("catalogID", "5b0bffe2530c6256285a1933");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -673,10 +662,9 @@ public class ShowCategory extends AppCompatActivity {
         return res.toString();
     }
     private JSONObject buidJsonObject8() throws JSONException {
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
-        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a632");
+        jsonObject.accumulate("catalogID", "5ab672c9559d5e049c25a643");
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
         jsonObject.accumulate("onlyEmergency", false);
@@ -725,14 +713,14 @@ public class ShowCategory extends AppCompatActivity {
                     }
                 }
                 else {
-                  if (price.equals("free")){
-                      if(Maltabu.lang.toLowerCase().equals("ru")) {
-                          price = "Отдам даром";
-                      } else {
-                          String kazName = Maltabu.jsonObject.getString("Отдам даром");
-                          price = kazName;
-                      }
-                  }
+                    if (price.equals("free")){
+                        if(Maltabu.lang.toLowerCase().equals("ru")) {
+                            price = "Отдам даром";
+                        } else {
+                            String kazName = Maltabu.jsonObject.getString("Отдам даром");
+                            price = kazName;
+                        }
+                    }
                 }
             }
             if (postObject.getBoolean("hasContent")){
@@ -764,4 +752,5 @@ public class ShowCategory extends AppCompatActivity {
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
     }
+
 }

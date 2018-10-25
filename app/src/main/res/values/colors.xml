@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#617ffb</color>
-    <color name="colorPrimaryDark">#617ffb</color>
+    <color name="colorPrimary">#ffbf25</color>
+    <color name="colorPrimaryDark">#ffbf25</color>
     <color name="colorAccent">#ffbf25</color>
     <color name="MaltabuBlue">#617ffb</color>
+    <color name="MaltabuBlueLight">#879ffc</color>
     <color name="MaltabuYellow">#ffbf25</color>
     <color name="MaltabuGrey">#f4f5f6</color>
     <color name="White">#ffffff</color>

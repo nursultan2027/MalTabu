@@ -9,13 +9,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,6 +23,12 @@
         <activity android:name=".activities.SecondSelect1"/>
         <activity android:name=".activities.SecondSelect2"/>
         <activity android:name=".activities.ShowCategory"/>
+        <activity android:name=".activities.ShowCategory2"/>
+        <activity android:name=".activities.ShowCategory3"/>
+        <activity android:name=".activities.ShowCategory4"/>
+        <activity android:name=".activities.ShowCategory5"/>
+        <activity android:name=".activities.ShowCategory6"/>
+        <activity android:name=".activities.ShowCategory7"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
