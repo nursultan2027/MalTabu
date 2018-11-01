@@ -6,9 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +24,6 @@ import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.CategoryFragment;
 import com.proj.changelang.models.Image;
-import com.proj.changelang.models.Item;
 import com.proj.changelang.models.Post;
 
 import org.json.JSONArray;
@@ -45,14 +41,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class ShowCategory extends AppCompatActivity {
     private TabLayout tabLayout;
@@ -737,10 +725,10 @@ public class ShowCategory extends AppCompatActivity {
             }
             if (postObject.getBoolean("hasContent")){
                 String content = postObject.getString("content");
-                Post post = new Post(visitors, createdAt, title,content, cityID, price, String.valueOf(number), imagesArrayList);
+                Post post = new Post(visitors, getDate(createdAt), title,content, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.get(numb).add(post);
             } else {
-                Post post = new Post(visitors, createdAt, title, cityID, price, String.valueOf(number), imagesArrayList);
+                Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.get(numb).add(post);
             }
         }
@@ -763,5 +751,78 @@ public class ShowCategory extends AppCompatActivity {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+
+    public String getDate(String s)    {
+        String [] ss = s.split("T");
+        String [] ss2 = ss[0].split("-");
+        if (ss2[1].equals("01"))
+        {
+            ss2[1] = "Января,қаңтар";
+        } else {
+            if (ss2[1].equals("02"))
+            {
+                ss2[1] = "Февраля,ақпан";
+            }
+            else {
+                if (ss2[1].equals("03"))
+                {
+                    ss2[1] = "Марта,наурыз";
+                }
+                else {
+                    if (ss2[1].equals("04"))
+                    {
+                        ss2[1] = "Апреля,сәуiр";
+                    } else {
+                        if (ss2[1].equals("05"))
+                        {
+                            ss2[1] = "Мая,мамыр";
+                        } else {
+                            if (ss2[1].equals("06"))
+                            {
+                                ss2[1] = "Июня,маусым";
+                            }
+                            else {
+                                if (ss2[1].equals("07"))
+                                {
+                                    ss2[1] = "Июля,шiлде";
+                                } else {
+                                    if (ss2[1].equals("08"))
+                                    {
+                                        ss2[1] = "Августа,тамыз";
+                                    }
+                                    else {
+                                        if (ss2[1].equals("09"))
+                                        {
+                                            ss2[1] = "Сентября,қыркүйек";
+                                        }
+                                        else {
+                                            if (ss2[1].equals("10"))
+                                            {
+                                                ss2[1] = "Октября,қазан";
+                                            }
+                                            else {
+                                                if (ss2[1].equals("11"))
+                                                {
+                                                    ss2[1] = "Ноября,қараша";
+                                                }
+                                                else {
+                                                    if (ss2[1].equals("12"))
+                                                    {
+                                                        ss2[1] = "Декабря,желтоқсан";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ss2[2] +","+ss2[1];
     }
 }

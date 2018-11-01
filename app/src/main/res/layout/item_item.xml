@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/selectedPost"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/hor_guideline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +39,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Price $"
             android:textColor="#000"
             app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -59,7 +60,6 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="location, date"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/textView4"

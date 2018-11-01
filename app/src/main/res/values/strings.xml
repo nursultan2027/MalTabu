@@ -22,5 +22,8 @@
     <string name="Option2">Option2</string>
     <string name="Search">Search</string>
     <string name="select">Выбрать</string>
-
+    <string name="toTop">Поднять наверх</string>
+    <string name="toHot">Добавить в горячие</string>
+    <string name="showPhone">Показать телефон</string>
+    <string name="showComments">Показать комментарии</string>
 </resources>
