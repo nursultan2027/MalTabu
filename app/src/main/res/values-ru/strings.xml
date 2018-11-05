@@ -27,6 +27,7 @@
     <string name="toHot">Добавить в горячие</string>
     <string name="showPhone">Показать телефон</string>
     <string name="showComments">Показать комментарии</string>
+    <string name="download">Загрузить еще</string>
 
 
 </resources>

@@ -26,5 +26,6 @@
     <string name="toTop">Поднять наверх</string>
     <string name="toHot">Добавить в горячие</string>
     <string name="showPhone">Телефон нөмірін көрсету</string>
-    <string name="showComments">Пікірлерді көрсету</string>2
+    <string name="showComments">Пікірлерді көрсету</string>
+    <string name="download">Загрузить еще</string>
 </resources>

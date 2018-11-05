@@ -42,7 +42,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         holder.nameView.setText(post.getTitle());
         holder.visitors.setText(post.getVisitors());
         holder.nameView2.setText(post.getPrice());
-        String dates [] = post.getCreatedAt().split(",");
+//        String dates [] = post.getCreatedAt().split(",");
 //        if (Maltabu.lang.equals("ru")) {
 //            holder.nameView3.setText(post.getCityID()+", "+dates[0]+ " "+dates[1]);
 //        } else {
