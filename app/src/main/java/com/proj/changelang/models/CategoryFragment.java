@@ -228,10 +228,10 @@ public class CategoryFragment extends Fragment {
             }
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
-                Post post = new Post(visitors, createdAt, title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.add(post);
             } else {
-                Post post = new Post(visitors, createdAt, title, cityID, price, String.valueOf(number), imagesArrayList);
+                Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.add(post);
             }
         }
@@ -260,5 +260,77 @@ public class CategoryFragment extends Fragment {
         progressAnimator.setDuration(30000);
         progressAnimator.setInterpolator(new LinearInterpolator());
         progressAnimator.start();
+    }
+
+    public String getDate(String s)    {
+        String [] ss = s.split("T");
+        String [] ss2 = ss[0].split("-");
+        if (ss2[1].equals("01"))
+        {
+            ss2[1] = "Января,қаңтар";
+        } else {
+            if (ss2[1].equals("02"))
+            {
+                ss2[1] = "Февраля,ақпан";
+            }
+            else {
+                if (ss2[1].equals("03"))
+                {
+                    ss2[1] = "Марта,наурыз";
+                }
+                else {
+                    if (ss2[1].equals("04"))
+                    {
+                        ss2[1] = "Апреля,сәуiр";
+                    } else {
+                        if (ss2[1].equals("05"))
+                        {
+                            ss2[1] = "Мая,мамыр";
+                        } else {
+                            if (ss2[1].equals("06"))
+                            {
+                                ss2[1] = "Июня,маусым";
+                            }
+                            else {
+                                if (ss2[1].equals("07"))
+                                {
+                                    ss2[1] = "Июля,шiлде";
+                                } else {
+                                    if (ss2[1].equals("08"))
+                                    {
+                                        ss2[1] = "Августа,тамыз";
+                                    }
+                                    else {
+                                        if (ss2[1].equals("09"))
+                                        {
+                                            ss2[1] = "Сентября,қыркүйек";
+                                        }
+                                        else {
+                                            if (ss2[1].equals("10"))
+                                            {
+                                                ss2[1] = "Октября,қазан";
+                                            }
+                                            else {
+                                                if (ss2[1].equals("11"))
+                                                {
+                                                    ss2[1] = "Ноября,қараша";
+                                                }
+                                                else {
+                                                    if (ss2[1].equals("12"))
+                                                    {
+                                                        ss2[1] = "Декабря,желтоқсан";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ss2[2] +","+ss2[1];
     }
 }

@@ -25,7 +25,17 @@
     <string name="select">Тандау</string>
     <string name="toTop">Поднять наверх</string>
     <string name="toHot">Добавить в горячие</string>
-    <string name="showPhone">Телефон нөмірін көрсету</string>
+    <string name="showPhone"><u>Телефон нөмірін көрсету</u></string>
     <string name="showComments">Пікірлерді көрсету</string>
     <string name="download">Загрузить еще</string>
+    <string name="region">Облыс</string>
+    <string name="city">Қала</string>
+    <string name="price">Бағасы</string>
+    <string name="onlyPhoto">Тек фотолармен</string>
+    <string name="onlyTrade">Айырбастау</string>
+    <string name="bargain">Шұғыл, сауда-саттық</string>
+    <string name="chooseRegion">Облысты таңдаңыз</string>
+    <string name="chooseCity">Қаланы таңдаңыз</string>
+    <string name="filterResult">Нәтижені көрсету</string>
+    <string name="filterClear">Тізімді тазалау</string>
 </resources>

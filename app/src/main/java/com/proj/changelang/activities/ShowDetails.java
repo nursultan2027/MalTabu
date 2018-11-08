@@ -1,9 +1,9 @@
 package com.proj.changelang.activities;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,11 +15,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.proj.changelang.R;
+import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Image;
 import com.proj.changelang.models.ImageFragment;
+import com.proj.changelang.models.ImageFragment2;
 import com.proj.changelang.models.Post;
+
+import org.json.JSONException;
 
 public class ShowDetails extends AppCompatActivity {
     private TextView title, content, price, phone, location, date, photos;
@@ -28,19 +33,41 @@ public class ShowDetails extends AppCompatActivity {
     private int PAGE_COUNT;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
-    private Dialog epicDialog;
+    private int selectedImg;
+    private Intent imagesIntent;
     private GestureDetector tapGestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_details);
-        epicDialog = new Dialog(this);
-        post = getIntent().getParcelableExtra("post");
+        imagesIntent = new Intent(this, ShowDetailsImages.class);
         initViews();
         setInfo();
+    }
+
+    private void setInfo() {
+        title.setText(post.getTitle());
+        content.setText(post.getContent());
+        price.setText(post.getPrice());
+        location.setText(post.getCityID());
+        String dates [] = post.getCreatedAt().split(",");
+        if (Maltabu.lang.equals("ru"))
+            date.setText(dates[0]+ " "+dates[1]);
+        else
+            date.setText(dates[0]+ " "+dates[2]);
+        PAGE_COUNT = post.getImages().size();
+        if(post.getImages().size()>0)
+            photos.setText(String.valueOf("1/"+post.getImages().size()));
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+        pager.setCurrentItem(0);
         tapGestureDetector = new GestureDetector(this, new TapGestureListener());
         pager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -53,8 +80,9 @@ public class ShowDetails extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                selectedImg = position;
                 if(post.getImages().size()>0)
-                photos.setText(String.valueOf(position+1+"/"+post.getImages().size()));
+                    photos.setText(String.valueOf(position+1+"/"+post.getImages().size()));
             }
 
             @Override
@@ -68,19 +96,11 @@ public class ShowDetails extends AppCompatActivity {
         });
     }
 
-    private void setInfo() {
-        title.setText(post.getTitle());
-        content.setText(post.getContent());
-        price.setText(post.getPrice());
-        location.setText(post.getCityID());
-        date.setText(post.getCreatedAt());
-        PAGE_COUNT = post.getImages().size();
-        if(post.getImages().size()>0)
-            photos.setText(String.valueOf("1/"+post.getImages().size()));
-    }
-
-
     private void initViews() {
+        post = getIntent().getParcelableExtra("post");
+        img = (ImageView) findViewById(R.id.finish);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.TRANSPARENT);
         title = (TextView) findViewById(R.id.textView2);
         content = (TextView) findViewById(R.id.textView777);
         price = (TextView) findViewById(R.id.textView6);
@@ -109,20 +129,13 @@ public class ShowDetails extends AppCompatActivity {
     }
 
     class TapGestureListener extends GestureDetector.SimpleOnGestureListener{
-
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            sDialog();
+            imagesIntent.putExtra("post", post);
+            imagesIntent.putExtra("pageCount", PAGE_COUNT);
+            imagesIntent.putExtra("select", selectedImg);
+            startActivity(imagesIntent);
             return false;
         }
-    }
-
-    protected void sDialog() {
-        epicDialog.setContentView(R.layout.image_dialog);
-        ViewPager asd = (ViewPager) epicDialog.findViewById(R.id.pages);
-        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        asd.setAdapter(pagerAdapter);
-        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        epicDialog.show();
     }
 }

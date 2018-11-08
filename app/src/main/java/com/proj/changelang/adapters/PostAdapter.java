@@ -47,17 +47,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
         visitors.setText(post.getVisitors());
         nameView2.setText(post.getPrice());
         String dates [] = post.getCreatedAt().split(",");
-//        if (Maltabu.lang.equals("ru")) {
-//            nameView3.setText(post.getCityID()+", "+dates[0]+ " "+dates[1]);
-//        }
-//        else {
-//            try {
-//                nameView3.setText(Maltabu.jsonObject.getString(post.getCityID())
-//                        +", "+dates[0]+ " "+dates[2]);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (Maltabu.lang.equals("ru")) {
+            nameView3.setText(post.getCityID()+", "+dates[0]+ " "+dates[1]);
+        }
+        else {
+            try {
+                nameView3.setText(Maltabu.jsonObject.getString(post.getCityID())
+                        +", "+dates[0]+ " "+dates[2]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         if(post.getImages().size()>0) {
             Picasso.with(getContext()).load("http://maltabu.kz/"

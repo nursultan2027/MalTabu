@@ -30,6 +30,7 @@
         <activity android:name=".activities.ShowCategory6"/>
         <activity android:name=".activities.ShowCategory7"/>
         <activity android:name=".activities.ShowDetails"/>
+        <activity android:name=".activities.ShowDetailsImages"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
