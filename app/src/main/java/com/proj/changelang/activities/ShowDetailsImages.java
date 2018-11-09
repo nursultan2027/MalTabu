@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.Maltabu;
+import com.proj.changelang.models.Image;
 import com.proj.changelang.models.ImageFragment;
 import com.proj.changelang.models.ImageFragment2;
 import com.proj.changelang.models.Post;
 
 public class ShowDetailsImages extends AppCompatActivity {
-    private TextView title, content, price, phone, location, date, photos;
     private ImageView img;
     private Post post;
     private int PAGE_COUNT, selectedImg;
@@ -34,14 +34,21 @@ public class ShowDetailsImages extends AppCompatActivity {
         selectedImg = getIntent().getIntExtra("select",0);
         PAGE_COUNT = post.getImages().size();
         setContentView(R.layout.image_dialog);
-        ViewPager asd = (ViewPager) findViewById(R.id.pages);
+        pager = (ViewPager) findViewById(R.id.pages);
+        img = (ImageView) findViewById(R.id.arr);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         final TextView txt = (TextView) findViewById(R.id.photos);
         if(post.getImages().size()>0)
             txt.setText(String.valueOf(selectedImg+1+"/"+post.getImages().size()));
         pagerAdapter = new MyFragmentPagerAdapter2(getSupportFragmentManager());
-        asd.setAdapter(pagerAdapter);
-        asd.setCurrentItem(selectedImg);
-        asd.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.setAdapter(pagerAdapter);
+        pager.setCurrentItem(selectedImg);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 if(post.getImages().size()>0)
