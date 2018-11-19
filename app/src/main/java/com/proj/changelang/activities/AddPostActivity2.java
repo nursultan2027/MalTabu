@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +40,9 @@ public class AddPostActivity2 extends AppCompatActivity{
     private Button addPhoneNumber, addImg;
     private CheckBox checkBox;
     private LinearLayout linearLayout;
-    private EditText edPhone, title;
-    private TextView checkTitle;
+    private RadioButton rb1, rb2, rb3;
+    private EditText edPhone, title, PriceRB;
+    private TextView checkTitle, Rb3, RbFree;
     private EditText [] phones = new EditText[4];
     private int phoneNimb = 0;
     private Spinner spinnerRegion, spinnerCity;
@@ -52,8 +54,14 @@ public class AddPostActivity2 extends AppCompatActivity{
         title = (EditText) findViewById(R.id.editText);
         checkBox = (CheckBox)findViewById(R.id.checkBox4);
         checkTitle = (TextView) findViewById(R.id.checkTitle);
+        Rb3 = (TextView) findViewById(R.id.textView17);
+        RbFree = (TextView) findViewById(R.id.textView77);
+        PriceRB = (EditText) findViewById(R.id.editText3);
         addImg = (Button) findViewById(R.id.button2);
         addPhoneNumber = (Button)findViewById(R.id.addPhone);
+        rb1 = (RadioButton) findViewById(R.id.priceRB);
+        rb3 = (RadioButton) findViewById(R.id.RB3);
+        rb2 = (RadioButton) findViewById(R.id.freeRD);
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         edPhone = (EditText) findViewById(R.id.phoneEditText);
         spinnerRegion = (Spinner) findViewById(R.id.spinner);
@@ -85,6 +93,30 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        RbFree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PriceRB.hasFocus())
+                PriceRB.clearFocus();
+                rb2.toggle();
+            }
+        });
+        Rb3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PriceRB.hasFocus())
+                PriceRB.clearFocus();
+                rb3.toggle();
+            }
+        });
+        PriceRB.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    rb1.toggle();
             }
         });
 

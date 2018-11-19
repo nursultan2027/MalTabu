@@ -136,15 +136,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView16">
 
                 <RadioButton
+                    android:id="@+id/priceRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/RB3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
+                    android:id="@+id/freeRD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -174,6 +175,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
             <TextView
+                android:id="@+id/textView77"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
