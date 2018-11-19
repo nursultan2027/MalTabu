@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.proj.changelang.R;
+import com.proj.changelang.activities.FilterActivity;
 import com.proj.changelang.activities.MainActivity;
-import com.proj.changelang.activities.MainActivity2;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.City;
 
@@ -20,12 +20,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class CityAdapter extends ArrayAdapter<City> {
+public class CityAdapter2 extends ArrayAdapter<City> {
     private LayoutInflater inflater;
     private int layout;
     private ArrayList<City> cities;
 
-    public CityAdapter(Context context, int resource, ArrayList<City> cities) {
+    public CityAdapter2(Context context, int resource, ArrayList<City> cities) {
         super(context, resource, cities);
         this.cities = cities;
         this.layout = resource;
@@ -40,8 +40,10 @@ public class CityAdapter extends ArrayAdapter<City> {
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextSelect = new Intent(getContext(), MainActivity2.class);
-                Maltabu.s4 = city.getName();
+                Intent nextSelect = new Intent(getContext(), FilterActivity.class);
+                nextSelect.putExtra(City.class.getCanonicalName(), city);
+                Maltabu.CityFilter = city.getName();
+                Maltabu.cityId = city.getId();
                 getContext().startActivity(nextSelect);
                 ((Activity)getContext()).finish();
             }

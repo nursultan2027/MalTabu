@@ -1,5 +1,6 @@
 package com.proj.changelang.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -57,6 +58,7 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
                 Intent nextSelect = new Intent(getContext(), FirstSelect2.class);
                 nextSelect.putExtra(Category.class.getCanonicalName(), region);
                 getContext().startActivity(nextSelect);
+                ((Activity)getContext()).finish();
             }
         });
         return view;

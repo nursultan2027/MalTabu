@@ -1,6 +1,7 @@
 package com.proj.changelang.helpers;
 
 import com.proj.changelang.models.Category;
+import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Post;
 import com.proj.changelang.models.Region;
 
@@ -15,5 +16,12 @@ public class Maltabu {
     public static ArrayList<Region> regions = null;
     public static ArrayList<Category> categories = null;
     public static JSONObject jsonObject = null;
-//    public static ArrayList<Post> posts = new ArrayList<>();
+    public static String RegionFilter = null;
+    public static String CityFilter = null;
+    public static String regId = null;
+    public static String cityId = null;
+    public static Region Region;
+    public static int fragmentNumb = 0;
+    public static int selectedFragment = 0;
+    public static FilterModel filterModel=null;
 }

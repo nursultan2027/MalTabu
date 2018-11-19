@@ -15,7 +15,6 @@
     <string name="menu6">Продукты питания</string>
     <string name="menu7">Работа</string>
     <string name="menu8">Подать объявление бесплатно</string>
-    <string name="title">Импорт</string>
     <string name="Cabinet">Личный кабинет</string>
     <string name="menu82">Просто, быстро и бесплатно</string>
     <string name="Option1">Option1</string>
@@ -38,5 +37,20 @@
     <string name="filterResult">Показать результат</string>
     <string name="filterClear">Очистить список</string>
 
+    <string name="title">Заголовок</string>
+    <string name="desc">Описание</string>
+    <string name="barter">Обмен</string>
+    <string name="barter2">Возможен обмен</string>
+    <string name="photo">Фотографии</string>
+    <string name="phone">Телефон</string>
+    <string name="mail">Эл. почта</string>
+    <string name="address">Адрес</string>
+    <string name="rules">Размещая данное объявление, я соглашаюсь с Правилами сайта</string>
+    <string name="addPost">Подать объявление</string>
+    <string name="radioB1">Договорная цена</string>
+    <string name="radioB2">Отдам даром</string>
+
+    <string name="photoPlus">Добавить фотографии</string>
+    <string name="phonePlus">Добавить телефон</string>
 
 </resources>

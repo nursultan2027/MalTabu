@@ -17,7 +17,6 @@
     <string name="menu7">Жұмыспен қамту</string>
     <string name="menu8">Тегін хабарландыру беру</string>
     <string name="menu82">Қарапайым жедел және тегін</string>
-    <string name="title">Жоспар</string>
     <string name="Cabinet">Жеке кабинет</string>
     <string name="Option1">Бірінші селект</string>
     <string name="Option2">Екінші селект</string>
@@ -38,4 +37,21 @@
     <string name="chooseCity">Қаланы таңдаңыз</string>
     <string name="filterResult">Нәтижені көрсету</string>
     <string name="filterClear">Тізімді тазалау</string>
+
+    <string name="title">Тақырып</string>
+    <string name="desc">Сипаттамасы</string>
+    <string name="barter">Айырбас</string>
+    <string name="barter2">Айырбастау мүмкіндігі бар</string>
+    <string name="photo">Фотосуреттер</string>
+    <string name="phone">Телефон</string>
+    <string name="mail">Эл. пошта</string>
+    <string name="address">Мекен-жай</string>
+    <string name="rules">Бұл хабарландыруды беру арқылы мен Сайт ережелерімен келісемін</string>
+    <string name="addPost">Хабарландыру беру</string>
+    <string name="radioB1">Келісімді баға</string>
+    <string name="radioB2">Тегін беремін</string>
+
+
+    <string name="photoPlus">Фотосүреттер қосу</string>
+    <string name="phonePlus">Қосымша телефон номірін қосу</string>
 </resources>

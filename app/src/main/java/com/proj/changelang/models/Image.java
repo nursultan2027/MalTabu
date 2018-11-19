@@ -9,6 +9,9 @@ public class Image implements Parcelable {
     private String medium;
     private String big;
 
+    public Image(String small){
+        this.small =small;
+    }
     public Image(String extra_small, String small, String medium, String big) {
         this.extra_small = extra_small;
         this.small = small;

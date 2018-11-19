@@ -104,6 +104,7 @@ public class CategoryFragment extends Fragment {
 
 
     private void post() {
+
             AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
 
                 @Override
@@ -154,10 +155,27 @@ public class CategoryFragment extends Fragment {
         }
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);
-        jsonObject.accumulate("onlyEmergency", false);
-        jsonObject.accumulate("onlyExchange", false);
-        jsonObject.accumulate("onlyImages", false);
         jsonObject.accumulate("page", this.page);
+
+        if(Maltabu.filterModel!=null){
+            FilterModel filter = Maltabu.filterModel;
+            if(filter.getRegId()!=null){
+                jsonObject.accumulate("regionID", filter.getRegId());
+            }
+            if(filter.getCityId()!=null){
+                jsonObject.accumulate("cityID", filter.getCityId());
+            }
+            if(filter.getPrice1()!=null){
+                jsonObject.accumulate("fromPrice", filter.getPrice1());
+            }
+            if(filter.getPrice2()!=null){
+                jsonObject.accumulate("toPrice", filter.getPrice2());
+            }
+            jsonObject.accumulate("onlyImages", filter.isWithPhoto());
+            jsonObject.accumulate("onlyExchange", filter.isBarter());
+            jsonObject.accumulate("onlyEmergency", filter.isBargain());
+        }
+
         page++;
         return jsonObject;
     }
@@ -237,9 +255,6 @@ public class CategoryFragment extends Fragment {
         }
         try {
             adapter.notifyDataSetChanged();
-//            lst.invalidateViews();
-//            lst.requestLayout();
-//            lst.invalidateViews();
         } catch (Exception e) {}
         if (!can) {
             can = true;

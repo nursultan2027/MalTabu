@@ -6,11 +6,22 @@ import android.os.Parcelable;
 public class Catalog implements Parcelable {
 
     private String value;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String name;
     private String firstCase;
     private int count;
 
-    public Catalog(String value, String name, String firstCase, int count) {
+    public Catalog(String id, String value, String name, String firstCase, int count) {
+        this.id = id;
         this.value = value;
         this.name = name;
         this.firstCase = firstCase;
@@ -18,6 +29,7 @@ public class Catalog implements Parcelable {
     }
 
     protected Catalog(Parcel in) {
+        id = in.readString();
         value = in.readString();
         name = in.readString();
         firstCase = in.readString();
@@ -73,6 +85,7 @@ public class Catalog implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(value);
         dest.writeString(name);
         dest.writeString(firstCase);

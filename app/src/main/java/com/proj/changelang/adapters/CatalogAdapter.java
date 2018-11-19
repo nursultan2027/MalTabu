@@ -1,5 +1,6 @@
 package com.proj.changelang.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.activities.MainActivity;
+import com.proj.changelang.activities.MainActivity2;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
 import com.proj.changelang.models.Category;
@@ -41,9 +43,10 @@ public class CatalogAdapter extends ArrayAdapter<Catalog> {
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextSelect = new Intent(getContext(), MainActivity.class);
+                Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                 Maltabu.s2 = city.getName();
                 getContext().startActivity(nextSelect);
+                ((Activity)getContext()).finish();
             }
         });
         try {

@@ -1,5 +1,6 @@
 package com.proj.changelang.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -41,6 +42,7 @@ public class RegionAdapter extends ArrayAdapter<Region> {
                 Intent nextSelect = new Intent(getContext(), SecondSelect2.class);
                 nextSelect.putExtra(Region.class.getCanonicalName(), region);
                 getContext().startActivity(nextSelect);
+                ((Activity)getContext()).finish();
             }
         });
         String kazName=null;

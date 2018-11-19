@@ -8,13 +8,16 @@ import java.util.ArrayList;
 public class Region implements Parcelable {
     private String value;
     private String name;
+
+    private String id;
     private String firstCase;
     public ArrayList<City> cities;
 
     public Region(String name) {
         this.name = name;
     }
-    public Region(String value, String name, String firstCase) {
+    public Region(String id, String value, String name, String firstCase) {
+        this.id = id;
         this.value = value;
         this.name = name;
         this.firstCase = firstCase;
@@ -24,6 +27,7 @@ public class Region implements Parcelable {
     public Region() {}
 
     protected Region(Parcel in) {
+        id = in.readString();
         value = in.readString();
         name = in.readString();
         firstCase = in.readString();
@@ -66,7 +70,13 @@ public class Region implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -74,6 +84,7 @@ public class Region implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(value);
         dest.writeString(name);
         dest.writeString(firstCase);

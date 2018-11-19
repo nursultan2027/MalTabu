@@ -6,16 +6,28 @@ import android.os.Parcelable;
 public class City implements Parcelable {
 
     private String value;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String name;
     private String firstCase;
 
-    public City(String value, String name, String firstCase) {
+    public City(String id, String value, String name, String firstCase) {
+        this.id = id;
         this.value = value;
         this.name = name;
         this.firstCase = firstCase;
     }
 
     protected City(Parcel in) {
+        id = in.readString();
         value = in.readString();
         name = in.readString();
         firstCase = in.readString();
@@ -64,6 +76,7 @@ public class City implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(value);
         dest.writeString(name);
         dest.writeString(firstCase);
