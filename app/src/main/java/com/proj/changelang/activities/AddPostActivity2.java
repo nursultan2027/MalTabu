@@ -41,6 +41,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asksira.bsimagepicker.BSImagePicker;
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.InputValidation;
 import com.proj.changelang.helpers.Maltabu;
@@ -56,7 +57,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddPostActivity2 extends AppCompatActivity{
+public class AddPostActivity2 extends AppCompatActivity implements BSImagePicker.OnSingleImageSelectedListener,
+        BSImagePicker.OnMultiImageSelectedListener{
     private Button addPhoneNumber, addImg;
     private CheckBox checkBox;
     private LinearLayout linearLayout;
@@ -304,114 +306,137 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     public void GetImages(){
-        imgDialog();
+//        imgDialog();
+        BSImagePicker multiSelectionPicker = new BSImagePicker.Builder("com.proj.changelang.fileprovider")
+                .isMultiSelect() //Set this if you want to use multi selection mode.
+                .setMinimumMultiSelectCount(3) //Default: 1.
+                .setMaximumMultiSelectCount(6) //Default: Integer.MAX_VALUE (i.e. User can select as many images as he/she wants)
+                .setMultiSelectBarBgColor(android.R.color.white) //Default: #FFFFFF. You can also set it to a translucent color.
+                .setMultiSelectTextColor(R.color.primary_text) //Default: #212121(Dark grey). This is the message in the multi-select bottom bar.
+                .setMultiSelectDoneTextColor(R.color.colorAccent) //Default: #388e3c(Green). This is the color of the "Done" TextView.
+                .setOverSelectTextColor(R.color.error_text) //Default: #b71c1c. This is the color of the message shown when user tries to select more than maximum select count.
+                .disableOverSelectionMessage() //You can also decide not to show this over select message.
+                .build();
+
+        multiSelectionPicker.show(getSupportFragmentManager(), "picker");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        if(data.getClipData()!=null){
-//            ClipData mClipData = data.getClipData();
-//            for(int i = 0; i < mClipData.getItemCount(); i++)
-//            {
-//                ClipData.Item item = mClipData.getItemAt(i);
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+////        if(data.getClipData()!=null){
+////            ClipData mClipData = data.getClipData();
+////            for(int i = 0; i < mClipData.getItemCount(); i++)
+////            {
+////                ClipData.Item item = mClipData.getItemAt(i);
+////                try {
+////                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), item.getUri());
+////                    imageViews[i].setImageBitmap(bitmap);
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                }
+////            }
+////        }
+//            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+//                if (resultCode == RESULT_OK) {
+////                try {
+//                    Uri uri = data.getData();
+//                    imageViews[imgNumb].setVisibility(View.VISIBLE);
+//                    Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+//                    imageViews[imgNumb].setImageBitmap(takenImage);
+//                    imgNumb++;
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                }
+//                }
+//            }
+//        else {
+//            if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+//
+//                Uri uri = data.getData();
+//
 //                try {
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), item.getUri());
-//                    imageViews[i].setImageBitmap(bitmap);
+//                    imageViews[imgNumb].setVisibility(View.VISIBLE);
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+//                    imageViews[imgNumb].setImageBitmap(bitmap);
+//                    imgNumb++;
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
 //            }
 //        }
-            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-                if (resultCode == RESULT_OK) {
-//                try {
-                    Uri uri = data.getData();
-                    imageViews[imgNumb].setVisibility(View.VISIBLE);
-                    Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    imageViews[imgNumb].setImageBitmap(takenImage);
-                    imgNumb++;
-//                } catch (IOException e) {
-//                    e.printStackTrace();
+//    }
+
+//    public void imgDialog(){
+//        imgDialog.setContentView(R.layout.choose_file_dialog);
+//        final ConstraintLayout asd = (ConstraintLayout) imgDialog.findViewById(R.id.constraintLayout22);
+//        final ConstraintLayout asd2 = (ConstraintLayout) imgDialog.findViewById(R.id.constraintLayout23);
+//        asd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+//                imgDialog.dismiss();
+//            }
+//        });
+//        asd2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    if (checkSelfPermission(Manifest.permission.CAMERA)
+//                            != PackageManager.PERMISSION_GRANTED) {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            requestPermissions(new String[]{Manifest.permission.CAMERA},
+//                                    MY_CAMERA_PERMISSION_CODE);
+//                        }
+//                    } else {
+//                        photoFile = getPhotoFileUri(photoFileName);
+//                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//                        Uri fileProvider = FileProvider.getUriForFile(AddPostActivity2.this, "com.proj.changelang.fileprovider", photoFile);
+//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+//
+//                        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+//                            startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+//                            imgDialog.dismiss();
+//                        }
+//                    }
 //                }
-                }
-            }
-        else {
-            if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+//            }
+//        });
+//        imgDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        imgDialog.show();
+//    }
+//
+//    public File getPhotoFileUri(String fileName) {
+//        // Get safe storage directory for photos
+//        // Use `getExternalFilesDir` on Context to access package-specific directories.
+//        // This way, we don't need to request external read/write runtime permissions.
+//        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+//
+//        // Create the storage directory if it does not exist
+//        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+//            Log.d(APP_TAG, "failed to create directory");
+//        }
+//
+//        // Return the file target for the photo based on filename
+//        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+//
+//        return file;
+//    }
 
-                Uri uri = data.getData();
 
-                try {
-                    imageViews[imgNumb].setVisibility(View.VISIBLE);
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    imageViews[imgNumb].setImageBitmap(bitmap);
-                    imgNumb++;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    @Override
+    public void onSingleImageSelected(Uri uri) {
+        //Do something with your Uri
     }
 
-    public void imgDialog(){
-        imgDialog.setContentView(R.layout.choose_file_dialog);
-        final ConstraintLayout asd = (ConstraintLayout) imgDialog.findViewById(R.id.constraintLayout22);
-        final ConstraintLayout asd2 = (ConstraintLayout) imgDialog.findViewById(R.id.constraintLayout23);
-        asd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-                imgDialog.dismiss();
-            }
-        });
-        asd2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    MY_CAMERA_PERMISSION_CODE);
-                        }
-                    } else {
-                        photoFile = getPhotoFileUri(photoFileName);
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        Uri fileProvider = FileProvider.getUriForFile(AddPostActivity2.this, "com.proj.changelang.fileprovider", photoFile);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-                        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                            imgDialog.dismiss();
-                        }
-                    }
-                }
-            }
-        });
-        imgDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        imgDialog.show();
-    }
-
-    public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(APP_TAG, "failed to create directory");
-        }
-
-        // Return the file target for the photo based on filename
-        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
-        return file;
+    @Override
+    public void onMultiImageSelected(List<Uri> uriList) {
+        //Do something with your Uri list
     }
 
 
