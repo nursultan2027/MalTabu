@@ -38,73 +38,87 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:scrollbars="none"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
         <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/scrolled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="0dp"
-                android:background="@drawable/rounded"
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="64dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"
+                android:text="@string/catalog"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/selectedCatalog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/title"
-                app:layout_constraintBottom_toTopOf="@+id/editText"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:id="@+id/view8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@color/MaltabuGrey2"
-                android:visibility="visible"
+                android:textColor="@color/Black"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText"></View>
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/selectedCatalog" />
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/desc"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view8" />
+                app:layout_constraintTop_toBottomOf="@+id/editText" />
 
             <EditText
                 android:id="@+id/editText2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="132dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded"
                 android:gravity="top"
                 android:lines="3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/textView15" />
 
             <View
                 android:id="@+id/view9"
@@ -139,6 +153,7 @@
                     android:id="@+id/priceRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
                 <RadioButton
                     android:id="@+id/RB3"
                     android:layout_width="wrap_content"
@@ -154,12 +169,12 @@
             <EditText
                 android:id="@+id/editText3"
                 android:layout_width="0dp"
-                android:inputType="numberDecimal"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded"
+                android:inputType="numberDecimal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/radioGroup"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -222,35 +237,112 @@
                 android:text="@string/photo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
-            <android.support.percent.PercentFrameLayout
+
+            <android.support.percent.PercentRelativeLayout
                 android:id="@+id/asddd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                app:layout_constraintTop_toBottomOf="@+id/textView19">
+                <ImageView
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%"
+                    android:id="@+id/imageView"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_height="wrap_content"
-                app:layout_widthPercent="25%"
-                />
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView2"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
 
-            </android.support.percent.PercentFrameLayout>
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView3"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView2"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView4"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView3"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView5"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView4"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView6"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView5"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView7"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView6"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView8"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView7"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView9"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView8"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/imageView10"
+                    app:layout_heightPercent="25%"
+                    android:layout_below="@+id/imageView9"
+                    android:visibility="gone"
+                    app:layout_widthPercent="55%" />
+
+            </android.support.percent.PercentRelativeLayout>
+
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded_blue"
                 android:text="@string/photoPlus"
                 android:textColor="@color/White"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/asddd"/>
+                app:layout_constraintTop_toBottomOf="@+id/asddd" />
 
             <TextView
                 android:id="@+id/textView21"
@@ -316,12 +408,169 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtphone">
-                <EditText
-                    android:inputType="phone"
+
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editText4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayout16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout16"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/phoneEditText2"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editTex"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayout17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/phoneEditText3"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editTe"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayout18"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/phoneEditText4"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editT"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayout19"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/phoneEditText5"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayout20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
             </LinearLayout>
+
 
             <Button
                 android:id="@+id/addPhone"

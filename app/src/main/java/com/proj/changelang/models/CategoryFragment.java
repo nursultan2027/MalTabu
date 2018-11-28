@@ -149,9 +149,9 @@ public class CategoryFragment extends Fragment {
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("byTime", true);
         if (this.isCatalog) {
-            jsonObject.accumulate("catalogID", this.catalog);
+            jsonObject.accumulate("catalogID", catalog);
         } else {
-            jsonObject.accumulate("categoryID", this.catalog);
+            jsonObject.accumulate("categoryID", catalog);
         }
         jsonObject.accumulate("countPosts", true);
         jsonObject.accumulate("increment", true);

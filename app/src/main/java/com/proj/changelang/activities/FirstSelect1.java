@@ -35,7 +35,7 @@ public class FirstSelect1 extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this,MainActivity2.class));
         finish();
     }
 

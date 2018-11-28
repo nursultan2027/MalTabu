@@ -28,31 +28,40 @@ import com.proj.changelang.models.Region;
 import java.util.ArrayList;
 
 public class AddPostActivity extends AppCompatActivity{
-//    private Spinner spinner;
+    private ArrayList<Spinner> spinners = new ArrayList<>();
+    private boolean [] balls = new boolean[7];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post);
+        spinners = new ArrayList<>();
         LinearLayout cl1 = (LinearLayout) findViewById(R.id.slectedRegion);
         for (int i=0; i<Maltabu.categories.size();i++){
             Category cat = Maltabu.categories.get(i);
+            balls[i] = false;
             ArrayList<Catalog> catalogs = cat.catalogs;
             ArrayList<String> arr = new ArrayList<>();
             arr.add(cat.getName());
-                for (int j=0; j<catalogs.size();j++){
-                    arr.add(catalogs.get(j).getName());
-                }
+            for (int j=0; j<catalogs.size();j++)
+                arr.add(catalogs.get(j).getName());
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
             final Spinner spinner = new Spinner(this);
-            spinner.setAdapter(adapter);
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinners.add(spinner);
+            spinners.get(i).setAdapter(adapter);
+            final int finalI = i;
+            spinners.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(AddPostActivity.this, spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddPostActivity.this,AddPostActivity2.class));
+                    if(balls[finalI]) {
+                        Toast.makeText(AddPostActivity.this, spinners.get(finalI).getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
+                        Catalog catalog = Maltabu.categories.get(finalI).catalogs.get(position-1);
+                        intent2.putExtra("catalog", catalog);
+                        startActivity(intent2);
+                    }
+                    balls[finalI]=true;
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 

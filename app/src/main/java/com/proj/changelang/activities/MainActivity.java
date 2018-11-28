@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity{
             GetDictionary();
         }
     }
-
     public void GetCategories() {
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()

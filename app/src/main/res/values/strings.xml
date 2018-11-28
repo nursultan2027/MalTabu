@@ -52,5 +52,6 @@
 
     <string name="photoPlus">Добавить фотографии</string>
     <string name="phonePlus">Добавить телефон</string>
+    <string name="catalog">Категория</string>
 
 </resources>

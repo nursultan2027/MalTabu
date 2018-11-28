@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.proj.changelang.activities.FirstSelect1;
 import com.proj.changelang.activities.MainActivity2;
 import com.proj.changelang.activities.SecondSelect1;
 import com.proj.changelang.adapters.HotPostAdapter;
+import com.proj.changelang.adapters.HotPostAdapter2;
 import com.proj.changelang.adapters.PostAdapter;
 import com.proj.changelang.adapters.ViewPagerAdapter;
 import com.proj.changelang.helpers.Maltabu;
@@ -55,9 +57,9 @@ import okhttp3.Response;
 public class HotFragment extends Fragment {
     private Button select1, select2;
     private JSONArray jsonArray;
-    private HotPostAdapter adapter;
+    private HotPostAdapter2 adapter;
     private Dialog epicDialog;
-    private ListView lst;
+    private GridView lst;
     private ArrayList<Post> posts=new ArrayList<>();
 
     @Nullable
@@ -107,8 +109,8 @@ public class HotFragment extends Fragment {
                 getActivity().finish();
             }
         });
-        lst = (ListView) view.findViewById(R.id.hots);
-        adapter = new HotPostAdapter(this.getContext(),R.layout.item_hot, posts);
+        lst = (GridView) view.findViewById(R.id.hots);
+        adapter = new HotPostAdapter2(this.getContext(),posts);
         lst.setAdapter(adapter);
         return view;
     }

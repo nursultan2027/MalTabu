@@ -91,7 +91,7 @@ public class CatalogFragment extends Fragment {
         category = bundle.getParcelable("categ");
         Bundle bundle1 = new Bundle();
         bundle1.putBoolean("isCatalog", false);
-        bundle1.putString("catalog", bundle.getString("categID"));
+        bundle1.putString("catalog", category.getId());
         CategoryFragment fragobj1=new CategoryFragment();
         fragobj1.setArguments(bundle1);
         if(Maltabu.lang.toLowerCase().equals("ru")) {

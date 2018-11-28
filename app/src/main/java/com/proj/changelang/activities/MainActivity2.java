@@ -132,42 +132,49 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 fragment1();
+                Maltabu.selectedFragment = 0;
             }
         });
         m2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragment2();
+                Maltabu.selectedFragment = 0;
             }
         });
         m3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragment3();
+                Maltabu.selectedFragment = 0;
             }
         });
         m4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragment4();
+                Maltabu.selectedFragment = 0;
             }
         });
         m5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragment5();
+                Maltabu.selectedFragment = 0;
             }
         });
         m6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragment6();
+                Maltabu.selectedFragment = 0;
             }
         });
         m7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragment7();
+                Maltabu.selectedFragment = 0;
             }
         });
         cl1.setOnClickListener(new View.OnClickListener() {

@@ -52,6 +52,7 @@ public class SecondSelect1 extends AppCompatActivity{
             startActivity(new Intent(this, FilterActivity.class));
             finish();
         } else {
+            startActivity(new Intent(this, MainActivity2.class));
             finish();
         }
     }

@@ -64,15 +64,15 @@ public class HotPostAdapter extends ArrayAdapter<Post> {
             photoCount.setText(String.valueOf(post.getImages().size()));
         }
 
-        cl1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPost(post.getNumber());
-                Intent details = new Intent(getContext(), ShowDetails.class);
-                details.putExtra("post", post);
-                getContext().startActivity(details);
-            }
-        });
+//        cl1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getPost(post.getNumber());
+//                Intent details = new Intent(getContext(), ShowDetails.class);
+//                details.putExtra("post", post);
+//                getContext().startActivity(details);
+//            }
+//        });
         return view;
     }
 

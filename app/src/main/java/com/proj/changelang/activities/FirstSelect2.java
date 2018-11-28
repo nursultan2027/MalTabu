@@ -1,5 +1,6 @@
 package com.proj.changelang.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -32,9 +33,9 @@ public class FirstSelect2 extends AppCompatActivity{
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        startActivity(new Intent(this,MainActivity.class));
-//        finish();
-//    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,MainActivity2.class));
+        finish();
+    }
 }

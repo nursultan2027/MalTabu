@@ -10,9 +10,20 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/content_mainn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/MaltabuYellow">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/MaltabuYellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
         <Button
             android:id="@+id/select1"
@@ -59,14 +70,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select1" />
 
-        <ListView
+        <GridView
             android:id="@+id/hots"
+            android:background="@drawable/rounded"
+            android:numColumns="2"
+            android:scrollbars="none"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@color/White"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search"></ListView>
+            app:layout_constraintTop_toBottomOf="@+id/search"
+            app:layout_constraintVertical_bias="0.0"></GridView>
     </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>
