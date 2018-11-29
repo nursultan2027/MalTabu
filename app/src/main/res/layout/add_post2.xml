@@ -38,8 +38,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:scrollbars="none"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
@@ -238,97 +238,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
 
-            <android.support.percent.PercentRelativeLayout
-                android:id="@+id/asddd"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19">
-                <ImageView
-                    app:layout_heightPercent="25%"
-                    app:layout_widthPercent="55%"
-                    android:id="@+id/imageView"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView2"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView3"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView2"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView4"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView3"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView5"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView4"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView6"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView5"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView7"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView6"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView8"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView7"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView9"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView8"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/imageView10"
-                    app:layout_heightPercent="25%"
-                    android:layout_below="@+id/imageView9"
-                    android:visibility="gone"
-                    app:layout_widthPercent="55%" />
-
-            </android.support.percent.PercentRelativeLayout>
 
             <Button
                 android:id="@+id/button2"
@@ -419,6 +328,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout16"
                         app:layout_constraintStart_toStartOf="parent"
@@ -426,12 +336,12 @@
 
                     <android.support.constraint.ConstraintLayout
                         android:id="@+id/constraintLayout16"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded_black"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -443,15 +353,16 @@
                 </android.support.constraint.ConstraintLayout>
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText2"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/editTex"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout17"
                         app:layout_constraintStart_toStartOf="parent"
@@ -461,7 +372,7 @@
                         android:id="@+id/constraintLayout17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded_black"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -475,15 +386,16 @@
                 </android.support.constraint.ConstraintLayout>
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText3"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/editTe"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout18"
                         app:layout_constraintStart_toStartOf="parent"
@@ -493,7 +405,7 @@
                         android:id="@+id/constraintLayout18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded_black"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -507,12 +419,13 @@
                 </android.support.constraint.ConstraintLayout>
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText4"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/editT"
+                        android:background="@drawable/rounded"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -525,7 +438,7 @@
                         android:id="@+id/constraintLayout19"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded_black"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -539,12 +452,13 @@
                 </android.support.constraint.ConstraintLayout>
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText5"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/edit"
+                        android:background="@drawable/rounded"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -557,7 +471,7 @@
                         android:id="@+id/constraintLayout20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded_black"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -656,6 +570,277 @@
                 android:text="@string/mail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addPhone" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/asddd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/close1"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView2"
+                    android:layout_below="@+id/imageView"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/close2"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView3"
+                    android:layout_below="@+id/imageView2"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/close3"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView4"
+                    android:layout_below="@+id/imageView3"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/close4"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView5"
+                    android:layout_below="@+id/imageView4"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close5"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView6"
+                    android:layout_below="@+id/imageView5"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg6"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/close6"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView7"
+                    android:layout_below="@+id/imageView6"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg7"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/close7"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/imageView8"
+                    android:layout_below="@+id/imageView7"
+                    android:visibility="gone"
+                    app:layout_heightPercent="25%"
+                    app:layout_widthPercent="55%" >
+
+                    <ImageView
+                        android:id="@+id/imgg8"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/close8"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_action_x" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+
+
+            </android.support.percent.PercentRelativeLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
