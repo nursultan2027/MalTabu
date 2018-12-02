@@ -13,16 +13,19 @@ import android.widget.TextView;
 import com.proj.changelang.R;
 import com.proj.changelang.activities.FilterActivity;
 import com.proj.changelang.activities.MainActivity;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.City;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class CityAdapter2 extends ArrayAdapter<City> {
     private LayoutInflater inflater;
     private int layout;
+    private FileHelper fileHelper;
     private ArrayList<City> cities;
 
     public CityAdapter2(Context context, int resource, ArrayList<City> cities) {
@@ -36,6 +39,7 @@ public class CityAdapter2 extends ArrayAdapter<City> {
         View view=inflater.inflate(this.layout, parent, false);
         TextView nameView = (TextView) view.findViewById(R.id.select);
         final City city = cities.get(position);
+        fileHelper = new FileHelper(getContext());
         ConstraintLayout constraintLayout = view.findViewById(R.id.slectedRegion);
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +54,7 @@ public class CityAdapter2 extends ArrayAdapter<City> {
         });
         String kazName=null;
         try {
-            kazName = Maltabu.jsonObject.getString(city.getName());
+            kazName = new JSONObject(fileHelper.readDictionary()).getString(city.getName());
         } catch (JSONException e) {
             e.printStackTrace();
         }

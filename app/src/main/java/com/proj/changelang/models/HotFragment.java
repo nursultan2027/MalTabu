@@ -32,6 +32,7 @@ import com.proj.changelang.adapters.HotPostAdapter;
 import com.proj.changelang.adapters.HotPostAdapter2;
 import com.proj.changelang.adapters.PostAdapter;
 import com.proj.changelang.adapters.ViewPagerAdapter;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 
 import org.json.JSONArray;
@@ -57,61 +58,64 @@ import okhttp3.Response;
 public class HotFragment extends Fragment {
     private Button select1, select2;
     private JSONArray jsonArray;
-    private HotPostAdapter2 adapter;
+    private HotPostAdapter adapter;
     private Dialog epicDialog;
     private GridView lst;
+    private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
-        select1 = (Button) view.findViewById(R.id.select1);
-        select2 = (Button) view.findViewById(R.id.select2);
+//        select1 = (Button) view.findViewById(R.id.select1);
+//        select2 = (Button) view.findViewById(R.id.select2);
         epicDialog = new Dialog(getActivity());
+        fileHelper = new FileHelper(getActivity());
         sDialog();
         post();
         Resources resources = getActivity().getResources();
-        if (Maltabu.s2==null)
-        {
-            select1.setText(resources.getString(R.string.Option1));
-        } else
-        {
-            if(Maltabu.s2.length()<11)
-                select1.setText(Maltabu.s2);
-            else {
-                select1.setText(CutString(Maltabu.s2));
-            }
-        }
-
-        if(Maltabu.s4==null)
-        {
-            select2.setText(resources.getString(R.string.Option2));
-        }else
-        {
-            if(Maltabu.s4.length()<11)
-                select2.setText(Maltabu.s4);
-            else {
-                select2.setText(CutString(Maltabu.s4));
-            }
-        }
-        select1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), FirstSelect1.class));
-                getActivity().finish();
-            }
-        });
-        select2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SecondSelect1.class));
-                getActivity().finish();
-            }
-        });
-        lst = (GridView) view.findViewById(R.id.hots);
-        adapter = new HotPostAdapter2(this.getContext(),posts);
-        lst.setAdapter(adapter);
+//        if (Maltabu.s2==null)
+//        {
+//            select1.setText(resources.getString(R.string.Option1));
+//        } else
+//        {
+//            if(Maltabu.s2.length()<11)
+//                select1.setText(Maltabu.s2);
+//            else {
+//                select1.setText(CutString(Maltabu.s2));
+//            }
+//        }
+//
+//        if(Maltabu.s4==null)
+//        {
+//            select2.setText(resources.getString(R.string.Option2));
+//        }else
+//        {
+//            if(Maltabu.s4.length()<11)
+//                select2.setText(Maltabu.s4);
+//            else {
+//                select2.setText(CutString(Maltabu.s4));
+//            }
+//        }
+//        select1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getActivity(), FirstSelect1.class));
+//                getActivity().finish();
+//            }
+//        });
+//        select2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getActivity(), SecondSelect1.class));
+//                getActivity().finish();
+//            }
+//        });
+//        lst = (GridView) view.findViewById(R.id.hots);
+        ListView asd = (ListView) view.findViewById(R.id.hots);
+        adapter = new HotPostAdapter(getActivity(),R.layout.item_hot, posts);
+        asd.setAdapter(adapter);
         return view;
     }
 
@@ -182,7 +186,7 @@ public class HotFragment extends Fragment {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {
                         price = "Договорная цена";
                     } else {
-                        String kazName = Maltabu.jsonObject.getString("Договорная цена");
+                        String kazName = new JSONObject(fileHelper.readDictionary()).getString("Договорная цена");
                         price = kazName;
                     }
                 } else {
@@ -190,7 +194,7 @@ public class HotFragment extends Fragment {
                         if (Maltabu.lang.toLowerCase().equals("ru")) {
                             price = "Отдам даром";
                         } else {
-                            String kazName = Maltabu.jsonObject.getString("Отдам даром");
+                            String kazName = new JSONObject(fileHelper.readDictionary()).getString("Отдам даром");
                             price = kazName;
                         }
                     }

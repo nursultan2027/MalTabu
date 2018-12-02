@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.PostAdapter;
 import com.proj.changelang.adapters.PostRecycleAdapter;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 
 import org.json.JSONArray;
@@ -52,6 +53,7 @@ public class CategoryFragment extends Fragment {
     private Dialog epicDialog;
     private ProgressBar button;
     private boolean can = true;
+    private FileHelper fileHelper;
     private PostAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class CategoryFragment extends Fragment {
         posts = new ArrayList<>();
         Bundle bundle = this.getArguments();
         epicDialog = new Dialog(getActivity());
+        fileHelper = new FileHelper(getActivity());
         isCatalog = bundle.getBoolean("isCatalog");
         catalog = bundle.getString("catalog");
         page = 1;
@@ -230,7 +233,7 @@ public class CategoryFragment extends Fragment {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {
                         price = "Договорная цена";
                     } else {
-                        String kazName = Maltabu.jsonObject.getString("Договорная цена");
+                        String kazName = new JSONObject(fileHelper.readDictionary()).getString("Договорная цена");
                         price = kazName;
                     }
                 } else {
@@ -238,7 +241,7 @@ public class CategoryFragment extends Fragment {
                         if (Maltabu.lang.toLowerCase().equals("ru")) {
                             price = "Отдам даром";
                         } else {
-                            String kazName = Maltabu.jsonObject.getString("Отдам даром");
+                            String kazName = new JSONObject(fileHelper.readDictionary()).getString("Отдам даром");
                             price = kazName;
                         }
                     }

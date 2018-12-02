@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.proj.changelang.R;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Post;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ import okhttp3.Response;
 
 public class HotPostAdapter2 extends BaseAdapter {
     private Context mContext;
+    private FileHelper fileHelper;
     private ArrayList<Post> posts;
 
     public HotPostAdapter2(Context context, ArrayList<Post> post) {
@@ -36,17 +39,17 @@ public class HotPostAdapter2 extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return posts.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return posts.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -59,6 +62,7 @@ public class HotPostAdapter2 extends BaseAdapter {
         } else {
             grid = (View) convertView;
         }
+        fileHelper = new FileHelper(mContext);
         ConstraintLayout cl1 = (ConstraintLayout) grid.findViewById(R.id.selectedPost);
         TextView nameView2 = (TextView) grid.findViewById(R.id.textView3);
         TextView nameView3 = (TextView) grid.findViewById(R.id.textView5);
@@ -70,7 +74,7 @@ public class HotPostAdapter2 extends BaseAdapter {
         }
         else {
             try {
-                nameView3.setText(Maltabu.jsonObject.getString(post.getCityID()));
+                nameView3.setText(new JSONObject(fileHelper.readDictionary()).getString(post.getCityID()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

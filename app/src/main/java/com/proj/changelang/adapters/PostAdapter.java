@@ -13,17 +13,20 @@ import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.activities.ShowDetails;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Post;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class PostAdapter extends ArrayAdapter<Post> {
     private LayoutInflater inflater;
     private int layout;
+    private FileHelper fileHelper;
     private ArrayList<Post> posts;
 
     public PostAdapter(Context context, int resource, ArrayList<Post> post) {
@@ -43,6 +46,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         TextView photoCount = (TextView) view.findViewById(R.id.textView11);
         TextView visitors = (TextView) view.findViewById(R.id.textView10);
         ImageView img = (ImageView) view.findViewById(R.id.imageView17);
+        fileHelper = new FileHelper(getContext());
         nameView.setText(post.getTitle());
         visitors.setText(post.getVisitors());
         nameView2.setText(post.getPrice());
@@ -52,7 +56,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
         else {
             try {
-                nameView3.setText(Maltabu.jsonObject.getString(post.getCityID())
+                nameView3.setText(new JSONObject(fileHelper.readDictionary()).getString(post.getCityID())
                         +", "+dates[0]+ " "+dates[2]);
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
@@ -50,12 +51,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity{
-    private JSONObject ff;
+    private FileHelper fileHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.asd);
+        fileHelper = new FileHelper(this);
         if (isConnected())
         {
             GetCategories();
@@ -88,61 +90,11 @@ public class MainActivity extends AppCompatActivity{
             protected void onPostExecute(String s1) {
                 super.onPostExecute(s1);
                 if (s1 != null) {
-                    try {
-                        ff = new JSONObject(s1);
-                        categsList();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    fileHelper.writeDataFile(s1);
                 }
             }
         };
         asyncTask1.execute();
-    }
-    public void categsList() throws JSONException {
-        Gson googleJson = new Gson();
-        ArrayList<Region> regionArrayList = new ArrayList<>();
-        JSONArray regions = ff.getJSONArray("regions");
-        ArrayList jsonObjList = googleJson.fromJson(String.valueOf(regions), ArrayList.class);
-        for (int i=0; i<jsonObjList.size(); i++)
-        {
-            JSONObject categoryObject = regions.getJSONObject(i);
-            Region regionRegion = new Region(categoryObject.getString("_id"), categoryObject.getString("value"), categoryObject.getString("name"), categoryObject.getString("firstCase"));
-            ArrayList<City> cityArrayList = new ArrayList<>();
-            JSONArray cities = categoryObject.getJSONArray("cities");
-            ArrayList jsonObjList2 = googleJson.fromJson(String.valueOf(cities), ArrayList.class);
-            for(int j=0; j<jsonObjList2.size(); j++) {
-                JSONObject cityObject = cities.getJSONObject(j);
-                City city = new City(cityObject.getString("_id"), cityObject.getString("value"), cityObject.getString("name"), cityObject.getString("firstCase"));
-                cityArrayList.add(city);
-            }
-            regionRegion.cities = cityArrayList;
-            regionArrayList.add(regionRegion);
-        }
-        Maltabu.regions = regionArrayList;
-
-        ArrayList<Category> categoryArrayList= new ArrayList<>();
-        JSONArray categs = ff.getJSONArray("categories");
-        ArrayList categsList = googleJson.fromJson(String.valueOf(categs), ArrayList.class);
-        for(int k=0; k<categsList.size();k++)
-        {
-            JSONObject regionObject = categs.getJSONObject(k);
-            int count = regionObject.getJSONObject("stat").getInt("count");
-            Category category = new Category(regionObject.getString("_id"), regionObject.getString("value"), regionObject.getString("name"), regionObject.getString("firstCase"),count);
-            ArrayList<Catalog> catalogsArrayList = new ArrayList<>();
-            JSONArray catalogs = regionObject.getJSONArray("catalogs");
-            ArrayList jsonObjList3 = googleJson.fromJson(String.valueOf(catalogs), ArrayList.class);
-            for (int l=0; l<jsonObjList3.size();l++)
-            {
-                JSONObject catalogObj = catalogs.getJSONObject(l);
-                int count2 = catalogObj.getJSONObject("stat").getInt("count");
-                Catalog catalog = new Catalog(catalogObj.getString("_id"), catalogObj.getString("value"), catalogObj.getString("name"), catalogObj.getString("firstCase"),count2);
-                catalogsArrayList.add(catalog);
-            }
-            category.catalogs=catalogsArrayList;
-            categoryArrayList.add(category);
-        }
-        Maltabu.categories = categoryArrayList;
     }
     public boolean isConnected() {
         boolean connected = false;
@@ -181,7 +133,8 @@ public class MainActivity extends AppCompatActivity{
                 super.onPostExecute(s);
                 if (s != null) {
                     try {
-                        Maltabu.jsonObject = new JSONObject(s).getJSONObject("kk_KZ");
+                        JSONObject dict = new JSONObject(s).getJSONObject("kk_KZ");
+                        fileHelper.writeDictionary(dict.toString());
                         startActivity(new Intent(MainActivity.this, MainActivity2.class));
                         finish();
                     } catch (JSONException e) {

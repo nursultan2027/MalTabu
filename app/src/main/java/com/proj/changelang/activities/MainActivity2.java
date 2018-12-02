@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
@@ -56,6 +57,7 @@ public class MainActivity2 extends AppCompatActivity
     private Button select1,select2;
     private ImageView filter;
     private EditText editText;
+    private FileHelper fileHelper;
     private DrawerLayout drawer;
     private Intent filterIntent;
 
@@ -63,7 +65,12 @@ public class MainActivity2 extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SetActivityView();
-        opentCurrentFragment(Maltabu.fragmentNumb);
+        fileHelper = new FileHelper(this);
+        try {
+            opentCurrentFragment(Maltabu.fragmentNumb);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void SetActivityView(){
@@ -112,7 +119,7 @@ public class MainActivity2 extends AppCompatActivity
         menu8  = (TextView) findViewById(R.id.menu8);
         menu82  = (TextView) findViewById(R.id.menu82);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
-        editText = (EditText) findViewById(R.id.search);
+//        editText = (EditText) findViewById(R.id.search);
 
         initListeners();
         getWindow().setSoftInputMode(
@@ -131,50 +138,78 @@ public class MainActivity2 extends AppCompatActivity
         m1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment1();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment1();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         m2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment2();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment2();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         m3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment3();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment3();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         m4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment4();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment4();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         m5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment5();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment5();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         m6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment6();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment6();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         m7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment7();
-                Maltabu.selectedFragment = 0;
+                try {
+                    fragment7();
+                    Maltabu.selectedFragment = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         cl1.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +238,7 @@ public class MainActivity2 extends AppCompatActivity
         menu7.setText(resources.getString(R.string.menu7));
         menu8.setText(resources.getString(R.string.menu8));
         menu82.setText(resources.getString(R.string.menu82));
-        editText.setHint(resources.getString(R.string.Search));
+//        editText.setHint(resources.getString(R.string.Search));
     }
 
 
@@ -248,12 +283,12 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 0;
     }
-    private void fragment1(){
+    private void fragment1() throws JSONException {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putParcelable("categ", Maltabu.categories.get(1));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(1));
         String [] asd = {"5ab672c9559d5e049c25a62c",
                 "5ab672c9559d5e049c25a62d","5ab672c9559d5e049c25a62e",
                 "5ab672c9559d5e049c25a62f","5ab672c9559d5e049c25a630",
@@ -266,11 +301,11 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 1;
     }
-    private void fragment2(){ android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment2() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putParcelable("categ", Maltabu.categories.get(4));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(4));
         String [] asd = {"5ab672c9559d5e049c25a645","5ab672c9559d5e049c25a646",
                 "5ab672c9559d5e049c25a647","5ab672c9559d5e049c25a648",
                 "5ab672c9559d5e049c25a649","5ab672c9559d5e049c25a64a"};
@@ -281,11 +316,11 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 2;}
-    private void fragment3(){ android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment3() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putParcelable("categ", Maltabu.categories.get(2));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(2));
         String [] asd = {"5ab672c9559d5e049c25a634","5ab672c9559d5e049c25a635",
                 "5ab672c9559d5e049c25a636","5ab672c9559d5e049c25a637","5ab672c9559d5e049c25a638"};
         bundle1.putStringArray("str", asd);
@@ -295,11 +330,11 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 3;}
-    private void fragment4(){  android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment4() throws JSONException {  android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putParcelable("categ", Maltabu.categories.get(0));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(0));
         String [] asd = {"5ab672c9559d5e049c25a63a", "5ab672c9559d5e049c25a63b"};
         bundle1.putStringArray("str", asd);
         bundle1.putString("categId", "5ab672c9559d5e049c25a639");
@@ -309,11 +344,11 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 4
         ;}
-    private void fragment5(){   android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment5() throws JSONException {   android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putParcelable("categ", Maltabu.categories.get(3));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(3));
         String [] asd = {"5ab672c9559d5e049c25a63f","5ab672c9559d5e049c25a640",
                 "5ab672c9559d5e049c25a641","5ab672c9559d5e049c25a642",
                 "5b0bffe2530c6256285a19b1","5b0bffe2530c6256285a1933","5ab672c9559d5e049c25a643"
@@ -325,13 +360,13 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 5;}
-    private void fragment6(){
+    private void fragment6() throws JSONException {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
 
-        bundle1.putParcelable("categ", Maltabu.categories.get(5));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(5));
         String [] asd =  {"5ab672c9559d5e049c25a64c","5ab672c9559d5e049c25a64d",
                 "5ab672c9559d5e049c25a64e","5ab672c9559d5e049c25a64f",
                 "5ab672c9559d5e049c25a650"};
@@ -343,12 +378,12 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 6;
     }
-    private void fragment7(){
+    private void fragment7() throws JSONException {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putParcelable("categ", Maltabu.categories.get(6));
+        bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(6));
         String [] asd = {"5afeb741d151e32d5cc245c4","5afeb741d151e32d5cc245c5"};
         bundle1.putStringArray("str", asd);
         bundle1.putString("categId", "5afeb741d151e32d5cc245c3");
@@ -359,7 +394,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 7;
     }
 
-    private void opentCurrentFragment(int numb){
+    private void opentCurrentFragment(int numb) throws JSONException {
         switch (numb){
             case 0:
                 fragmentMain();

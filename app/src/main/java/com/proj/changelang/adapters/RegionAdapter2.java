@@ -15,16 +15,19 @@ import android.widget.TextView;
 import com.proj.changelang.R;
 import com.proj.changelang.activities.FilterActivity;
 import com.proj.changelang.activities.SecondSelect2;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Region;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class RegionAdapter2 extends ArrayAdapter<Region> {
     private LayoutInflater inflater;
     private int layout;
+    private FileHelper fileHelper;
     private ArrayList<Region> categories;
 
     public RegionAdapter2(Context context, int resource, ArrayList<Region> categories) {
@@ -38,6 +41,7 @@ public class RegionAdapter2 extends ArrayAdapter<Region> {
         View view=inflater.inflate(this.layout, parent, false);
         TextView nameView = (TextView) view.findViewById(R.id.select);
         final Region region = categories.get(position);
+        fileHelper = new FileHelper(getContext());
         ConstraintLayout constraintLayout = (ConstraintLayout) view.findViewById(R.id.slectedRegion);
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +57,7 @@ public class RegionAdapter2 extends ArrayAdapter<Region> {
         });
         String kazName=null;
         try {
-            kazName = Maltabu.jsonObject.getString(region.getName());
+            kazName = new JSONObject(fileHelper.readDictionary()).getString(region.getName());
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -25,68 +25,89 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <Button
-            android:id="@+id/select1"
+        <!--<Button-->
+        <!--android:id="@+id/select1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="72dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:background="@drawable/rounded"-->
+        <!--android:text="@string/Option1"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/select2"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--<Button-->
+        <!--android:id="@+id/select2"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:background="@drawable/rounded"-->
+        <!--android:text="@string/Option2"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/select1"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/select1" />-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/search"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:background="@drawable/rounded"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:hint="@string/Search"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textColorLink="#f4f5f6"-->
+        <!--android:textSize="18sp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/select1" />-->
+
+        <!--<GridView-->
+        <!--android:id="@+id/hots"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:background="@drawable/rounded"-->
+        <!--android:numColumns="2"-->
+        <!--android:scrollbars="none"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/search"-->
+        <!--app:layout_constraintVertical_bias="0.0"></GridView>-->
+        <Toolbar
+            android:id="@+id/tool"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="72dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/rounded"
-            android:text="@string/Option1"
-            app:layout_constraintEnd_toStartOf="@+id/select2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/select2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded"
-            android:text="@string/Option2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/select1"
-            app:layout_constraintTop_toTopOf="@+id/select1" />
-
-        <EditText
-            android:id="@+id/search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rounded"
-            android:gravity="center_vertical"
-            android:hint="@string/Search"
-            android:textColor="#ffffff"
-            android:textColorLink="#f4f5f6"
-            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select1" />
+            app:layout_constraintTop_toTopOf="parent"></Toolbar>
 
-        <GridView
-            android:id="@+id/hots"
-            android:background="@drawable/rounded"
-            android:numColumns="2"
-            android:scrollbars="none"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search"
-            app:layout_constraintVertical_bias="0.0"></GridView>
+        <!--<ListView-->
+            <!--android:id="@+id/hots"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginEnd="16dp"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:background="@drawable/rounded"-->
+            <!--android:scrollbars="none"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.0"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/tool"></ListView>-->
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

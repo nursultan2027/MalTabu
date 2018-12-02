@@ -13,9 +13,6 @@ public class Maltabu {
     public static String s2 = null;
     public static String s4 = null;
     public static String lang = null;
-    public static ArrayList<Region> regions = null;
-    public static ArrayList<Category> categories = null;
-    public static JSONObject jsonObject = null;
     public static String RegionFilter = null;
     public static String CityFilter = null;
     public static String regId = null;

@@ -15,30 +15,45 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.CategoryAdapter;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Region;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class AddPostActivity extends AppCompatActivity{
     private ArrayList<Spinner> spinners = new ArrayList<>();
     private boolean [] balls = new boolean[7];
-
+    private FileHelper fileHelper;
+    private ImageView txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post);
+        txt = (ImageView) findViewById(R.id.arrr);
         spinners = new ArrayList<>();
+        fileHelper = new FileHelper(this);
         LinearLayout cl1 = (LinearLayout) findViewById(R.id.slectedRegion);
-        for (int i=0; i<Maltabu.categories.size();i++){
-            Category cat = Maltabu.categories.get(i);
+        txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        try {
+            for (int i=0; i<fileHelper.getCategoriesFromFile().size();i++){
+            Category cat = fileHelper.getCategoriesFromFile().get(i);
+
             balls[i] = false;
             ArrayList<Catalog> catalogs = cat.catalogs;
             ArrayList<String> arr = new ArrayList<>();
@@ -50,24 +65,32 @@ public class AddPostActivity extends AppCompatActivity{
             spinners.add(spinner);
             spinners.get(i).setAdapter(adapter);
             final int finalI = i;
-            spinners.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinners.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if(balls[finalI]) {
-                        Toast.makeText(AddPostActivity.this, spinners.get(finalI).getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                        Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
-                        Catalog catalog = Maltabu.categories.get(finalI).catalogs.get(position-1);
-                        intent2.putExtra("catalog", catalog);
-                        startActivity(intent2);
+                        try {
+                            Toast.makeText(AddPostActivity.this, spinners.get(finalI).getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                            Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
+                            Catalog catalog = null;
+                                catalog = fileHelper.getCategoriesFromFile().get(finalI).catalogs.get(position-1);
+                            intent2.putExtra("catalog", catalog);
+                            startActivity(intent2);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     balls[finalI]=true;
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
-                }
-            });
-            cl1.addView(spinner);
+                    }
+                });
+                cl1.addView(spinner);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }

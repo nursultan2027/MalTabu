@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.asksira.bsimagepicker.BSImagePicker;
 import com.proj.changelang.R;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.InputValidation;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
@@ -50,6 +51,7 @@ import com.proj.changelang.models.Category;
 import com.proj.changelang.models.City;
 import com.proj.changelang.models.Region;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -60,18 +62,18 @@ import java.util.List;
 public class AddPostActivity2 extends AppCompatActivity{
     private Button addPhoneNumber, addImg;
     private CheckBox checkBox;
+    private FileHelper fileHelper;
     private LinearLayout linearLayout;
     private RadioButton rb1, rb2, rb3;
-    private EditText title, PriceRB, content;
+    private EditText title, PriceRB, content, email;
     private EditText [] editTexts = new EditText[5];
     private InputValidation inputValidation;
     private TextView checkTitle, Rb3, RbFree, ctlg;
     private ConstraintLayout [] phones = new ConstraintLayout[5];
-    private int phoneNimb = 0, reqCam =1, selectFile=0;
+    private int phoneNimb = 0;
     private boolean [] checked = new boolean[8];
     private boolean [] check = new boolean[5];
     private int imgNumb = 0;
-    private ImageView imageView;
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
@@ -79,7 +81,6 @@ public class AddPostActivity2 extends AppCompatActivity{
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Dialog imgDialog;
-    private ConstraintLayout invis;
     private ImageView [] imageViews= new ImageView[8];
     private ConstraintLayout[] cls= new ConstraintLayout[5];
     private ConstraintLayout[] climgs= new ConstraintLayout[8];
@@ -90,88 +91,30 @@ public class AddPostActivity2 extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post2);
+        fileHelper = new FileHelper(this);
         imgDialog = new Dialog(this);
         inputValidation = new InputValidation(this);
         Catalog catalog = getIntent().getParcelableExtra("catalog");
-        title = (EditText) findViewById(R.id.editText);
-        content = (EditText) findViewById(R.id.editText2);
-        ctlg = (TextView) findViewById(R.id.selectedCatalog);
+        initViews();
         ctlg.setText(catalog.getName());
-
-        editTexts[0] = (EditText) findViewById(R.id.editText4);
-        editTexts[1] = (EditText) findViewById(R.id.editTex);
-        editTexts[2] = (EditText) findViewById(R.id.editTe);
-        editTexts[3] = (EditText) findViewById(R.id.editT);
-        editTexts[4] = (EditText) findViewById(R.id.edit);
-        checked[0] = true;
-        checked[1] = false;
-        checked[2] = false;
-        checked[3] = false;
-        checked[4] = false;
-        checked[5] = false;
-        checked[6] = false;
-        checked[7] = false;
-        check[0] = false;
-        check[1] = false;
-        check[2] = false;
-        check[3] = false;
-        check[4] = false;
-        climgs[0] = (ConstraintLayout) findViewById(R.id.imageView);
-        climgs[1] = (ConstraintLayout) findViewById(R.id.imageView2);
-        climgs[2] = (ConstraintLayout) findViewById(R.id.imageView3);
-        climgs[3] = (ConstraintLayout) findViewById(R.id.imageView4);
-        climgs[4] = (ConstraintLayout) findViewById(R.id.imageView5);
-        climgs[5] = (ConstraintLayout) findViewById(R.id.imageView6);
-        climgs[6] = (ConstraintLayout) findViewById(R.id.imageView7);
-        climgs[7] = (ConstraintLayout) findViewById(R.id.imageView8);
-        imageViews[0] = (ImageView) findViewById(R.id.imgg1);
-        imageViews[1] = (ImageView) findViewById(R.id.imgg2);
-        imageViews[2] = (ImageView) findViewById(R.id.imgg3);
-        imageViews[3] = (ImageView) findViewById(R.id.imgg4);
-        imageViews[4] = (ImageView) findViewById(R.id.imgg5);
-        imageViews[5] = (ImageView) findViewById(R.id.imgg6);
-        imageViews[6] = (ImageView) findViewById(R.id.imgg7);
-        imageViews[7] = (ImageView) findViewById(R.id.imgg8);
-        closes[0] = (ConstraintLayout) findViewById(R.id.close1);
-        closes[1] = (ConstraintLayout) findViewById(R.id.close2);
-        closes[2] = (ConstraintLayout) findViewById(R.id.close3);
-        closes[3] = (ConstraintLayout) findViewById(R.id.close4);
-        closes[4] = (ConstraintLayout) findViewById(R.id.close5);
-        closes[5] = (ConstraintLayout) findViewById(R.id.close6);
-        closes[6] = (ConstraintLayout) findViewById(R.id.close7);
-        closes[7] = (ConstraintLayout) findViewById(R.id.close8);
-
-
-        checkBox = (CheckBox)findViewById(R.id.checkBox4);
-        checkTitle = (TextView) findViewById(R.id.checkTitle);
-        Rb3 = (TextView) findViewById(R.id.textView17);
-        RbFree = (TextView) findViewById(R.id.textView77);
-        PriceRB = (EditText) findViewById(R.id.editText3);
-        addImg = (Button) findViewById(R.id.button2);
-        addPhoneNumber = (Button)findViewById(R.id.addPhone);
-        rb1 = (RadioButton) findViewById(R.id.priceRB);
-        rb3 = (RadioButton) findViewById(R.id.RB3);
-        rb2 = (RadioButton) findViewById(R.id.freeRD);
-        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        phones[0] = (ConstraintLayout) findViewById(R.id.phoneEditText);
-        phones[1] = (ConstraintLayout) findViewById(R.id.phoneEditText2);
-        phones[2] = (ConstraintLayout) findViewById(R.id.phoneEditText3);
-        phones[3] = (ConstraintLayout) findViewById(R.id.phoneEditText4);
-        phones[4] = (ConstraintLayout) findViewById(R.id.phoneEditText5);
-        cls[0] = (ConstraintLayout)findViewById(R.id.constraintLayout16);
-        cls[1] = (ConstraintLayout)findViewById(R.id.constraintLayout17);
-        cls[2] = (ConstraintLayout)findViewById(R.id.constraintLayout18);
-        cls[3] = (ConstraintLayout)findViewById(R.id.constraintLayout19);
-        cls[4] = (ConstraintLayout)findViewById(R.id.constraintLayout20);
-        spinnerRegion = (Spinner) findViewById(R.id.spinner);
-        spinnerCity = (Spinner) findViewById(R.id.spinner2);
+        setListeners();
         ArrayList<String> arr = new ArrayList<>();
-        for (int i=0; i<Maltabu.regions.size();i++) {
-            Region region = Maltabu.regions.get(i);
-            arr.add(region.getName());
+        try {
+            for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
+                Region region = fileHelper.getRegionsFromFile().get(i);
+                arr.add(region.getName());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
         spinnerRegion.setAdapter(adapter);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+    }
+
+    private void setListeners() {
         spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -182,9 +125,13 @@ public class AddPostActivity2 extends AppCompatActivity{
                 if(content.hasFocus())
                     content.clearFocus();
                 ArrayList<String> arr = new ArrayList<>();
-                for (int i=0; i<Maltabu.regions.get(position).cities.size();i++) {
-                    City city = Maltabu.regions.get(position).cities.get(i);
-                    arr.add(city.getName());
+                try {
+                    for (int i=0; i<fileHelper.getRegionsFromFile().get(position).cities.size();i++) {
+                        City city = fileHelper.getRegionsFromFile().get(position).cities.get(i);
+                        arr.add(city.getName());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddPostActivity2.this, android.R.layout.simple_spinner_dropdown_item, arr);
                 spinnerCity.setAdapter(adapter2);
@@ -199,7 +146,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(PriceRB.hasFocus())
-                PriceRB.clearFocus();
+                    PriceRB.clearFocus();
                 rb2.toggle();
             }
         });
@@ -207,7 +154,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(PriceRB.hasFocus())
-                PriceRB.clearFocus();
+                    PriceRB.clearFocus();
                 rb3.toggle();
             }
         });
@@ -405,18 +352,87 @@ public class AddPostActivity2 extends AppCompatActivity{
             });
         }
 
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
+    }
+
+    private void initViews() {
+        title = (EditText) findViewById(R.id.editText);
+        content = (EditText) findViewById(R.id.editText2);
+        ctlg = (TextView) findViewById(R.id.selectedCatalog);
+        email = (EditText) findViewById(R.id.editText5);
+        editTexts[0] = (EditText) findViewById(R.id.editText4);
+        editTexts[1] = (EditText) findViewById(R.id.editTex);
+        editTexts[2] = (EditText) findViewById(R.id.editTe);
+        editTexts[3] = (EditText) findViewById(R.id.editT);
+        editTexts[4] = (EditText) findViewById(R.id.edit);
+        checked[0] = true;
+        checked[1] = false;
+        checked[2] = false;
+        checked[3] = false;
+        checked[4] = false;
+        checked[5] = false;
+        checked[6] = false;
+        checked[7] = false;
+        check[0] = false;
+        check[1] = false;
+        check[2] = false;
+        check[3] = false;
+        check[4] = false;
+        climgs[0] = (ConstraintLayout) findViewById(R.id.imageView);
+        climgs[1] = (ConstraintLayout) findViewById(R.id.imageView2);
+        climgs[2] = (ConstraintLayout) findViewById(R.id.imageView3);
+        climgs[3] = (ConstraintLayout) findViewById(R.id.imageView4);
+        climgs[4] = (ConstraintLayout) findViewById(R.id.imageView5);
+        climgs[5] = (ConstraintLayout) findViewById(R.id.imageView6);
+        climgs[6] = (ConstraintLayout) findViewById(R.id.imageView7);
+        climgs[7] = (ConstraintLayout) findViewById(R.id.imageView8);
+        imageViews[0] = (ImageView) findViewById(R.id.imgg1);
+        imageViews[1] = (ImageView) findViewById(R.id.imgg2);
+        imageViews[2] = (ImageView) findViewById(R.id.imgg3);
+        imageViews[3] = (ImageView) findViewById(R.id.imgg4);
+        imageViews[4] = (ImageView) findViewById(R.id.imgg5);
+        imageViews[5] = (ImageView) findViewById(R.id.imgg6);
+        imageViews[6] = (ImageView) findViewById(R.id.imgg7);
+        imageViews[7] = (ImageView) findViewById(R.id.imgg8);
+        closes[0] = (ConstraintLayout) findViewById(R.id.close1);
+        closes[1] = (ConstraintLayout) findViewById(R.id.close2);
+        closes[2] = (ConstraintLayout) findViewById(R.id.close3);
+        closes[3] = (ConstraintLayout) findViewById(R.id.close4);
+        closes[4] = (ConstraintLayout) findViewById(R.id.close5);
+        closes[5] = (ConstraintLayout) findViewById(R.id.close6);
+        closes[6] = (ConstraintLayout) findViewById(R.id.close7);
+        closes[7] = (ConstraintLayout) findViewById(R.id.close8);
+        checkBox = (CheckBox)findViewById(R.id.checkBox4);
+        checkTitle = (TextView) findViewById(R.id.checkTitle);
+        Rb3 = (TextView) findViewById(R.id.textView17);
+        RbFree = (TextView) findViewById(R.id.textView77);
+        PriceRB = (EditText) findViewById(R.id.editText3);
+        addImg = (Button) findViewById(R.id.button2);
+        addPhoneNumber = (Button)findViewById(R.id.addPhone);
+        rb1 = (RadioButton) findViewById(R.id.priceRB);
+        rb3 = (RadioButton) findViewById(R.id.RB3);
+        rb2 = (RadioButton) findViewById(R.id.freeRD);
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        phones[0] = (ConstraintLayout) findViewById(R.id.phoneEditText);
+        phones[1] = (ConstraintLayout) findViewById(R.id.phoneEditText2);
+        phones[2] = (ConstraintLayout) findViewById(R.id.phoneEditText3);
+        phones[3] = (ConstraintLayout) findViewById(R.id.phoneEditText4);
+        phones[4] = (ConstraintLayout) findViewById(R.id.phoneEditText5);
+        cls[0] = (ConstraintLayout)findViewById(R.id.constraintLayout16);
+        cls[1] = (ConstraintLayout)findViewById(R.id.constraintLayout17);
+        cls[2] = (ConstraintLayout)findViewById(R.id.constraintLayout18);
+        cls[3] = (ConstraintLayout)findViewById(R.id.constraintLayout19);
+        cls[4] = (ConstraintLayout)findViewById(R.id.constraintLayout20);
+        spinnerRegion = (Spinner) findViewById(R.id.spinner);
+        spinnerCity = (Spinner) findViewById(R.id.spinner2);
+    }
+
+    public void GetImages(){
+        imgDialog();
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, AddPostActivity.class));finish();
-    }
-
-    public void GetImages(){
-        imgDialog();
     }
 
     @Override
@@ -453,7 +469,6 @@ public class AddPostActivity2 extends AppCompatActivity{
                     if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
                         Uri uri = data.getData();
-
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             if (getImgNumb() < 8) {
@@ -522,7 +537,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         return file;
     }
 
-
     public void ClickImgX(final int number){
         if(climgs[number].getVisibility()==View.VISIBLE)
         {
@@ -548,7 +562,9 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     public boolean CheckPost(){
-//        if()
+        if(inputValidation.isInputEditTextFilled(title) && inputValidation.isInputEditTextEmail(email)
+                && inputValidation.validatePhoneNumber(editTexts[0]))
+            return true;
         return false;
     }
 }

@@ -13,13 +13,16 @@ import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.activities.ShowDetails;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Post;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
@@ -30,6 +33,7 @@ public class HotPostAdapter extends ArrayAdapter<Post> {
     private LayoutInflater inflater;
     private int layout;
     private ArrayList<Post> posts;
+    private FileHelper fileHelper;
 
     public HotPostAdapter(Context context, int resource, ArrayList<Post> post) {
         super(context, resource, post);
@@ -44,6 +48,7 @@ public class HotPostAdapter extends ArrayAdapter<Post> {
         ConstraintLayout cl1 = (ConstraintLayout) view.findViewById(R.id.selectedPost);
         TextView nameView2 = (TextView) view.findViewById(R.id.textView3);
         TextView nameView3 = (TextView) view.findViewById(R.id.textView5);
+        fileHelper = new FileHelper(getContext());
         TextView photoCount = (TextView) view.findViewById(R.id.textView11);
         ImageView img = (ImageView) view.findViewById(R.id.imageView17);
         nameView2.setText(post.getPrice());
@@ -52,7 +57,7 @@ public class HotPostAdapter extends ArrayAdapter<Post> {
         }
         else {
             try {
-                nameView3.setText(Maltabu.jsonObject.getString(post.getCityID()));
+                nameView3.setText(new JSONObject(fileHelper.readDictionary()).getString(post.getCityID()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

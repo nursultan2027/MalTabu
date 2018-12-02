@@ -14,34 +14,49 @@ import android.widget.TextView;
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.RegionAdapter;
 import com.proj.changelang.adapters.RegionAdapter2;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
+
+import org.json.JSONException;
 
 public class SecondSelect1 extends AppCompatActivity{
 
     private TextView textView;
+    private FileHelper fileHelper;
     private NavigationView view;
     private Button okok;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select);
+        fileHelper = new FileHelper(this);
         if (getIntent().getStringExtra("target")!=null){
 
         if (getIntent().getStringExtra("target").equals("filter")){
-            RegionAdapter2 adapter = new RegionAdapter2(this, R.layout.category_item, Maltabu.regions);
-            LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
-            for (int i = 0; i < adapter.getCount(); i++) {
-                View view = adapter.getView(i, null, listViewReplacement);
-                listViewReplacement.addView(view);
+            try {
+                RegionAdapter2 adapter = new RegionAdapter2(this, R.layout.category_item, fileHelper.getRegionsFromFile());
+                LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    View view = adapter.getView(i, null, listViewReplacement);
+                    listViewReplacement.addView(view);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         }
         }
         else {
-            RegionAdapter adapter = new RegionAdapter(this, R.layout.category_item, Maltabu.regions);
-            LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
-            for (int i = 0; i < adapter.getCount(); i++) {
-                View view = adapter.getView(i, null, listViewReplacement);
-                listViewReplacement.addView(view);
+            RegionAdapter adapter = null;
+            try {
+                adapter = new RegionAdapter(this, R.layout.category_item, fileHelper.getRegionsFromFile());
+                LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    View view = adapter.getView(i, null, listViewReplacement);
+                    listViewReplacement.addView(view);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }

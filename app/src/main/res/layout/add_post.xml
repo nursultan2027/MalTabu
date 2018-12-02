@@ -27,7 +27,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Фильтр"
+        android:text="@string/addPost"
         android:textColor="@color/White"
         android:textSize="18sp"
         android:textStyle="bold"

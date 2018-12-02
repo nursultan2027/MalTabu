@@ -19,14 +19,17 @@ import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.ViewPagerAdapter;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private View headerView;
+    private FileHelper fileHelper;
     private Category category;
     @Nullable
     @Override
@@ -35,6 +38,7 @@ public class CatalogFragment extends Fragment {
         View view = inflater.inflate(R.layout.show_catalog, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+        fileHelper = new FileHelper(getActivity());
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
         printWhiteBoxes();
@@ -109,7 +113,7 @@ public class CatalogFragment extends Fragment {
                 adapter.addFragment(fragobj2, category.catalogs.get(i).getName());
             } else {
                 try {
-                    String kazName = Maltabu.jsonObject.getString(category.catalogs.get(i).getName());
+                    String kazName = new JSONObject(fileHelper.readDictionary()).getString(category.catalogs.get(i).getName());
                     adapter.addFragment(fragobj2, kazName);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,7 +135,7 @@ public class CatalogFragment extends Fragment {
                 txt.setText(category.catalogs.get(i).getName());
             } else {
                 try {
-                    String kame = Maltabu.jsonObject.getString(category.catalogs.get(i).getName());
+                    String kame = new JSONObject(fileHelper.readDictionary()).getString(category.catalogs.get(i).getName());
                     txt.setText(kame);
                 } catch (JSONException e) {
                     e.printStackTrace();
