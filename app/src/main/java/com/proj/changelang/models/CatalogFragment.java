@@ -38,7 +38,6 @@ public class CatalogFragment extends Fragment {
         View view = inflater.inflate(R.layout.show_catalog, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-        fileHelper = new FileHelper(getActivity());
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
         printWhiteBoxes();
@@ -93,6 +92,7 @@ public class CatalogFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         String [] catalogStr = bundle.getStringArray("str");
         category = bundle.getParcelable("categ");
+        fileHelper = new FileHelper(getActivity());
         Bundle bundle1 = new Bundle();
         bundle1.putBoolean("isCatalog", false);
         bundle1.putString("catalog", category.getId());
@@ -113,7 +113,7 @@ public class CatalogFragment extends Fragment {
                 adapter.addFragment(fragobj2, category.catalogs.get(i).getName());
             } else {
                 try {
-                    String kazName = new JSONObject(fileHelper.readDictionary()).getString(category.catalogs.get(i).getName());
+                    String kazName = fileHelper.diction().getString(category.catalogs.get(i).getName());
                     adapter.addFragment(fragobj2, kazName);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,7 +135,7 @@ public class CatalogFragment extends Fragment {
                 txt.setText(category.catalogs.get(i).getName());
             } else {
                 try {
-                    String kame = new JSONObject(fileHelper.readDictionary()).getString(category.catalogs.get(i).getName());
+                    String kame = fileHelper.diction().getString(category.catalogs.get(i).getName());
                     txt.setText(kame);
                 } catch (JSONException e) {
                     e.printStackTrace();

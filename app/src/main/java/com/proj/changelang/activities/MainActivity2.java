@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,9 +55,7 @@ public class MainActivity2 extends AppCompatActivity
 
     private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab;
     private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7;
-    private Button select1,select2;
     private ImageView filter;
-    private EditText editText;
     private FileHelper fileHelper;
     private DrawerLayout drawer;
     private Intent filterIntent;
@@ -83,13 +82,7 @@ public class MainActivity2 extends AppCompatActivity
         appBar.setOutlineProvider(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         Paper.init(this);
-        String language = Paper.book().read("language");
-
-        if(language==null){
-            Paper.book().write("language", "ru");
-            Maltabu.lang = "ru";
-        }
-
+        Maltabu.lang = Paper.book().read("language");
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -221,8 +214,6 @@ public class MainActivity2 extends AppCompatActivity
         });
 
     }
-
-
     private void updateView(String lang) {
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
@@ -241,8 +232,37 @@ public class MainActivity2 extends AppCompatActivity
 //        editText.setHint(resources.getString(R.string.Search));
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_ru) {
+            Paper.book().write("language", "ru");
+            Maltabu.lang = "ru";
+            updateView((String)Paper.book().read("language"));
+            try {
+                opentCurrentFragment(Maltabu.fragmentNumb);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (item.getItemId() == R.id.menu_kz){
+            Paper.book().write("language", "kk");
+            Maltabu.lang = "kk";
+            updateView((String)Paper.book().read("language"));
+            try {
+                opentCurrentFragment(Maltabu.fragmentNumb);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
@@ -284,6 +304,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 0;
     }
     private void fragment1() throws JSONException {
+        filter.setVisibility(View.GONE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -302,6 +323,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 1;
     }
     private void fragment2() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -317,6 +339,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 2;}
     private void fragment3() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -331,6 +354,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 3;}
     private void fragment4() throws JSONException {  android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -345,6 +369,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 4
         ;}
     private void fragment5() throws JSONException {   android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -361,6 +386,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 5;}
     private void fragment6() throws JSONException {
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -379,6 +405,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 6;
     }
     private void fragment7() throws JSONException {
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -393,7 +420,6 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 7;
     }
-
     private void opentCurrentFragment(int numb) throws JSONException {
         switch (numb){
             case 0:

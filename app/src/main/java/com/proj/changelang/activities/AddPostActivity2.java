@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -45,10 +47,12 @@ import com.asksira.bsimagepicker.BSImagePicker;
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.InputValidation;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.City;
+import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Region;
 
 import org.json.JSONException;
@@ -59,8 +63,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
+
 public class AddPostActivity2 extends AppCompatActivity{
-    private Button addPhoneNumber, addImg;
+    private Button addPhoneNumber, addImg, addPost;
     private CheckBox checkBox;
     private FileHelper fileHelper;
     private LinearLayout linearLayout;
@@ -71,6 +77,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private TextView checkTitle, Rb3, RbFree, ctlg;
     private ConstraintLayout [] phones = new ConstraintLayout[5];
     private int phoneNimb = 0;
+    private TextView [] updts = new TextView[17];
     private boolean [] checked = new boolean[8];
     private boolean [] check = new boolean[5];
     private int imgNumb = 0;
@@ -81,6 +88,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Dialog imgDialog;
+    private ImageView back;
     private ImageView [] imageViews= new ImageView[8];
     private ConstraintLayout[] cls= new ConstraintLayout[5];
     private ConstraintLayout[] climgs= new ConstraintLayout[8];
@@ -96,7 +104,15 @@ public class AddPostActivity2 extends AppCompatActivity{
         inputValidation = new InputValidation(this);
         Catalog catalog = getIntent().getParcelableExtra("catalog");
         initViews();
-        ctlg.setText(catalog.getName());
+        if(Maltabu.lang.equals("ru"))
+            ctlg.setText(catalog.getName());
+        else {
+            try {
+                ctlg.setText(fileHelper.diction().getString(catalog.getName()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         setListeners();
         ArrayList<String> arr = new ArrayList<>();
         try {
@@ -109,12 +125,36 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
         spinnerRegion.setAdapter(adapter);
+        updateViews((String) Paper.book().read("language"));
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
     }
 
+    private void updateViews(String lang) {
+        Context context = LocaleHelper.setLocale(this, lang);
+        Maltabu.lang = lang;
+        Resources resources = context.getResources();
+        int [] res = {R.string.addPost, R.string.catalog, R.string.title, R.string.desc,
+                R.string.price, R.string.radioB1, R.string.radioB2, R.string.barter,
+                R.string.barter2, R.string.photo, R.string.region, R.string.city,
+                R.string.phone, R.string.mail, R.string.address, R.string.rules};
+        for(int i=0; i<16; i++){
+            updts[i].setText(resources.getString(res[i]));
+        }
+        addPhoneNumber.setText(resources.getString(R.string.phonePlus));
+        addImg.setText(resources.getString(R.string.photoPlus));
+        addPost.setText(resources.getString(R.string.addPost));
+    }
+
     private void setListeners() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddPostActivity2.this, AddPostActivity.class));
+                finish();
+            }
+        });
         spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -356,6 +396,7 @@ public class AddPostActivity2 extends AppCompatActivity{
 
     private void initViews() {
         title = (EditText) findViewById(R.id.editText);
+        addPost = (Button)findViewById(R.id.addPost);
         content = (EditText) findViewById(R.id.editText2);
         ctlg = (TextView) findViewById(R.id.selectedCatalog);
         email = (EditText) findViewById(R.id.editText5);
@@ -364,6 +405,24 @@ public class AddPostActivity2 extends AppCompatActivity{
         editTexts[2] = (EditText) findViewById(R.id.editTe);
         editTexts[3] = (EditText) findViewById(R.id.editT);
         editTexts[4] = (EditText) findViewById(R.id.edit);
+        back = (ImageView) findViewById(R.id.arrr);
+        updts[0] = (TextView)findViewById(R.id.textView);
+        updts[1] = (TextView)findViewById(R.id.textView20);
+        updts[2] = (TextView)findViewById(R.id.textView23);
+        updts[3] = (TextView)findViewById(R.id.textView15);
+        updts[4] = (TextView)findViewById(R.id.textView16);
+        updts[5] = (TextView)findViewById(R.id.textView17);
+        updts[6] = (TextView)findViewById(R.id.textView77);
+        updts[7] = (TextView)findViewById(R.id.textView18);
+        updts[8] = (TextView)findViewById(R.id.checkTitle);
+        updts[9] = (TextView)findViewById(R.id.textView19);
+        updts[10] = (TextView)findViewById(R.id.textView21);
+        updts[11] = (TextView)findViewById(R.id.textView22);
+        updts[12] = (TextView)findViewById(R.id.txtphone);
+        updts[13] = (TextView)findViewById(R.id.textView26);
+        updts[14] = (TextView)findViewById(R.id.textView27);
+        updts[15] = (TextView)findViewById(R.id.textView28);
+
         checked[0] = true;
         checked[1] = false;
         checked[2] = false;

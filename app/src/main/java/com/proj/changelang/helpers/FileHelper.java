@@ -118,5 +118,8 @@ public class FileHelper {
         return categoryArrayList;
     }
 
+    public JSONObject diction() throws JSONException {
+        return new JSONObject(readDictionary());
+    }
 
 }

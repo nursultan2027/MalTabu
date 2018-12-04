@@ -39,12 +39,12 @@ public class HotPostAdapter2 extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return posts.size();
+        return this.posts.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return posts.get(position);
+        return this.posts.get(position);
     }
 
     @Override
@@ -55,36 +55,31 @@ public class HotPostAdapter2 extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View grid;
         final Post post = posts.get(position);
-        if (convertView == null) {
-            grid = new View(mContext);
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-            grid = inflater.inflate(R.layout.item_hot, parent, false);
-        } else {
-            grid = (View) convertView;
-        }
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        grid = inflater.inflate(R.layout.item_hot, parent, false);
         fileHelper = new FileHelper(mContext);
-        ConstraintLayout cl1 = (ConstraintLayout) grid.findViewById(R.id.selectedPost);
+//        ConstraintLayout cl1 = (ConstraintLayout) grid.findViewById(R.id.selectedPost);
         TextView nameView2 = (TextView) grid.findViewById(R.id.textView3);
         TextView nameView3 = (TextView) grid.findViewById(R.id.textView5);
-        TextView photoCount = (TextView) grid.findViewById(R.id.textView11);
-        ImageView img = (ImageView) grid.findViewById(R.id.imageView17);
+//        TextView photoCount = (TextView) grid.findViewById(R.id.textView11);
+//        ImageView img = (ImageView) grid.findViewById(R.id.imageView17);
         nameView2.setText(post.getPrice());
-        if (Maltabu.lang.equals("ru")) {
-            nameView3.setText(post.getCityID());
-        }
-        else {
-            try {
-                nameView3.setText(new JSONObject(fileHelper.readDictionary()).getString(post.getCityID()));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(post.getImages().size()>0) {
-            Picasso.with(mContext).load("http://maltabu.kz/"
-                    +post.getImages().get(0).getSmall()).centerCrop().fit().into(img);
-            photoCount.setText(String.valueOf(post.getImages().size()));
-        }
-        return grid;
+//        if (Maltabu.lang.equals("ru")) {
+        nameView3.setText(post.getCityID());
+//        }
+//        else {
+//            try {
+//                nameView3.setText(new JSONObject(fileHelper.readDictionary()).getString(post.getCityID()));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(post.getImages().size()>0) {
+//            Picasso.with(mContext).load("http://maltabu.kz/"
+//                    +post.getImages().get(0).getSmall()).centerCrop().fit().into(img);
+//            photoCount.setText(String.valueOf(post.getImages().size()));
+//        }
+        return nameView2;
     }
 
 //    public void getPost(String numb)
@@ -121,5 +116,4 @@ public class HotPostAdapter2 extends BaseAdapter {
 //        };
 //        asyncTask1.execute();
 //    }
-
 }

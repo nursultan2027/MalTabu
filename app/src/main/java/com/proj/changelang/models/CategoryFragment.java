@@ -233,7 +233,7 @@ public class CategoryFragment extends Fragment {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {
                         price = "Договорная цена";
                     } else {
-                        String kazName = new JSONObject(fileHelper.readDictionary()).getString("Договорная цена");
+                        String kazName = fileHelper.diction().getString("Договорная цена");
                         price = kazName;
                     }
                 } else {
@@ -241,7 +241,7 @@ public class CategoryFragment extends Fragment {
                         if (Maltabu.lang.toLowerCase().equals("ru")) {
                             price = "Отдам даром";
                         } else {
-                            String kazName = new JSONObject(fileHelper.readDictionary()).getString("Отдам даром");
+                            String kazName = fileHelper.diction().getString("Отдам даром");
                             price = kazName;
                         }
                     }

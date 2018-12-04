@@ -14,12 +14,16 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +35,7 @@ import com.proj.changelang.activities.SecondSelect1;
 import com.proj.changelang.adapters.HotPostAdapter;
 import com.proj.changelang.adapters.HotPostAdapter2;
 import com.proj.changelang.adapters.PostAdapter;
+import com.proj.changelang.adapters.RecycleHotAdapter;
 import com.proj.changelang.adapters.ViewPagerAdapter;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
@@ -58,9 +63,11 @@ import okhttp3.Response;
 public class HotFragment extends Fragment {
     private Button select1, select2;
     private JSONArray jsonArray;
-    private HotPostAdapter adapter;
+    private HotPostAdapter2 adapter;
     private Dialog epicDialog;
+    private RecyclerView recyclerView;
     private GridView lst;
+    private RecycleHotAdapter myAdapter;
     private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
 
@@ -112,10 +119,12 @@ public class HotFragment extends Fragment {
 //                getActivity().finish();
 //            }
 //        });
-//        lst = (GridView) view.findViewById(R.id.hots);
-        ListView asd = (ListView) view.findViewById(R.id.hots);
-        adapter = new HotPostAdapter(getActivity(),R.layout.item_hot, posts);
-        asd.setAdapter(adapter);
+        lst = (GridView) view.findViewById(R.id.hots);
+//        ListView asd = (ListView) view.findViewById(R.id.hots);
+        adapter = new HotPostAdapter2(getActivity(),posts);
+        lst.setAdapter(adapter);
+//        asd.setAdapter(adapter);
+
         return view;
     }
 
@@ -186,7 +195,7 @@ public class HotFragment extends Fragment {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {
                         price = "Договорная цена";
                     } else {
-                        String kazName = new JSONObject(fileHelper.readDictionary()).getString("Договорная цена");
+                        String kazName = fileHelper.diction().getString("Договорная цена");
                         price = kazName;
                     }
                 } else {
@@ -194,7 +203,7 @@ public class HotFragment extends Fragment {
                         if (Maltabu.lang.toLowerCase().equals("ru")) {
                             price = "Отдам даром";
                         } else {
-                            String kazName = new JSONObject(fileHelper.readDictionary()).getString("Отдам даром");
+                            String kazName = fileHelper.diction().getString("Отдам даром");
                             price = kazName;
                         }
                     }
@@ -203,10 +212,9 @@ public class HotFragment extends Fragment {
             Post post = new Post(cityID, price, String.valueOf(number), imagesArrayList);
             posts.add(post);
         }
-        try {
-            adapter.notifyDataSetChanged();
-            epicDialog.dismiss();
-        } catch (Exception e) {}
+        adapter.notifyDataSetChanged();getActivity().setTitle(String.valueOf(posts.size()));
+
+        epicDialog.dismiss();
     }
 
     protected void sDialog() {

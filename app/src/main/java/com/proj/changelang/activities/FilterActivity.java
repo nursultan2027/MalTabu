@@ -1,7 +1,9 @@
 package com.proj.changelang.activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.proj.changelang.adapters.CategoryAdapter;
 import com.proj.changelang.adapters.PostAdapter;
 import com.proj.changelang.adapters.RegionAdapter;
 import com.proj.changelang.adapters.RegionAdapter2;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.City;
 import com.proj.changelang.models.FilterModel;
@@ -31,10 +34,13 @@ import com.proj.changelang.models.Region;
 
 import java.nio.channels.CancelledKeyException;
 
+import io.paperdb.Paper;
+
 public class FilterActivity extends AppCompatActivity{
     private ImageView img;
     private Button btn1, btn2, btn3, btn4;
     private EditText ed1, ed2;
+    private TextView [] texts = new TextView[7];
     private CheckBox photo, barter, bargain;
     private Intent regIntent, regIntent2;
     private FilterModel filter;
@@ -43,6 +49,13 @@ public class FilterActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fiter);
+        texts[0] = findViewById(R.id.titlet);
+        texts[1] = findViewById(R.id.textView7);
+        texts[2] = findViewById(R.id.textView12);
+        texts[3] = findViewById(R.id.textView13);
+        texts[4] = findViewById(R.id.textView8);
+        texts[5] = findViewById(R.id.textView14);
+        texts[6] = findViewById(R.id.texxx);
         img = (ImageView) findViewById(R.id.arrr);
         btn1 = (Button) findViewById(R.id.select11);
         btn2 = (Button) findViewById(R.id.select12);
@@ -53,6 +66,7 @@ public class FilterActivity extends AppCompatActivity{
         photo = (CheckBox) findViewById(R.id.checkBox2);
         barter = (CheckBox) findViewById(R.id.checkBox3);
         bargain = (CheckBox) findViewById(R.id.checkBox);
+        updateView((String) Paper.book().read("language"));
         regIntent = new Intent(this, SecondSelect1.class);
         regIntent2 = new Intent(this, SecondSelect2.class);
         if (Maltabu.RegionFilter!=null) {
@@ -113,7 +127,8 @@ public class FilterActivity extends AppCompatActivity{
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FilterActivity.this, MainActivity.class));
+                startActivity(new Intent(FilterActivity.this, MainActivity2.class));
+                finish();
             }
         });
         getWindow().setSoftInputMode(
@@ -144,6 +159,23 @@ public class FilterActivity extends AppCompatActivity{
         }
     }
 
+    private void updateView(String lang) {
+        Context context = LocaleHelper.setLocale(this, lang);
+        Maltabu.lang = lang;
+        Resources resources = context.getResources();
+        int [] res = {R.string.addPost, R.string.region, R.string.city, R.string.price,
+                R.string.onlyPhoto, R.string.onlyTrade, R.string.bargain};
+        int [] btnRes = {R.string.chooseRegion, R.string.chooseCity,
+                R.string.filterResult, R.string.filterClear};
+        for(int i=0; i<7; i++){
+            texts[i].setText(resources.getString(res[i]));
+        }
+        btn1.setText(resources.getString(btnRes[0]));
+        btn2.setText(resources.getString(btnRes[1]));
+        btn3.setText(resources.getString(btnRes[2]));
+        btn4.setText(resources.getString(btnRes[3]));
+    }
+
     public void ClearFilter(){
         Maltabu.Region = null;
         Maltabu.cityId = null;
@@ -158,6 +190,7 @@ public class FilterActivity extends AppCompatActivity{
         barter.setChecked(false);
         bargain.setChecked(false);
         Maltabu.filterModel = null;
+        updateView((String) Paper.book().read("language"));
     }
 
     public void PostFilter(){
