@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +44,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asksira.bsimagepicker.BSImagePicker;
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.InputValidation;
@@ -52,14 +52,27 @@ import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Catalog;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.City;
+import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Region;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +81,7 @@ import io.paperdb.Paper;
 public class AddPostActivity2 extends AppCompatActivity{
     private Button addPhoneNumber, addImg, addPost;
     private CheckBox checkBox;
+    private ArrayList<ByteArrayOutputStream> baoses = new ArrayList<>();
     private FileHelper fileHelper;
     private LinearLayout linearLayout;
     private RadioButton rb1, rb2, rb3;
@@ -80,11 +94,13 @@ public class AddPostActivity2 extends AppCompatActivity{
     private TextView [] updts = new TextView[17];
     private boolean [] checked = new boolean[8];
     private boolean [] check = new boolean[5];
+    private String RegionID=null, CityID=null;
     private int imgNumb = 0;
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     private File photoFile;
+    private Catalog catalog;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Dialog imgDialog;
@@ -102,7 +118,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         imgDialog = new Dialog(this);
         inputValidation = new InputValidation(this);
-        Catalog catalog = getIntent().getParcelableExtra("catalog");
+        catalog = getIntent().getParcelableExtra("catalog");
         initViews();
         if(Maltabu.lang.equals("ru"))
             ctlg.setText(catalog.getName());
@@ -148,6 +164,12 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     private void setListeners() {
+        addPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newPost();
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,13 +179,18 @@ public class AddPostActivity2 extends AppCompatActivity{
         });
         spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                 if (title.hasFocus())
                     title.clearFocus();
                 if(PriceRB.hasFocus())
                     PriceRB.clearFocus();
                 if(content.hasFocus())
                     content.clearFocus();
+                try {
+                    RegionID = fileHelper.getRegionsFromFile().get(position).getId();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 ArrayList<String> arr = new ArrayList<>();
                 try {
                     for (int i=0; i<fileHelper.getRegionsFromFile().get(position).cities.size();i++) {
@@ -175,6 +202,24 @@ public class AddPostActivity2 extends AppCompatActivity{
                 }
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddPostActivity2.this, android.R.layout.simple_spinner_dropdown_item, arr);
                 spinnerCity.setAdapter(adapter2);
+
+                spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        try {
+                                CityID = fileHelper.getRegionsFromFile().get(position).cities.get(pos).getId();
+                                Toast.makeText(AddPostActivity2.this,
+                                        fileHelper.getRegionsFromFile().get(position).cities.get(pos).getId(), Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -400,6 +445,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         content = (EditText) findViewById(R.id.editText2);
         ctlg = (TextView) findViewById(R.id.selectedCatalog);
         email = (EditText) findViewById(R.id.editText5);
+
         editTexts[0] = (EditText) findViewById(R.id.editText4);
         editTexts[1] = (EditText) findViewById(R.id.editTex);
         editTexts[2] = (EditText) findViewById(R.id.editTe);
@@ -422,7 +468,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         updts[13] = (TextView)findViewById(R.id.textView26);
         updts[14] = (TextView)findViewById(R.id.textView27);
         updts[15] = (TextView)findViewById(R.id.textView28);
-
         checked[0] = true;
         checked[1] = false;
         checked[2] = false;
@@ -504,6 +549,18 @@ public class AddPostActivity2 extends AppCompatActivity{
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setImageBitmap(takenImage);
                     checked[getImgNumb()] = true;
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    FileInputStream fis;
+                    try {
+                        fis = new FileInputStream(photoFile);
+                        byte[] buf = new byte[1024];
+                        int n;
+                        while (-1 != (n = fis.read(buf)))
+                            baos.write(buf, 0, n);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    baoses.add(baos);
                 }
             }
         }
@@ -519,6 +576,18 @@ public class AddPostActivity2 extends AppCompatActivity{
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 checked[getImgNumb()] = true;
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                FileInputStream fis;
+                                try {
+                                    fis = new FileInputStream(new File(item.getUri().getPath()));
+                                    byte[] buf = new byte[1024];
+                                    int n;
+                                    while (-1 != (n = fis.read(buf)))
+                                        baos.write(buf, 0, n);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                baoses.add(baos);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -534,6 +603,18 @@ public class AddPostActivity2 extends AppCompatActivity{
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 checked[getImgNumb()] = true;
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                FileInputStream fis;
+                                try {
+                                    fis = new FileInputStream(new File(uri.getPath()));
+                                    byte[] buf = new byte[1024];
+                                    int n;
+                                    while (-1 != (n = fis.read(buf)))
+                                        baos.write(buf, 0, n);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                baoses.add(baos);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -595,11 +676,11 @@ public class AddPostActivity2 extends AppCompatActivity{
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
         return file;
     }
-
     public void ClickImgX(final int number){
         if(climgs[number].getVisibility()==View.VISIBLE)
         {
             climgs[number].setVisibility(View.GONE);
+            baoses.remove(number);
             checked[number]=false;
         }
     }
@@ -611,7 +692,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return 8;
     }
-
     public int getPhoneNumb(){
         for (int i=1; i<5; i++){
             if (check[i]==false)
@@ -619,11 +699,158 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return 5;
     }
-
     public boolean CheckPost(){
-        if(inputValidation.isInputEditTextFilled(title) && inputValidation.isInputEditTextEmail(email)
-                && inputValidation.validatePhoneNumber(editTexts[0]))
-            return true;
+        Resources res = this.getResources();
+        if(rb1.isChecked() && PriceRB.getText().toString().isEmpty()){
+            Toast.makeText(this, res.getString(R.string.priceValid), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else {
+            if (!rb1.isChecked()&&!rb2.isChecked()&&!rb3.isChecked())
+            {
+                Toast.makeText(this, res.getString(R.string.priceValid), Toast.LENGTH_LONG).show();
+                return false;
+            }
+            else {
+                if (inputValidation.isInputEditTextEmail(email)) {
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+    public String [] getPhones(){
+        ArrayList<String>  aa = new ArrayList<>();
+        for (int i=0;i<5;i++){
+            if(editTexts[i].getVisibility()==View.VISIBLE){
+                if (inputValidation.validatePhoneNumber(editTexts[i])){
+                    aa.add(editTexts[i].getText().toString());
+                }
+            }
+        }
+        String [] aa2 = new String[aa.size()];
+        for (int i=0; i<aa.size();i++){
+            aa2[i] = aa.get(i);
+        }
+        return aa2;
+    }
+    public ArrayList<byte[]> getImages(){
+        ArrayList<byte []> bytes = new ArrayList<>();
+        for (int i=0;i<baoses.size();i++){
+            if(imageViews[i].getVisibility()==View.VISIBLE){
+                bytes.add(baoses.get(i).toByteArray());
+            }
+        }
+        return bytes;
+    }
+
+    public void newPost(){
+        if(CheckPost()){
+            post();
+        }
+    }
+
+    public void post(){
+        AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
+
+            @Override
+            protected String doInBackground(String... urls) {
+                try {
+                    try {
+                        return HttpPost("http://maltabu.kz/v1/api/clients/posting");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return "Error!";
+                    }
+                } catch (IOException e) {
+                    return "Unable to retrieve web page. URL may be invalid.";
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    JSONObject Obj = new JSONObject(result);
+                    Toast.makeText(AddPostActivity2.this, result,Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        task.execute();
+    }
+
+    private String HttpPost(String myUrl) throws IOException, JSONException {
+        StringBuilder res = new StringBuilder();
+        URL url = new URL(myUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        conn.setRequestProperty("isAuthorized", "false");
+        conn.setDoOutput(true);
+        JSONObject jsonObject = buidJsonObject();
+        setPostRequestContent(conn, jsonObject);
+        conn.connect();
+        InputStream in = new BufferedInputStream(conn.getInputStream());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            res.append(line);
+        }
+        return res.toString();
+    }
+
+    private JSONObject buidJsonObject() throws JSONException {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("title", title.getText().toString());
+        jsonObject.accumulate("regionID", RegionID);
+        jsonObject.accumulate("cityID", CityID);
+        if (checkBox.isChecked()){
+            jsonObject.accumulate("exchange", true);
+        }
+        else {
+            jsonObject.accumulate("exchange", false);
+        }
+        if(!content.getText().toString().isEmpty()){
+            jsonObject.accumulate("content", content.getText().toString());
+        }
+        for(int i=0;i<getPhones().length;i++){
+            jsonObject.accumulate("phones["+String.valueOf(i)+"]", getPhones()[i]);
+        }
+        if (getImages().size()>0) {
+            jsonObject.accumulate("hasImages", true);
+            for (int i = 0; i < getImages().size(); i++) {
+                jsonObject.accumulate("images[" + String.valueOf(i) + "]", getImages().get(i));
+            }
+        }
+        else {
+            jsonObject.accumulate("hasImages", false);
+        }
+        jsonObject.accumulate("catalogId",catalog.getId());
+        if(rb1.isChecked()){
+            jsonObject.accumulate("priceKind", "value");
+            jsonObject.accumulate("priceValue", PriceRB.getText().toString());
+        } else {
+            if(rb2.isChecked()){
+                jsonObject.accumulate("priceKind", "trade");
+                jsonObject.accumulate("priceValue", "");
+            } else {
+                if(rb3.isChecked()){
+                    jsonObject.accumulate("priceKind", "free");
+                    jsonObject.accumulate("priceValue", "");
+                }
+            }
+        }
+        return jsonObject;
+    }
+
+    private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
+        OutputStream os = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        writer.write(jsonObject.toString());
+        writer.flush();
+        writer.close();
+        os.close();
     }
 }

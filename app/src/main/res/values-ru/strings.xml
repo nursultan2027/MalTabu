@@ -49,7 +49,7 @@
     <string name="addPost">Подать объявление</string>
     <string name="radioB1">Договорная цена</string>
     <string name="radioB2">Отдам даром</string>
-
+    <string name="priceValid">Укажите цену</string>
 
     <string name="photoPlus">Добавить фотографии</string>
     <string name="phonePlus">Добавить телефон</string>
