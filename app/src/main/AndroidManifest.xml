@@ -36,6 +36,8 @@
         <activity android:name=".activities.SecondSelect2"/>
         <activity android:name=".activities.FilterActivity"/>
         <activity android:name=".activities.ShowDetails"/>
+        <activity android:name=".activities.PdfActivity"/>
+        <activity android:name=".activities.RegisterAvtivity"/>
         <activity android:name=".activities.ShowDetailsImages"/>
         <activity android:name=".activities.AddPostActivity"/>
         <activity android:name=".activities.AddPostActivity2"/>

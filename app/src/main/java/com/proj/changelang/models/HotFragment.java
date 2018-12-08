@@ -119,10 +119,10 @@ public class HotFragment extends Fragment {
 //                getActivity().finish();
 //            }
 //        });
-        lst = (GridView) view.findViewById(R.id.hots);
+//        lst = (GridView) view.findViewById(R.id.hots);
 //        ListView asd = (ListView) view.findViewById(R.id.hots);
-        adapter = new HotPostAdapter2(getActivity(),posts);
-        lst.setAdapter(adapter);
+//        adapter = new HotPostAdapter2(getActivity(),posts);
+//        lst.setAdapter(adapter);
 //        asd.setAdapter(adapter);
 
         return view;
@@ -212,8 +212,6 @@ public class HotFragment extends Fragment {
             Post post = new Post(cityID, price, String.valueOf(number), imagesArrayList);
             posts.add(post);
         }
-        adapter.notifyDataSetChanged();getActivity().setTitle(String.valueOf(posts.size()));
-
         epicDialog.dismiss();
     }
 

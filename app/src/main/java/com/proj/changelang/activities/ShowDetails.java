@@ -99,8 +99,6 @@ public class ShowDetails extends AppCompatActivity {
     private void initViews() {
         post = getIntent().getParcelableExtra("post");
         img = (ImageView) findViewById(R.id.finish);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.TRANSPARENT);
         title = (TextView) findViewById(R.id.textView2);
         content = (TextView) findViewById(R.id.textView777);
         price = (TextView) findViewById(R.id.textView6);

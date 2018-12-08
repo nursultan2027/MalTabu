@@ -26,37 +26,56 @@ import java.util.ArrayList;
 public class PostAdapter extends ArrayAdapter<Post> {
     private LayoutInflater inflater;
     private int layout;
-    private FileHelper fileHelper;
+    private JSONObject object;
     private ArrayList<Post> posts;
 
-    public PostAdapter(Context context, int resource, ArrayList<Post> post) {
+    public PostAdapter(Context context, int resource, ArrayList<Post> post) throws JSONException {
         super(context, resource, post);
         this.posts = post;
         this.layout = resource;
+        this.object = new JSONObject(new FileHelper(getContext()).readDictionary());
         this.inflater = LayoutInflater.from(context);
     }
 
+    public static final class ViewHolder {
+        ConstraintLayout cl1;
+        TextView nameView;
+        TextView nameView2;
+        TextView nameView3;
+        TextView photoCount;
+        TextView visitors;
+        ImageView img;
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view=inflater.inflate(this.layout, parent, false);
+        ViewHolder holder;
         final Post post = posts.get(position);
-        ConstraintLayout cl1 = (ConstraintLayout) view.findViewById(R.id.selectedPost);
-        TextView nameView = (TextView) view.findViewById(R.id.textView3);
-        TextView nameView2 = (TextView) view.findViewById(R.id.textView4);
-        TextView nameView3 = (TextView) view.findViewById(R.id.textView5);
-        TextView photoCount = (TextView) view.findViewById(R.id.textView11);
-        TextView visitors = (TextView) view.findViewById(R.id.textView10);
-        ImageView img = (ImageView) view.findViewById(R.id.imageView17);
-        fileHelper = new FileHelper(getContext());
-        nameView.setText(post.getTitle());
-        visitors.setText(post.getVisitors());
-        nameView2.setText(post.getPrice());
+        if (convertView == null) {
+            convertView = inflater.inflate(this.layout, parent, false);
+            holder = new ViewHolder();
+            holder.cl1 = (ConstraintLayout) convertView.findViewById(R.id.selectedPost);
+            holder.nameView = (TextView) convertView.findViewById(R.id.textView3);
+            holder.nameView2 = (TextView) convertView.findViewById(R.id.textView4);
+            holder.nameView3 = (TextView) convertView.findViewById(R.id.textView5);
+            holder.photoCount = (TextView) convertView.findViewById(R.id.textView11);
+            holder.visitors = (TextView) convertView.findViewById(R.id.textView10);
+            holder.img = (ImageView) convertView.findViewById(R.id.imageView17);
+            convertView.setTag(holder);
+        }
+        else {
+           holder = (ViewHolder) convertView.getTag();
+        }
+
+        holder.nameView.setText(post.getTitle());
+        holder.visitors.setText(post.getVisitors());
+        holder.nameView2.setText(post.getPrice());
         String dates [] = post.getCreatedAt().split(",");
         if (Maltabu.lang.equals("ru")) {
-            nameView3.setText(post.getCityID()+", "+dates[0]+ " "+dates[1]);
+            holder.nameView3.setText(post.getCityID()+", "+dates[0]+ " "+dates[1]);
         }
         else {
             try {
-                nameView3.setText(new JSONObject(fileHelper.readDictionary()).getString(post.getCityID())
+                holder.nameView3.setText(object.getString(post.getCityID())
                         +", "+dates[0]+ " "+dates[2]);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -65,11 +84,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         if(post.getImages().size()>0) {
             Picasso.with(getContext()).load("http://maltabu.kz/"
-                    +post.getImages().get(0).getSmall()).centerCrop().fit().into(img);
-            photoCount.setText(String.valueOf(post.getImages().size()));
+                    +post.getImages().get(0).getSmall()).centerCrop().fit().into(holder.img);
+            holder.photoCount.setText(String.valueOf(post.getImages().size()));
         }
 
-        cl1.setOnClickListener(new View.OnClickListener() {
+        holder.cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent details = new Intent(getContext(), ShowDetails.class);
@@ -77,7 +96,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 getContext().startActivity(details);
             }
         });
-        return view;
+        return convertView;
     }
 
 }

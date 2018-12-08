@@ -46,8 +46,6 @@ public class CityAdapter2 extends ArrayAdapter<City> {
             public void onClick(View view) {
                 Intent nextSelect = new Intent(getContext(), FilterActivity.class);
                 nextSelect.putExtra(City.class.getCanonicalName(), city);
-                Maltabu.CityFilter = city.getName();
-                Maltabu.cityId = city.getId();
                 getContext().startActivity(nextSelect);
                 ((Activity)getContext()).finish();
             }

@@ -22,9 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -54,8 +57,9 @@ public class MainActivity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab;
-    private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7;
+    private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1;
     private ImageView filter;
+    private Spinner sort;
     private FileHelper fileHelper;
     private DrawerLayout drawer;
     private Intent filterIntent;
@@ -74,7 +78,9 @@ public class MainActivity2 extends AppCompatActivity
 
     private void SetActivityView(){
         setContentView(R.layout.activity_main);
+        Resources res = this.getResources();
         filter = (ImageView) findViewById(R.id.filter);
+        sort = (Spinner) findViewById(R.id.sort);
         filterIntent = new Intent(this, FilterActivity.class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         AppBarLayout appBar = (AppBarLayout) findViewById(R.id.appBarLayout2);
@@ -101,6 +107,7 @@ public class MainActivity2 extends AppCompatActivity
         menu5  = (TextView) view.findViewById(R.id.menu5);
         menu6  = (TextView) view.findViewById(R.id.menu6);
         menu7  = (TextView) view.findViewById(R.id.menu7);
+        cab1  = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
         m1  = (ConstraintLayout) view.findViewById(R.id.constraintLayout2);
         m2  = (ConstraintLayout) view.findViewById(R.id.constraintLayout3);
         m3  = (ConstraintLayout) view.findViewById(R.id.constraintLayout4);
@@ -121,6 +128,13 @@ public class MainActivity2 extends AppCompatActivity
         updateView((String) Paper.book().read("language"));
     }
     private void initListeners() {
+        cab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity2.this, RegisterAvtivity.class));
+                finish();
+            }
+        });
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +148,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment1();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -145,6 +160,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment2();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -156,6 +172,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment3();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -167,6 +184,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment4();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -178,6 +196,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment5();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -189,6 +208,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment6();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -200,6 +220,7 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment7();
                     Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -212,13 +233,69 @@ public class MainActivity2 extends AppCompatActivity
                 finish();
             }
         });
+        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        try {
+                            Maltabu.byTime = true;
+                            Maltabu.increment = true;
+                            opentCurrentFragment(Maltabu.fragmentNumb);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        try {
+                            Maltabu.byTime = true;
+                            Maltabu.increment = true;
+                            opentCurrentFragment(Maltabu.fragmentNumb);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 2:
+                        try {
+                            Maltabu.byTime = true;
+                            Maltabu.increment = false;
+                            opentCurrentFragment(Maltabu.fragmentNumb);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 3:
+                        try {
+                            Maltabu.byTime = false;
+                            Maltabu.increment = false;
+                            opentCurrentFragment(Maltabu.fragmentNumb);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 4:
+                        try {
+                            Maltabu.byTime = false;
+                            Maltabu.increment = true;
+                            opentCurrentFragment(Maltabu.fragmentNumb);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     private void updateView(String lang) {
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
         Resources resources = context.getResources();
-        setTitle("Малтабу");
+        setTitle("");
         cab.setText(resources.getString(R.string.Cabinet));
         menu1.setText(resources.getString(R.string.menu1));
         menu2.setText(resources.getString(R.string.menu2));
@@ -229,7 +306,15 @@ public class MainActivity2 extends AppCompatActivity
         menu7.setText(resources.getString(R.string.menu7));
         menu8.setText(resources.getString(R.string.menu8));
         menu82.setText(resources.getString(R.string.menu82));
-//        editText.setHint(resources.getString(R.string.Search));
+        ArrayList<String> arr = new ArrayList<>();
+        arr.add(resources.getString(R.string.sort0));
+        arr.add(resources.getString(R.string.sort1));
+        arr.add(resources.getString(R.string.sort2));
+        arr.add(resources.getString(R.string.sort3));
+        arr.add(resources.getString(R.string.sort4));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
+        sort.setAdapter(adapter);
+
     }
 
 //    @Override
@@ -284,17 +369,16 @@ public class MainActivity2 extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-
 //        displaySelectedScreen(id);
-
         return true;
     }
 
     private String CutString(String str){
         return str.substring(0, 11)+"...";
     }
-
     private void fragmentMain(){
+        filter.setVisibility(View.GONE);
+        sort.setVisibility(View.GONE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         HotFragment fragment = new HotFragment();
@@ -304,7 +388,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 0;
     }
     private void fragment1() throws JSONException {
-        filter.setVisibility(View.GONE);
+        filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -423,27 +507,35 @@ public class MainActivity2 extends AppCompatActivity
     private void opentCurrentFragment(int numb) throws JSONException {
         switch (numb){
             case 0:
+                setTitle("MalTabu");
                 fragmentMain();
                 break;
             case 1:
+                setTitle("");
                 fragment1();
                 break;
             case 2:
+                setTitle("");
                 fragment2();
                 break;
             case 3:
+                setTitle("");
                 fragment3();
                 break;
             case 4:
+                setTitle("");
                 fragment4();
                 break;
             case 5:
+                setTitle("");
                 fragment5();
                 break;
             case 6:
+                setTitle("");
                 fragment6();
                 break;
             case 7:
+                setTitle("");
                 fragment7();
                 break;
         }

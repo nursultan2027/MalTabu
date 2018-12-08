@@ -46,7 +46,9 @@
     <string name="phone">Телефон</string>
     <string name="mail">Эл. пошта</string>
     <string name="address">Мекен-жай</string>
-    <string name="rules">Бұл хабарландыруды беру арқылы мен Сайт ережелерімен келісемін</string>
+    <string name="rules">Бұл хабарландыруды беру арқылы мен <b>Сайт ережелерімен</b>келісемін</string>
+    <string name="rules2">Мен <b>Сайт ережелерімен</b> келісемін</string>
+    <string name="rules3">Пользовательское соглашение Maltabu.kz</string>
     <string name="addPost">Хабарландыру беру</string>
     <string name="radioB1">Келісімді баға</string>
     <string name="radioB2">Тегін беремін</string>
@@ -54,6 +56,24 @@
 
     <string name="photoPlus">Фотосүреттер қосу</string>
     <string name="phonePlus">Қосымша телефон номірін қосу</string>
-
     <string name="catalog">Санат</string>
+
+    <string name="sort0">Сортировка</string>
+    <string name="sort1">Жаңа хабаралндыруларды көрсету</string>
+    <string name="sort2">Бұрынғы хабаралндыруларды көрсету</string>
+    <string name="sort3">Бағасы төмен хабаралндыруларды көрсету</string>
+    <string name="sort4">Бағасы жоғары хабаралндыруларды көрсету</string>
+
+    <string name="reg11">Компанияның аты немесе атауы</string>
+    <string name="reg12">Сіздің қалдырған пікірлеріңізде көрсетіліп тұрады
+</string>
+    <string name="reg21">Эл.пошта(логин)</string>
+    <string name="reg22">Сізден басқа ешкімге көрсетілмейді</string>
+    <string name="reg31">Құпия сөз</string>
+    <string name="reg32">Құпия сөз кем дегенде 6 таңбадан құралу керек</string>
+    <string name="reg41">Құпия сөзді қайталап жазыңыз</string>
+    <string name="reg42">Жоғарыда көрсеткен құпия сөзіңізді қайталаңыз</string>
+    <string name="regTitle">Тіркелу</string>
+    <string name="regButton">Тіркелу</string>
+
 </resources>

@@ -47,10 +47,6 @@ public class RegionAdapter2 extends ArrayAdapter<Region> {
             @Override
             public void onClick(View view) {
                 Intent nextSelect = new Intent(getContext(), FilterActivity.class);
-                Maltabu.Region = region;
-                Maltabu.RegionFilter = region.getName();
-                Maltabu.regId = region.getId();
-                Maltabu.CityFilter = null;
                 getContext().startActivity(nextSelect);
                 ((Activity)getContext()).finish();
             }

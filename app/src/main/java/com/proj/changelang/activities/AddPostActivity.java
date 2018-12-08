@@ -92,7 +92,7 @@ public class AddPostActivity extends AppCompatActivity{
                         try {
                             Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
                             Catalog catalog = null;
-                                catalog = fileHelper.getCategoriesFromFile().get(finalI).catalogs.get(position-1);
+                                catalog = fileHelper.getCategoriesFromFile().get(finalI).catalogs.get(position);
                             intent2.putExtra("catalog", catalog);
                             startActivity(intent2);
                         } catch (JSONException e) {

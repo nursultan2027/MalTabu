@@ -78,8 +78,12 @@ public class CategoryFragment extends Fragment {
 
     public View load(View view){
         lst = (ListView) view.findViewById(R.id.prodss);
-        adapter = new PostAdapter(this.getContext(),R.layout.item_item, posts);
-        lst.setAdapter(adapter);
+        try {
+            adapter = new PostAdapter(this.getContext(),R.layout.item_item, posts);
+            lst.setAdapter(adapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         button = (ProgressBar) view.findViewById(R.id.button);
@@ -150,14 +154,14 @@ public class CategoryFragment extends Fragment {
     private JSONObject buidJsonObject2() throws JSONException {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate("byTime", true);
         if (this.isCatalog) {
             jsonObject.accumulate("catalogID", catalog);
         } else {
             jsonObject.accumulate("categoryID", catalog);
         }
+        jsonObject.accumulate("byTime", Maltabu.byTime);
+        jsonObject.accumulate("increment",Maltabu.increment);
         jsonObject.accumulate("countPosts", true);
-        jsonObject.accumulate("increment", true);
         jsonObject.accumulate("page", this.page);
 
         if(Maltabu.filterModel!=null){

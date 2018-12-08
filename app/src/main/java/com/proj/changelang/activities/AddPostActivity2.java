@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,10 +88,10 @@ public class AddPostActivity2 extends AppCompatActivity{
     private FileHelper fileHelper;
     private LinearLayout linearLayout;
     private RadioButton rb1, rb2, rb3;
-    private EditText title, PriceRB, content, email;
+    private EditText title, PriceRB, content, email, address;
     private EditText [] editTexts = new EditText[5];
     private InputValidation inputValidation;
-    private TextView checkTitle, Rb3, RbFree, ctlg;
+    private TextView checkTitle, Rb3, RbFree, ctlg, pdf;
     private ConstraintLayout [] phones = new ConstraintLayout[5];
     private int phoneNimb = 0;
     private TextView [] updts = new TextView[17];
@@ -120,6 +123,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         inputValidation = new InputValidation(this);
         catalog = getIntent().getParcelableExtra("catalog");
         initViews();
+        ClearFocus();
         if(Maltabu.lang.equals("ru"))
             ctlg.setText(catalog.getName());
         else {
@@ -164,9 +168,16 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     private void setListeners() {
+        pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddPostActivity2.this, PdfActivity.class));
+            }
+        });
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ClearFocus();
                 newPost();
             }
         });
@@ -180,12 +191,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                if (title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 try {
                     RegionID = fileHelper.getRegionsFromFile().get(position).getId();
                 } catch (JSONException e) {
@@ -207,9 +213,10 @@ public class AddPostActivity2 extends AppCompatActivity{
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                         try {
-                                CityID = fileHelper.getRegionsFromFile().get(position).cities.get(pos).getId();
-                                Toast.makeText(AddPostActivity2.this,
-                                        fileHelper.getRegionsFromFile().get(position).cities.get(pos).getId(), Toast.LENGTH_LONG).show();
+                            ClearFocus();
+                            CityID = fileHelper.getRegionsFromFile().get(position).cities.get(pos).getId();
+                            Toast.makeText(AddPostActivity2.this,
+                                    fileHelper.getRegionsFromFile().get(position).cities.get(pos).getName(), Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -230,16 +237,14 @@ public class AddPostActivity2 extends AppCompatActivity{
         RbFree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
+                ClearFocus();
                 rb2.toggle();
             }
         });
         Rb3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
+                ClearFocus();
                 rb3.toggle();
             }
         });
@@ -250,16 +255,17 @@ public class AddPostActivity2 extends AppCompatActivity{
                     rb1.toggle();
             }
         });
+        PriceRB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rb1.toggle();
+            }
+        });
 
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if(imgNumb<8)
                     GetImages();
             }
@@ -268,12 +274,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         addPhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if (phoneNimb<4) {
                     phoneNimb++;
                     if(getPhoneNumb()!=5) {
@@ -294,12 +295,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         checkTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if(!checkBox.isChecked()){
                     checkBox.setChecked(true);
                 }
@@ -312,12 +308,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         cls[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if(phones[4].getVisibility()==View.VISIBLE)
                 {
                     phones[4].setVisibility(View.GONE);
@@ -349,12 +340,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         cls[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if(phoneNimb>0) {
                     phoneNimb--;
                 }
@@ -370,11 +356,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                    ClearFocus();
                 if(phoneNimb>0) {
                     phoneNimb--;
                 }
@@ -389,12 +371,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         cls[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if(phoneNimb>0) {
                     phoneNimb--;
                 }
@@ -409,12 +386,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         cls[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(title.hasFocus())
-                    title.clearFocus();
-                if(PriceRB.hasFocus())
-                    PriceRB.clearFocus();
-                if(content.hasFocus())
-                    content.clearFocus();
+                ClearFocus();
                 if(phoneNimb>0) {
                     phoneNimb--;
                 }
@@ -439,19 +411,57 @@ public class AddPostActivity2 extends AppCompatActivity{
 
     }
 
+    private void ClearFocus() {
+        if (address.hasFocus())
+            address.clearFocus();
+        if (addPost.hasFocus())
+            addPost.clearFocus();
+        if (addImg.hasFocus())
+            addImg.clearFocus();
+        if (addPhoneNumber.hasFocus())
+            addPhoneNumber.clearFocus();
+        if (title.hasFocus())
+            title.clearFocus();
+        if(PriceRB.hasFocus())
+            PriceRB.clearFocus();
+        if(rb1.hasFocus())
+            rb1.clearFocus();
+        if(rb2.hasFocus())
+            rb2.clearFocus();
+        if(checkBox.hasFocus())
+            checkBox.clearFocus();
+        if(rb3.hasFocus())
+            rb3.clearFocus();
+//        if(content.hasFocus())
+//            content.clearFocus();
+        if (spinnerRegion.hasFocus())
+            spinnerRegion.clearFocus();
+        if (spinnerCity.hasFocus())
+            spinnerCity.clearFocus();
+        if(email.hasFocus())
+            email.clearFocus();
+        for(int i=0; i<5;i++){
+            if(editTexts[i].hasFocus()) {
+                editTexts[i].clearFocus();
+            }
+        }
+    }
+
     private void initViews() {
+        NonFocusingScrollView no = new NonFocusingScrollView(this);
         title = (EditText) findViewById(R.id.editText);
         addPost = (Button)findViewById(R.id.addPost);
         content = (EditText) findViewById(R.id.editText2);
         ctlg = (TextView) findViewById(R.id.selectedCatalog);
         email = (EditText) findViewById(R.id.editText5);
-
+        address = (EditText) findViewById(R.id.editText6);
         editTexts[0] = (EditText) findViewById(R.id.editText4);
         editTexts[1] = (EditText) findViewById(R.id.editTex);
         editTexts[2] = (EditText) findViewById(R.id.editTe);
         editTexts[3] = (EditText) findViewById(R.id.editT);
         editTexts[4] = (EditText) findViewById(R.id.edit);
         back = (ImageView) findViewById(R.id.arrr);
+        pdf = (TextView) findViewById(R.id.textView28);
         updts[0] = (TextView)findViewById(R.id.textView);
         updts[1] = (TextView)findViewById(R.id.textView20);
         updts[2] = (TextView)findViewById(R.id.textView23);
@@ -713,11 +723,14 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
             else {
                 if (inputValidation.isInputEditTextEmail(email)) {
+                    Toast.makeText(this, "invalid EMAIL", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                else {
                     return true;
                 }
             }
         }
-        return false;
     }
     public String [] getPhones(){
         ArrayList<String>  aa = new ArrayList<>();
@@ -799,7 +812,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return res.toString();
     }
-
     private JSONObject buidJsonObject() throws JSONException {
 
         JSONObject jsonObject = new JSONObject();
@@ -844,7 +856,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return jsonObject;
     }
-
     private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
         OutputStream os = conn.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -852,5 +863,25 @@ public class AddPostActivity2 extends AppCompatActivity{
         writer.flush();
         writer.close();
         os.close();
+    }
+    public class NonFocusingScrollView extends ScrollView {
+
+        public NonFocusingScrollView(Context context) {
+            super(context);
+        }
+
+        public NonFocusingScrollView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public NonFocusingScrollView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
+
+        @Override
+        protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
+            return true;
+        }
+
     }
 }

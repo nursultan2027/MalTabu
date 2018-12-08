@@ -45,7 +45,9 @@
     <string name="phone">Телефон</string>
     <string name="mail">Эл. почта</string>
     <string name="address">Адрес</string>
-    <string name="rules">Размещая данное объявление, я соглашаюсь с Правилами сайта</string>
+    <string name="rules">Размещая данное объявление, я соглашаюсь с <b>Правилами сайта</b></string>
+    <string name="rules2">Я согласен с <b>Правилами сайта</b></string>
+    <string name="rules3">Пользовательское соглашение Maltabu.kz</string>
     <string name="addPost">Подать объявление</string>
     <string name="radioB1">Договорная цена</string>
     <string name="radioB2">Отдам даром</string>
@@ -55,4 +57,21 @@
     <string name="phonePlus">Добавить телефон</string>
     <string name="catalog">Категория</string>
 
+
+    <string name="sort0">Сортировка</string>
+    <string name="sort1">Показать сначала новые объявления</string>
+    <string name="sort2">Показать сначала старые объявления</string>
+    <string name="sort3">Показать сначала дешевые объявления</string>
+    <string name="sort4">Показать сначала дорогие объявления</string>
+
+    <string name="reg11">Имя или название компании</string>
+    <string name="reg12">Будет отбражаться в ваших комментариях</string>
+    <string name="reg21">Эл. почта(логин для входа)</string>
+    <string name="reg22">Никому не показывается, кроме вас</string>
+    <string name="reg31">Пароль</string>
+    <string name="reg32">Пароль должен состоять минимум из 6 символов</string>
+    <string name="reg41">Повторите пароль</string>
+    <string name="reg42">Повторите пароль введенный выше</string>
+    <string name="regTitle">Регистрация</string>
+    <string name="regButton">Зарегистрироваться</string>
 </resources>

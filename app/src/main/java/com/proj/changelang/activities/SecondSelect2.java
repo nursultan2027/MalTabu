@@ -24,7 +24,6 @@ public class SecondSelect2 extends AppCompatActivity{
         if (getIntent().getStringExtra("target") != null) {
 
             if (getIntent().getStringExtra("target").equals("filter")) {
-                cities = Maltabu.Region.cities;
                 CityAdapter2 adapter = new CityAdapter2(this, R.layout.category_item, cities);
                 LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
                 for (int i = 0; i < adapter.getCount(); i++) {
