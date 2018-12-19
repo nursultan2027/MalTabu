@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ChangeLang</string>
+    <string name="app_name">Maltabu</string>
     <string name="navigation_drawer_open">Открыть</string>
     <string name="navigation_drawer_close">Закрыть</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">проект</string>
     <string name="nav_header_desc">Хэдер</string>
+    <string name="other_lang">Қазақша</string>
     <string name="action_settings">Натройки</string>
     <string name="hello">Привет</string>
     <string name="menu1">Сельхоз животные</string>
@@ -21,6 +22,7 @@
     <string name="Option1">Cелект 2</string>
     <string name="Option2">Cелект 1</string>
     <string name="Search">Поиск</string>
+    <string name="SearchText">Быстрый поиск</string>
     <string name="select">Выбрать</string>
     <string name="toTop">Поднять наверх</string>
     <string name="toHot">Добавить в горячие</string>
@@ -74,4 +76,14 @@
     <string name="reg42">Повторите пароль введенный выше</string>
     <string name="regTitle">Регистрация</string>
     <string name="regButton">Зарегистрироваться</string>
+
+    <string name="auth">Авторизация</string>
+    <string name="auth2">Вход</string>
+    <string name="auth3">Логин</string>
+    <string name="auth4">Создать личный кабинет</string>
+    <string name="hotTitle">Горячие предложения</string>
+    <string name="scoreNumb">Номер счета</string>
+    <string name="scoreButton">Пополнить счет</string>
+    <string name="noPosts">Объявлений нет</string>
+    <string name="noPosts2">К сожалению, по данному запросу еще нет объявлений</string>
 </resources>

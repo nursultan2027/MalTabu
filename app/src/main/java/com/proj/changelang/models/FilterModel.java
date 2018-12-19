@@ -8,6 +8,8 @@ public class FilterModel implements Parcelable {
     private String regId;
     private String price1;
     private String price2;
+    private int regPosition;
+    private int cityPosition;
     private boolean withPhoto;
     private boolean barter;
 
@@ -47,6 +49,22 @@ public class FilterModel implements Parcelable {
             return new FilterModel[size];
         }
     };
+
+    public int getRegPosition() {
+        return regPosition;
+    }
+
+    public void setRegPosition(int regPosition) {
+        this.regPosition = regPosition;
+    }
+
+    public int getCityPosition() {
+        return cityPosition;
+    }
+
+    public void setCityPosition(int cityPosition) {
+        this.cityPosition = cityPosition;
+    }
 
     public String getCityId() {
         return cityId;

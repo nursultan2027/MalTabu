@@ -46,20 +46,25 @@ import io.paperdb.Paper;
 
 public class FilterActivity extends AppCompatActivity{
     private ImageView img;
+    private int pos1 = 101, pos2 = 101;
     private Button btn3, btn4;
     private EditText ed1, ed2;
+    private Dialog epicDialog;
     private Spinner regSpin, citySpin;
     private TextView [] texts = new TextView[7];
     private CheckBox photo, barter, bargain;
     private FilterModel filter;
     private FileHelper fileHelper;
     private String CityID, RegionID;
+    private ArrayList<Region> regions = new ArrayList();
+    private ArrayList<ArrayList<String>> citiesArr = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fiter);
         fileHelper = new FileHelper(this);
+        epicDialog = new Dialog(this);
         texts[0] = findViewById(R.id.titlet);
         texts[1] = findViewById(R.id.textView7);
         texts[2] = findViewById(R.id.textView12);
@@ -78,63 +83,53 @@ public class FilterActivity extends AppCompatActivity{
         barter = (CheckBox) findViewById(R.id.checkBox3);
         bargain = (CheckBox) findViewById(R.id.checkBox);
         updateView((String) Paper.book().read("language"));
-
+        getCities();
         ArrayList<String> arr = new ArrayList<>();
-        arr.add(getResources().getString(R.string.chooseRegion));
-        try {
-            for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
-                Region region = fileHelper.getRegionsFromFile().get(i);
-                arr.add(region.getName());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        arr.add(LocaleHelper.setLocale(this, Maltabu.lang).getResources().getString(R.string.chooseRegion));
+        for (int i=0; i<regions.size();i++) {
+            Region region = regions.get(i);
+            arr.add(region.getName());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
         regSpin.setAdapter(adapter);
         regSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                try {
                     if(position>0){
-                        RegionID = fileHelper.getRegionsFromFile().get(position-1).getId();
+                        RegionID = regions.get(position-1).getId();
+                        pos1=position;
+                        if(Maltabu.filterModel!=null) {
+                            if (Maltabu.filterModel.getCityId() != null) {
+                                if(pos2==102)
+                                    Maltabu.filterModel.setCityPosition(0);
+                            }
+                        }
+                        pos2 = 102;
+                        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(FilterActivity.this, android.R.layout.simple_spinner_dropdown_item, citiesArr.get(position-1));
+                        citySpin.setAdapter(adapter2);
                     }
                     else {
                         RegionID=null;
+                        ArrayList<String> asd = new ArrayList<>();
+                        asd.add(LocaleHelper.setLocale(FilterActivity.this, Maltabu.lang).getResources().getString(R.string.chooseCity));
+                        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(FilterActivity.this, android.R.layout.simple_spinner_dropdown_item,asd);
+                        citySpin.setAdapter(adapter2);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ArrayList<String> arr = new ArrayList<>();
-                arr.add(getResources().getString(R.string.chooseCity));
-                try {
-                    if(position>0) {
-                        for (int i = 0; i < fileHelper.getRegionsFromFile().get(position-1).cities.size(); i++) {
-                            City city = fileHelper.getRegionsFromFile().get(position-1).cities.get(i);
-                            arr.add(city.getName());
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(FilterActivity.this, android.R.layout.simple_spinner_dropdown_item, arr);
-                citySpin.setAdapter(adapter2);
 
                 citySpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        try {
-                            if(position>0) {
-                                if (pos > 0) {
-                                    CityID = fileHelper.getRegionsFromFile().get(position - 1).cities.get(pos - 1).getId();
-                                    Toast.makeText(FilterActivity.this,
-                                            fileHelper.getRegionsFromFile().get(position - 1).cities.get(pos - 1).getName(), Toast.LENGTH_LONG).show();
+                        if(position>0) {
+                            if (pos > 0) {
+                                pos2 = pos;
+                                CityID = regions.get(position - 1).cities.get(pos - 1).getId();
+                                Toast.makeText(FilterActivity.this,
+                                        regions.get(position - 1).cities.get(pos - 1).getName(), Toast.LENGTH_LONG).show();
                                 }
-                            } else {
-                                CityID = null;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
+                            CityID = null;
                         }
+                        epicDialog.dismiss();
                     }
 
                     @Override
@@ -142,6 +137,11 @@ public class FilterActivity extends AppCompatActivity{
 
                     }
                 });
+                if(Maltabu.filterModel!=null) {
+                    if (Maltabu.filterModel.getCityId() != null) {
+                        citySpin.setSelection(Maltabu.filterModel.getCityPosition());
+                    }
+                }
             }
 
             @Override
@@ -184,6 +184,12 @@ public class FilterActivity extends AppCompatActivity{
             bargain.setChecked(Maltabu.filterModel.isBargain());
             barter.setChecked(Maltabu.filterModel.isBarter());
         }
+
+        if (Maltabu.filterModel!=null){
+            if(Maltabu.filterModel.getRegId()!=null){
+                regSpin.setSelection(Maltabu.filterModel.getRegPosition());
+            }
+        }
     }
 
     private void updateView(String lang) {
@@ -203,6 +209,8 @@ public class FilterActivity extends AppCompatActivity{
     }
 
     public void ClearFilter(){
+        regSpin.setSelection(0);
+        citySpin.setSelection(0);
         RegionID = null;
         CityID = null;
         ed1.setText("");
@@ -214,23 +222,53 @@ public class FilterActivity extends AppCompatActivity{
         updateView((String) Paper.book().read("language"));
     }
 
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+    }
+
     public void PostFilter(){
         filter = new FilterModel();
-        if (CityID!=null)
+        int filterCount = 0;
+        if (CityID!=null) {
             filter.setCityId(CityID);
-        if (RegionID!=null)
+            filter.setCityPosition(pos2);
+            filterCount++;
+        }
+        if (RegionID!=null) {
+            filter.setRegPosition(pos1);
             filter.setRegId(RegionID);
+            filterCount++;
+        }
         if (photo.isChecked())
+        {
             filter.setWithPhoto(true);
+            filterCount++;
+        }
         if (barter.isChecked())
+        {
             filter.setBarter(true);
+            filterCount++;
+        }
         if (bargain.isChecked())
+        {
             filter.setBargain(true);
+            filterCount++;
+        }
         if (!ed1.getText().toString().isEmpty())
+        {
             filter.setPrice1(ed1.getText().toString());
+            filterCount++;
+        }
         if (!ed2.getText().toString().isEmpty())
+        {
             filter.setPrice2(ed2.getText().toString());
-        Maltabu.filterModel = filter;
+            filterCount++;
+        }
+        if (filterCount>0) {
+            Maltabu.filterModel = filter;
+        }
         startActivity(new Intent(this, MainActivity2.class));
         finish();
     }
@@ -238,6 +276,23 @@ public class FilterActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity2.class));finish();
+    }
+
+    public void getCities(){
+        try {
+            for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
+                Region region = fileHelper.getRegionsFromFile().get(i);
+                regions.add(region);
+                ArrayList<String> cityarr = new ArrayList<>();
+                cityarr.add(LocaleHelper.setLocale(this, Maltabu.lang).getResources().getString(R.string.chooseCity));
+                for (int j=0; j<region.cities.size(); j++){
+                    cityarr.add(region.cities.get(j).getName());
+                }
+                citiesArr.add(cityarr);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

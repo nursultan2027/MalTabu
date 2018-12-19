@@ -1,9 +1,7 @@
 package com.proj.changelang.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,16 +13,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.Maltabu;
-import com.proj.changelang.models.Image;
-import com.proj.changelang.models.ImageFragment;
-import com.proj.changelang.models.ImageFragment2;
+import com.proj.changelang.fragments.ImageFragment;
 import com.proj.changelang.models.Post;
-
-import org.json.JSONException;
 
 public class ShowDetails extends AppCompatActivity {
     private TextView title, content, price, phone, location, date, photos;

@@ -1,12 +1,14 @@
-package com.proj.changelang.models;
+package com.proj.changelang.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,17 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.AbsListView;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
-import com.proj.changelang.adapters.PostAdapter;
+import com.proj.changelang.activities.FilterActivity;
 import com.proj.changelang.adapters.PostRecycleAdapter;
+import com.proj.changelang.helpers.EndlessListener;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
+import com.proj.changelang.models.FilterModel;
+import com.proj.changelang.models.Image;
+import com.proj.changelang.models.Post;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class CategoryFragment extends Fragment {
@@ -49,12 +53,15 @@ public class CategoryFragment extends Fragment {
     private int page;
     private ArrayList<Post> posts;
     private boolean isCatalog;
-    private ListView lst;
+    private RecyclerView lst;
+    private FloatingActionButton filterButton;
+    private View view;
     private Dialog epicDialog;
     private ProgressBar button;
     private boolean can = true;
     private FileHelper fileHelper;
-    private PostAdapter adapter;
+    private EndlessListener listener;
+    private PostRecycleAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,48 +77,51 @@ public class CategoryFragment extends Fragment {
         isCatalog = bundle.getBoolean("isCatalog");
         catalog = bundle.getString("catalog");
         page = 1;
-        View view = inflater.inflate(R.layout.category_fragment, container, false);
         sDialog();
+        view=inflater.inflate(R.layout.category_fragment, container, false);
+        load(view);
         post();
-        return load(view);
+        return view;
     }
 
     public View load(View view){
-        lst = (ListView) view.findViewById(R.id.prodss);
-        try {
-            adapter = new PostAdapter(this.getContext(),R.layout.item_item, posts);
-            lst.setAdapter(adapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
 
         button = (ProgressBar) view.findViewById(R.id.button);
-        lst.setOnScrollListener(new AbsListView.OnScrollListener() {
+        lst = (RecyclerView) view.findViewById(R.id.prodss);
+        filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
+        adapter = new PostRecycleAdapter(posts,getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        lst.setHasFixedSize(true);
+        lst.setAdapter(adapter);
+        lst.setLayoutManager(manager);
+        if(Maltabu.filterModel!=null){
+            filterButton.setVisibility(View.VISIBLE);
+            filterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().startActivity(new Intent(getActivity(), FilterActivity.class));
+                    getActivity().finish();
+                }
+            });
+        }
+        else {
+            filterButton.setVisibility(View.GONE);
+        }
+        listener = new EndlessListener(manager) {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (visibleItemCount > 0 && firstVisibleItem + visibleItemCount == totalItemCount && can)
-                {
-                    button.setVisibility(View.VISIBLE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                        button.setProgress(50, true);
-                        startAnimation();
-                    }
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                button.setVisibility(View.VISIBLE);
+                button.setIndeterminate(true);
                     can = false;
                     post();
-                }
             }
-        });
+        };
+        lst.addOnScrollListener(listener);
         return view;
     }
 
 
     private void post() {
-
             AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
 
                 @Override
@@ -261,11 +271,18 @@ public class CategoryFragment extends Fragment {
             }
         }
         try {
+            lst.invalidate();
             adapter.notifyDataSetChanged();
+            lst.refreshDrawableState();
         } catch (Exception e) {}
         if (!can) {
             can = true;
-            button.setVisibility(View.INVISIBLE);
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+                button.setVisibility(View.INVISIBLE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             epicDialog.dismiss();
         }
@@ -275,13 +292,6 @@ public class CategoryFragment extends Fragment {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
-    }
-
-    private void startAnimation(){
-        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(button, "progress", 30000, 0);
-        progressAnimator.setDuration(30000);
-        progressAnimator.setInterpolator(new LinearInterpolator());
-        progressAnimator.start();
     }
 
     public String getDate(String s)    {

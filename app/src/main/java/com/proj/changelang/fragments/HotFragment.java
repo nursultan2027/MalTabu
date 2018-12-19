@@ -1,8 +1,6 @@
-package com.proj.changelang.models;
+package com.proj.changelang.fragments;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,50 +8,28 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
-import com.proj.changelang.activities.FirstSelect1;
-import com.proj.changelang.activities.MainActivity2;
-import com.proj.changelang.activities.SecondSelect1;
-import com.proj.changelang.adapters.HotPostAdapter;
-import com.proj.changelang.adapters.HotPostAdapter2;
-import com.proj.changelang.adapters.PostAdapter;
 import com.proj.changelang.adapters.RecycleHotAdapter;
-import com.proj.changelang.adapters.ViewPagerAdapter;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
+import com.proj.changelang.models.Image;
+import com.proj.changelang.models.Post;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
@@ -63,7 +39,6 @@ import okhttp3.Response;
 public class HotFragment extends Fragment {
     private Button select1, select2;
     private JSONArray jsonArray;
-    private HotPostAdapter2 adapter;
     private Dialog epicDialog;
     private RecyclerView recyclerView;
     private GridView lst;
@@ -119,12 +94,14 @@ public class HotFragment extends Fragment {
 //                getActivity().finish();
 //            }
 //        });
-//        lst = (GridView) view.findViewById(R.id.hots);
-//        ListView asd = (ListView) view.findViewById(R.id.hots);
-//        adapter = new HotPostAdapter2(getActivity(),posts);
-//        lst.setAdapter(adapter);
-//        asd.setAdapter(adapter);
-
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.hots);
+        myAdapter = new RecycleHotAdapter(posts,getActivity());
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
+        manager.setGapStrategy(2);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setHasFixedSize(false);
+//        recyclerView.getLayoutParams().height = viewHeight;
         return view;
     }
 
@@ -212,6 +189,7 @@ public class HotFragment extends Fragment {
             Post post = new Post(cityID, price, String.valueOf(number), imagesArrayList);
             posts.add(post);
         }
+        myAdapter.notifyDataSetChanged();
         epicDialog.dismiss();
     }
 

@@ -1,4 +1,4 @@
-package com.proj.changelang.models;
+package com.proj.changelang.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +13,11 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 
-public class ImageFragment2 extends Fragment {
+public class ImageFragment extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    public static ImageFragment2 newInstance(int page, String url) {
-        ImageFragment2 imgFragment = new ImageFragment2();
+    public static ImageFragment newInstance(int page, String url) {
+        ImageFragment imgFragment = new ImageFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
         arguments.putString(ARGUMENT_PAGE_NUMBER, url);
@@ -40,7 +40,7 @@ public class ImageFragment2 extends Fragment {
             ImageView card = (ImageView) view.findViewById(R.id.imgPage);
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.load);
             Picasso.with(getContext()).load("http://maltabu.kz/"
-                    +url).into(card, new Callback() {
+                    +url).centerCrop().fit().into(card, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);

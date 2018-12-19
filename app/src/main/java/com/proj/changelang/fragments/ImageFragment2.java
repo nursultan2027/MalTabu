@@ -1,32 +1,23 @@
-package com.proj.changelang.models;
+package com.proj.changelang.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.proj.changelang.R;
-import com.proj.changelang.adapters.PostAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Random;
 
-
-public class ImageFragment extends Fragment {
+public class ImageFragment2 extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    public static ImageFragment newInstance(int page, String url) {
-        ImageFragment imgFragment = new ImageFragment();
+    public static ImageFragment2 newInstance(int page, String url) {
+        ImageFragment2 imgFragment = new ImageFragment2();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
         arguments.putString(ARGUMENT_PAGE_NUMBER, url);
@@ -49,7 +40,7 @@ public class ImageFragment extends Fragment {
             ImageView card = (ImageView) view.findViewById(R.id.imgPage);
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.load);
             Picasso.with(getContext()).load("http://maltabu.kz/"
-                    +url).centerCrop().fit().into(card, new Callback() {
+                    +url).into(card, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/MaltabuYellow"
     tools:showIn="@layout/app_bar_main">
 
     <android.support.constraint.ConstraintLayout
@@ -22,50 +23,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <!--<Button-->
-        <!--android:id="@+id/select1"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginTop="72dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:background="@drawable/rounded"-->
-        <!--android:text="@string/Option1"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/select2"-->
-        <!--app:layout_constraintHorizontal_bias="0.5"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<Button-->
-        <!--android:id="@+id/select2"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="16dp"-->
-        <!--android:background="@drawable/rounded"-->
-        <!--android:text="@string/Option2"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.5"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/select1"-->
-        <!--app:layout_constraintTop_toTopOf="@+id/select1" />-->
-
-        <!--<EditText-->
-        <!--android:id="@+id/search"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:layout_marginEnd="16dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:background="@drawable/rounded"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:hint="@string/Search"-->
-        <!--android:textColor="#ffffff"-->
-        <!--android:textColorLink="#f4f5f6"-->
-        <!--android:textSize="18sp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/select1" />-->
 
         <Toolbar
             android:id="@+id/tool"
@@ -75,38 +32,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"></Toolbar>
 
-        <GridView
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/hots"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/rounded"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="24dp"
-            android:horizontalSpacing="10dp"
-            android:stretchMode="spacingWidthUniform"
+            android:background="@color/MaltabuGrey"
+            android:orientation="vertical"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hotTitle"></android.support.v7.widget.RecyclerView>
+
+        <View
+            android:id="@+id/constraintLayout26"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/shadow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/hots"></View>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/hotTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tool">
-        </GridView>
 
-
-        <!--<ListView-->
-        <!--android:id="@+id/hots"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginEnd="16dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:background="@drawable/rounded"-->
-        <!--android:scrollbars="none"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.0"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/tool"></ListView>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/hotTitle"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

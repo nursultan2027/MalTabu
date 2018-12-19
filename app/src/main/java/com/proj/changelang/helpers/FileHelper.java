@@ -22,10 +22,16 @@ public class FileHelper {
     public FileHelper(Context context) {
         this.context = context;
     }
+
     public String readDictionary(){return readFile("dictionary");}
     public void writeDictionary(String s) { writeFile(s, "dictionary");}
+    public String readToken(){return readFile("token");}
+    public void writeToken(String s) { writeFile(s, "token");}
     public String readDataFile(){return readFile("data");}
     public void writeDataFile(String s) { writeFile(s, "data");}
+    public String readUserFile(){return readFile("user");}
+    public void writeUserFile(String s) { writeFile(s, "user");}
+
     public String readFile(String str) {
         FileInputStream fin = null;
         String text = "";
@@ -117,7 +123,6 @@ public class FileHelper {
         }
         return categoryArrayList;
     }
-
     public JSONObject diction() throws JSONException {
         return new JSONObject(readDictionary());
     }

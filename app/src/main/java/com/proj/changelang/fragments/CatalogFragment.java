@@ -1,15 +1,13 @@
-package com.proj.changelang.models;
+package com.proj.changelang.fragments;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +19,10 @@ import com.proj.changelang.R;
 import com.proj.changelang.adapters.ViewPagerAdapter;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
+import com.proj.changelang.models.Category;
+import com.proj.changelang.models.Image;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
@@ -57,9 +56,9 @@ public class CatalogFragment extends Fragment {
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 TextView txt = (TextView) tab.getCustomView().findViewById(textRes[tab.getPosition()]);
-                txt.setAlpha((float) 0.5);
+                txt.setAlpha((float) 0.3);
                 ImageView img = (ImageView) tab.getCustomView().findViewById(imgRes[tab.getPosition()]);
-                img.setAlpha((float) 0.5);
+                img.setAlpha((float) 0.3);
             }
 
             @Override
@@ -78,9 +77,9 @@ public class CatalogFragment extends Fragment {
             } else {
                 TextView txt = (TextView) tabLayout.getTabAt(l).getCustomView().findViewById(textRes[l]);
                 txt.setTextColor(resources.getColor(R.color.Black));
-                txt.setAlpha((float) 0.5);
+                txt.setAlpha((float) 0.3);
                 ImageView img = (ImageView) tabLayout.getTabAt(l).getCustomView().findViewById(imgRes[l]);
-                img.setAlpha((float) 0.5);
+                img.setAlpha((float) 0.3);
             }
         }
         viewPager.setCurrentItem(Maltabu.selectedFragment);
@@ -98,7 +97,7 @@ public class CatalogFragment extends Fragment {
         bundle1.putString("catalog", category.getId());
         CategoryFragment fragobj1=new CategoryFragment();
         fragobj1.setArguments(bundle1);
-        if(Maltabu.lang.toLowerCase().equals("ru")) {
+        if(Maltabu.lang.equals("ru")) {
             adapter.addFragment(fragobj1, "все");
         } else {
             adapter.addFragment(fragobj1, "барлық");
@@ -127,9 +126,39 @@ public class CatalogFragment extends Fragment {
         int [] imgRes = new int[]{R.id.imageView10,R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView15,R.id.imageView16};
         int [] conRes = new int[]{R.id.con1,R.id.con2,R.id.con3,R.id.con4,R.id.con5,R.id.con6,R.id.con7};
         int [] textRes = new int[]{R.id.text1,R.id.text2,R.id.text3,R.id.text4,R.id.text5,R.id.text6,R.id.text7};
+        int [] draw1 = new int[] {};
+        ImageView img = (ImageView) headerView.findViewById(R.id.imageView9);
+        if(category.getId().equals("5ab672c9559d5e049c25a62b")){
+            draw1 = new int[] {R.drawable.cammel,R.drawable.horse,R.drawable.cow,R.drawable.sheep,R.drawable.goat,R.drawable.chicken,R.drawable.rabbit };
+            img.setImageResource(R.drawable.animals);
+        }
+        if(category.getId().equals("5ab672c9559d5e049c25a644")){
+            draw1 = new int[] {R.drawable.dog,R.drawable.cat,R.drawable.parrot,R.drawable.hamster,R.drawable.goldfish,R.drawable.turtle};
+            img.setImageResource(R.drawable.pets);
+        }
+        if(category.getId().equals("5ab672c9559d5e049c25a633")){
+            draw1 = new int[] {R.drawable.kombikorm,R.drawable.hay,R.drawable.grain,R.drawable.dobavki,R.drawable.otherfeed};
+            img.setImageResource(R.drawable.feed);
+        }
+        if(category.getId().equals("5ab672c9559d5e049c25a639")){
+            draw1 = new int[] {R.drawable.wholesale,R.drawable.wholesale2};
+            img.setImageResource(R.drawable.wholesale);
+        }
+        if(category.getId().equals("5ab672c9559d5e049c25a63e")){
+            draw1 = new int[] {R.drawable.transportation,R.drawable.shaver,R.drawable.training,R.drawable.medother,R.drawable.equipment,R.drawable.tractor,R.drawable.otherservice};
+            img.setImageResource(R.drawable.services);
+        }
+        if(category.getId().equals("5ab672c9559d5e049c25a64b")){
+            draw1 = new int[] {R.drawable.meat,R.drawable.milk,R.drawable.vegetables,R.drawable.fruits,R.drawable.otherproducts};
+            img.setImageResource(R.drawable.products);
+        }
+        if(category.getId().equals("5afeb741d151e32d5cc245c3")){
+            draw1 = new int[] {R.drawable.work2,R.drawable.job};
+            img.setImageResource(R.drawable.work);
+        }
         for(int i=0; i< tabLayout.getTabCount()-1; i++){
-            ImageView img = (ImageView) headerView.findViewById(imgRes[i]);
-            img.setImageResource(R.drawable.ic_action_ind);
+            ImageView imgs = (ImageView) headerView.findViewById(imgRes[i]);
+            imgs.setImageResource(draw1[i]);
             TextView txt = (TextView) headerView.findViewById(textRes[i]);
             if(Maltabu.lang.toLowerCase().equals("ru")) {
                 txt.setText(category.catalogs.get(i).getName());
@@ -146,7 +175,11 @@ public class CatalogFragment extends Fragment {
         }
 
         TextView txt = (TextView) headerView.findViewById(R.id.text);
-        txt.setText("все");
+        if(Maltabu.lang.equals("ru")) {
+            txt.setText("все");
+        } else {
+            txt.setText("барлық");
+        }
         ConstraintLayout con = (ConstraintLayout) headerView.findViewById(R.id.con);
         tabLayout.getTabAt(0).setCustomView(con);
     }

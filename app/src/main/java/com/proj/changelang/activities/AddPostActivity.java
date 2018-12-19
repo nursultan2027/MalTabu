@@ -31,6 +31,7 @@ import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Region;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -42,20 +43,27 @@ public class AddPostActivity extends AppCompatActivity{
     private FileHelper fileHelper;
     private ImageView txt;
     private TextView title;
+    private JSONObject dict;
+    private ArrayList<Category> categories = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post);
+        fileHelper = new FileHelper(this);
         txt = (ImageView) findViewById(R.id.arrr);
         title = (TextView) findViewById(R.id.textView);
         String lang = (String) Paper.book().read("language");
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
+        try {
+            getCategories();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Resources resources = context.getResources();
         title.setText(resources.getString(R.string.addPost));
 
         spinners = new ArrayList<>();
-        fileHelper = new FileHelper(this);
         LinearLayout cl1 = (LinearLayout) findViewById(R.id.slectedRegion);
         txt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,8 +72,8 @@ public class AddPostActivity extends AppCompatActivity{
             }
         });
         try {
-            for (int i=0; i<fileHelper.getCategoriesFromFile().size();i++){
-            Category cat = fileHelper.getCategoriesFromFile().get(i);
+            for (int i=0; i<categories.size();i++){
+            Category cat = categories.get(i);
 
             balls[i] = false;
             ArrayList<Catalog> catalogs = cat.catalogs;
@@ -73,12 +81,12 @@ public class AddPostActivity extends AppCompatActivity{
             if(Maltabu.lang.equals("ru"))
                 arr.add(cat.getName());
             else
-                arr.add(fileHelper.diction().getString(cat.getName()));
+                arr.add(dict.getString(cat.getName()));
             for (int j=0; j<catalogs.size();j++) {
                 if (Maltabu.lang.equals("ru"))
                     arr.add(catalogs.get(j).getName());
                 else
-                    arr.add(fileHelper.diction().getString(catalogs.get(j).getName()));
+                    arr.add(dict.getString(catalogs.get(j).getName()));
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
             final Spinner spinner = new Spinner(this);
@@ -89,15 +97,11 @@ public class AddPostActivity extends AppCompatActivity{
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if(balls[finalI]) {
-                        try {
                             Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
                             Catalog catalog = null;
-                                catalog = fileHelper.getCategoriesFromFile().get(finalI).catalogs.get(position);
+                                catalog = categories.get(finalI).catalogs.get(position-1);
                             intent2.putExtra("catalog", catalog);
                             startActivity(intent2);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                     balls[finalI]=true;
                 }
@@ -117,6 +121,14 @@ public class AddPostActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity2.class));finish();
+    }
+
+    private void getCategories() throws JSONException {
+        dict = fileHelper.diction();
+        for (int i=0; i<fileHelper.getCategoriesFromFile().size();i++) {
+            Category category = fileHelper.getCategoriesFromFile().get(i);
+            categories.add(category);
+        }
     }
 
 }

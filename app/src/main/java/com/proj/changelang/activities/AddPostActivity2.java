@@ -86,6 +86,8 @@ public class AddPostActivity2 extends AppCompatActivity{
     private CheckBox checkBox;
     private ArrayList<ByteArrayOutputStream> baoses = new ArrayList<>();
     private FileHelper fileHelper;
+    private ArrayList<Region> regions = new ArrayList();
+    private ArrayList<ArrayList<String>> citiesArr = new ArrayList<>();
     private LinearLayout linearLayout;
     private RadioButton rb1, rb2, rb3;
     private EditText title, PriceRB, content, email, address;
@@ -119,6 +121,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post2);
         fileHelper = new FileHelper(this);
+        getCities();
         imgDialog = new Dialog(this);
         inputValidation = new InputValidation(this);
         catalog = getIntent().getParcelableExtra("catalog");
@@ -135,13 +138,10 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         setListeners();
         ArrayList<String> arr = new ArrayList<>();
-        try {
-            for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
-                Region region = fileHelper.getRegionsFromFile().get(i);
-                arr.add(region.getName());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        arr.add(LocaleHelper.setLocale(this, Maltabu.lang).getResources().getString(R.string.chooseRegion));
+        for (int i=0; i<regions.size();i++) {
+            Region region = regions.get(i);
+            arr.add(region.getName());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
         spinnerRegion.setAdapter(adapter);
@@ -192,33 +192,28 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                 ClearFocus();
-                try {
-                    RegionID = fileHelper.getRegionsFromFile().get(position).getId();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(position>0) {
+                    RegionID = regions.get(position-1).getId();
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddPostActivity2.this, android.R.layout.simple_spinner_dropdown_item, citiesArr.get(position-1));
+                    spinnerCity.setAdapter(adapter2);
                 }
-                ArrayList<String> arr = new ArrayList<>();
-                try {
-                    for (int i=0; i<fileHelper.getRegionsFromFile().get(position).cities.size();i++) {
-                        City city = fileHelper.getRegionsFromFile().get(position).cities.get(i);
-                        arr.add(city.getName());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                else {
+                    ArrayList<String> asd = new ArrayList<>();
+                    asd.add(LocaleHelper.setLocale(AddPostActivity2.this, Maltabu.lang).getResources().getString(R.string.chooseCity));
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddPostActivity2.this, android.R.layout.simple_spinner_dropdown_item,asd);
+                    spinnerCity.setAdapter(adapter2);
                 }
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddPostActivity2.this, android.R.layout.simple_spinner_dropdown_item, arr);
-                spinnerCity.setAdapter(adapter2);
 
                 spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        try {
-                            ClearFocus();
-                            CityID = fileHelper.getRegionsFromFile().get(position).cities.get(pos).getId();
-                            Toast.makeText(AddPostActivity2.this,
-                                    fileHelper.getRegionsFromFile().get(position).cities.get(pos).getName(), Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                        if (position>0){
+                            if(pos>0){
+                                CityID = regions.get(position-1).cities.get(pos-1).getId();
+                                Toast.makeText(AddPostActivity2.this,
+                                        regions.get(position-1).cities.get(pos-1).getName(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
@@ -883,5 +878,22 @@ public class AddPostActivity2 extends AppCompatActivity{
             return true;
         }
 
+    }
+
+    public void getCities(){
+        try {
+            for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
+                Region region = fileHelper.getRegionsFromFile().get(i);
+                regions.add(region);
+                ArrayList<String> cityarr = new ArrayList<>();
+                cityarr.add(LocaleHelper.setLocale(this, Maltabu.lang).getResources().getString(R.string.chooseCity));
+                for (int j=0; j<region.cities.size(); j++){
+                    cityarr.add(region.cities.get(j).getName());
+                }
+                citiesArr.add(cityarr);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

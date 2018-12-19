@@ -15,6 +15,8 @@ public class Maltabu {
     public static boolean byTime = true;
     public static boolean increment = true;
     public static String lang = null;
+    public static String token=null;
+    public static String isAuth="false";
     public static int fragmentNumb = 0;
     public static int selectedFragment = 0;
     public static FilterModel filterModel=null;
