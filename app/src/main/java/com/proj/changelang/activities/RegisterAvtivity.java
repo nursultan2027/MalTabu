@@ -17,13 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.gson.Gson;
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.InputValidation;
 import com.proj.changelang.helpers.Maltabu;
+import com.proj.changelang.models.Image;
+import com.proj.changelang.models.Post;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -37,6 +42,7 @@ public class RegisterAvtivity extends AppCompatActivity {
     private CheckBox agree;
     private InputValidation validation;
     private ImageView arr;
+    private String email;
     private Button register;
     private Dialog epicDialog;
     private EditText name, mail, pass1, pass2;
@@ -120,7 +126,26 @@ public class RegisterAvtivity extends AppCompatActivity {
                 super.onPostExecute(s);
                 if (s != null) {
                     try {
+                        email = mail.getText().toString();
                         JSONObject obj = new JSONObject(s);
+                        if(obj.getString("message").toLowerCase().equals("created")){
+                            setContentView(R.layout.activate_cabinet);
+                            arr = (ImageView)findViewById(R.id.arr);
+                            register = (Button) findViewById(R.id.again);
+                            arr.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(RegisterAvtivity.this, AuthAvtivity.class));
+                                    finish();
+                                }
+                            });
+                            register.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    sendActivationMail();
+                                }
+                            });
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -130,14 +155,43 @@ public class RegisterAvtivity extends AppCompatActivity {
         asyncTask.execute();
 
     }
-    public void MakeToast(){
-        Toast.makeText(this, "Данный электронный адрес уже существует", Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void onBackPressed() {;
         startActivity(new Intent(this, AuthAvtivity.class));
         finish();
+    }
+
+    public void sendActivationMail(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/self/reg?mail="+email)
+                .get()
+                .addHeader("isAuthorized", "false")
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                }
+            }
+        };
+        asyncTask1.execute();
     }
 
     public boolean Check(){

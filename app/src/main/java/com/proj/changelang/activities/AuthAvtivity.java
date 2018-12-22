@@ -1,6 +1,9 @@
 package com.proj.changelang.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +30,7 @@ import okhttp3.Response;
 public class AuthAvtivity extends AppCompatActivity {
     private Button register, auth;
     private ImageView arr;
+    private Dialog epicDialog;
     private FileHelper fileHelper;
     private EditText edtLog, edtPass;
     @Override
@@ -35,6 +39,7 @@ public class AuthAvtivity extends AppCompatActivity {
         setContentView(R.layout.authorize_activity);
         register = (Button) findViewById(R.id.button3);
         fileHelper = new FileHelper(this);
+        epicDialog = new Dialog(this);
         arr = (ImageView)findViewById(R.id.arr);
         auth = (Button) findViewById(R.id.button2);
         edtLog = (EditText) findViewById(R.id.editText9);
@@ -59,6 +64,7 @@ public class AuthAvtivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(CheckEditTexts()){
+                    sDialog();
                     Author();
                 }
             }
@@ -151,7 +157,9 @@ public class AuthAvtivity extends AppCompatActivity {
                     super.onPostExecute(s1);
                     if (s1 != null) {
                         fileHelper.writeUserFile(s1);
+                        epicDialog.dismiss();
                         startActivity(new Intent(AuthAvtivity.this, CabinetActivity.class));
+                        finish();
                     }
                 }
             };
@@ -186,11 +194,17 @@ public class AuthAvtivity extends AppCompatActivity {
                 super.onPostExecute(s1);
                 if (s1 != null) {
                     fileHelper.writeUserFile(s1);
-                    auth.setText(s1);
                     getUser();
                 }
             }
         };
         asyncTask1.execute();
     }
+
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+    }
+
 }

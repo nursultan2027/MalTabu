@@ -86,4 +86,15 @@
     <string name="scoreButton">Пополнить счет</string>
     <string name="noPosts">Объявлений нет</string>
     <string name="noPosts2">К сожалению, по данному запросу еще нет объявлений</string>
+
+    <string name="activateTitle">Уведомление</string>
+    <string name="activateTit">Активация личного кабинета</string>
+    <string name="activateMessage">На указанную вами электронную почту было отправлено
+        письмо с инструкциями для аактивации личного кабинета.</string>
+    <string name="activateRepeat">Если вы не можете найти письмо,
+        необходимо проверить папку Спам, куда оно могло случайно попасть.</string>
+    <string name="activateRepeat2">Если и там нет письма, нажмите </string>
+    <string name="activateRepeatButton">Отправить письмо повторно</string>
+
+    <string name="payment">Пополнение счета</string>
 </resources>

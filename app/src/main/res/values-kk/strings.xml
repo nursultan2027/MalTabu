@@ -87,4 +87,13 @@
     <string name="noPosts">Хабарландырулар жоқ</string>
     <string name="noPosts2">Өкінішке орай, осы сұраныс бойынша әзірге хабарландыру жоқ</string>
 
+    <string name="activateTitle">Хабарлама</string>
+    <string name="activateTit">Жеке кабинетте тіркелу</string>
+    <string name="activateMessage">Жеке кабинетіңізді іске қосу үшін
+        электрондық поштаңызға жіберілген сілтемені бысыңыз.</string>
+    <string name="activateRepeat">Если вы не можете найти письмо,
+        необходимо проверить папку Спам, куда оно могло случайно попасть.</string>
+    <string name="activateRepeat2">Если и там нет письма, нажмите </string>
+    <string name="activateRepeatButton">Отправить письмо повторно</string>
+    <string name="payment">Пополнение счета</string>
 </resources>

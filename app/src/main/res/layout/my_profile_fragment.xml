@@ -217,6 +217,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/White"
@@ -230,6 +231,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/cab4"
+            android:textColor="@color/Red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

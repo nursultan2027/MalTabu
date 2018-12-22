@@ -43,6 +43,16 @@
         <activity android:name=".activities.AddPostActivity"/>
         <activity android:name=".activities.AddPostActivity2"/>
         <activity android:name=".activities.CabinetActivity"/>
+        <activity android:name=".activities.AddScore"/>
+        <activity android:name=".activities.UpdatePassword">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"
+                    android:host="maltabu.kz"/>
+            </intent-filter>
+        </activity>
     </application>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />

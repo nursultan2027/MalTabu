@@ -1,9 +1,13 @@
 package com.proj.changelang.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
@@ -36,6 +40,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import io.paperdb.Paper;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +53,7 @@ public class MainActivity2 extends AppCompatActivity
     private Spinner sort;
     private FileHelper fileHelper;
     private DrawerLayout drawer;
+    private Dialog epicDialog;
     private Intent filterIntent;
     private static long back_pressed;
 
@@ -54,6 +62,7 @@ public class MainActivity2 extends AppCompatActivity
         super.onCreate(savedInstanceState);
         SetActivityView();
         fileHelper = new FileHelper(this);
+        epicDialog = new Dialog(this);
         try {
             opentCurrentFragment(Maltabu.fragmentNumb);
         } catch (JSONException e) {
@@ -73,7 +82,13 @@ public class MainActivity2 extends AppCompatActivity
         appBar.setOutlineProvider(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         Paper.init(this);
-        Maltabu.lang = Paper.book().read("language");
+        String lgg = Paper.book().read("language");
+        if(lgg==null){
+            Paper.book().write("language", "ru");
+        } else {
+            Maltabu.lang = lgg;
+        }
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -93,9 +108,6 @@ public class MainActivity2 extends AppCompatActivity
         menu6  = (TextView) view.findViewById(R.id.menu6);
         menu7  = (TextView) view.findViewById(R.id.menu7);
         lange = (TextView) view.findViewById(R.id.langText);
-//        lan = (TextView) findViewById(R.id.lang);
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "OpenSansExtraBold.ttf");
-//        lan.setTypeface(tf1);
         cLnag = (ConstraintLayout) view.findViewById(R.id.constraintLayout29);
         flag = (ImageView) view.findViewById(R.id.imageView30);
         cab1  = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
@@ -109,7 +121,6 @@ public class MainActivity2 extends AppCompatActivity
         menu8  = (TextView) findViewById(R.id.menu8);
         menu82  = (TextView) findViewById(R.id.menu82);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
-//        editText = (EditText) findViewById(R.id.search);
 
         initListeners();
         getWindow().setSoftInputMode(
@@ -147,8 +158,13 @@ public class MainActivity2 extends AppCompatActivity
         cab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
-                finish();
+                if(Maltabu.isAuth.equals("false")) {
+                    startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
+                    finish();
+                } else {
+                    sDialog();
+                    getUser();
+                }
             }
         });
         filter.setOnClickListener(new View.OnClickListener() {
@@ -548,5 +564,52 @@ public class MainActivity2 extends AppCompatActivity
                 fragment7();
                 break;
         }
+    }
+
+    public void getUser(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/login/clients")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        Maltabu.token = null;
+                        Maltabu.isAuth = "false";
+                        startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
+                        finish();
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    fileHelper.writeUserFile(s1);
+                    epicDialog.dismiss();
+                    startActivity(new Intent(MainActivity2.this, CabinetActivity.class));
+                    finish();
+                }
+            }
+        };
+        asyncTask1.execute();
+    }
+
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
     }
 }

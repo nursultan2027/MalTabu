@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
@@ -54,6 +55,7 @@ public class CategoryFragment extends Fragment {
     private ArrayList<Post> posts;
     private boolean isCatalog;
     private RecyclerView lst;
+    private JSONObject object;
     private FloatingActionButton filterButton;
     private View view;
     private Dialog epicDialog;
@@ -219,11 +221,12 @@ public class CategoryFragment extends Fragment {
 
     private void catalogList() throws JSONException {
         Gson googleJson = new Gson();
+        object = fileHelper.diction();
         ArrayList postObjList = googleJson.fromJson(String.valueOf(resObj), ArrayList.class);
         for (int i = 0; i < postObjList.size(); i++) {
             JSONObject postObject = resObj.getJSONObject(i);
-            JSONArray arr = postObject.getJSONArray("images");
             ArrayList<Image> imagesArrayList = new ArrayList<>();
+            JSONArray arr = postObject.getJSONArray("images");
             ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
             for (int j = 0; j < imgObjList.size(); j++) {
                 JSONObject imgJson = arr.getJSONObject(j);
@@ -247,7 +250,7 @@ public class CategoryFragment extends Fragment {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {
                         price = "Договорная цена";
                     } else {
-                        String kazName = fileHelper.diction().getString("Договорная цена");
+                        String kazName = object.getString("Договорная цена");
                         price = kazName;
                     }
                 } else {
@@ -255,7 +258,7 @@ public class CategoryFragment extends Fragment {
                         if (Maltabu.lang.toLowerCase().equals("ru")) {
                             price = "Отдам даром";
                         } else {
-                            String kazName = fileHelper.diction().getString("Отдам даром");
+                            String kazName = object.getString("Отдам даром");
                             price = kazName;
                         }
                     }

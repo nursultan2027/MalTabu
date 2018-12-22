@@ -1,6 +1,7 @@
 package com.proj.changelang.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,11 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.RecycleHotAdapter;
 import com.proj.changelang.helpers.FileHelper;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Post;
@@ -37,11 +40,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class HotFragment extends Fragment {
-    private Button select1, select2;
     private JSONArray jsonArray;
     private Dialog epicDialog;
+    private TextView hottitle;
     private RecyclerView recyclerView;
-    private GridView lst;
     private RecycleHotAdapter myAdapter;
     private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
@@ -50,58 +52,21 @@ public class HotFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
-//        select1 = (Button) view.findViewById(R.id.select1);
-//        select2 = (Button) view.findViewById(R.id.select2);
         epicDialog = new Dialog(getActivity());
         fileHelper = new FileHelper(getActivity());
         sDialog();
         post();
         Resources resources = getActivity().getResources();
-//        if (Maltabu.s2==null)
-//        {
-//            select1.setText(resources.getString(R.string.Option1));
-//        } else
-//        {
-//            if(Maltabu.s2.length()<11)
-//                select1.setText(Maltabu.s2);
-//            else {
-//                select1.setText(CutString(Maltabu.s2));
-//            }
-//        }
-//
-//        if(Maltabu.s4==null)
-//        {
-//            select2.setText(resources.getString(R.string.Option2));
-//        }else
-//        {
-//            if(Maltabu.s4.length()<11)
-//                select2.setText(Maltabu.s4);
-//            else {
-//                select2.setText(CutString(Maltabu.s4));
-//            }
-//        }
-//        select1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(getActivity(), FirstSelect1.class));
-//                getActivity().finish();
-//            }
-//        });
-//        select2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(getActivity(), SecondSelect1.class));
-//                getActivity().finish();
-//            }
-//        });
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.hots);
+        recyclerView = (RecyclerView) view.findViewById(R.id.hots);
+        hottitle = (TextView) view.findViewById(R.id.hottitle);
+        Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
+        hottitle.setText(context.getResources().getString(R.string.hotTitle));
         myAdapter = new RecycleHotAdapter(posts,getActivity());
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setHasFixedSize(false);
-//        recyclerView.getLayoutParams().height = viewHeight;
         return view;
     }
 

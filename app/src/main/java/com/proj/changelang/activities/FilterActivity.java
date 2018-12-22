@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,30 +15,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proj.changelang.R;
-import com.proj.changelang.adapters.CategoryAdapter;
-import com.proj.changelang.adapters.PostAdapter;
-import com.proj.changelang.adapters.RegionAdapter;
-import com.proj.changelang.adapters.RegionAdapter2;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
-import com.proj.changelang.models.City;
 import com.proj.changelang.models.FilterModel;
-import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Region;
 
 import org.json.JSONException;
 
-import java.nio.channels.CancelledKeyException;
 import java.util.ArrayList;
 
 import io.paperdb.Paper;
@@ -183,9 +172,6 @@ public class FilterActivity extends AppCompatActivity{
             photo.setChecked(Maltabu.filterModel.isWithPhoto());
             bargain.setChecked(Maltabu.filterModel.isBargain());
             barter.setChecked(Maltabu.filterModel.isBarter());
-        }
-
-        if (Maltabu.filterModel!=null){
             if(Maltabu.filterModel.getRegId()!=null){
                 regSpin.setSelection(Maltabu.filterModel.getRegPosition());
             }

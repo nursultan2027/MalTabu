@@ -23,6 +23,7 @@ import com.proj.changelang.models.Category;
 import com.proj.changelang.models.Image;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
@@ -30,6 +31,7 @@ public class CatalogFragment extends Fragment {
     private View headerView;
     private FileHelper fileHelper;
     private Category category;
+    private JSONObject object;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,6 +94,11 @@ public class CatalogFragment extends Fragment {
         String [] catalogStr = bundle.getStringArray("str");
         category = bundle.getParcelable("categ");
         fileHelper = new FileHelper(getActivity());
+        try {
+            object = fileHelper.diction();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Bundle bundle1 = new Bundle();
         bundle1.putBoolean("isCatalog", false);
         bundle1.putString("catalog", category.getId());
@@ -112,7 +119,7 @@ public class CatalogFragment extends Fragment {
                 adapter.addFragment(fragobj2, category.catalogs.get(i).getName());
             } else {
                 try {
-                    String kazName = fileHelper.diction().getString(category.catalogs.get(i).getName());
+                    String kazName = object.getString(category.catalogs.get(i).getName());
                     adapter.addFragment(fragobj2, kazName);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -129,7 +136,7 @@ public class CatalogFragment extends Fragment {
         int [] draw1 = new int[] {};
         ImageView img = (ImageView) headerView.findViewById(R.id.imageView9);
         if(category.getId().equals("5ab672c9559d5e049c25a62b")){
-            draw1 = new int[] {R.drawable.cammel,R.drawable.horse,R.drawable.cow,R.drawable.sheep,R.drawable.goat,R.drawable.chicken,R.drawable.rabbit };
+            draw1 = new int[] {R.drawable.cammel,R.drawable.horse,R.drawable.cow,R.drawable.sheep,R.drawable.chicken,R.drawable.goat,R.drawable.rabbit };
             img.setImageResource(R.drawable.animals);
         }
         if(category.getId().equals("5ab672c9559d5e049c25a644")){
@@ -164,7 +171,7 @@ public class CatalogFragment extends Fragment {
                 txt.setText(category.catalogs.get(i).getName());
             } else {
                 try {
-                    String kame = fileHelper.diction().getString(category.catalogs.get(i).getName());
+                    String kame = object.getString(category.catalogs.get(i).getName());
                     txt.setText(kame);
                 } catch (JSONException e) {
                     e.printStackTrace();

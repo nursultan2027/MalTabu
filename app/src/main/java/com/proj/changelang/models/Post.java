@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Post implements Parcelable{
     private String createdAt;
+    private String phones;
     private String updatedAt;
     private String title;
     private String visitors;
@@ -21,6 +22,14 @@ public class Post implements Parcelable{
     private String number;
     private ArrayList<Image> images;
     private boolean exchange;
+
+    public String getPhones() {
+        return phones;
+    }
+
+    public void setPhones(String phones) {
+        this.phones = phones;
+    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -151,15 +160,6 @@ public class Post implements Parcelable{
         this.images = images;
     }
 
-    public Post(String createdAt, String title, String content, String cityID, String price, String number, ArrayList<Image> images) {
-        this.createdAt = createdAt;
-        this.title = title;
-        this.content = content;
-        this.cityID = cityID;
-        this.price = price;
-        this.number = number;
-        this.images = images;
-    }
 
     public Post(int visitors, String createdAt, String title, String cityID, String price, String number, ArrayList<Image> images) {
         this.createdAt = createdAt;
@@ -171,34 +171,9 @@ public class Post implements Parcelable{
         this.images = images;
     }
 
-    public Post(String createdAt, String title, String cityID, String price, String number, ArrayList<Image> images) {
-        this.createdAt = createdAt;
-        this.title = title;
-        this.cityID = cityID;
-        this.price = price;
-        this.number = number;
-        this.images = images;
-    }
-
-    public Post(String createdAt, String title, String content, String cityID, String price, String number) {
-        this.createdAt = createdAt;
-        this.title = title;
-        this.content = content;
-        this.cityID = cityID;
-        this.price = price;
-        this.number = number;
-    }
-
-    public Post(String createdAt, String title, String cityID, String price, String number) {
-        this.createdAt = createdAt;
-        this.title = title;
-        this.content = "";
-        this.cityID = cityID;
-        this.price = price;
-        this.number = number;
-    }
 
     protected Post(Parcel in) {
+        phones = in.readString();
         visitors = in.readString();
         createdAt = in.readString();
         updatedAt = in.readString();
@@ -236,6 +211,7 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(phones);
         dest.writeString(visitors);
         dest.writeString(createdAt);
         dest.writeString(updatedAt);
