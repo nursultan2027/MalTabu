@@ -25,9 +25,9 @@ public class AddScore extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment);
-        numb = (TextView) findViewById(R.id.textView44);
+        numb = (TextView) findViewById(R.id.idd);
         arr = (ImageView) findViewById(R.id.arr);
-        numb.setText(numb.getText().toString()+getIntent().getStringExtra("numb"));
+        numb.setText(getIntent().getStringExtra("numb"));
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

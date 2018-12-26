@@ -1,32 +1,38 @@
 package com.proj.changelang.fragments;
 
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
 import com.proj.changelang.activities.FilterActivity;
+import com.proj.changelang.activities.FirstSelect1;
+import com.proj.changelang.activities.MainActivity2;
+import com.proj.changelang.activities.SecondSelect1;
 import com.proj.changelang.adapters.PostRecycleAdapter;
 import com.proj.changelang.helpers.EndlessListener;
 import com.proj.changelang.helpers.FileHelper;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Image;
@@ -39,6 +45,7 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -50,24 +57,21 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
-public class CategoryFragment extends Fragment {
+public class SearchFragment extends Fragment {
     private JSONArray resObj;
+    private JSONObject object;
+    private FileHelper fileHelper;
+    private Dialog epicDialog;
+    private Button btn1, btn2, search;
     private ImageView img;
     private TextView title, text;
-    private String catalog;
+    private EditText editText;
     private int page;
-    private ArrayList<Post> posts;
-    private boolean isCatalog;
-    private RecyclerView lst;
-    private JSONObject object;
-    private FloatingActionButton filterButton;
     private View view;
-    private Dialog epicDialog;
-    private ProgressBar button;
-    private boolean can = true;
-    private FileHelper fileHelper;
-    private EndlessListener listener;
+    private RecyclerView lst;
     private PostRecycleAdapter adapter;
+    private ArrayList<Post> posts = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,148 +80,119 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        posts = new ArrayList<>();
-        Bundle bundle = this.getArguments();
-        epicDialog = new Dialog(getActivity());
-        fileHelper = new FileHelper(getActivity());
-        isCatalog = bundle.getBoolean("isCatalog");
-        catalog = bundle.getString("catalog");
+        view = inflater.inflate(R.layout.search_fragment, container, false);
         page = 1;
-        sDialog();
-        view=inflater.inflate(R.layout.category_fragment, container, false);
-        load(view);
-        post();
-        return view;
-    }
-
-    public View load(View view){
-
-        button = (ProgressBar) view.findViewById(R.id.button);
-        lst = (RecyclerView) view.findViewById(R.id.prodss);
+        epicDialog = new Dialog(getActivity());
+        btn1 = view.findViewById(R.id.button2);
+        btn2 = view.findViewById(R.id.button3);
         img = (ImageView) view.findViewById(R.id.imageView36);
         title = (TextView) view.findViewById(R.id.textView56);
         text = (TextView) view.findViewById(R.id.noPostsText);
-        title.setText(getResources().getString(R.string.noPostTitle));
-        text.setText(getResources().getString(R.string.noPostText));
-        filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
+        fileHelper = new FileHelper(getActivity());
+        search = view.findViewById(R.id.button5);
+        editText = view.findViewById(R.id.editText9);
+        lst = view.findViewById(R.id.prods);
         adapter = new PostRecycleAdapter(posts,getActivity());
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        lst.setHasFixedSize(true);
+        lst.setLayoutManager(new LinearLayoutManager(getActivity()));
         lst.setAdapter(adapter);
-        lst.setLayoutManager(manager);
-        if(Maltabu.filterModel!=null){
-            filterButton.setVisibility(View.VISIBLE);
-            filterButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().startActivity(new Intent(getActivity(), FilterActivity.class));
-                    getActivity().finish();
-                }
-            });
-        }
-        else {
-            filterButton.setVisibility(View.GONE);
-        }
-        listener = new EndlessListener(manager) {
+        lst.setHasFixedSize(false);
+        Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
+        Resources res = context.getResources();
+        title.setText(res.getString(R.string.noPostTitle));
+        text.setText(res.getString(R.string.noPostText));
+        btn1.setText(res.getString(R.string.Option1));
+        btn2.setText(res.getString(R.string.Option2));
+        btn1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                button.setVisibility(View.VISIBLE);
-                button.setIndeterminate(true);
-                    can = false;
-                    post();
+            public void onClick(View v) {
+                if(!editText.getText().toString().isEmpty())
+                {
+                    Maltabu.text = editText.getText().toString();
+                }
+                getActivity().startActivity(new Intent(getActivity(), FirstSelect1.class));
             }
-        };
-        lst.addOnScrollListener(listener);
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!editText.getText().toString().isEmpty())
+                {
+                    Maltabu.text = editText.getText().toString();
+                }
+                getActivity().startActivity(new Intent(getActivity(), SecondSelect1.class));
+            }
+        });
+        if (Maltabu.s2 != null) {
+            btn1.setText(Maltabu.s2);
+        }
+        if (Maltabu.s4 != null) {
+            btn2.setText(Maltabu.s4);
+        }
+        if(Maltabu.text!=null){
+            editText.setText(Maltabu.text);
+        } else {
+            editText.setHint(res.getString(R.string.SearchText2));
+        }
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sDialog();
+                post();
+                Maltabu.text = editText.getText().toString();
+            }
+        });
+
+        if(Maltabu.byTime==false||Maltabu.increment==false){
+            post();
+        }
         return view;
     }
 
+    public View load(View view) {
+        return view;
+    }
 
     private void post() {
-            AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
+        AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
 
-                @Override
-                protected String doInBackground(String... urls) {
+            @Override
+            protected String doInBackground(String... urls) {
+                try {
                     try {
-                        try {
-                            return HttpPost2("http://maltabu.kz/v1/api/clients/posts");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            return "Error!";
-                        }
-                    } catch (IOException e) {
-                        return "Unable to retrieve web page. URL may be invalid.";
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(String result) {
-                    try {
-                        JSONObject Obj = new JSONObject(result);
-                        if(Obj.getInt("count")==0)
-                        {
-                            epicDialog.dismiss();
-                            img.setVisibility(View.VISIBLE);
-                            title.setVisibility(View.VISIBLE);
-                            text.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            img.setVisibility(View.GONE);
-                            title.setVisibility(View.GONE);
-                            text.setVisibility(View.GONE);
-                            resObj = Obj.getJSONArray("posts");
-                            catalogList();
-                        }
+                        return HttpPost2("http://maltabu.kz/v1/api/clients/posts");
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        return "Error!";
                     }
+                } catch (IOException e) {
+                    return "Unable to retrieve web page. URL may be invalid.";
                 }
-            };
-            task.execute();
-    }
-
-    private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
-        OutputStream os = conn.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-        writer.write(jsonObject.toString());
-        writer.flush();
-        writer.close();
-        os.close();
-    }
-
-    private JSONObject buidJsonObject2() throws JSONException {
-
-        JSONObject jsonObject = new JSONObject();
-        if (this.isCatalog) {
-            jsonObject.accumulate("catalogID", catalog);
-        } else {
-            jsonObject.accumulate("categoryID", catalog);
-        }
-        jsonObject.accumulate("byTime", Maltabu.byTime);
-        jsonObject.accumulate("increment",Maltabu.increment);
-        jsonObject.accumulate("countPosts", true);
-        jsonObject.accumulate("page", this.page);
-
-        if(Maltabu.filterModel!=null){
-            FilterModel filter = Maltabu.filterModel;
-            if(filter.getRegId()!=null){
-                jsonObject.accumulate("regionID", filter.getRegId());
             }
-            if(filter.getCityId()!=null){
-                jsonObject.accumulate("cityID", filter.getCityId());
-            }
-            if(filter.getPrice1()!=null){
-                jsonObject.accumulate("fromPrice", filter.getPrice1());
-            }
-            if(filter.getPrice2()!=null){
-                jsonObject.accumulate("toPrice", filter.getPrice2());
-            }
-            jsonObject.accumulate("onlyImages", filter.isWithPhoto());
-            jsonObject.accumulate("onlyExchange", filter.isBarter());
-            jsonObject.accumulate("onlyEmergency", filter.isBargain());
-        }
 
-        page++;
-        return jsonObject;
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    JSONObject Obj = new JSONObject(result);
+                    if(Obj.getInt("count")==0)
+                    {
+                        epicDialog.dismiss();
+                        img.setVisibility(View.VISIBLE);
+                        title.setVisibility(View.VISIBLE);
+                        text.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        img.setVisibility(View.GONE);
+                        title.setVisibility(View.GONE);
+                        text.setVisibility(View.GONE);
+                        resObj = Obj.getJSONArray("posts");
+                        catalogList();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        task.execute();
     }
 
     private String HttpPost2(String myUrl) throws IOException, JSONException {
@@ -238,6 +213,36 @@ public class CategoryFragment extends Fragment {
             res.append(line);
         }
         return res.toString();
+    }
+
+
+    private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
+        OutputStream os = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        writer.write(jsonObject.toString());
+        writer.flush();
+        writer.close();
+        os.close();
+    }
+
+    private JSONObject buidJsonObject2() throws JSONException {
+
+        JSONObject jsonObject = new JSONObject();
+        if (!editText.getText().toString().isEmpty())
+            jsonObject.accumulate("text", editText.getText().toString());
+        if (Maltabu.s1 != null)
+            jsonObject.accumulate("catalogID", Maltabu.s1);
+        if (Maltabu.s3 != null)
+            jsonObject.accumulate("cityID", Maltabu.s3);
+        jsonObject.accumulate("byTime", Maltabu.byTime);
+        jsonObject.accumulate("increment", Maltabu.increment);
+        jsonObject.accumulate("countPosts", true);
+        jsonObject.accumulate("page", this.page);
+        jsonObject.accumulate("onlyEmergency", false);
+        jsonObject.accumulate("onlyExchange", false);
+        jsonObject.accumulate("onlyImages", false);
+        page++;
+        return jsonObject;
     }
 
     private void catalogList() throws JSONException {
@@ -294,23 +299,12 @@ public class CategoryFragment extends Fragment {
                 posts.add(post);
             }
         }
-        try {
-            lst.invalidate();
-            adapter.notifyDataSetChanged();
-            lst.refreshDrawableState();
-        } catch (Exception e) {}
-        if (!can) {
-            can = true;
-            try {
-                TimeUnit.MILLISECONDS.sleep(1000);
-                button.setVisibility(View.INVISIBLE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            epicDialog.dismiss();
-        }
+        lst.invalidate();
+        adapter.notifyDataSetChanged();
+        lst.refreshDrawableState();
+        epicDialog.dismiss();
     }
+
 
     protected void sDialog() {
         epicDialog.setContentView(R.layout.progress_dialog);

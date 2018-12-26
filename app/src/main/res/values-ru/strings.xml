@@ -19,10 +19,11 @@
     <string name="menu8">Подать объявление бесплатно</string>
     <string name="menu82">Просто, быстро и бесплатно</string>
     <string name="Cabinet">Личный кабинет</string>
-    <string name="Option1">Cелект 2</string>
-    <string name="Option2">Cелект 1</string>
+    <string name="Option1">Во всех разделах</string>
+    <string name="Option2">Весь Казахстан</string>
     <string name="Search">Поиск</string>
     <string name="SearchText">Быстрый поиск</string>
+    <string name="SearchText2">Начинайте вводить необходимое слово</string>
     <string name="select">Выбрать</string>
     <string name="toTop">Поднять наверх</string>
     <string name="toHot">Добавить в горячие</string>
@@ -97,4 +98,21 @@
     <string name="activateRepeatButton">Отправить письмо повторно</string>
 
     <string name="payment">Пополнение счета</string>
+    <string name="paymentTitle">Вы можете пополнить счет в терминале платежныж систем <u><b>Касса 24</b></u></string>
+    <string name="payment1">1. Выберите окошко с названием <b>MALTABU.KZ</b> в списке услуг</string>
+    <string name="payment2">2. Введите номер вашего кабинета - </string>
+    <string name="payment3">3. Внесите на счет необходимую сумму</string>
+    <string name="paymentF">После этого деньги поступят на Ваш личный счет на сайте maltabu.kz</string>
+
+
+    <string name="changePasswordTitle">Изменить пароль</string>
+    <string name="changePasswordOldPass">Старый пароль</string>
+    <string name="changePasswordOldPass2">Введите старый пароль</string>
+    <string name="changePasswordNewPass">Новый пароль</string>
+    <string name="changePasswordConfPass">Повторите пароль</string>
+    <string name="CallPhone">Позвонить продавцу</string>
+
+    <string name="noPostTitle">Объявлений нет</string>
+    <string name="noPostText">К сожалению, по данному запросу еще нет объявлений.</string>
+
 </resources>

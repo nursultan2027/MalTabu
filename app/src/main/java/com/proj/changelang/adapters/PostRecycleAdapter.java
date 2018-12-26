@@ -87,7 +87,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
                     +post.getImages().get(0).getSmall()).placeholder(R.drawable.photocounter).centerCrop().fit().into(holder.img);
             holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
-            holder.img.setImageDrawable(context.getDrawable(R.drawable.photocounter));
+            holder.img.setImageDrawable(context.getDrawable(R.drawable.listempty));
             holder.photoCount.setText(String.valueOf(0));
         }
         holder.selected.setOnClickListener(new View.OnClickListener() {

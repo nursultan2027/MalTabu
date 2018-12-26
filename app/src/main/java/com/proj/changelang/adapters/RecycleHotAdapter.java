@@ -73,7 +73,7 @@ public class RecycleHotAdapter extends RecyclerView.Adapter<RecycleHotAdapter.vH
                         +post.getImages().get(0).getSmall()).placeholder(R.drawable.photocounter).fit().centerCrop().into(holder.img);
                 holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
-            holder.img.setImageResource(R.drawable.photocounter);
+            holder.img.setImageResource(R.drawable.listempty);
             holder.photoCount.setText(String.valueOf(0));
         }
 

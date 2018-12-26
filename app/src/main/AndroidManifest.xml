@@ -44,6 +44,9 @@
         <activity android:name=".activities.AddPostActivity2"/>
         <activity android:name=".activities.CabinetActivity"/>
         <activity android:name=".activities.AddScore"/>
+        <activity android:name=".activities.TopHotActivity"/>
+        <activity android:name=".activities.NoConnection"/>
+        <activity android:name=".activities.ChangePassword"/>
         <activity android:name=".activities.UpdatePassword">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

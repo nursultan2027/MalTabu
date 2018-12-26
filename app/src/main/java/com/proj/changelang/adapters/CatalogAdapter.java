@@ -49,6 +49,7 @@ public class CatalogAdapter extends ArrayAdapter<Catalog> {
             public void onClick(View view) {
                 Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                 Maltabu.s2 = city.getName();
+                Maltabu.s1 = city.getId();
                 getContext().startActivity(nextSelect);
                 ((Activity)getContext()).finish();
             }
@@ -58,13 +59,11 @@ public class CatalogAdapter extends ArrayAdapter<Catalog> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         if(Maltabu.lang.toLowerCase().equals("ru")) {
             nameView.setText(city.getName());
         } else {
             nameView.setText(kazName);
         }
-        nameView.setText(city.getName());
         return view;
     }
 }

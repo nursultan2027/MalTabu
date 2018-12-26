@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.proj.changelang.R;
 import com.proj.changelang.activities.AddScore;
 import com.proj.changelang.activities.AuthAvtivity;
+import com.proj.changelang.activities.ChangePassword;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
 
@@ -25,7 +26,7 @@ import org.json.JSONObject;
 
 public class MyProfileFragment extends Fragment {
     private View view;
-    private ConstraintLayout constraintLayout32, exit;
+    private ConstraintLayout constraintLayout32, exit, changePass;
     private FileHelper fileHelper;
     private TextView email, number, balance;
     private Button Score;
@@ -43,9 +44,16 @@ public class MyProfileFragment extends Fragment {
         email = (TextView) view.findViewById(R.id.textView35);
         number = (TextView) view.findViewById(R.id.number);
         constraintLayout32 = view.findViewById(R.id.constraintLayout32);
+        changePass = view.findViewById(R.id.constraintLayout34);
         balance = (TextView) view.findViewById(R.id.textView37);
         exit = (ConstraintLayout) view.findViewById(R.id.exit);
         Score = (Button) view.findViewById(R.id.button4);
+        changePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ChangePassword.class));
+            }
+        });
         Score.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +71,8 @@ public class MyProfileFragment extends Fragment {
             public void onClick(View v) {
                 Maltabu.token = null;
                 Maltabu.isAuth = "false";
+                fileHelper.writeToken("");
+                fileHelper.writeUserFile("");
                 getActivity().startActivity(new Intent(getActivity(), AuthAvtivity.class));
                 getActivity().finish();
             }

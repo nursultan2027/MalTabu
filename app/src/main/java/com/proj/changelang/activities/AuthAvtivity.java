@@ -1,9 +1,12 @@
 package com.proj.changelang.activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.FileHelper;
@@ -63,9 +67,13 @@ public class AuthAvtivity extends AppCompatActivity {
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CheckEditTexts()){
-                    sDialog();
-                    Author();
+                if (isConnected()) {
+                    if (CheckEditTexts()) {
+                        sDialog();
+                        Author();
+                    }
+                } else {
+                    Toast.makeText(AuthAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -193,7 +201,7 @@ public class AuthAvtivity extends AppCompatActivity {
             protected void onPostExecute(String s1) {
                 super.onPostExecute(s1);
                 if (s1 != null) {
-                    fileHelper.writeUserFile(s1);
+                    fileHelper.writePostingFile(s1);
                     getUser();
                 }
             }
@@ -205,6 +213,17 @@ public class AuthAvtivity extends AppCompatActivity {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+        }
+        return connected;
     }
 
 }

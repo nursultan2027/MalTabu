@@ -46,6 +46,7 @@ public class CityAdapter extends ArrayAdapter<City> {
             @Override
             public void onClick(View view) {
                 Intent nextSelect = new Intent(getContext(), MainActivity2.class);
+                Maltabu.s3 = city.getId();
                 Maltabu.s4 = city.getName();
                 getContext().startActivity(nextSelect);
                 ((Activity)getContext()).finish();

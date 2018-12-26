@@ -19,10 +19,11 @@
     <string name="menu8">Тегін хабарландыру беру</string>
     <string name="menu82">Қарапайым жедел және тегін</string>
     <string name="Cabinet">Жеке кабинет</string>
-    <string name="Option1">Бірінші селект</string>
-    <string name="Option2">Екінші селект</string>
-    <string name="Search">Қажетті сөзді теруді бастаңыз</string>
+    <string name="Option1">Бүкіл бөлімдер бойынша</string>
+    <string name="Option2">Бүкіл Қазақстан</string>
+    <string name="Search">Іздеу</string>
     <string name="SearchText">Жедел іздеу</string>
+    <string name="SearchText2">Қажетті сөзді теруді бастаңыз</string>
     <string name="select">Тандау</string>
     <string name="toTop">Поднять наверх</string>
     <string name="toHot">Добавить в горячие</string>
@@ -96,4 +97,22 @@
     <string name="activateRepeat2">Если и там нет письма, нажмите </string>
     <string name="activateRepeatButton">Отправить письмо повторно</string>
     <string name="payment">Пополнение счета</string>
+    <string name="paymentTitle">Вы можете пополнить счет в терминале платежныж систем <u><b>Касса 24</b></u></string>
+    <string name="payment1">1. Выберите окошко с названием <b>MALTABU.KZ</b> в списке услуг</string>
+    <string name="payment2">2. Введите номер вашего кабинета - </string>
+    <string name="payment3">3. Внесите на счет необходимую сумму</string>
+    <string name="paymentF">После этого деньги поступят на Ваш личный счет на сайте maltabu.kz</string>
+
+
+    <string name="changePasswordTitle">Изменить пароль</string>
+    <string name="changePasswordOldPass">Старый пароль</string>
+    <string name="changePasswordOldPass2">Введите старый пароль</string>
+    <string name="changePasswordNewPass">Новый пароль</string>
+    <string name="changePasswordConfPass">Повторите пароль</string>
+    <string name="CallPhone">Сатушыға қоңырау шалу</string>
+
+    <string name="noPostTitle">Хабарландырулар жоқ</string>
+    <string name="noPostText">Өкінішке орай, осы сұраныс бойынша әзірге хабарландыру жоқ.</string>
+
+
 </resources>

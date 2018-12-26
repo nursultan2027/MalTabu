@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.FileHelper;
@@ -35,6 +37,18 @@ public class MainActivity extends AppCompatActivity{
         {
             GetCategories();
             GetDictionary();
+        } else {
+            setContentView(R.layout.no_internet_connection);
+            TextView refresh = (TextView) findViewById(R.id.textView35);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isConnected()){
+                        GetCategories();
+                        GetDictionary();
+                    }
+                }
+            });
         }
     }
     public void GetCategories() {

@@ -31,6 +31,8 @@ public class FileHelper {
     public void writeDataFile(String s) { writeFile(s, "data");}
     public String readUserFile(){return readFile("user");}
     public void writeUserFile(String s) { writeFile(s, "user");}
+    public String readPostingFile(){return readFile("posting");}
+    public void writePostingFile(String s) { writeFile(s, "posting");}
 
     public String readFile(String str) {
         FileInputStream fin = null;

@@ -1,11 +1,19 @@
 package com.proj.changelang.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -22,6 +30,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
+import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.fragments.ImageFragment;
@@ -41,18 +50,22 @@ import okhttp3.Response;
 public class ShowDetails extends AppCompatActivity {
     private TextView title, content, price, phone, location, date, photos;
     private ImageView img;
+    private ConstraintLayout cs1, hot, top;
     private Post post;
+    private FileHelper fileHelper;
     private LinearLayout layout;
     private int PAGE_COUNT;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private int selectedImg;
     private Intent imagesIntent;
+    private static final int PERMISSION_REQUEST_CODE = 123;
     private GestureDetector tapGestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_details);
+        fileHelper = new FileHelper(this);
         imagesIntent = new Intent(this, ShowDetailsImages.class);
         initViews();
         setInfo();
@@ -82,6 +95,12 @@ public class ShowDetails extends AppCompatActivity {
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(0);
         phonePlaceholder();
+        cs1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeCall();
+            }
+        });
         tapGestureDetector = new GestureDetector(this, new TapGestureListener());
         pager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -127,10 +146,33 @@ public class ShowDetails extends AppCompatActivity {
                 showPhone(post.getNumber());
             }
         });
+
+        hot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Maltabu.isAuth.equals("false")){
+                    startActivity(new Intent(ShowDetails.this, AuthAvtivity.class));
+                } else {
+                    getPosting();
+                }
+            }
+        });
+
+        top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Maltabu.isAuth.equals("false")){
+                    startActivity(new Intent(ShowDetails.this, AuthAvtivity.class));
+                } else {
+                    getPosting();
+                }
+            }
+        });
     }
 
     private void initViews() {
         post = getIntent().getParcelableExtra("post");
+        cs1 = findViewById(R.id.callPhone);
         img = (ImageView) findViewById(R.id.finish);
         layout = (LinearLayout) findViewById(R.id.lin);
         title = (TextView) findViewById(R.id.textView2);
@@ -140,6 +182,8 @@ public class ShowDetails extends AppCompatActivity {
         location = (TextView) findViewById(R.id.locationTxt);
         date = (TextView) findViewById(R.id.dateTxt);
         photos = (TextView) findViewById(R.id.photos);
+        hot = (ConstraintLayout)findViewById(R.id.constraintLayout21);
+        top = (ConstraintLayout)findViewById(R.id.constraintLayout30);
     }
 
 
@@ -219,4 +263,202 @@ public class ShowDetails extends AppCompatActivity {
         Resources resources = context.getResources();
         phone.setText(placeHplder+") "+resources.getString(R.string.showPhone));
     }
+
+    public void makeCall(){
+        String [] gg= phonesArr(post.getPhones());
+        if (hasPermissions())
+        {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:+7"+gg[0]));
+            startActivity(callIntent);
+        }
+        else {
+            requestPermissionWithRationale();
+        }
+    }
+
+    private boolean hasPermissions(){
+        int res = 0;
+        String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
+
+        for (String perms : permissions){
+            res = checkCallingOrSelfPermission(perms);
+            if (!(res == PackageManager.PERMISSION_GRANTED)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void requestPermissionWithRationale() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            final String message = "Storage permission is needed to show files count";
+            Snackbar.make(ShowDetails.this.findViewById(R.id.seelected), message, Snackbar.LENGTH_LONG)
+                    .setAction("GRANT", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            requestPerms();
+                        }
+                    })
+                    .show();
+        } else {
+            requestPerms();
+        }
+    }
+
+    private void requestPerms(){
+        String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            requestPermissions(permissions,PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean allowed = true;
+
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+
+                for (int res : grantResults) {
+                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
+                }
+
+                break;
+            default:
+                allowed = false;
+                break;
+        }
+
+        if (allowed) {
+            String [] gg= phonesArr(post.getPhones());
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:+7"+gg[0]));
+            startActivity(callIntent);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
+                    Toast.makeText(this, "Storage Permissions denied.",
+                            Toast.LENGTH_SHORT).show();
+
+                } else {
+                    showNoStoragePermissionSnackbar();
+                }
+            }
+        }
+    }
+
+    public void showNoStoragePermissionSnackbar() {
+        Snackbar.make(ShowDetails.this.findViewById(R.id.seelected),
+                "Storage permission isn't granted" , Snackbar.LENGTH_LONG)
+                .setAction("SETTINGS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openApplicationSettings();
+
+                        Toast.makeText(getApplicationContext(),
+                                "Open Permissions and grant the Storage permission",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    public void openApplicationSettings() {
+        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + getPackageName()));
+        startActivityForResult(appSettingsIntent, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            String [] gg= phonesArr(post.getPhones());
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:+7"+gg[0]));
+            startActivity(callIntent);
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void getPosting(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/cabinet/posting")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        Maltabu.token = null;
+                        Maltabu.isAuth = "false";
+                        fileHelper.writeUserFile("");
+                        fileHelper.writeToken("");
+                        startActivity(new Intent(ShowDetails.this, AuthAvtivity.class));
+                        finish();
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    fileHelper.writePostingFile(s1);
+                    getUser();
+                }
+            }
+        };
+        asyncTask1.execute();
+    }
+
+    public void getUser(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/login/clients")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    Intent hotIntent = new Intent(ShowDetails.this, TopHotActivity.class);
+                    hotIntent.putExtra("number", post.getNumber());
+                    hotIntent.putExtra("rrr", post.getTitle());
+                    startActivity(hotIntent);
+                }
+            }
+        };
+        asyncTask1.execute();
+    }
+
 }

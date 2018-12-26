@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/seelected"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -321,7 +322,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="84dp"
                 android:background="@color/White"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -445,4 +446,44 @@
                 app:layout_constraintTop_toTopOf="@+id/toolbar"></View>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/callPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView35"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/mobilecall"
+            app:layout_constraintBottom_toBottomOf="@+id/textView32"
+            app:layout_constraintEnd_toStartOf="@+id/textView32"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView32" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/CallPhone"
+            android:textColor="@color/White"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView35"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

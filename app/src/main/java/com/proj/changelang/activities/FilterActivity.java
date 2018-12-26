@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -153,7 +155,11 @@ public class FilterActivity extends AppCompatActivity{
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostFilter();
+                if (isConnected())
+                    PostFilter();
+                else {
+                    Toast.makeText(FilterActivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
+                }
             }
         });
         btn4.setOnClickListener(new View.OnClickListener() {
@@ -281,4 +287,15 @@ public class FilterActivity extends AppCompatActivity{
         }
     }
 
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+        }
+        return connected;
+    }
 }

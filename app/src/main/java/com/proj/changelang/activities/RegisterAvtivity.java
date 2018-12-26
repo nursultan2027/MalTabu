@@ -1,9 +1,12 @@
 package com.proj.changelang.activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -77,9 +80,13 @@ public class RegisterAvtivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Check()) {
-                    email406.setText("");
-                    registration();
+                if(isConnected()) {
+                    if (Check()) {
+                        email406.setText("");
+                        registration();
+                    }
+                } else {
+                    Toast.makeText(RegisterAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -223,6 +230,18 @@ public class RegisterAvtivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+        }
+        return connected;
     }
 
     protected void sDialog() {

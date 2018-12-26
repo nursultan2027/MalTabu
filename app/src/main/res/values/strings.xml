@@ -18,10 +18,11 @@
     <string name="menu8">Подать объявление бесплатно</string>
     <string name="Cabinet">Личный кабинет</string>
     <string name="menu82">Просто, быстро и бесплатно</string>
-    <string name="Option1">Option1</string>
-    <string name="Option2">Option2</string>
-    <string name="Search">Search</string>
+    <string name="Option1">Во всех разделах</string>
+    <string name="Option2">Весь Казахстан</string>
+    <string name="Search">Поиск</string>
     <string name="SearchText">Быстрый поиск</string>
+    <string name="SearchText2">Начинайте вводить необходимое слово</string>
     <string name="select">Выбрать</string>
     <string name="toTop">Поднять наверх</string>
     <string name="toHot">Добавить в горячие</string>
@@ -106,4 +107,14 @@
     <string name="payment3">3. Внесите на счет необходимую сумму</string>
     <string name="paymentF">После этого деньги поступят на Ваш личный счет на сайте maltabu.kz</string>
 
+    <string name="changePasswordTitle">Изменить пароль</string>
+    <string name="changePasswordOldPass">Старый пароль</string>
+    <string name="changePasswordOldPass2">Введите старый пароль</string>
+    <string name="changePasswordNewPass">Новый пароль</string>
+    <string name="changePasswordConfPass">Повторите пароль</string>
+
+    <string name="noPostTitle">Объявлений нет</string>
+    <string name="noPostText">К сожалению, по данному запросу еще нет объявлений.</string>
+
+    <string name="CallPhone">Позвонить продавцу</string>
 </resources>

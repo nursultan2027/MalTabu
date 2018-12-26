@@ -14,6 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -685,7 +687,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         if(climgs[number].getVisibility()==View.VISIBLE)
         {
             climgs[number].setVisibility(View.GONE);
-            baoses.remove(number);
+//            baoses.remove(number);
             checked[number]=false;
         }
     }
@@ -754,7 +756,11 @@ public class AddPostActivity2 extends AppCompatActivity{
 
     public void newPost(){
         if(CheckPost()){
+            if(isConnected())
             post();
+            else {
+                Toast.makeText(AddPostActivity2.this, "Нет подключения", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -787,7 +793,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         };
         task.execute();
     }
-
     private String HttpPost(String myUrl) throws IOException, JSONException {
         StringBuilder res = new StringBuilder();
         URL url = new URL(myUrl);
@@ -879,7 +884,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
 
     }
-
     public void getCities(){
         try {
             for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
@@ -895,5 +899,16 @@ public class AddPostActivity2 extends AppCompatActivity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+        }
+        return connected;
     }
 }

@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proj.changelang.R;
+import com.proj.changelang.fragments.SearchFragment;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
@@ -48,7 +51,7 @@ public class MainActivity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange;
-    private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag;
+    private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag, search;
     private ImageView filter, flag;
     private Spinner sort;
     private FileHelper fileHelper;
@@ -118,6 +121,7 @@ public class MainActivity2 extends AppCompatActivity
         m5  = (ConstraintLayout) view.findViewById(R.id.constraintLayout6);
         m6  = (ConstraintLayout) view.findViewById(R.id.constraintLayout9);
         m7  = (ConstraintLayout) view.findViewById(R.id.constraintLayout10);
+        search  = (ConstraintLayout) view.findViewById(R.id.constraintLayout28);
         menu8  = (TextView) findViewById(R.id.menu8);
         menu82  = (TextView) findViewById(R.id.menu82);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
@@ -158,37 +162,62 @@ public class MainActivity2 extends AppCompatActivity
         cab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Maltabu.isAuth.equals("false")) {
-                    startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
-                    finish();
+                if(isConnected()) {
+                    if(Maltabu.isAuth.equals("false")) {
+                        startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
+                        finish();
+                    } else {
+                        sDialog();
+                        getPosting();
+                    }
                 } else {
-                    sDialog();
-                    getUser();
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isConnected()) {
+                    fragmentSearch();
+                    Maltabu.selectedFragment = 0;
+                    sort.setVisibility(View.VISIBLE);
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
             }
         });
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(filterIntent);
-                finish();
+                if(isConnected()) {
+                    startActivity(filterIntent);
+                    finish();
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
             }
         });
         m1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    fragment1();
-                    Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(isConnected()) {
+                    try {
+                        fragment1();
+                        Maltabu.selectedFragment = 0;
+                        sort.setVisibility(View.VISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
             }
         });
         m2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isConnected()) {
                 try {
                     fragment2();
                     Maltabu.selectedFragment = 0;
@@ -196,11 +225,15 @@ public class MainActivity2 extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
             }
         });
         m3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isConnected()) {
                 try {
                     fragment3();
                     Maltabu.selectedFragment = 0;
@@ -208,11 +241,15 @@ public class MainActivity2 extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
             }
         });
         m4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isConnected()) {
                 try {
                     fragment4();
                     Maltabu.selectedFragment = 0;
@@ -220,17 +257,24 @@ public class MainActivity2 extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
             }
         });
         m5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isConnected()) {
                 try {
                     fragment5();
                     Maltabu.selectedFragment = 0;
                     sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
             }
         });
@@ -249,6 +293,7 @@ public class MainActivity2 extends AppCompatActivity
         m7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isConnected()) {
                 try {
                     fragment7();
                     Maltabu.selectedFragment = 0;
@@ -256,13 +301,20 @@ public class MainActivity2 extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
             }
         });
         cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
-                finish();
+                if(isConnected()) {
+                    startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
             }
         });
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -529,41 +581,102 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 7;
     }
+    private void fragmentSearch() {
+        filter.setVisibility(View.GONE);
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        SearchFragment fragment = new SearchFragment();
+        fragmentTransaction.replace(R.id.main, fragment);
+        fragmentTransaction.commit();
+        drawer.closeDrawer(GravityCompat.START);
+        Maltabu.fragmentNumb = 8;
+    }
+
     private void opentCurrentFragment(int numb) throws JSONException {
-        switch (numb){
-            case 0:
-                setTitle("");
-                fragmentMain();
-                break;
-            case 1:
-                setTitle("");
-                fragment1();
-                break;
-            case 2:
-                setTitle("");
-                fragment2();
-                break;
-            case 3:
-                setTitle("");
-                fragment3();
-                break;
-            case 4:
-                setTitle("");
-                fragment4();
-                break;
-            case 5:
-                setTitle("");
-                fragment5();
-                break;
-            case 6:
-                setTitle("");
-                fragment6();
-                break;
-            case 7:
-                setTitle("");
-                fragment7();
-                break;
+        if(isConnected()) {
+            switch (numb) {
+                case 0:
+                    setTitle("");
+                    fragmentMain();
+                    break;
+                case 1:
+                    setTitle("");
+                    fragment1();
+                    break;
+                case 2:
+                    setTitle("");
+                    fragment2();
+                    break;
+                case 3:
+                    setTitle("");
+                    fragment3();
+                    break;
+                case 4:
+                    setTitle("");
+                    fragment4();
+                    break;
+                case 5:
+                    setTitle("");
+                    fragment5();
+                    break;
+                case 6:
+                    setTitle("");
+                    fragment6();
+                    break;
+                case 7:
+                    setTitle("");
+                    fragment7();
+                    break;
+                case 8:
+                    setTitle("");
+                    fragmentSearch();
+                    break;
+            }
+        } else {
+            startActivity(new Intent(MainActivity2.this, NoConnection.class));
         }
+    }
+
+
+    public void getPosting(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/cabinet/posting")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        Maltabu.token = null;
+                        Maltabu.isAuth = "false";
+                        fileHelper.writeUserFile("");
+                        fileHelper.writeToken("");
+                        startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
+                        finish();
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    fileHelper.writePostingFile(s1);
+                    getUser();
+                }
+            }
+        };
+        asyncTask1.execute();
     }
 
     public void getUser(){
@@ -580,10 +693,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     Response response2 = client.newCall(request2).execute();
                     if (!response2.isSuccessful()) {
-                        Maltabu.token = null;
-                        Maltabu.isAuth = "false";
-                        startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
-                        finish();
                         return null;
                     }
                     return response2.body().string();
@@ -592,7 +701,6 @@ public class MainActivity2 extends AppCompatActivity
                     return null;
                 }
             }
-
             @Override
             protected void onPostExecute(String s1) {
                 super.onPostExecute(s1);
@@ -611,5 +719,17 @@ public class MainActivity2 extends AppCompatActivity
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+        }
+        return connected;
     }
 }

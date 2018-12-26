@@ -10,8 +10,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Maltabu {
+    public static String s1 = null;
     public static String s2 = null;
+    public static String s3 = null;
     public static String s4 = null;
+    public static String text = null;
     public static boolean byTime = true;
     public static boolean increment = true;
     public static String lang = null;
