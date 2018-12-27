@@ -86,11 +86,11 @@ import io.paperdb.Paper;
 public class AddPostActivity2 extends AppCompatActivity{
     private Button addPhoneNumber, addImg, addPost;
     private CheckBox checkBox;
-    private ArrayList<ByteArrayOutputStream> baoses = new ArrayList<>();
     private FileHelper fileHelper;
     private ArrayList<Region> regions = new ArrayList();
     private ArrayList<ArrayList<String>> citiesArr = new ArrayList<>();
     private LinearLayout linearLayout;
+    private Bitmap bitmap;
     private RadioButton rb1, rb2, rb3;
     private EditText title, PriceRB, content, email, address;
     private EditText [] editTexts = new EditText[5];
@@ -105,7 +105,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private int imgNumb = 0;
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public String photoFileName = "photo.jpg";
+    public String photoFileName = "phototo.jpg";
     private File photoFile;
     private Catalog catalog;
     private static final int CAMERA_REQUEST = 1888;
@@ -551,23 +551,11 @@ public class AddPostActivity2 extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                bitmap = BitmapFactory.decodeFile(photoFile.getAbsoluteFile().getPath());
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
-                    imageViews[getImgNumb()].setImageBitmap(takenImage);
+                    imageViews[getImgNumb()].setImageBitmap(bitmap);
                     checked[getImgNumb()] = true;
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    FileInputStream fis;
-                    try {
-                        fis = new FileInputStream(photoFile);
-                        byte[] buf = new byte[1024];
-                        int n;
-                        while (-1 != (n = fis.read(buf)))
-                            baos.write(buf, 0, n);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    baoses.add(baos);
                 }
             }
         }
@@ -575,26 +563,15 @@ public class AddPostActivity2 extends AppCompatActivity{
             if (data != null) {
                 if(data.getClipData()!=null){
                     ClipData mClipData = data.getClipData();
+                    ClipData.Item item = null;
                     for (int i = 0; i < mClipData.getItemCount(); i++) {
-                        ClipData.Item item = mClipData.getItemAt(i);
+                        item = mClipData.getItemAt(i);
                         try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
                             if (getImgNumb() < 8) {
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 checked[getImgNumb()] = true;
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                FileInputStream fis;
-                                try {
-                                    fis = new FileInputStream(new File(item.getUri().getPath()));
-                                    byte[] buf = new byte[1024];
-                                    int n;
-                                    while (-1 != (n = fis.read(buf)))
-                                        baos.write(buf, 0, n);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                baoses.add(baos);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -602,26 +579,13 @@ public class AddPostActivity2 extends AppCompatActivity{
                     }
                 } else {
                     if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
                         Uri uri = data.getData();
                         try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             if (getImgNumb() < 8) {
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 checked[getImgNumb()] = true;
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                FileInputStream fis;
-                                try {
-                                    fis = new FileInputStream(new File(uri.getPath()));
-                                    byte[] buf = new byte[1024];
-                                    int n;
-                                    while (-1 != (n = fis.read(buf)))
-                                        baos.write(buf, 0, n);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                baoses.add(baos);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -687,7 +651,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         if(climgs[number].getVisibility()==View.VISIBLE)
         {
             climgs[number].setVisibility(View.GONE);
-//            baoses.remove(number);
             checked[number]=false;
         }
     }
@@ -744,15 +707,15 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return aa2;
     }
-    public ArrayList<byte[]> getImages(){
-        ArrayList<byte []> bytes = new ArrayList<>();
-        for (int i=0;i<baoses.size();i++){
-            if(imageViews[i].getVisibility()==View.VISIBLE){
-                bytes.add(baoses.get(i).toByteArray());
-            }
-        }
-        return bytes;
-    }
+//    public ArrayList<byte[]> getImages(){
+//        ArrayList<byte []> bytes = new ArrayList<>();
+//        for (int i=0;i<baoses.size();i++){
+//            if(imageViews[i].getVisibility()==View.VISIBLE){
+//                bytes.add(baoses.get(i).toByteArray());
+//            }
+//        }
+//        return bytes;
+//    }
 
     public void newPost(){
         if(CheckPost()){
@@ -830,15 +793,15 @@ public class AddPostActivity2 extends AppCompatActivity{
         for(int i=0;i<getPhones().length;i++){
             jsonObject.accumulate("phones["+String.valueOf(i)+"]", getPhones()[i]);
         }
-        if (getImages().size()>0) {
-            jsonObject.accumulate("hasImages", true);
-            for (int i = 0; i < getImages().size(); i++) {
-                jsonObject.accumulate("images[" + String.valueOf(i) + "]", getImages().get(i));
-            }
-        }
-        else {
-            jsonObject.accumulate("hasImages", false);
-        }
+//        if (getImages().size()>0) {
+//            jsonObject.accumulate("hasImages", true);
+//            for (int i = 0; i < getImages().size(); i++) {
+//                jsonObject.accumulate("images[" + String.valueOf(i) + "]", getImages().get(i));
+//            }
+//        }
+//        else {
+//            jsonObject.accumulate("hasImages", false);
+//        }
         jsonObject.accumulate("catalogId",catalog.getId());
         if(rb1.isChecked()){
             jsonObject.accumulate("priceKind", "value");

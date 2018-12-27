@@ -1,5 +1,6 @@
 package com.proj.changelang.helpers;
 
+import com.proj.changelang.adapters.PostRecycleAdapter;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Post;
@@ -15,6 +16,8 @@ public class Maltabu {
     public static String s3 = null;
     public static String s4 = null;
     public static String text = null;
+    public static ArrayList<Post> posts;
+    public static PostRecycleAdapter adapter;
     public static boolean byTime = true;
     public static boolean increment = true;
     public static String lang = null;

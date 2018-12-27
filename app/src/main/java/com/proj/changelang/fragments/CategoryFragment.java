@@ -16,9 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -52,8 +50,6 @@ import java.util.concurrent.TimeUnit;
 
 public class CategoryFragment extends Fragment {
     private JSONArray resObj;
-    private ImageView img;
-    private TextView title, text;
     private String catalog;
     private int page;
     private ArrayList<Post> posts;
@@ -94,11 +90,6 @@ public class CategoryFragment extends Fragment {
 
         button = (ProgressBar) view.findViewById(R.id.button);
         lst = (RecyclerView) view.findViewById(R.id.prodss);
-        img = (ImageView) view.findViewById(R.id.imageView36);
-        title = (TextView) view.findViewById(R.id.textView56);
-        text = (TextView) view.findViewById(R.id.noPostsText);
-        title.setText(getResources().getString(R.string.noPostTitle));
-        text.setText(getResources().getString(R.string.noPostText));
         filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
         adapter = new PostRecycleAdapter(posts,getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -153,20 +144,8 @@ public class CategoryFragment extends Fragment {
                 protected void onPostExecute(String result) {
                     try {
                         JSONObject Obj = new JSONObject(result);
-                        if(Obj.getInt("count")==0)
-                        {
-                            epicDialog.dismiss();
-                            img.setVisibility(View.VISIBLE);
-                            title.setVisibility(View.VISIBLE);
-                            text.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            img.setVisibility(View.GONE);
-                            title.setVisibility(View.GONE);
-                            text.setVisibility(View.GONE);
-                            resObj = Obj.getJSONArray("posts");
-                            catalogList();
-                        }
+                        resObj = Obj.getJSONArray("posts");
+                        catalogList();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -244,14 +223,18 @@ public class CategoryFragment extends Fragment {
         Gson googleJson = new Gson();
         object = fileHelper.diction();
         ArrayList postObjList = googleJson.fromJson(String.valueOf(resObj), ArrayList.class);
+        JSONObject postObject = new JSONObject();
+        Image image = new Image();
+        Post post = new Post();
+        JSONObject imgJson = new JSONObject();
         for (int i = 0; i < postObjList.size(); i++) {
-            JSONObject postObject = resObj.getJSONObject(i);
+            postObject = resObj.getJSONObject(i);
             ArrayList<Image> imagesArrayList = new ArrayList<>();
             JSONArray arr = postObject.getJSONArray("images");
             ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
             for (int j = 0; j < imgObjList.size(); j++) {
-                JSONObject imgJson = arr.getJSONObject(j);
-                Image image = new Image(
+                imgJson = arr.getJSONObject(j);
+                image = new Image(
                         imgJson.getString("extra_small"),
                         imgJson.getString("small"),
                         imgJson.getString("medium"),
@@ -287,10 +270,10 @@ public class CategoryFragment extends Fragment {
             }
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
-                Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.add(post);
             } else {
-                Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.add(post);
             }
         }

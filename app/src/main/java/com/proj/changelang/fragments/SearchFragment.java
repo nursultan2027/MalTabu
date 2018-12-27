@@ -249,14 +249,18 @@ public class SearchFragment extends Fragment {
         Gson googleJson = new Gson();
         object = fileHelper.diction();
         ArrayList postObjList = googleJson.fromJson(String.valueOf(resObj), ArrayList.class);
+        JSONObject postObject = new JSONObject();
+        JSONObject imgJson = new JSONObject();
+        Image image = new Image();
+        Post post = new Post();
         for (int i = 0; i < postObjList.size(); i++) {
-            JSONObject postObject = resObj.getJSONObject(i);
+            postObject = resObj.getJSONObject(i);
             ArrayList<Image> imagesArrayList = new ArrayList<>();
             JSONArray arr = postObject.getJSONArray("images");
             ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
             for (int j = 0; j < imgObjList.size(); j++) {
-                JSONObject imgJson = arr.getJSONObject(j);
-                Image image = new Image(
+                imgJson = arr.getJSONObject(j);
+                image = new Image(
                         imgJson.getString("extra_small"),
                         imgJson.getString("small"),
                         imgJson.getString("medium"),
@@ -292,10 +296,10 @@ public class SearchFragment extends Fragment {
             }
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
-                Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.add(post);
             } else {
-                Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
                 posts.add(post);
             }
         }

@@ -2,6 +2,7 @@ package com.proj.changelang.fragments;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -68,17 +69,18 @@ public class CatalogFragment extends Fragment {
 
             }
         });
+        int bl = resources.getColor(R.color.Black);
         for (int l=0; l<tabLayout.getTabCount();l++)
         {
             if (l==0){
                 TextView txt = (TextView) tabLayout.getTabAt(l).getCustomView().findViewById(textRes[l]);
-                txt.setTextColor(resources.getColor(R.color.Black));
+                txt.setTextColor(bl);
                 txt.setAlpha((float) 1.0);
                 ImageView img = (ImageView) tabLayout.getTabAt(l).getCustomView().findViewById(imgRes[l]);
                 img.setAlpha((float) 1.0);
             } else {
                 TextView txt = (TextView) tabLayout.getTabAt(l).getCustomView().findViewById(textRes[l]);
-                txt.setTextColor(resources.getColor(R.color.Black));
+                txt.setTextColor(bl);
                 txt.setAlpha((float) 0.3);
                 ImageView img = (ImageView) tabLayout.getTabAt(l).getCustomView().findViewById(imgRes[l]);
                 img.setAlpha((float) 0.3);
