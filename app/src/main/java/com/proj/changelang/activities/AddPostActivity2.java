@@ -14,8 +14,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -105,7 +103,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private int imgNumb = 0;
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public String photoFileName = "phototo.jpg";
+    public String photoFileName = "photo.jpg";
     private File photoFile;
     private Catalog catalog;
     private static final int CAMERA_REQUEST = 1888;
@@ -551,7 +549,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                bitmap = BitmapFactory.decodeFile(photoFile.getAbsoluteFile().getPath());
+                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setImageBitmap(bitmap);
@@ -572,6 +570,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 checked[getImgNumb()] = true;
+
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -579,6 +578,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                     }
                 } else {
                     if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
                         Uri uri = data.getData();
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -707,23 +707,10 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return aa2;
     }
-//    public ArrayList<byte[]> getImages(){
-//        ArrayList<byte []> bytes = new ArrayList<>();
-//        for (int i=0;i<baoses.size();i++){
-//            if(imageViews[i].getVisibility()==View.VISIBLE){
-//                bytes.add(baoses.get(i).toByteArray());
-//            }
-//        }
-//        return bytes;
-//    }
 
     public void newPost(){
         if(CheckPost()){
-            if(isConnected())
             post();
-            else {
-                Toast.makeText(AddPostActivity2.this, "Нет подключения", Toast.LENGTH_LONG).show();
-            }
         }
     }
 
@@ -756,6 +743,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         };
         task.execute();
     }
+
     private String HttpPost(String myUrl) throws IOException, JSONException {
         StringBuilder res = new StringBuilder();
         URL url = new URL(myUrl);
@@ -847,6 +835,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
 
     }
+
     public void getCities(){
         try {
             for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
@@ -862,16 +851,5 @@ public class AddPostActivity2 extends AppCompatActivity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
     }
 }
