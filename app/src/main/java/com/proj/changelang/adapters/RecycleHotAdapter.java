@@ -70,7 +70,7 @@ public class RecycleHotAdapter extends RecyclerView.Adapter<RecycleHotAdapter.vH
         holder.location.setText(post.getCityID());
         if(post.getImages().size()>0) {
                 Picasso.with(context).load("http://maltabu.kz/"
-                        +post.getImages().get(0).getSmall()).placeholder(R.drawable.photocounter).fit().centerCrop().into(holder.img);
+                        +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);
                 holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
             holder.img.setImageResource(R.drawable.listempty);
@@ -80,16 +80,8 @@ public class RecycleHotAdapter extends RecyclerView.Adapter<RecycleHotAdapter.vH
         holder.cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(can) {
-                    can = false;
-                    getPost(post.getNumber());
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(1000);
-                        can = true;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                SecondThread thread = new SecondThread(post.getNumber());
+                thread.start();
             }
         });
 
@@ -288,5 +280,17 @@ public class RecycleHotAdapter extends RecyclerView.Adapter<RecycleHotAdapter.vH
             }
         }
         return ss2[2] +","+ss2[1];
+    }
+
+    public class SecondThread extends Thread{
+        String numb;
+        SecondThread (String numb){
+            this.numb = numb;
+        }
+
+        @Override
+        public void run() {
+            getPost(numb);
+        }
     }
 }

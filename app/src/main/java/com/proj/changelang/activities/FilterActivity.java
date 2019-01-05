@@ -73,7 +73,7 @@ public class FilterActivity extends AppCompatActivity{
         photo = (CheckBox) findViewById(R.id.checkBox2);
         barter = (CheckBox) findViewById(R.id.checkBox3);
         bargain = (CheckBox) findViewById(R.id.checkBox);
-        updateView((String) Paper.book().read("language"));
+        updateView(Maltabu.lang);
         getCities();
         ArrayList<String> arr = new ArrayList<>();
         arr.add(LocaleHelper.setLocale(this, Maltabu.lang).getResources().getString(R.string.chooseRegion));
@@ -155,8 +155,10 @@ public class FilterActivity extends AppCompatActivity{
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnected())
-                    PostFilter();
+                if (isConnected()) {
+                    PostThread thread2 = new PostThread();
+                    thread2.start();
+                }
                 else {
                     Toast.makeText(FilterActivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
                 }
@@ -211,7 +213,7 @@ public class FilterActivity extends AppCompatActivity{
         barter.setChecked(false);
         bargain.setChecked(false);
         Maltabu.filterModel = null;
-        updateView((String) Paper.book().read("language"));
+        updateView(Maltabu.lang);
     }
 
     protected void sDialog() {
@@ -297,5 +299,14 @@ public class FilterActivity extends AppCompatActivity{
         } catch (Exception e) {
         }
         return connected;
+    }
+
+    public class PostThread extends Thread{
+        PostThread(){}
+
+        @Override
+        public void run() {
+            PostFilter();
+        }
     }
 }

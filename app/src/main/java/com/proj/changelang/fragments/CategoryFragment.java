@@ -16,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -50,6 +52,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CategoryFragment extends Fragment {
     private JSONArray resObj;
+    private ImageView imageView36;
+    private TextView textView56,noPostsText;
     private String catalog;
     private int page;
     private ArrayList<Post> posts;
@@ -75,6 +79,7 @@ public class CategoryFragment extends Fragment {
         posts = new ArrayList<>();
         Bundle bundle = this.getArguments();
         epicDialog = new Dialog(getActivity());
+        epicDialog.setCanceledOnTouchOutside(false);
         fileHelper = new FileHelper(getActivity());
         isCatalog = bundle.getBoolean("isCatalog");
         catalog = bundle.getString("catalog");
@@ -82,7 +87,8 @@ public class CategoryFragment extends Fragment {
         sDialog();
         view=inflater.inflate(R.layout.category_fragment, container, false);
         load(view);
-        post();
+        SecondThread thread = new SecondThread();
+        thread.start();
         return view;
     }
 
@@ -92,6 +98,9 @@ public class CategoryFragment extends Fragment {
         lst = (RecyclerView) view.findViewById(R.id.prodss);
         filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
         adapter = new PostRecycleAdapter(posts,getActivity());
+        imageView36 = (ImageView) view.findViewById(R.id.imageView36);
+        textView56 = (TextView) view.findViewById(R.id.textView56);
+        noPostsText = (TextView) view.findViewById(R.id.noPostsText);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         lst.setHasFixedSize(true);
         lst.setAdapter(adapter);
@@ -115,7 +124,8 @@ public class CategoryFragment extends Fragment {
                 button.setVisibility(View.VISIBLE);
                 button.setIndeterminate(true);
                     can = false;
-                    post();
+                    SecondThread thread = new SecondThread();
+                    thread.start();
             }
         };
         lst.addOnScrollListener(listener);
@@ -144,8 +154,22 @@ public class CategoryFragment extends Fragment {
                 protected void onPostExecute(String result) {
                     try {
                         JSONObject Obj = new JSONObject(result);
-                        resObj = Obj.getJSONArray("posts");
-                        catalogList();
+//                        if(page==2)
+//                        Toast.makeText(getActivity(), "Найдено постов:"+
+//                                String.valueOf(Obj.getInt("count")), Toast.LENGTH_SHORT).show();
+                        if(Obj.getInt("count")==0)
+                        {
+                            imageView36.setVisibility(View.VISIBLE);
+                            textView56.setVisibility(View.VISIBLE);
+                            noPostsText.setVisibility(View.VISIBLE);
+                            epicDialog.dismiss();
+                        } else {
+                            imageView36.setVisibility(View.GONE);
+                            textView56.setVisibility(View.GONE);
+                            noPostsText.setVisibility(View.GONE);
+                            resObj = Obj.getJSONArray("posts");
+                            catalogList();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -372,4 +396,14 @@ public class CategoryFragment extends Fragment {
         }
         return ss2[2] +","+ss2[1];
     }
+
+    public class SecondThread extends Thread{
+        SecondThread(){}
+
+        @Override
+        public void run() {
+            post();
+        }
+    }
+
 }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.FileHelper;
+import com.proj.changelang.helpers.InputValidation;
 import com.proj.changelang.helpers.Maltabu;
 
 import org.json.JSONException;
@@ -35,6 +36,7 @@ public class AuthAvtivity extends AppCompatActivity {
     private Button register, auth;
     private ImageView arr;
     private Dialog epicDialog;
+    private InputValidation validation;
     private FileHelper fileHelper;
     private EditText edtLog, edtPass;
     @Override
@@ -44,6 +46,7 @@ public class AuthAvtivity extends AppCompatActivity {
         register = (Button) findViewById(R.id.button3);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
+        validation = new InputValidation(this);
         arr = (ImageView)findViewById(R.id.arr);
         auth = (Button) findViewById(R.id.button2);
         edtLog = (EditText) findViewById(R.id.editText9);
@@ -96,7 +99,7 @@ public class AuthAvtivity extends AppCompatActivity {
                     try {
                         Response response = client.newCall(request).execute();
                         if (!response.isSuccessful()) {
-                            return null;
+                            return "INVALID Password";
                         }
                         return response.body().string();
                     } catch (Exception e) {
@@ -109,15 +112,22 @@ public class AuthAvtivity extends AppCompatActivity {
                 protected void onPostExecute(String s) {
                     super.onPostExecute(s);
                     if (s != null) {
-                        try {
-                            JSONObject obj = new JSONObject(s);
-                            String pageName = obj.getString("token");
-                            fileHelper.writeToken(pageName);
-                            Maltabu.token = pageName;
-                            Maltabu.isAuth = "true";
-                            getPosting();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if(s.equals("INVALID Password")){
+
+                            epicDialog.dismiss();
+                            Toast.makeText(AuthAvtivity.this, s, Toast.LENGTH_LONG).show();
+                        }
+                            else {
+                            try {
+                                JSONObject obj = new JSONObject(s);
+                                String pageName = obj.getString("token");
+                                fileHelper.writeToken(pageName);
+                                Maltabu.token = pageName;
+                                Maltabu.isAuth = "true";
+                                getPosting();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -132,9 +142,17 @@ public class AuthAvtivity extends AppCompatActivity {
     }
 
     private boolean CheckEditTexts(){
-        if(edtLog.getText().toString().isEmpty()||edtPass.getText().toString().isEmpty())
+        if(edtLog.getText().toString().isEmpty()||edtPass.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Заполните поля", Toast.LENGTH_LONG).show();
             return false;
-        return true;
+        }
+        else {
+            if (!validation.isInputEditTextEmail(edtLog)){
+                Toast.makeText(this, "Invalid EMAIL", Toast.LENGTH_LONG).show();
+                return false;
+            } else
+                return true;
+        }
     }
 
     public void getUser(){

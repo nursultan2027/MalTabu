@@ -97,11 +97,8 @@ public class AddPostActivity extends AppCompatActivity{
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if(balls[finalI]) {
-                            Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
-                            Catalog catalog = null;
-                                catalog = categories.get(finalI).catalogs.get(position-1);
-                            intent2.putExtra("catalog", catalog);
-                            startActivity(intent2);
+                        SecondThread thread = new SecondThread(finalI, position);
+                        thread.start();
                     }
                     balls[finalI]=true;
                 }
@@ -118,6 +115,13 @@ public class AddPostActivity extends AppCompatActivity{
 
     }
 
+    public void Go(int position, int finalI){
+        Intent intent2 = new Intent(AddPostActivity.this,AddPostActivity2.class);
+        Catalog catalog = null;
+        catalog = categories.get(finalI).catalogs.get(position-1);
+        intent2.putExtra("catalog", catalog);
+        startActivity(intent2);
+    }
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity2.class));finish();
@@ -128,6 +132,19 @@ public class AddPostActivity extends AppCompatActivity{
         for (int i=0; i<fileHelper.getCategoriesFromFile().size();i++) {
             Category category = fileHelper.getCategoriesFromFile().get(i);
             categories.add(category);
+        }
+    }
+
+    public class SecondThread extends Thread{
+        int i, p;
+        SecondThread(int i, int p){
+            this.i = i;
+            this.p = p;
+        }
+
+        @Override
+        public void run() {
+            Go(p,i);
         }
     }
 

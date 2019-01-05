@@ -66,11 +66,7 @@ public class MainActivity2 extends AppCompatActivity
         SetActivityView();
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
-        try {
-            opentCurrentFragment(Maltabu.fragmentNumb);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        opentCurrentFragment(Maltabu.fragmentNumb);
     }
 
     private void SetActivityView(){
@@ -141,21 +137,13 @@ public class MainActivity2 extends AppCompatActivity
                     Maltabu.lang = "ru";
                     flag.setImageResource(R.drawable.kz);
                     updateView((String)Paper.book().read("language"));
-                    try {
                         opentCurrentFragment(Maltabu.fragmentNumb);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 } else {
                     Paper.book().write("language", "kk");
                     Maltabu.lang = "kk";
                     flag.setImageResource(R.drawable.ru);
                     updateView((String)Paper.book().read("language"));
-                    try {
-                        opentCurrentFragment(Maltabu.fragmentNumb);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    opentCurrentFragment(Maltabu.fragmentNumb);
                 }
             }
         });
@@ -191,8 +179,8 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(isConnected()) {
-                    startActivity(filterIntent);
-                    finish();
+                    SecThread secThread = new SecThread();
+                    secThread.start();
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -322,49 +310,29 @@ public class MainActivity2 extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
-                        try {
                             Maltabu.byTime = true;
                             Maltabu.increment = true;
                             opentCurrentFragment(Maltabu.fragmentNumb);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     case 1:
-                        try {
                             Maltabu.byTime = true;
                             Maltabu.increment = true;
                             opentCurrentFragment(Maltabu.fragmentNumb);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     case 2:
-                        try {
                             Maltabu.byTime = true;
                             Maltabu.increment = false;
                             opentCurrentFragment(Maltabu.fragmentNumb);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     case 3:
-                        try {
                             Maltabu.byTime = false;
                             Maltabu.increment = false;
                             opentCurrentFragment(Maltabu.fragmentNumb);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     case 4:
-                        try {
                             Maltabu.byTime = false;
                             Maltabu.increment = true;
                             opentCurrentFragment(Maltabu.fragmentNumb);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                         break;
                 }
             }
@@ -592,51 +560,6 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 8;
     }
 
-    private void opentCurrentFragment(int numb) throws JSONException {
-        if(isConnected()) {
-            switch (numb) {
-                case 0:
-                    setTitle("");
-                    fragmentMain();
-                    break;
-                case 1:
-                    setTitle("");
-                    fragment1();
-                    break;
-                case 2:
-                    setTitle("");
-                    fragment2();
-                    break;
-                case 3:
-                    setTitle("");
-                    fragment3();
-                    break;
-                case 4:
-                    setTitle("");
-                    fragment4();
-                    break;
-                case 5:
-                    setTitle("");
-                    fragment5();
-                    break;
-                case 6:
-                    setTitle("");
-                    fragment6();
-                    break;
-                case 7:
-                    setTitle("");
-                    fragment7();
-                    break;
-                case 8:
-                    setTitle("");
-                    fragmentSearch();
-                    break;
-            }
-        } else {
-            startActivity(new Intent(MainActivity2.this, NoConnection.class));
-        }
-    }
-
 
     public void getPosting(){
         final OkHttpClient client = new OkHttpClient();
@@ -731,5 +654,84 @@ public class MainActivity2 extends AppCompatActivity
         } catch (Exception e) {
         }
         return connected;
+    }
+
+    public void opentCurrentFragment(int numb){
+        switch (numb) {
+            case 0:
+                setTitle("");
+                fragmentMain();
+                break;
+            case 1:
+                setTitle("");
+                try {
+                    fragment1();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                setTitle("");
+                try {
+                    fragment2();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                setTitle("");
+                try {
+                    fragment3();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 4:
+                setTitle("");
+                try {
+                    fragment4();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 5:
+                setTitle("");
+                try {
+                    fragment5();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 6:
+                setTitle("");
+                try {
+                    fragment6();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 7:
+                setTitle("");
+                try {
+                    fragment7();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 8:
+                setTitle("");
+                fragmentSearch();
+                break;
+        }
+    }
+
+    public class SecThread extends Thread{
+        SecThread(){};
+
+        @Override
+        public void run() {
+            startActivity(filterIntent);
+            finish();
+        }
     }
 }

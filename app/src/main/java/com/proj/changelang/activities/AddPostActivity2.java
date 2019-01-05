@@ -59,6 +59,7 @@ import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Region;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -549,7 +550,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),180,100);
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setImageBitmap(bitmap);
@@ -562,13 +563,16 @@ public class AddPostActivity2 extends AppCompatActivity{
                 if(data.getClipData()!=null){
                     ClipData mClipData = data.getClipData();
                     ClipData.Item item = null;
+                    Bitmap scaled = null;
                     for (int i = 0; i < mClipData.getItemCount(); i++) {
                         item = mClipData.getItemAt(i);
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
                             if (getImgNumb() < 8) {
+                                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                                scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
-                                imageViews[getImgNumb()].setImageBitmap(bitmap);
+                                imageViews[getImgNumb()].setImageBitmap(scaled);
                                 checked[getImgNumb()] = true;
 
                             }
@@ -583,8 +587,10 @@ public class AddPostActivity2 extends AppCompatActivity{
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             if (getImgNumb() < 8) {
+                                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
-                                imageViews[getImgNumb()].setImageBitmap(bitmap);
+                                imageViews[getImgNumb()].setImageBitmap(scaled);
                                 checked[getImgNumb()] = true;
                             }
                         } catch (IOException e) {
@@ -594,6 +600,33 @@ public class AddPostActivity2 extends AppCompatActivity{
                 }
             }
         }
+    }
+
+
+    public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > reqHeight &&
+                    (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
     }
 
     public void imgDialog(){
@@ -682,12 +715,29 @@ public class AddPostActivity2 extends AppCompatActivity{
                 return false;
             }
             else {
-                if (inputValidation.isInputEditTextEmail(email)) {
+                if (!inputValidation.isInputEditTextEmail(email)) {
                     Toast.makeText(this, "invalid EMAIL", Toast.LENGTH_LONG).show();
                     return false;
                 }
                 else {
-                    return true;
+                    if(RegionID==null){
+                        Toast.makeText(this, "Region", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                    else {
+                        if(!inputValidation.validatePhoneNumber(editTexts[0])){
+                            Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_LONG).show();
+                            return  false;
+                        }
+                        else {
+                            if(title.getText().toString().isEmpty()) {
+                                Toast.makeText(this, "Title", Toast.LENGTH_LONG).show();
+                                return false;
+                            }
+                            else
+                                return true;
+                        }
+                    }
                 }
             }
         }
@@ -743,14 +793,18 @@ public class AddPostActivity2 extends AppCompatActivity{
         };
         task.execute();
     }
-
     private String HttpPost(String myUrl) throws IOException, JSONException {
         StringBuilder res = new StringBuilder();
         URL url = new URL(myUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        conn.setRequestProperty("isAuthorized", "false");
+        if(Maltabu.isAuth.equals("false"))
+                conn.setRequestProperty("isAuthorized", "false");
+        else {
+            conn.setRequestProperty("isAuthorized", "false");
+            conn.setRequestProperty("token", fileHelper.readToken());
+        }
         conn.setDoOutput(true);
         JSONObject jsonObject = buidJsonObject();
         setPostRequestContent(conn, jsonObject);
@@ -778,18 +832,14 @@ public class AddPostActivity2 extends AppCompatActivity{
         if(!content.getText().toString().isEmpty()){
             jsonObject.accumulate("content", content.getText().toString());
         }
-        for(int i=0;i<getPhones().length;i++){
-            jsonObject.accumulate("phones["+String.valueOf(i)+"]", getPhones()[i]);
+
+
+        JSONArray array = new JSONArray();
+        for (int i=0; i<getPhones().length;i++) {
+            array.put(getPhones()[i]);
         }
-//        if (getImages().size()>0) {
-//            jsonObject.accumulate("hasImages", true);
-//            for (int i = 0; i < getImages().size(); i++) {
-//                jsonObject.accumulate("images[" + String.valueOf(i) + "]", getImages().get(i));
-//            }
-//        }
-//        else {
-//            jsonObject.accumulate("hasImages", false);
-//        }
+        jsonObject.accumulate("phones", array);
+
         jsonObject.accumulate("catalogId",catalog.getId());
         if(rb1.isChecked()){
             jsonObject.accumulate("priceKind", "value");
@@ -852,4 +902,5 @@ public class AddPostActivity2 extends AppCompatActivity{
             e.printStackTrace();
         }
     }
+
 }

@@ -53,6 +53,7 @@ public class HotFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
         epicDialog = new Dialog(getActivity());
+        epicDialog.setCanceledOnTouchOutside(true);
         fileHelper = new FileHelper(getActivity());
         sDialog();
         post();

@@ -307,6 +307,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner2" />
 
+
             <LinearLayout
 
                 android:id="@+id/linearLayout"
@@ -329,12 +330,23 @@
                         android:id="@+id/editText4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout16"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/newTextView"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/newTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+7"
+                        android:textColor="@color/Black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/editText4" />
 
                     <android.support.constraint.ConstraintLayout
                         android:id="@+id/constraintLayout16"
@@ -353,21 +365,33 @@
                             android:src="@drawable/ic_action_x" />
                     </android.support.constraint.ConstraintLayout>
                 </android.support.constraint.ConstraintLayout>
+
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/newTextView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+7"
+                        android:textColor="@color/Black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/editTex" />
+
                     <EditText
                         android:id="@+id/editTex"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
                         android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout17"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/newTextView2"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <android.support.constraint.ConstraintLayout
@@ -386,21 +410,33 @@
                             android:src="@drawable/ic_action_x" />
                     </android.support.constraint.ConstraintLayout>
                 </android.support.constraint.ConstraintLayout>
+
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/newTextView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+7"
+                        android:textColor="@color/Black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/editTe" />
+
                     <EditText
                         android:id="@+id/editTe"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
                         android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout18"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/newTextView3"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <android.support.constraint.ConstraintLayout
@@ -419,21 +455,33 @@
                             android:src="@drawable/ic_action_x" />
                     </android.support.constraint.ConstraintLayout>
                 </android.support.constraint.ConstraintLayout>
+
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/newTextView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+7"
+                        android:textColor="@color/Black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/editT" />
+
                     <EditText
                         android:id="@+id/editT"
-                        android:background="@drawable/rounded"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout19"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/newTextView4"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <android.support.constraint.ConstraintLayout
@@ -452,21 +500,33 @@
                             android:src="@drawable/ic_action_x" />
                     </android.support.constraint.ConstraintLayout>
                 </android.support.constraint.ConstraintLayout>
+
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/phoneEditText5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/newTextView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+7"
+                        android:textColor="@color/Black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/edit" />
+
                     <EditText
                         android:id="@+id/edit"
-                        android:background="@drawable/rounded"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/rounded"
                         android:inputType="phone"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout20"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/newTextView5"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <android.support.constraint.ConstraintLayout

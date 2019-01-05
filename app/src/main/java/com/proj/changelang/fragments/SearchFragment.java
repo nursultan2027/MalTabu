@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
@@ -64,8 +65,12 @@ public class SearchFragment extends Fragment {
     private Dialog epicDialog;
     private Button btn1, btn2, search;
     private ImageView img;
+    private LinearLayoutManager manager;
     private TextView title, text;
     private EditText editText;
+    private boolean can = true;
+    private EndlessListener listener;
+    private ProgressBar button;
     private int page;
     private View view;
     private RecyclerView lst;
@@ -80,20 +85,23 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.search_fragment, container, false);
+        view = inflater.inflate(R.layout.search_fragment3, container, false);
         page = 1;
         epicDialog = new Dialog(getActivity());
+        epicDialog.setCanceledOnTouchOutside(false);
         btn1 = view.findViewById(R.id.button2);
         btn2 = view.findViewById(R.id.button3);
         img = (ImageView) view.findViewById(R.id.imageView36);
         title = (TextView) view.findViewById(R.id.textView56);
         text = (TextView) view.findViewById(R.id.noPostsText);
+        button = (ProgressBar) view.findViewById(R.id.button6);
         fileHelper = new FileHelper(getActivity());
         search = view.findViewById(R.id.button5);
         editText = view.findViewById(R.id.editText9);
         lst = view.findViewById(R.id.prods);
         adapter = new PostRecycleAdapter(posts,getActivity());
-        lst.setLayoutManager(new LinearLayoutManager(getActivity()));
+        manager = new LinearLayoutManager(getActivity());
+        lst.setLayoutManager(manager);
         lst.setAdapter(adapter);
         lst.setHasFixedSize(false);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
@@ -145,6 +153,16 @@ public class SearchFragment extends Fragment {
         if(Maltabu.byTime==false||Maltabu.increment==false){
             post();
         }
+        listener = new EndlessListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                button.setVisibility(View.VISIBLE);
+                button.setIndeterminate(true);
+                can = false;
+                post();
+            }
+        };
+        lst.addOnScrollListener(listener);
         return view;
     }
 
@@ -173,6 +191,8 @@ public class SearchFragment extends Fragment {
             protected void onPostExecute(String result) {
                 try {
                     JSONObject Obj = new JSONObject(result);
+//                    Toast.makeText(getActivity(), "Найдено постов:"+
+//                            String.valueOf(Obj.getInt("count")), Toast.LENGTH_LONG).show();
                     if(Obj.getInt("count")==0)
                     {
                         epicDialog.dismiss();
@@ -306,7 +326,17 @@ public class SearchFragment extends Fragment {
         lst.invalidate();
         adapter.notifyDataSetChanged();
         lst.refreshDrawableState();
-        epicDialog.dismiss();
+        if (!can) {
+            can = true;
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+                button.setVisibility(View.INVISIBLE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }  else {
+            epicDialog.dismiss();
+        }
     }
 
 

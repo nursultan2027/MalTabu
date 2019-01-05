@@ -43,13 +43,11 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
     private Context context;
     private FileHelper fileHelper;
     private JSONObject object;
-    private boolean can;
     private Dialog epicDialog;
     public PostRecycleAdapter(ArrayList<Post> posts, Context context) {
         this.posts = posts;
         this.context = context;
         this.fileHelper = new FileHelper(context);
-        can=true;
         epicDialog = new Dialog(context);
         try {
             object = fileHelper.diction();
@@ -84,7 +82,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         }
         if(post.getImages().size()>0) {
             Picasso.with(context).load("http://maltabu.kz/"
-                    +post.getImages().get(0).getSmall()).placeholder(R.drawable.photocounter).centerCrop().fit().into(holder.img);
+                    +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).centerCrop().fit().into(holder.img);
             holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
             holder.img.setImageDrawable(context.getDrawable(R.drawable.listempty));
@@ -93,17 +91,9 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         holder.selected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(can) {
                     sDialog();
-                    can = false;
-                    getPost(post.getNumber());
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(1000);
-                        can = true;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                    SecondThread thread = new SecondThread(post.getNumber());
+                    thread.start();
             }
         });
     }
@@ -313,6 +303,18 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+    public class SecondThread extends Thread{
+        String numb;
+        SecondThread (String numb){
+            this.numb = numb;
+        }
+
+        @Override
+        public void run() {
+            getPost(numb);
+        }
     }
 
 }

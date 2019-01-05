@@ -77,7 +77,8 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPost(transaction.getPostNumber());
+                SecondThread thread = new SecondThread(transaction.getPostNumber());
+                thread.start();
             }
         });
 
@@ -254,5 +255,17 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
             }
         }
         return ss2[2] +","+ss2[1];
+    }
+
+    public class SecondThread extends Thread{
+        String numb;
+        SecondThread (String numb){
+            this.numb = numb;
+        }
+
+        @Override
+        public void run() {
+            getPost(numb);
+        }
     }
 }

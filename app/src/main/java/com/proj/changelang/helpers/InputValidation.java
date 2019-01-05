@@ -41,7 +41,7 @@ public class InputValidation {
 
     public boolean validatePhoneNumber(EditText EditText) {
         String value = EditText.getText().toString().trim();
-        if (value.isEmpty() || !Patterns.PHONE.matcher(value).matches()) {
+        if (value.isEmpty() || !Patterns.PHONE.matcher(value).matches() ||value.length()!=10) {
             return false;
         }
         return true;
