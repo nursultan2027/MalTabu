@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/MaltabuGrey">
+    android:background="@color/White">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar2"
@@ -78,6 +78,7 @@
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
@@ -109,6 +110,7 @@
 
             <EditText
                 android:id="@+id/editText2"
+                android:padding="5dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -145,11 +147,11 @@
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView77"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16">
+                app:layout_constraintTop_toTopOf="@+id/editText3">
 
                 <RadioButton
                     android:id="@+id/priceRB"
@@ -170,6 +172,7 @@
 
             <EditText
                 android:id="@+id/editText3"
+                android:padding="5dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -186,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/radioB1"
                 app:layout_constraintStart_toEndOf="@+id/radioGroup"
                 app:layout_constraintTop_toBottomOf="@+id/editText3" />
@@ -196,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/radioB2"
                 app:layout_constraintStart_toEndOf="@+id/radioGroup"
                 app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -244,12 +247,13 @@
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded_blue"
                 android:text="@string/photoPlus"
+                android:textAllCaps="false"
                 android:textColor="@color/White"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -278,10 +282,12 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded"
+                android:spinnerMode="dialog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView21"></Spinner>
@@ -289,10 +295,12 @@
             <Spinner
                 android:id="@+id/spinner2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded"
+                android:spinnerMode="dialog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView22"></Spinner>
@@ -331,9 +339,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:background="@drawable/rounded"
                         android:inputType="phone"
+                        android:maxLength="10"
+                        android:padding="5dp"
                         app:layout_constraintEnd_toStartOf="@+id/constraintLayout16"
                         app:layout_constraintStart_toEndOf="@+id/newTextView"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -383,6 +392,8 @@
                         app:layout_constraintTop_toTopOf="@+id/editTex" />
 
                     <EditText
+                        android:padding="5dp"
+                        android:maxLength="10"
                         android:id="@+id/editTex"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -428,6 +439,8 @@
                         app:layout_constraintTop_toTopOf="@+id/editTe" />
 
                     <EditText
+                        android:padding="5dp"
+                        android:maxLength="10"
                         android:id="@+id/editTe"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -473,7 +486,9 @@
                         app:layout_constraintTop_toTopOf="@+id/editT" />
 
                     <EditText
+                        android:maxLength="10"
                         android:id="@+id/editT"
+                        android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -520,6 +535,8 @@
                     <EditText
                         android:id="@+id/edit"
                         android:layout_width="0dp"
+                        android:padding="5dp"
+                        android:maxLength="10"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -551,12 +568,13 @@
             <Button
                 android:id="@+id/addPhone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded_blue"
                 android:text="@string/phonePlus"
+                android:textAllCaps="false"
                 android:textColor="@color/White"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -575,6 +593,7 @@
             <EditText
                 android:id="@+id/editText5"
                 android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
@@ -587,6 +606,7 @@
             <EditText
                 android:id="@+id/editText6"
                 android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
@@ -618,6 +638,7 @@
                 android:layout_marginBottom="128dp"
                 android:background="@drawable/rounded_green"
                 android:text="@string/addPost"
+                android:textAllCaps="false"
                 android:textColor="@color/White"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

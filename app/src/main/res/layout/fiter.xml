@@ -60,14 +60,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
+                    app:layout_constraintGuide_percent="0.25" />
 
                 <Spinner
                     android:id="@+id/regSpin"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded"
                     android:spinnerMode="dialog"
                     app:layout_constraintBottom_toTopOf="@+id/view2"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -77,9 +80,12 @@
                 <Spinner
                     android:id="@+id/citySpin"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded"
                     android:spinnerMode="dialog"
                     app:layout_constraintBottom_toTopOf="@+id/view3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -90,17 +96,35 @@
                     android:id="@+id/editText8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:padding="5dp"
+                    android:background="@drawable/rounded"
                     android:layout_marginEnd="16dp"
+                    android:maxLength="10"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/editText7"
+                    app:layout_constraintTop_toTopOf="@+id/editText7" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="_"
+                    android:textColor="@color/Black"
+                    app:layout_constraintBottom_toBottomOf="@+id/editText7"
+                    app:layout_constraintEnd_toStartOf="@+id/editText8"
                     app:layout_constraintTop_toTopOf="@+id/editText7" />
 
                 <EditText
                     android:id="@+id/editText7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/rounded"
+                    android:maxLength="10"
+                    android:padding="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
                     app:layout_constraintEnd_toStartOf="@+id/editText8"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -181,7 +205,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView7"></View>
 
@@ -190,7 +214,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"></View>
 
@@ -199,7 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13"></View>
 
@@ -208,7 +232,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView8"></View>
 
@@ -217,7 +241,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14"></View>
 
@@ -225,7 +249,7 @@
                     android:id="@+id/view7"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"></View>
 
@@ -269,14 +293,14 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"></View>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/MaltabuGrey2"
+                    android:background="@color/MaltabuGrey3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"></View>
 
@@ -289,6 +313,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rounded_blue"
                     android:text="@string/filterResult"
+                    android:textColor="@color/White"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"

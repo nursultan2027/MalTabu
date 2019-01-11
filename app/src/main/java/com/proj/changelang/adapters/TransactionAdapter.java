@@ -49,12 +49,13 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         View view=inflater.inflate(this.layout, parent, false);
         final Transaction transaction = transactions.get(position);
         TextView date = (TextView) view.findViewById(R.id.date);
-        TextView time = (TextView) view.findViewById(R.id.time);
+//        TextView time = (TextView) view.findViewById(R.id.time);
         TextView value = (TextView) view.findViewById(R.id.value);
         TextView title = (TextView) view.findViewById(R.id.postTitle);
         TextView kind = (TextView) view.findViewById(R.id.postKind);
+        ConstraintLayout select = (ConstraintLayout) view.findViewById(R.id.selected);
         String [] ss = transaction.getCreatedAt().split("uu");
-        time.setText(ss[1]);
+//        time.setText(ss[1]);
         String dates [] = ss[0].split(",");
         if (Maltabu.lang.equals("ru"))
             date.setText(dates[0]+" "+dates[1]);
@@ -74,7 +75,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
             kind.setText("Пополнение через Касса 24");
         }
 
-        title.setOnClickListener(new View.OnClickListener() {
+        select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SecondThread thread = new SecondThread(transaction.getPostNumber());

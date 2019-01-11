@@ -42,7 +42,6 @@ import okhttp3.Response;
 public class HotFragment extends Fragment {
     private JSONArray jsonArray;
     private Dialog epicDialog;
-    private TextView hottitle;
     private RecyclerView recyclerView;
     private RecycleHotAdapter myAdapter;
     private FileHelper fileHelper;
@@ -59,9 +58,7 @@ public class HotFragment extends Fragment {
         post();
         Resources resources = getActivity().getResources();
         recyclerView = (RecyclerView) view.findViewById(R.id.hots);
-        hottitle = (TextView) view.findViewById(R.id.hottitle);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
-        hottitle.setText(context.getResources().getString(R.string.hotTitle));
         myAdapter = new RecycleHotAdapter(posts,getActivity());
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
@@ -132,7 +129,7 @@ public class HotFragment extends Fragment {
             int number = postObject.getInt("number");
             String price = postObject.getJSONObject("price").getString("kind");
             if (price.equals("value")) {
-                price = String.valueOf(postObject.getJSONObject("price").getInt("value"));
+                price = String.valueOf(postObject.getJSONObject("price").getInt("value"))+" ₸";
             } else {
                 if (price.equals("trade")) {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {

@@ -12,8 +12,12 @@ import android.widget.TextView;
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.RegionAdapter;
 import com.proj.changelang.helpers.FileHelper;
+import com.proj.changelang.models.Category;
+import com.proj.changelang.models.Region;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 public class SecondSelect1 extends AppCompatActivity{
 
@@ -21,6 +25,7 @@ public class SecondSelect1 extends AppCompatActivity{
     private FileHelper fileHelper;
     private NavigationView view;
     private Button okok;
+    private ArrayList<Region> categories;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +33,10 @@ public class SecondSelect1 extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         RegionAdapter adapter = null;
         try {
-            adapter = new RegionAdapter(this, R.layout.category_item, fileHelper.getRegionsFromFile());
+            categories = new ArrayList<>();
+            categories.add(new Region(getResources().getString(R.string.Option2)));
+            categories.addAll(fileHelper.getRegionsFromFile());
+            adapter = new RegionAdapter(this, R.layout.category_item, categories);
             LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
             for (int i = 0; i < adapter.getCount(); i++) {
                 View view = adapter.getView(i, null, listViewReplacement);

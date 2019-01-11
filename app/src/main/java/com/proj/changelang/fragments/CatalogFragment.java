@@ -3,6 +3,7 @@ package com.proj.changelang.fragments;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.proj.changelang.R;
 import com.proj.changelang.adapters.ViewPagerAdapter;
 import com.proj.changelang.helpers.FileHelper;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.Image;
@@ -43,7 +45,7 @@ public class CatalogFragment extends Fragment {
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
         printWhiteBoxes();
-        final Resources resources = getResources();
+        final Resources resources = getResources();;
         final int [] textRes = new int[]{R.id.text, R.id.text1,R.id.text2,R.id.text3,R.id.text4,R.id.text5,R.id.text6,R.id.text7};
         final int [] imgRes = new int[]{R.id.imageView9,R.id.imageView10,R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView15,R.id.imageView16};
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -51,6 +53,7 @@ public class CatalogFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 TextView txt = (TextView) tab.getCustomView().findViewById(textRes[tab.getPosition()]);
                 txt.setAlpha((float) 1.0);
+                txt.setTypeface(null, Typeface.BOLD);
                 ImageView img = (ImageView) tab.getCustomView().findViewById(imgRes[tab.getPosition()]);
                 img.setAlpha((float) 1.0);
                 Maltabu.selectedFragment = tab.getPosition();
@@ -59,9 +62,10 @@ public class CatalogFragment extends Fragment {
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 TextView txt = (TextView) tab.getCustomView().findViewById(textRes[tab.getPosition()]);
-                txt.setAlpha((float) 0.3);
+                txt.setAlpha((float) 0.5);
+                txt.setTypeface(null, Typeface.NORMAL);
                 ImageView img = (ImageView) tab.getCustomView().findViewById(imgRes[tab.getPosition()]);
-                img.setAlpha((float) 0.3);
+                img.setAlpha((float) 0.5);
             }
 
             @Override
@@ -75,15 +79,17 @@ public class CatalogFragment extends Fragment {
             if (l==0){
                 TextView txt = (TextView) tabLayout.getTabAt(l).getCustomView().findViewById(textRes[l]);
                 txt.setTextColor(bl);
+                txt.setTypeface(null, Typeface.BOLD);
                 txt.setAlpha((float) 1.0);
                 ImageView img = (ImageView) tabLayout.getTabAt(l).getCustomView().findViewById(imgRes[l]);
                 img.setAlpha((float) 1.0);
             } else {
                 TextView txt = (TextView) tabLayout.getTabAt(l).getCustomView().findViewById(textRes[l]);
                 txt.setTextColor(bl);
-                txt.setAlpha((float) 0.3);
+                txt.setAlpha((float) 0.5);
+                txt.setTypeface(null, Typeface.NORMAL);
                 ImageView img = (ImageView) tabLayout.getTabAt(l).getCustomView().findViewById(imgRes[l]);
-                img.setAlpha((float) 0.3);
+                img.setAlpha((float) 0.5);
             }
         }
         viewPager.setCurrentItem(Maltabu.selectedFragment);
@@ -104,12 +110,23 @@ public class CatalogFragment extends Fragment {
         Bundle bundle1 = new Bundle();
         bundle1.putBoolean("isCatalog", false);
         bundle1.putString("catalog", category.getId());
+        TextView txtv = getActivity().findViewById(R.id.hottitle);
         CategoryFragment fragobj1=new CategoryFragment();
         fragobj1.setArguments(bundle1);
         if(Maltabu.lang.equals("ru")) {
-            adapter.addFragment(fragobj1, "все");
+            adapter.addFragment(fragobj1, "Все");
+            txtv.setText(category.getName());
+            if(category.getId().equals("5ab672c9559d5e049c25a62b")) {
+                txtv.setText("Сельхоз животные");
+            }
         } else {
-            adapter.addFragment(fragobj1, "барлық");
+            try {
+                adapter.addFragment(fragobj1, "Барлық");
+                String kazName = object.getString(category.getName());
+                txtv.setText(kazName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         for (int i=0; i<category.catalogs.size();i++){
             Bundle bundle2 = new Bundle();
@@ -185,11 +202,12 @@ public class CatalogFragment extends Fragment {
 
         TextView txt = (TextView) headerView.findViewById(R.id.text);
         if(Maltabu.lang.equals("ru")) {
-            txt.setText("все");
+            txt.setText("Все");
         } else {
-            txt.setText("барлық");
+            txt.setText("Барлық");
         }
         ConstraintLayout con = (ConstraintLayout) headerView.findViewById(R.id.con);
         tabLayout.getTabAt(0).setCustomView(con);
     }
+
 }

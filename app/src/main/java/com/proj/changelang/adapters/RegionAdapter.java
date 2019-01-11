@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.proj.changelang.R;
+import com.proj.changelang.activities.MainActivity;
+import com.proj.changelang.activities.MainActivity2;
 import com.proj.changelang.activities.SecondSelect2;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
@@ -34,7 +36,7 @@ public class RegionAdapter extends ArrayAdapter<Region> {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view=inflater.inflate(this.layout, parent, false);
         TextView nameView = (TextView) view.findViewById(R.id.select);
         final Region region = categories.get(position);
@@ -43,10 +45,20 @@ public class RegionAdapter extends ArrayAdapter<Region> {
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextSelect = new Intent(getContext(), SecondSelect2.class);
-                nextSelect.putExtra(Region.class.getCanonicalName(), region);
-                getContext().startActivity(nextSelect);
-                ((Activity)getContext()).finish();
+                if(position==0){
+                    Maltabu.s4=categories.get(position).getName();
+                    Maltabu.s3=null;
+                    Maltabu.s6=null;
+                    Intent nextSelect = new Intent(getContext(), MainActivity2.class);
+                    getContext().startActivity(nextSelect);
+                    ((Activity) getContext()).finish();
+                }
+                else {
+                    Intent nextSelect = new Intent(getContext(), SecondSelect2.class);
+                    nextSelect.putExtra(Region.class.getCanonicalName(), region);
+                    getContext().startActivity(nextSelect);
+                    ((Activity) getContext()).finish();
+                }
             }
         });
         String kazName=null;

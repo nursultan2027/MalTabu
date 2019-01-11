@@ -17,6 +17,7 @@ import com.proj.changelang.models.Region;
 import java.util.ArrayList;
 
 public class FirstSelect2 extends AppCompatActivity{
+    private ArrayList<Catalog> catalogs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,10 @@ public class FirstSelect2 extends AppCompatActivity{
         setContentView(R.layout.select);
 
         Category region = getIntent().getParcelableExtra(Category.class.getCanonicalName());
-        ArrayList<Catalog> cities = region.catalogs;
-        CatalogAdapter adapter = new CatalogAdapter(this, R.layout.category_item, cities);
+        catalogs = new ArrayList<>();
+        catalogs.add(new Catalog(region.getName()));
+        catalogs.addAll(region.catalogs);
+        CatalogAdapter adapter = new CatalogAdapter(this, R.layout.category_item, catalogs, region.getId(), region.getName());
         LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
         for (int i = 0; i < adapter.getCount(); i++) {
             View view = adapter.getView(i, null, listViewReplacement);

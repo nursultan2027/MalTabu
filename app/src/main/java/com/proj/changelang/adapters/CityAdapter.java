@@ -27,16 +27,20 @@ public class CityAdapter extends ArrayAdapter<City> {
     private LayoutInflater inflater;
     private int layout;
     private FileHelper fileHelper;
+    private String regionID;
+    private String regionName;
     private ArrayList<City> cities;
 
-    public CityAdapter(Context context, int resource, ArrayList<City> cities) {
+    public CityAdapter(Context context, int resource, ArrayList<City> cities, String id, String regionName) {
         super(context, resource, cities);
         this.cities = cities;
         this.layout = resource;
+        this.regionID = id;
+        this.regionName = regionName;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view=inflater.inflate(this.layout, parent, false);
         TextView nameView = (TextView) view.findViewById(R.id.select);
         final City city = cities.get(position);
@@ -45,11 +49,20 @@ public class CityAdapter extends ArrayAdapter<City> {
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextSelect = new Intent(getContext(), MainActivity2.class);
-                Maltabu.s3 = city.getId();
-                Maltabu.s4 = city.getName();
-                getContext().startActivity(nextSelect);
-                ((Activity)getContext()).finish();
+                if(position==0){
+                    Intent nextSelect = new Intent(getContext(), MainActivity2.class);
+                    Maltabu.s6 = regionID;
+                    Maltabu.s4 = regionName;
+                    getContext().startActivity(nextSelect);
+                    ((Activity) getContext()).finish();
+                }
+                else {
+                    Intent nextSelect = new Intent(getContext(), MainActivity2.class);
+                    Maltabu.s3 = city.getId();
+                    Maltabu.s4 = city.getName();
+                    getContext().startActivity(nextSelect);
+                    ((Activity) getContext()).finish();
+                }
             }
         });
         String kazName=null;

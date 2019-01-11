@@ -20,6 +20,9 @@ public class Catalog implements Parcelable {
     private String firstCase;
     private int count;
 
+    public Catalog(String name){
+        this.name = name;
+    }
     public Catalog(String id, String value, String name, String firstCase, int count) {
         this.id = id;
         this.value = value;

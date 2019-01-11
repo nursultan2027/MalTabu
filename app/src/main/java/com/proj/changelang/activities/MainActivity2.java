@@ -50,13 +50,13 @@ import okhttp3.Response;
 public class MainActivity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange;
+    private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange, hottitle;
     private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag, search;
     private ImageView filter, flag;
-    private Spinner sort;
+    private ImageView sort;
     private FileHelper fileHelper;
     private DrawerLayout drawer;
-    private Dialog epicDialog;
+    private Dialog epicDialog, sortDialog;
     private Intent filterIntent;
     private static long back_pressed;
 
@@ -66,6 +66,7 @@ public class MainActivity2 extends AppCompatActivity
         SetActivityView();
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
+        sortDialog = new Dialog(this);
         opentCurrentFragment(Maltabu.fragmentNumb);
     }
 
@@ -73,7 +74,7 @@ public class MainActivity2 extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Resources res = this.getResources();
         filter = (ImageView) findViewById(R.id.filter);
-        sort = (Spinner) findViewById(R.id.sort);
+        sort = (ImageView) findViewById(R.id.sort);
         filterIntent = new Intent(this, FilterActivity.class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         AppBarLayout appBar = (AppBarLayout) findViewById(R.id.appBarLayout2);
@@ -106,6 +107,7 @@ public class MainActivity2 extends AppCompatActivity
         menu5  = (TextView) view.findViewById(R.id.menu5);
         menu6  = (TextView) view.findViewById(R.id.menu6);
         menu7  = (TextView) view.findViewById(R.id.menu7);
+        hottitle = (TextView) findViewById(R.id.hottitle);
         lange = (TextView) view.findViewById(R.id.langText);
         cLnag = (ConstraintLayout) view.findViewById(R.id.constraintLayout29);
         flag = (ImageView) view.findViewById(R.id.imageView30);
@@ -117,7 +119,7 @@ public class MainActivity2 extends AppCompatActivity
         m5  = (ConstraintLayout) view.findViewById(R.id.constraintLayout6);
         m6  = (ConstraintLayout) view.findViewById(R.id.constraintLayout9);
         m7  = (ConstraintLayout) view.findViewById(R.id.constraintLayout10);
-        search  = (ConstraintLayout) view.findViewById(R.id.constraintLayout28);
+        search  = (ConstraintLayout) view.findViewById(R.id.constraintLayout228);
         menu8  = (TextView) findViewById(R.id.menu8);
         menu82  = (TextView) findViewById(R.id.menu82);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
@@ -161,6 +163,12 @@ public class MainActivity2 extends AppCompatActivity
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
+            }
+        });
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soDialog();
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
@@ -305,43 +313,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
             }
         });
-        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                            Maltabu.byTime = true;
-                            Maltabu.increment = true;
-                            opentCurrentFragment(Maltabu.fragmentNumb);
-                        break;
-                    case 1:
-                            Maltabu.byTime = true;
-                            Maltabu.increment = true;
-                            opentCurrentFragment(Maltabu.fragmentNumb);
-                        break;
-                    case 2:
-                            Maltabu.byTime = true;
-                            Maltabu.increment = false;
-                            opentCurrentFragment(Maltabu.fragmentNumb);
-                        break;
-                    case 3:
-                            Maltabu.byTime = false;
-                            Maltabu.increment = false;
-                            opentCurrentFragment(Maltabu.fragmentNumb);
-                        break;
-                    case 4:
-                            Maltabu.byTime = false;
-                            Maltabu.increment = true;
-                            opentCurrentFragment(Maltabu.fragmentNumb);
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
     private void updateView(String lang) {
         Context context = LocaleHelper.setLocale(this, lang);
@@ -363,15 +334,6 @@ public class MainActivity2 extends AppCompatActivity
         menu8.setText(resources.getString(R.string.menu8));
         menu82.setText(resources.getString(R.string.menu82));
         lange.setText(resources.getString(R.string.other_lang));
-        ArrayList<String> arr = new ArrayList<>();
-        arr.add(resources.getString(R.string.sort0));
-        arr.add(resources.getString(R.string.sort1));
-        arr.add(resources.getString(R.string.sort2));
-        arr.add(resources.getString(R.string.sort3));
-        arr.add(resources.getString(R.string.sort4));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
-        sort.setAdapter(adapter);
-
     }
 
 
@@ -415,7 +377,8 @@ public class MainActivity2 extends AppCompatActivity
     private void fragmentMain(){
         filter.setVisibility(View.GONE);
         sort.setVisibility(View.GONE);
-//        lan.setVisibility(View.VISIBLE);
+        Context context = LocaleHelper.setLocale(this, Maltabu.lang);
+        hottitle.setText(context.getResources().getString(R.string.hotTitle));
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         HotFragment fragment = new HotFragment();
@@ -426,7 +389,6 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment1() throws JSONException {
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -446,7 +408,6 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment2() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -463,7 +424,6 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 2;}
     private void fragment3() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -479,7 +439,6 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 3;}
     private void fragment4() throws JSONException {  android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -496,7 +455,6 @@ public class MainActivity2 extends AppCompatActivity
     private void fragment5() throws JSONException {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
@@ -514,7 +472,6 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.fragmentNumb = 5;}
     private void fragment6() throws JSONException {
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -534,7 +491,6 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment7() throws JSONException {
         filter.setVisibility(View.VISIBLE);
-//        lan.setVisibility(View.GONE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
@@ -551,6 +507,8 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragmentSearch() {
         filter.setVisibility(View.GONE);
+        Context context = LocaleHelper.setLocale(this, Maltabu.lang);
+        hottitle.setText(context.getResources().getString(R.string.SearchText));
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         SearchFragment fragment = new SearchFragment();
@@ -644,6 +602,53 @@ public class MainActivity2 extends AppCompatActivity
         epicDialog.show();
     }
 
+    protected void soDialog() {
+        sortDialog.setContentView(R.layout.sort_dialog);
+        final TextView txt1 = (TextView) sortDialog.findViewById(R.id.textView57);
+        final TextView txt2 = (TextView) sortDialog.findViewById(R.id.textView59);
+        final TextView txt3 = (TextView) sortDialog.findViewById(R.id.textView60);
+        final TextView txt4 = (TextView) sortDialog.findViewById(R.id.textView61);
+        txt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = true;
+                Maltabu.increment = true;
+                opentCurrentFragment(Maltabu.fragmentNumb);
+                sortDialog.dismiss();
+            }
+        });
+        txt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = true;
+                Maltabu.increment = false;
+                opentCurrentFragment(Maltabu.fragmentNumb);
+                sortDialog.dismiss();
+            }
+        });
+        txt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = false;
+                Maltabu.increment = false;
+                opentCurrentFragment(Maltabu.fragmentNumb);
+                sortDialog.dismiss();
+            }
+        });
+        txt4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = false;
+                Maltabu.increment = true;
+                opentCurrentFragment(Maltabu.fragmentNumb);
+                sortDialog.dismiss();
+            }
+        });
+
+        sortDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        sortDialog.show();
+    }
+
     public boolean isConnected() {
         boolean connected = false;
         try {
@@ -659,11 +664,9 @@ public class MainActivity2 extends AppCompatActivity
     public void opentCurrentFragment(int numb){
         switch (numb) {
             case 0:
-                setTitle("");
                 fragmentMain();
                 break;
             case 1:
-                setTitle("");
                 try {
                     fragment1();
                 } catch (JSONException e) {
@@ -671,7 +674,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 2:
-                setTitle("");
                 try {
                     fragment2();
                 } catch (JSONException e) {
@@ -679,7 +681,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 3:
-                setTitle("");
                 try {
                     fragment3();
                 } catch (JSONException e) {
@@ -687,7 +688,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 4:
-                setTitle("");
                 try {
                     fragment4();
                 } catch (JSONException e) {
@@ -695,7 +695,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 5:
-                setTitle("");
                 try {
                     fragment5();
                 } catch (JSONException e) {
@@ -703,7 +702,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 6:
-                setTitle("");
                 try {
                     fragment6();
                 } catch (JSONException e) {
@@ -711,7 +709,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 7:
-                setTitle("");
                 try {
                     fragment7();
                 } catch (JSONException e) {
@@ -719,7 +716,6 @@ public class MainActivity2 extends AppCompatActivity
                 }
                 break;
             case 8:
-                setTitle("");
                 fragmentSearch();
                 break;
         }

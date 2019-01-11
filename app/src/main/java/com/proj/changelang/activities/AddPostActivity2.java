@@ -9,11 +9,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -58,6 +62,7 @@ import com.proj.changelang.models.City;
 import com.proj.changelang.models.FilterModel;
 import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Region;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,6 +75,8 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -79,8 +86,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import io.paperdb.Paper;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class AddPostActivity2 extends AppCompatActivity{
     private Button addPhoneNumber, addImg, addPost;
@@ -175,6 +190,9 @@ public class AddPostActivity2 extends AppCompatActivity{
                 startActivity(new Intent(AddPostActivity2.this, PdfActivity.class));
             }
         });
+        if(Maltabu.isAuth.equals("true")){
+//            email.setText(fileHelper.readUserFile());
+        }
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -553,7 +571,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                 bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),180,100);
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
-                    imageViews[getImgNumb()].setImageBitmap(bitmap);
+                    imageViews[getImgNumb()].setImageBitmap(rotateImag(bitmap, photoFile.getAbsolutePath()));
                     checked[getImgNumb()] = true;
                 }
             }
@@ -567,14 +585,25 @@ public class AddPostActivity2 extends AppCompatActivity{
                     for (int i = 0; i < mClipData.getItemCount(); i++) {
                         item = mClipData.getItemAt(i);
                         try {
-                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
+                            File file = new File(item.getUri().getPath());
+                            bitmap = rotateImag(MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri()),file.getAbsolutePath());
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                                climgs[getImgNumb()].setVisibility(View.VISIBLE);
+//                                if(nh<512){
+//                                    matrix.setRotate(90);
+//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
+//                                            scaled.getHeight(), matrix, true);
+//                                    imageViews[getImgNumb()].setImageBitmap(scaled);
+//                                }
+//                                else {
+//                                    matrix.setRotate(0);
+//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
+//                                            scaled.getHeight(), matrix, true);
+//                                }
                                 imageViews[getImgNumb()].setImageBitmap(scaled);
+                                climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
-
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -582,15 +611,26 @@ public class AddPostActivity2 extends AppCompatActivity{
                     }
                 } else {
                     if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
                         Uri uri = data.getData();
                         try {
-                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            bitmap = rotateImag(MediaStore.Images.Media.getBitmap(getContentResolver(), uri), getRealPathFromURI(this, uri));
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                                climgs[getImgNumb()].setVisibility(View.VISIBLE);
+
+//                                if(nh<512){
+//                                    matrix.setRotate(90);
+//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
+//                                            scaled.getHeight(), matrix, true);
+//                                    imageViews[getImgNumb()].setImageBitmap(scaled);
+//                                }
+//                                else {
+//                                    matrix.setRotate(0);
+//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
+//                                            scaled.getHeight(), matrix, true);
+//                                }
                                 imageViews[getImgNumb()].setImageBitmap(scaled);
+                                climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
                             }
                         } catch (IOException e) {
@@ -603,8 +643,24 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
 
-    public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } catch (Exception e) {
+            return "";
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
 
+    public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, options);
@@ -628,6 +684,30 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return inSampleSize;
     }
+
+    public Bitmap rotateImag(Bitmap bitmap, String kk){
+        ExifInterface exifInterface = null;
+        try{
+            exifInterface = new ExifInterface(kk);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+        Matrix matrix = new Matrix();
+        switch (orientation){
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            default:
+        }
+        return Bitmap.createBitmap(bitmap, 0,0, bitmap.getWidth(),
+                bitmap.getHeight(), matrix, true);
+    }
+
+
 
     public void imgDialog(){
         imgDialog.setContentView(R.layout.choose_file_dialog);
@@ -759,112 +839,70 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     public void newPost(){
-        if(CheckPost()){
-            post();
-        }
+//        if(CheckPost()){
+//            post();
+            postAds();
+//        }
     }
 
-    public void post(){
-        AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
 
+
+
+    public void postAds()    {
+        final OkHttpClient client = new OkHttpClient();
+
+//        MultipartBody multipartBody =
+
+        RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("images[0]", photoFile.getName(), RequestBody.create(MediaType.parse("image/jpeg"), photoFile))
+                .addFormDataPart("title", "title")
+                .addFormDataPart("exchange", "true")
+                .addFormDataPart("phones[0]", "7077077777")
+                .addFormDataPart("mail", "gggqwe@gmail.com")
+                .addFormDataPart("priceKind", "value")
+                .addFormDataPart("priceValue", "50000")
+                .addFormDataPart("regionID", "5ab7ad4e532243274be80db2")
+                .addFormDataPart("cityID", "5ab7ad4e532243274be80db3")
+                .addFormDataPart("hasImages", "true")
+                .addFormDataPart("catalogID", "5afeb741d151e32d5cc245c5")
+                .addFormDataPart("content", "content")
+                .build();
+
+        final  Request request = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/posting")
+                .addHeader("Content-Type","multipart/form-data")
+                .addHeader("isAuthorized", "false")
+                .post(body)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
             @Override
-            protected String doInBackground(String... urls) {
+            protected String doInBackground(Void... params) {
                 try {
-                    try {
-                        return HttpPost("http://maltabu.kz/v1/api/clients/posting");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return "Error!";
+                    Response response = client.newCall(request).execute();
+                    addPost.setText(response.body().string());
+                    if (!response.isSuccessful()) {
+                        return null;
                     }
-                } catch (IOException e) {
-                    return "Unable to retrieve web page. URL may be invalid.";
+                    return response.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
                 }
             }
 
             @Override
-            protected void onPostExecute(String result) {
-                try {
-                    JSONObject Obj = new JSONObject(result);
-                    Toast.makeText(AddPostActivity2.this, result,Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+//                    addPost.setText(s);
                 }
             }
         };
-        task.execute();
+        asyncTask.execute();
     }
-    private String HttpPost(String myUrl) throws IOException, JSONException {
-        StringBuilder res = new StringBuilder();
-        URL url = new URL(myUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        if(Maltabu.isAuth.equals("false"))
-                conn.setRequestProperty("isAuthorized", "false");
-        else {
-            conn.setRequestProperty("isAuthorized", "false");
-            conn.setRequestProperty("token", fileHelper.readToken());
-        }
-        conn.setDoOutput(true);
-        JSONObject jsonObject = buidJsonObject();
-        setPostRequestContent(conn, jsonObject);
-        conn.connect();
-        InputStream in = new BufferedInputStream(conn.getInputStream());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            res.append(line);
-        }
-        return res.toString();
-    }
-    private JSONObject buidJsonObject() throws JSONException {
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate("title", title.getText().toString());
-        jsonObject.accumulate("regionID", RegionID);
-        jsonObject.accumulate("cityID", CityID);
-        if (checkBox.isChecked()){
-            jsonObject.accumulate("exchange", true);
-        }
-        else {
-            jsonObject.accumulate("exchange", false);
-        }
-        if(!content.getText().toString().isEmpty()){
-            jsonObject.accumulate("content", content.getText().toString());
-        }
 
 
-        JSONArray array = new JSONArray();
-        for (int i=0; i<getPhones().length;i++) {
-            array.put(getPhones()[i]);
-        }
-        jsonObject.accumulate("phones", array);
-
-        jsonObject.accumulate("catalogId",catalog.getId());
-        if(rb1.isChecked()){
-            jsonObject.accumulate("priceKind", "value");
-            jsonObject.accumulate("priceValue", PriceRB.getText().toString());
-        } else {
-            if(rb2.isChecked()){
-                jsonObject.accumulate("priceKind", "trade");
-                jsonObject.accumulate("priceValue", "");
-            } else {
-                if(rb3.isChecked()){
-                    jsonObject.accumulate("priceKind", "free");
-                    jsonObject.accumulate("priceValue", "");
-                }
-            }
-        }
-        return jsonObject;
-    }
-    private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
-        OutputStream os = conn.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-        writer.write(jsonObject.toString());
-        writer.flush();
-        writer.close();
-        os.close();
-    }
     public class NonFocusingScrollView extends ScrollView {
 
         public NonFocusingScrollView(Context context) {
@@ -901,6 +939,47 @@ public class AddPostActivity2 extends AppCompatActivity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<MultipartBody.Part> getImages(){
+        ArrayList<MultipartBody.Part> parts= new ArrayList();
+        ArrayList<File> array2 = new ArrayList<>();
+        Bitmap bitmap2 = null;
+        byte[] b = new byte[]{};
+        FileOutputStream fos = null;
+        File f = new File(this.getCacheDir(), "filephotos");
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        for (int i=0;i<8;i++){
+            if(imageViews[i].getVisibility()==View.VISIBLE){
+                bitmap2 = ((BitmapDrawable) imageViews[i].getDrawable()).getBitmap();
+                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                b = stream.toByteArray();
+                try {
+                    fos = new FileOutputStream(f);
+                    try {
+                        fos.write(b);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MultipartBody.Part part = MultipartBody.Part.createFormData("file"+i, f.getName(), RequestBody.create(MediaType.parse("image/*"), f));
+                parts.add(part);
+            }
+        }
+        return parts;
     }
 
 }

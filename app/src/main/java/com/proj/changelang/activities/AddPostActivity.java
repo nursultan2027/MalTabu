@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,6 +72,7 @@ public class AddPostActivity extends AppCompatActivity{
                 onBackPressed();
             }
         });
+        final  View vv = new View(this);
         try {
             for (int i=0; i<categories.size();i++){
             Category cat = categories.get(i);
@@ -90,6 +92,8 @@ public class AddPostActivity extends AppCompatActivity{
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
             final Spinner spinner = new Spinner(this);
+            spinner.setBackground(getResources().getDrawable(R.drawable.rectangle));
+//            final Spinner spinner = new Spinner(this,null,android.R.style.Widget_Spinner,Spinner.MODE_DIALOG);
             spinners.add(spinner);
             spinners.get(i).setAdapter(adapter);
             final int finalI = i;
@@ -107,7 +111,11 @@ public class AddPostActivity extends AppCompatActivity{
 
                     }
                 });
+                vv.setBackgroundColor(getResources().getColor(R.color.MaltabuGrey3));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+                vv.setLayoutParams(params);
                 cl1.addView(spinner);
+//                cl1.addView(vv);
             }
         } catch (JSONException e) {
             e.printStackTrace();

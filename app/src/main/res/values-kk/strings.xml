@@ -37,6 +37,7 @@
     <string name="onlyTrade">Айырбастау</string>
     <string name="bargain">Шұғыл, сауда-саттық</string>
     <string name="chooseRegion">Облысты таңдаңыз</string>
+    <string name="chooseCategoty">Бөлімді таңдаңыз</string>
     <string name="chooseCity">Қаланы таңдаңыз</string>
     <string name="filterResult">Нәтижені көрсету</string>
     <string name="filterClear">Тізімді тазалау</string>
@@ -115,4 +116,5 @@
     <string name="noPostText">Өкінішке орай, осы сұраныс бойынша әзірге хабарландыру жоқ.</string>
 
 
+    <string name="postFound">Хабарландырулардың нұсқасы: </string>
 </resources>

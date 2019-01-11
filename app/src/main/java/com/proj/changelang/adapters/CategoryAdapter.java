@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.proj.changelang.R;
 import com.proj.changelang.activities.FirstSelect2;
+import com.proj.changelang.activities.MainActivity2;
 import com.proj.changelang.activities.SecondSelect2;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.Maltabu;
@@ -39,7 +40,7 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view=inflater.inflate(this.layout, parent, false);
         TextView nameView = (TextView) view.findViewById(R.id.select);
         fileHelper = new FileHelper(getContext());
@@ -60,10 +61,20 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextSelect = new Intent(getContext(), FirstSelect2.class);
-                nextSelect.putExtra(Category.class.getCanonicalName(), region);
-                getContext().startActivity(nextSelect);
-                ((Activity)getContext()).finish();
+                if(position==0){
+                    Maltabu.s2=categories.get(position).getName();
+                    Maltabu.s1=null;
+                    Maltabu.s5=null;
+                    Intent nextSelect = new Intent(getContext(), MainActivity2.class);
+                    getContext().startActivity(nextSelect);
+                    ((Activity) getContext()).finish();
+                }
+                else {
+                    Intent nextSelect = new Intent(getContext(), FirstSelect2.class);
+                    nextSelect.putExtra(Category.class.getCanonicalName(), region);
+                    getContext().startActivity(nextSelect);
+                    ((Activity) getContext()).finish();
+                }
             }
         });
         return view;

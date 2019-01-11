@@ -11,6 +11,8 @@
     <string name="hello">Привет</string>
     <string name="menu1">Сельхоз животные</string>
     <string name="menu2">Домашние питомцы</string>
+
+    <string name="chooseCategoty">Выберите категорию</string>
     <string name="menu3">Корм</string>
     <string name="menu4">Оптовая торговля</string>
     <string name="menu5">Услиги и техника</string>
@@ -114,5 +116,7 @@
 
     <string name="noPostTitle">Объявлений нет</string>
     <string name="noPostText">К сожалению, по данному запросу еще нет объявлений.</string>
+
+    <string name="postFound">Объявлений найдено: </string>
 
 </resources>

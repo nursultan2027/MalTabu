@@ -18,13 +18,15 @@ import com.proj.changelang.models.Category;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 public class FirstSelect1 extends AppCompatActivity{
 
     private TextView textView;
     private NavigationView view;
     private Button okok;
     private FileHelper fileHelper;
-
+    private ArrayList<Category> categories;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,10 @@ public class FirstSelect1 extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         CategoryAdapter adapter = null;
         try {
-            adapter = new CategoryAdapter(this, R.layout.category_item, fileHelper.getCategoriesFromFile());
+            categories = new ArrayList<>();
+            categories.add(new Category(getResources().getString(R.string.Option1)));
+            categories.addAll(fileHelper.getCategoriesFromFile());
+            adapter = new CategoryAdapter(this, R.layout.category_item, categories);
             LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);
             for (int i = 0; i < adapter.getCount(); i++) {
                 View view = adapter.getView(i, null, listViewReplacement);

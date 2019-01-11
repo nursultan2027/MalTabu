@@ -80,21 +80,21 @@ public class MyScoreFragment extends Fragment {
         String [] ss2 = ss[0].split("-");
         if (ss2[1].equals("01"))
         {
-            ss2[1] = "Янв,қаң";
+            ss2[1] = "Января,қаңтар";
         } else {
             if (ss2[1].equals("02"))
             {
-                ss2[1] = "Фев,ақп";
+                ss2[1] = "Февраля,ақпан";
             }
             else {
                 if (ss2[1].equals("03"))
                 {
-                    ss2[1] = "Мар,наур";
+                    ss2[1] = "Марта,наурыз";
                 }
                 else {
                     if (ss2[1].equals("04"))
                     {
-                        ss2[1] = "Апр,сәу";
+                        ss2[1] = "Апреля,сәуiр";
                     } else {
                         if (ss2[1].equals("05"))
                         {
@@ -107,31 +107,31 @@ public class MyScoreFragment extends Fragment {
                             else {
                                 if (ss2[1].equals("07"))
                                 {
-                                    ss2[1] = "Июля,шiл";
+                                    ss2[1] = "Июля,шiлде";
                                 } else {
                                     if (ss2[1].equals("08"))
                                     {
-                                        ss2[1] = "Авг,тамыз";
+                                        ss2[1] = "Августа,тамыз";
                                     }
                                     else {
                                         if (ss2[1].equals("09"))
                                         {
-                                            ss2[1] = "Сен,қыр";
+                                            ss2[1] = "Сентября,қыркүйек";
                                         }
                                         else {
                                             if (ss2[1].equals("10"))
                                             {
-                                                ss2[1] = "Окт,қазан";
+                                                ss2[1] = "Октября,қазан";
                                             }
                                             else {
                                                 if (ss2[1].equals("11"))
                                                 {
-                                                    ss2[1] = "Ноя,қараша";
+                                                    ss2[1] = "Ноября,қараша";
                                                 }
                                                 else {
                                                     if (ss2[1].equals("12"))
                                                     {
-                                                        ss2[1] = "Дек,жел";
+                                                        ss2[1] = "Декабря,желтоқсан";
                                                     }
                                                 }
                                             }

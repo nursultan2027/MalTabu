@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/MaltabuGrey"
+    android:background="@color/White"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
@@ -67,6 +67,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:padding="5dp"
                 android:background="@drawable/rounded"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +80,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/reg12"
-                android:textSize="12dp"
+                android:textColor="@color/MaltabuGrey2"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText9" />
 
@@ -98,6 +100,7 @@
                 android:id="@+id/editText10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -114,7 +117,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/reg22"
-                android:textSize="12dp"
+                android:textColor="@color/MaltabuGrey2"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText10" />
 
@@ -132,6 +136,7 @@
             <EditText
                 android:id="@+id/editText11"
                 android:layout_width="0dp"
+                android:padding="5dp"
                 android:inputType="textPassword"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -150,7 +155,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/reg32"
-                android:textSize="12dp"
+                android:textColor="@color/MaltabuGrey2"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText11" />
 
@@ -186,7 +192,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/reg32"
-                android:textSize="12dp"
+                android:textColor="@color/MaltabuGrey2"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText12" />
 
@@ -204,8 +211,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:padding="15dp"
                 android:gravity="left"
                 android:text="@string/rules2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -226,7 +233,6 @@
                 android:id="@+id/view9"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
                 android:background="@color/MaltabuGrey2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />

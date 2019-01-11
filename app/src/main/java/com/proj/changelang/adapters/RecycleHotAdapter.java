@@ -164,7 +164,7 @@ public class RecycleHotAdapter extends RecyclerView.Adapter<RecycleHotAdapter.vH
                     String title = postObject.getString("title");
                     String price = postObject.getJSONObject("price").getString("kind");
                     if (price.equals("value")) {
-                        price = String.valueOf(postObject.getJSONObject("price").getInt("value"));
+                        price = String.valueOf(postObject.getJSONObject("price").getInt("value")+" ₸");
                     } else {
                         if (price.equals("trade")) {
                             if (Maltabu.lang.toLowerCase().equals("ru")) {

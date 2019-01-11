@@ -37,6 +37,7 @@
     <string name="bargain">Срочно, торг</string>
     <string name="chooseRegion">Выберите область</string>
     <string name="chooseCity">Выберите город</string>
+    <string name="chooseCategoty">Выберите категорию</string>
     <string name="filterResult">Показать результат</string>
     <string name="filterClear">Очистить список</string>
 
@@ -117,4 +118,7 @@
     <string name="noPostText">К сожалению, по данному запросу еще нет объявлений.</string>
 
     <string name="CallPhone">Позвонить продавцу</string>
+
+
+    <string name="postFound">Объявлений найдено: </string>
 </resources>

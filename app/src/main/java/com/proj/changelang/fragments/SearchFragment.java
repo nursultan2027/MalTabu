@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
     private Button btn1, btn2, search;
     private ImageView img;
     private LinearLayoutManager manager;
-    private TextView title, text;
+    private TextView title, text, count;
     private EditText editText;
     private boolean can = true;
     private EndlessListener listener;
@@ -99,6 +99,7 @@ public class SearchFragment extends Fragment {
         search = view.findViewById(R.id.button5);
         editText = view.findViewById(R.id.editText9);
         lst = view.findViewById(R.id.prods);
+        count = view.findViewById(R.id.postCount);
         adapter = new PostRecycleAdapter(posts,getActivity());
         manager = new LinearLayoutManager(getActivity());
         lst.setLayoutManager(manager);
@@ -108,8 +109,8 @@ public class SearchFragment extends Fragment {
         Resources res = context.getResources();
         title.setText(res.getString(R.string.noPostTitle));
         text.setText(res.getString(R.string.noPostText));
-        btn1.setText(res.getString(R.string.Option1));
-        btn2.setText(res.getString(R.string.Option2));
+        btn1.setText(res.getString(R.string.chooseCategoty));
+        btn2.setText(res.getString(R.string.chooseRegion));
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,11 +131,34 @@ public class SearchFragment extends Fragment {
                 getActivity().startActivity(new Intent(getActivity(), SecondSelect1.class));
             }
         });
+        try {
+            object = fileHelper.diction();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         if (Maltabu.s2 != null) {
-            btn1.setText(Maltabu.s2);
+            if(Maltabu.lang.equals("ru"))
+                btn1.setText(Maltabu.s2);
+            else {
+                try {
+                    String kaz = object.getString(Maltabu.s2);
+                    btn1.setText(kaz);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         if (Maltabu.s4 != null) {
-            btn2.setText(Maltabu.s4);
+            if(Maltabu.lang.equals("ru"))
+                btn2.setText(Maltabu.s4);
+            else {
+                try {
+                    String kaz = object.getString(Maltabu.s4);
+                    btn2.setText(kaz);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         if(Maltabu.text!=null){
             editText.setText(Maltabu.text);
@@ -191,8 +215,7 @@ public class SearchFragment extends Fragment {
             protected void onPostExecute(String result) {
                 try {
                     JSONObject Obj = new JSONObject(result);
-//                    Toast.makeText(getActivity(), "Найдено постов:"+
-//                            String.valueOf(Obj.getInt("count")), Toast.LENGTH_LONG).show();
+                    count.setText(getActivity().getResources().getString(R.string.postFound)+String.valueOf(Obj.getInt("count")));
                     if(Obj.getInt("count")==0)
                     {
                         epicDialog.dismiss();
@@ -252,8 +275,18 @@ public class SearchFragment extends Fragment {
             jsonObject.accumulate("text", editText.getText().toString());
         if (Maltabu.s1 != null)
             jsonObject.accumulate("catalogID", Maltabu.s1);
+        else {
+            if(Maltabu.s5!=null){
+                jsonObject.accumulate("categoryID", Maltabu.s5);
+            }
+        }
         if (Maltabu.s3 != null)
             jsonObject.accumulate("cityID", Maltabu.s3);
+        else {
+            if(Maltabu.s6!=null){
+                jsonObject.accumulate("regionID", Maltabu.s6);
+            }
+        }
         jsonObject.accumulate("byTime", Maltabu.byTime);
         jsonObject.accumulate("increment", Maltabu.increment);
         jsonObject.accumulate("countPosts", true);

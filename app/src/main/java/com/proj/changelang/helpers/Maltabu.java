@@ -15,6 +15,8 @@ public class Maltabu {
     public static String s2 = null;
     public static String s3 = null;
     public static String s4 = null;
+    public static String s5 = null;
+    public static String s6 = null;
     public static String text = null;
     public static ArrayList<Post> posts;
     public static PostRecycleAdapter adapter;

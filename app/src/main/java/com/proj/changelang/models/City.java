@@ -19,6 +19,10 @@ public class City implements Parcelable {
     private String name;
     private String firstCase;
 
+    public City(String name){
+        this.name = name;
+    }
+
     public City(String id, String value, String name, String firstCase) {
         this.id = id;
         this.value = value;

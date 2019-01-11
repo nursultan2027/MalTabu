@@ -43,7 +43,7 @@
         app:tabTextColor="@color/MaltabuGrey2"
         app:tabSelectedTextColor="@color/White"
         android:layout_height="wrap_content"
-        android:background="@color/MaltabuBlue"
+        app:tabBackground="@drawable/tab_color_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar6"
         app:tabIndicatorColor="@color/White"></android.support.design.widget.TabLayout>
