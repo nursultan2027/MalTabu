@@ -42,6 +42,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -56,6 +57,7 @@ import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.InputValidation;
 import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
+import com.proj.changelang.helpers.PostBodyHelper;
 import com.proj.changelang.models.Catalog;
 import com.proj.changelang.models.Category;
 import com.proj.changelang.models.City;
@@ -184,6 +186,15 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     private void setListeners() {
+        if(Maltabu.isAuth.equals("true")) {
+            try {
+                JSONObject user = new JSONObject(fileHelper.readUserFile());
+                String mail = user.getString("mail");
+                email.setText(mail);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,6 +304,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                     phoneNimb++;
                     if(getPhoneNumb()!=5) {
                         phones[getPhoneNumb()].setVisibility(View.VISIBLE);
+                        editTexts[getPhoneNumb()].setVisibility(View.VISIBLE);
                         check[getPhoneNumb()] = true;
                     }
                     ConstraintLayout cs = (ConstraintLayout) findViewById(R.id.constraintLayout16);
@@ -326,20 +338,24 @@ public class AddPostActivity2 extends AppCompatActivity{
                 if(phones[4].getVisibility()==View.VISIBLE)
                 {
                     phones[4].setVisibility(View.GONE);
+                    editTexts[4].setVisibility(View.GONE);
                 }
                 else {
                     if(phones[3].getVisibility()==View.VISIBLE)
                     {
                         phones[3].setVisibility(View.GONE);
+                        editTexts[3].setVisibility(View.GONE);
                     }
                     else {
                         if(phones[2].getVisibility()==View.VISIBLE)
                         {
                             phones[2].setVisibility(View.GONE);
+                            editTexts[2].setVisibility(View.GONE);
                         }
                         else {
                             editTexts[1].setText("");
                             phones[1].setVisibility(View.GONE);
+                            editTexts[1].setVisibility(View.GONE);
                             check[1]=false;
                         }
                     }
@@ -363,6 +379,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                 }
                 editTexts[1].setText("");
                 phones[1].setVisibility(View.GONE);
+                editTexts[1].setVisibility(View.GONE);
                 check[1]=false;
             }
         });
@@ -378,6 +395,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                     cls[0].setVisibility(View.GONE);
                 }
                 editTexts[2].setText("");
+                editTexts[2].setVisibility(View.GONE);
                 phones[2].setVisibility(View.GONE);
                 check[2]=false;
             }
@@ -393,6 +411,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                     cls[0].setVisibility(View.GONE);
                 }
                 editTexts[3].setText("");
+                editTexts[3].setVisibility(View.GONE);
                 phones[3].setVisibility(View.GONE);
                 check[3]=false;
             }
@@ -408,6 +427,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                     cls[0].setVisibility(View.GONE);
                 }
                 editTexts[4].setText("");
+                editTexts[4].setVisibility(View.GONE);
                 phones[4].setVisibility(View.GONE);
                 check[4]=false;
             }
@@ -446,8 +466,6 @@ public class AddPostActivity2 extends AppCompatActivity{
             checkBox.clearFocus();
         if(rb3.hasFocus())
             rb3.clearFocus();
-//        if(content.hasFocus())
-//            content.clearFocus();
         if (spinnerRegion.hasFocus())
             spinnerRegion.clearFocus();
         if (spinnerCity.hasFocus())
@@ -474,6 +492,10 @@ public class AddPostActivity2 extends AppCompatActivity{
         editTexts[2] = (EditText) findViewById(R.id.editTe);
         editTexts[3] = (EditText) findViewById(R.id.editT);
         editTexts[4] = (EditText) findViewById(R.id.edit);
+        editTexts[1].setVisibility(View.GONE);
+        editTexts[2].setVisibility(View.GONE);
+        editTexts[3].setVisibility(View.GONE);
+        editTexts[4].setVisibility(View.GONE);
         back = (ImageView) findViewById(R.id.arrr);
         pdf = (TextView) findViewById(R.id.textView28);
         updts[0] = (TextView)findViewById(R.id.textView);
@@ -521,6 +543,14 @@ public class AddPostActivity2 extends AppCompatActivity{
         imageViews[5] = (ImageView) findViewById(R.id.imgg6);
         imageViews[6] = (ImageView) findViewById(R.id.imgg7);
         imageViews[7] = (ImageView) findViewById(R.id.imgg8);
+        imageViews[0].setVisibility(View.GONE);
+        imageViews[1].setVisibility(View.GONE);
+        imageViews[2].setVisibility(View.GONE);
+        imageViews[3].setVisibility(View.GONE);
+        imageViews[4].setVisibility(View.GONE);
+        imageViews[5].setVisibility(View.GONE);
+        imageViews[6].setVisibility(View.GONE);
+        imageViews[7].setVisibility(View.GONE);
         closes[0] = (ConstraintLayout) findViewById(R.id.close1);
         closes[1] = (ConstraintLayout) findViewById(R.id.close2);
         closes[2] = (ConstraintLayout) findViewById(R.id.close3);
@@ -571,6 +601,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                 bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),180,100);
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
+                    imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setImageBitmap(rotateImag(bitmap, photoFile.getAbsolutePath()));
                     checked[getImgNumb()] = true;
                 }
@@ -585,23 +616,12 @@ public class AddPostActivity2 extends AppCompatActivity{
                     for (int i = 0; i < mClipData.getItemCount(); i++) {
                         item = mClipData.getItemAt(i);
                         try {
-                            File file = new File(item.getUri().getPath());
-                            bitmap = rotateImag(MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri()),file.getAbsolutePath());
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-//                                if(nh<512){
-//                                    matrix.setRotate(90);
-//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
-//                                            scaled.getHeight(), matrix, true);
-//                                    imageViews[getImgNumb()].setImageBitmap(scaled);
-//                                }
-//                                else {
-//                                    matrix.setRotate(0);
-//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
-//                                            scaled.getHeight(), matrix, true);
-//                                }
                                 imageViews[getImgNumb()].setImageBitmap(scaled);
+                                imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
                             }
@@ -613,23 +633,12 @@ public class AddPostActivity2 extends AppCompatActivity{
                     if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
                         Uri uri = data.getData();
                         try {
-                            bitmap = rotateImag(MediaStore.Images.Media.getBitmap(getContentResolver(), uri), getRealPathFromURI(this, uri));
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-
-//                                if(nh<512){
-//                                    matrix.setRotate(90);
-//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
-//                                            scaled.getHeight(), matrix, true);
-//                                    imageViews[getImgNumb()].setImageBitmap(scaled);
-//                                }
-//                                else {
-//                                    matrix.setRotate(0);
-//                                    scaled = Bitmap.createBitmap(scaled, 0,0, scaled.getWidth(),
-//                                            scaled.getHeight(), matrix, true);
-//                                }
                                 imageViews[getImgNumb()].setImageBitmap(scaled);
+                                imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
                             }
@@ -822,7 +831,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
         }
     }
-    public String [] getPhones(){
+    public ArrayList<String> getPhones(){
         ArrayList<String>  aa = new ArrayList<>();
         for (int i=0;i<5;i++){
             if(editTexts[i].getVisibility()==View.VISIBLE){
@@ -831,18 +840,13 @@ public class AddPostActivity2 extends AppCompatActivity{
                 }
             }
         }
-        String [] aa2 = new String[aa.size()];
-        for (int i=0; i<aa.size();i++){
-            aa2[i] = aa.get(i);
-        }
-        return aa2;
+        return aa;
     }
 
     public void newPost(){
-//        if(CheckPost()){
-//            post();
+        if(CheckPost()){
             postAds();
-//        }
+        }
     }
 
 
@@ -850,37 +854,74 @@ public class AddPostActivity2 extends AppCompatActivity{
 
     public void postAds()    {
         final OkHttpClient client = new OkHttpClient();
+        ArrayList<File> files = getImages();
+        ArrayList<String> phones = getPhones();
 
-//        MultipartBody multipartBody =
+        String exchange = "false";
+        if(checkBox.isChecked()){
+            exchange ="true";
+        }
+        String price = "";
+        String value="";
+        if(rb1.isChecked()){
+            price = "value";
+            value = PriceRB.getText().toString();
+        } else {
+            if(rb2.isChecked()){
+                price = "trade";
+                value = "";
+            }
+            else {
+                if(rb3.isChecked()){
+                    price="free";
+                    value="";
+                }
+            }
+        }
+        String HasImages = "false";
+        if(files.size()>0)
+            HasImages = "true";
+        PostBodyHelper postBodyHelper = new PostBodyHelper();
+        postBodyHelper.setTitle(title.getText().toString());
+        postBodyHelper.setContent(content.getText().toString());
+        postBodyHelper.setCatalogID(catalog.getId());
+        postBodyHelper.setCityID(CityID);
+        postBodyHelper.setRegionID(RegionID);
+        postBodyHelper.setPrice(price);
+        postBodyHelper.setValue(value);
+        postBodyHelper.setExchange(exchange);
+        postBodyHelper.setFiles(files);
+        postBodyHelper.setPhones(phones);
+        postBodyHelper.setEmail(email.getText().toString());
+        postBodyHelper.setHasImages(HasImages);
 
-        RequestBody body = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("images[0]", photoFile.getName(), RequestBody.create(MediaType.parse("image/jpeg"), photoFile))
-                .addFormDataPart("title", "title")
-                .addFormDataPart("exchange", "true")
-                .addFormDataPart("phones[0]", "7077077777")
-                .addFormDataPart("mail", "gggqwe@gmail.com")
-                .addFormDataPart("priceKind", "value")
-                .addFormDataPart("priceValue", "50000")
-                .addFormDataPart("regionID", "5ab7ad4e532243274be80db2")
-                .addFormDataPart("cityID", "5ab7ad4e532243274be80db3")
-                .addFormDataPart("hasImages", "true")
-                .addFormDataPart("catalogID", "5afeb741d151e32d5cc245c5")
-                .addFormDataPart("content", "content")
-                .build();
+        RequestBody body = postBodyHelper.getBody();
 
-        final  Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/posting")
-                .addHeader("Content-Type","multipart/form-data")
-                .addHeader("isAuthorized", "false")
-                .post(body)
-                .build();
+        Request request = null;
+
+        if(Maltabu.isAuth.equals("false")) {
+            request = new Request.Builder()
+                    .url("http://maltabu.kz/v1/api/clients/posting")
+                    .addHeader("Content-Type", "multipart/form-data")
+                    .addHeader("isAuthorized", "false")
+                    .post(body)
+                    .build();
+        }
+        else {
+            request = new Request.Builder()
+                    .url("http://maltabu.kz/v1/api/clients/posting")
+                    .addHeader("Content-Type", "multipart/form-data")
+                    .addHeader("isAuthorized", Maltabu.isAuth)
+                    .addHeader("token", Maltabu.token)
+                    .post(body)
+                    .build();
+        }
+        final Request finalRequest = request;
         AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 try {
-                    Response response = client.newCall(request).execute();
-                    addPost.setText(response.body().string());
+                    Response response = client.newCall(finalRequest).execute();
                     if (!response.isSuccessful()) {
                         return null;
                     }
@@ -895,7 +936,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 if (s != null) {
-//                    addPost.setText(s);
+                    addPost.setText(s);
                 }
             }
         };
@@ -941,8 +982,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
     }
 
-    public ArrayList<MultipartBody.Part> getImages(){
-        ArrayList<MultipartBody.Part> parts= new ArrayList();
+    public ArrayList<File> getImages(){
         ArrayList<File> array2 = new ArrayList<>();
         Bitmap bitmap2 = null;
         byte[] b = new byte[]{};
@@ -975,11 +1015,21 @@ public class AddPostActivity2 extends AppCompatActivity{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                MultipartBody.Part part = MultipartBody.Part.createFormData("file"+i, f.getName(), RequestBody.create(MediaType.parse("image/*"), f));
-                parts.add(part);
+                array2.add(f);
             }
         }
-        return parts;
+        return array2;
+    }
+
+
+    public int ImgCount(){
+        int k=0;
+        for(int i=0;i<8;i++){
+            if(imageViews[i].getVisibility()==View.VISIBLE){
+                k++;
+            }
+        }
+        return k;
     }
 
 }
