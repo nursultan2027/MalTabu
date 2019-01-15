@@ -57,6 +57,10 @@
     <string name="radioB2">Отдам даром</string>
 
     <string name="priceValid">Укажите цену</string>
+    <string name="titleValid">Введите заголовок объявления</string>
+    <string name="emailValid">invalid email</string>
+
+    <string name="chooseCategoryCatalog">Выберите раздел и категорию</string>
     <string name="photoPlus">Добавить фотографии</string>
     <string name="phonePlus">Добавить телефон</string>
     <string name="catalog">Категория</string>
@@ -121,4 +125,7 @@
 
 
     <string name="postFound">Объявлений найдено: </string>
+    <string name="addPostTitle">Объявление отправлено на проверку!</string>
+    <string name="addPostText">Ваше объявление находится у модератора, после проверки оно появится на сайте и будет доступно для редактирования в личном кабинете.</string>
+
 </resources>

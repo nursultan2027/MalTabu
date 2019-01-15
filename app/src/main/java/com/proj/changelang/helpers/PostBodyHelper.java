@@ -19,9 +19,18 @@ public class PostBodyHelper {
     public String exchange;
     public String value;
     public String price;
+    public String address;
     public ArrayList<String> phones;
 
     public PostBodyHelper(){}
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public ArrayList<File> getFiles() {
         return files;
@@ -136,6 +145,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==0&&phones.size()==2) {
@@ -153,6 +163,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==0&&phones.size()==3) {
@@ -171,6 +182,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==0&&phones.size()==4) {
@@ -190,6 +202,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==0&&phones.size()==5) {
@@ -210,6 +223,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==1&&phones.size()==1) {
@@ -227,6 +241,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==2&&phones.size()==1) {
@@ -245,6 +260,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==3&&phones.size()==1) {
@@ -264,6 +280,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==4&&phones.size()==1) {
@@ -284,6 +301,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==5&&phones.size()==1) {
@@ -305,6 +323,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==6&&phones.size()==1) {
@@ -327,6 +346,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==7&&phones.size()==1) {
@@ -350,6 +370,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==8&&phones.size()==1) {
@@ -374,6 +395,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
 
@@ -393,6 +415,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==2&&phones.size()==2) {
@@ -412,6 +435,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==3&&phones.size()==2) {
@@ -432,6 +456,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==4&&phones.size()==2) {
@@ -453,6 +478,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==5&&phones.size()==2) {
@@ -475,6 +501,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==6&&phones.size()==2) {
@@ -498,6 +525,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==7&&phones.size()==2) {
@@ -522,6 +550,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==8&&phones.size()==2) {
@@ -547,6 +576,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
 
@@ -567,6 +597,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==2&&phones.size()==3) {
@@ -587,6 +618,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==3&&phones.size()==3) {
@@ -608,6 +640,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==4&&phones.size()==3) {
@@ -630,6 +663,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==5&&phones.size()==3) {
@@ -653,6 +687,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==6&&phones.size()==3) {
@@ -677,6 +712,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==7&&phones.size()==3) {
@@ -702,6 +738,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==8&&phones.size()==3) {
@@ -728,6 +765,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==1&&phones.size()==4) {
@@ -748,6 +786,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==2&&phones.size()==4) {
@@ -769,6 +808,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==3&&phones.size()==4) {
@@ -791,6 +831,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==4&&phones.size()==4) {
@@ -814,6 +855,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==5&&phones.size()==4) {
@@ -838,6 +880,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==6&&phones.size()==4) {
@@ -863,6 +906,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==7&&phones.size()==4) {
@@ -889,6 +933,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==8&&phones.size()==4) {
@@ -916,6 +961,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
 
@@ -938,6 +984,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==2&&phones.size()==5) {
@@ -960,6 +1007,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==3&&phones.size()==5) {
@@ -983,6 +1031,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==4&&phones.size()==5) {
@@ -1007,6 +1056,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==5&&phones.size()==5) {
@@ -1032,6 +1082,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==6&&phones.size()==5) {
@@ -1058,6 +1109,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==7&&phones.size()==5) {
@@ -1085,6 +1137,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
         if(files.size()==8&&phones.size()==5) {
@@ -1113,6 +1166,7 @@ public class PostBodyHelper {
                     .addFormDataPart("hasImages",HasImages)
                     .addFormDataPart("catalogID", catalogID)
                     .addFormDataPart("content", content)
+                    .addFormDataPart("address", address)
                     .build();
         }
 

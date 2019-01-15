@@ -3,6 +3,7 @@ package com.proj.changelang.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.FileHelper;
 import com.proj.changelang.helpers.InputValidation;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 
 import org.json.JSONException;
@@ -51,6 +53,7 @@ public class AuthAvtivity extends AppCompatActivity {
         auth = (Button) findViewById(R.id.button2);
         edtLog = (EditText) findViewById(R.id.editText9);
         edtPass = (EditText) findViewById(R.id.editText10);
+        UpdateViews();
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,6 +230,14 @@ public class AuthAvtivity extends AppCompatActivity {
         asyncTask1.execute();
     }
 
+    private void UpdateViews(){
+        Resources res = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
+
+        edtLog.setHint(res.getString(R.string.auth3));
+        edtPass.setHint(res.getString(R.string.reg31));
+        auth.setText(res.getString(R.string.auth2));
+        register.setText(res.getString(R.string.auth4));
+    }
     protected void sDialog() {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

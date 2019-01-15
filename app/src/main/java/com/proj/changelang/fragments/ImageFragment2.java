@@ -12,6 +12,8 @@ import com.proj.changelang.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class ImageFragment2 extends Fragment {
 
@@ -35,15 +37,18 @@ public class ImageFragment2 extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.image_item,null);
         Bundle bundle = this.getArguments();
+        ImageView card = (ImageView) view.findViewById(R.id.imgPage);
+        final PhotoViewAttacher pAttacher;
+        pAttacher = new PhotoViewAttacher(card);
         if (this.getArguments() != null && getArguments().containsKey(ARGUMENT_PAGE_NUMBER)) {
             String url = bundle.getString(ARGUMENT_PAGE_NUMBER);
-            ImageView card = (ImageView) view.findViewById(R.id.imgPage);
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.load);
             Picasso.with(getContext()).load("http://maltabu.kz/"
                     +url).into(card, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);
+                    pAttacher.update();
                 }
                 @Override
                 public void onError() {

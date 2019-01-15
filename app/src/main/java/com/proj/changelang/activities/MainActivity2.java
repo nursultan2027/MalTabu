@@ -189,6 +189,7 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(isConnected()) {
+                    sDialog();
                     SecThread secThread = new SecThread();
                     secThread.start();
                 } else {
@@ -354,6 +355,12 @@ public class MainActivity2 extends AppCompatActivity
                 back_pressed = System.currentTimeMillis();
             } else {
                 Maltabu.filterModel = null;
+                Maltabu.s1= null;
+                Maltabu.s3= null;
+                Maltabu.s5= null;
+                Maltabu.s6= null;
+                Maltabu.s4= null;
+                Maltabu.s2= null;
                 fragmentMain();
             }
         }
@@ -388,6 +395,12 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 0;
+        Maltabu.s1= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
     }
     private void fragment1() throws JSONException {
         filter.setVisibility(View.VISIBLE);
@@ -407,6 +420,12 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 1;
+        Maltabu.s1= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s6= null;
     }
     private void fragment2() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
@@ -423,7 +442,14 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
-        Maltabu.fragmentNumb = 2;}
+        Maltabu.fragmentNumb = 2;
+        Maltabu.s1= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
+    }
     private void fragment3() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -438,7 +464,14 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
-        Maltabu.fragmentNumb = 3;}
+        Maltabu.fragmentNumb = 3;
+        Maltabu.s1= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
+    }
     private void fragment4() throws JSONException {  android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -452,8 +485,14 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
-        Maltabu.fragmentNumb = 4
-        ;}
+        Maltabu.fragmentNumb = 4;
+        Maltabu.s1= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
+        }
     private void fragment5() throws JSONException {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
@@ -463,7 +502,7 @@ public class MainActivity2 extends AppCompatActivity
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(3));
         String [] asd = {"5ab672c9559d5e049c25a63f","5ab672c9559d5e049c25a640",
                 "5ab672c9559d5e049c25a641","5ab672c9559d5e049c25a642",
-                "5b0bffe2530c6256285a19b1","5b0bffe2530c6256285a1933","5ab672c9559d5e049c25a643"
+                "5ab672c9559d5e049c25a643","5b0bffe2530c6256285a1933","5b0bffe2530c6256285a19b1"
         };
         bundle1.putStringArray("str", asd);
         bundle1.putString("categId", "5ab672c9559d5e049c25a63e");
@@ -471,7 +510,14 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
-        Maltabu.fragmentNumb = 5;}
+        Maltabu.fragmentNumb = 5;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s1= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
+    }
     private void fragment6() throws JSONException {
         filter.setVisibility(View.VISIBLE);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -490,6 +536,12 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 6;
+        Maltabu.s1= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s3= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
     }
     private void fragment7() throws JSONException {
         filter.setVisibility(View.VISIBLE);
@@ -506,6 +558,12 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 7;
+        Maltabu.s1= null;
+        Maltabu.s3= null;
+        Maltabu.s4= null;
+        Maltabu.s2= null;
+        Maltabu.s5= null;
+        Maltabu.s6= null;
     }
     private void fragmentSearch() {
         filter.setVisibility(View.GONE);
@@ -607,9 +665,14 @@ public class MainActivity2 extends AppCompatActivity
     protected void soDialog() {
         sortDialog.setContentView(R.layout.sort_dialog);
         final TextView txt1 = (TextView) sortDialog.findViewById(R.id.textView57);
+        Resources resources = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
         final TextView txt2 = (TextView) sortDialog.findViewById(R.id.textView59);
         final TextView txt3 = (TextView) sortDialog.findViewById(R.id.textView60);
         final TextView txt4 = (TextView) sortDialog.findViewById(R.id.textView61);
+        txt1.setText(resources.getString(R.string.sort1));
+        txt2.setText(resources.getString(R.string.sort2));
+        txt3.setText(resources.getString(R.string.sort3));
+        txt4.setText(resources.getString(R.string.sort4));
         txt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

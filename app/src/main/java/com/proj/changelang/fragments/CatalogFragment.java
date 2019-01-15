@@ -171,7 +171,7 @@ public class CatalogFragment extends Fragment {
             img.setImageResource(R.drawable.wholesale);
         }
         if(category.getId().equals("5ab672c9559d5e049c25a63e")){
-            draw1 = new int[] {R.drawable.transportation,R.drawable.shaver,R.drawable.training,R.drawable.medother,R.drawable.equipment,R.drawable.tractor,R.drawable.otherservice};
+            draw1 = new int[] {R.drawable.transportation,R.drawable.shaver,R.drawable.training,R.drawable.medother,R.drawable.otherservice,R.drawable.tractor,R.drawable.equipment};
             img.setImageResource(R.drawable.services);
         }
         if(category.getId().equals("5ab672c9559d5e049c25a64b")){

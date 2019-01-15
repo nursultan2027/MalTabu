@@ -57,7 +57,10 @@
     <string name="radioB1">Келісімді баға</string>
     <string name="radioB2">Тегін беремін</string>
     <string name="priceValid">Баға белгілеңіз</string>
+    <string name="titleValid">Хабарландыру тақырыбын енгізіңіз</string>
+    <string name="emailValid">invalid Электронды пошта</string>
 
+    <string name="chooseCategoryCatalog">Хабарландыру санатын таңдау</string>
     <string name="photoPlus">Фотосүреттер қосу</string>
     <string name="phonePlus">Қосымша телефон номірін қосу</string>
     <string name="catalog">Санат</string>
@@ -117,4 +120,8 @@
 
 
     <string name="postFound">Хабарландырулардың нұсқасы: </string>
+
+    <string name="addPostTitle">Хабарландыру тексеруден өтуге жіберілді!</string>
+    <string name="addPostText">Сіздің хабарландыруыңызды модератор тексерістен өткізіп жатыр, тексерістенөткен жағдайда сайтқа шығарылады және хабарландыруыңызды жеке кабинетіңізде өңдеуге мүмкіндік туады.</string>
+
 </resources>

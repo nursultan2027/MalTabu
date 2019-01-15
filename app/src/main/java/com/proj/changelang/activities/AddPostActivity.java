@@ -1,8 +1,11 @@
 package com.proj.changelang.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -42,20 +45,31 @@ public class AddPostActivity extends AppCompatActivity{
     private ArrayList<Spinner> spinners = new ArrayList<>();
     private boolean [] balls = new boolean[7];
     private FileHelper fileHelper;
+    private Spinner spinner1,spinner2,spinner3,spinner4,spinner5,spinner6,spinner7;
     private ImageView txt;
-    private TextView title;
+    private TextView title, chooseCatalog;
+    private Dialog epicDialog;
     private JSONObject dict;
     private ArrayList<Category> categories = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_post);
+        setContentView(R.layout.add_post_new);
         fileHelper = new FileHelper(this);
         txt = (ImageView) findViewById(R.id.arrr);
+        epicDialog = new Dialog(this);
         title = (TextView) findViewById(R.id.textView);
         String lang = (String) Paper.book().read("language");
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner3 = (Spinner) findViewById(R.id.spinner3);
+        spinner4 = (Spinner) findViewById(R.id.spinner4);
+        spinner5 = (Spinner) findViewById(R.id.spinner5);
+        spinner6 = (Spinner) findViewById(R.id.spinner6);
+        spinner7 = (Spinner) findViewById(R.id.spinner7);
+        chooseCatalog = (TextView) findViewById(R.id.chooseCatalogCategory);
         try {
             getCategories();
         } catch (JSONException e) {
@@ -63,9 +77,14 @@ public class AddPostActivity extends AppCompatActivity{
         }
         Resources resources = context.getResources();
         title.setText(resources.getString(R.string.addPost));
-
-        spinners = new ArrayList<>();
-        LinearLayout cl1 = (LinearLayout) findViewById(R.id.slectedRegion);
+        chooseCatalog.setText(resources.getString(R.string.chooseCategoryCatalog));
+        spinners.add(spinner1);
+        spinners.add(spinner2);
+        spinners.add(spinner3);
+        spinners.add(spinner4);
+        spinners.add(spinner5);
+        spinners.add(spinner6);
+        spinners.add(spinner7);
         txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,17 +109,14 @@ public class AddPostActivity extends AppCompatActivity{
                 else
                     arr.add(dict.getString(catalogs.get(j).getName()));
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
-            final Spinner spinner = new Spinner(this);
-            spinner.setBackground(getResources().getDrawable(R.drawable.rectangle));
-//            final Spinner spinner = new Spinner(this,null,android.R.style.Widget_Spinner,Spinner.MODE_DIALOG);
-            spinners.add(spinner);
-            spinners.get(i).setAdapter(adapter);
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
+            spinners.get(i).setAdapter(adapter2);
             final int finalI = i;
                 spinners.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if(balls[finalI]) {
+                        sDialog();
                         SecondThread thread = new SecondThread(finalI, position);
                         thread.start();
                     }
@@ -111,11 +127,6 @@ public class AddPostActivity extends AppCompatActivity{
 
                     }
                 });
-                vv.setBackgroundColor(getResources().getColor(R.color.MaltabuGrey3));
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                vv.setLayoutParams(params);
-                cl1.addView(spinner);
-//                cl1.addView(vv);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -154,6 +165,12 @@ public class AddPostActivity extends AppCompatActivity{
         public void run() {
             Go(p,i);
         }
+    }
+
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
     }
 
 }

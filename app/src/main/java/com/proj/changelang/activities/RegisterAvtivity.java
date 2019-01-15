@@ -3,6 +3,7 @@ package com.proj.changelang.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -23,6 +24,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.google.gson.Gson;
 import com.proj.changelang.R;
 import com.proj.changelang.helpers.InputValidation;
+import com.proj.changelang.helpers.LocaleHelper;
 import com.proj.changelang.helpers.Maltabu;
 import com.proj.changelang.models.Image;
 import com.proj.changelang.models.Post;
@@ -41,7 +43,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterAvtivity extends AppCompatActivity {
-    private TextView rules, email406;
+    private TextView rules, email406, title1,title2,title3,title4, posk1,posk2,posk3,posk4;
     private CheckBox agree;
     private InputValidation validation;
     private ImageView arr;
@@ -63,7 +65,16 @@ public class RegisterAvtivity extends AppCompatActivity {
         mail = (EditText) findViewById(R.id.editText10);
         pass1 = (EditText) findViewById(R.id.editText11);
         pass2 = (EditText) findViewById(R.id.editText12);
+        title1 = (TextView) findViewById(R.id.reg21);
+        title2 = (TextView) findViewById(R.id.textView24);
+        title3 = (TextView) findViewById(R.id.reg31);
+        title4 = (TextView) findViewById(R.id.reg41);
+        posk1 = (TextView) findViewById(R.id.reg12);
+        posk2 = (TextView) findViewById(R.id.reg22);
+        posk3 = (TextView) findViewById(R.id.reg32);
+        posk4 = (TextView) findViewById(R.id.reg42);
         arr = (ImageView)findViewById(R.id.arr);
+        UpdateViews();
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,5 +259,19 @@ public class RegisterAvtivity extends AppCompatActivity {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+    private void UpdateViews(){
+        Resources res = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
+        title1.setText(res.getString(R.string.reg11));
+        title2.setText(res.getString(R.string.reg21));
+        title3.setText(res.getString(R.string.reg31));
+        title4.setText(res.getString(R.string.reg41));
+        posk1.setText(res.getString(R.string.reg12));
+        posk2.setText(res.getString(R.string.reg22));
+        posk3.setText(res.getString(R.string.reg32));
+        posk4.setText(res.getString(R.string.reg42));
+        rules.setText(res.getString(R.string.rules2));
+        register.setText(res.getString(R.string.regButton));
     }
 }

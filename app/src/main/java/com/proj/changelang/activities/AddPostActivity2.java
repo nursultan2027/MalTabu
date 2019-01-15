@@ -112,6 +112,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private EditText [] editTexts = new EditText[5];
     private InputValidation inputValidation;
     private TextView checkTitle, Rb3, RbFree, ctlg, pdf;
+    private boolean ok = false;
     private ConstraintLayout [] phones = new ConstraintLayout[5];
     private int phoneNimb = 0;
     private TextView [] updts = new TextView[17];
@@ -480,7 +481,6 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
     private void initViews() {
-        NonFocusingScrollView no = new NonFocusingScrollView(this);
         title = (EditText) findViewById(R.id.editText);
         addPost = (Button)findViewById(R.id.addPost);
         content = (EditText) findViewById(R.id.editText2);
@@ -590,7 +590,11 @@ public class AddPostActivity2 extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, AddPostActivity.class));finish();
+        if(!ok)
+            startActivity(new Intent(this, AddPostActivity.class));
+        else
+            startActivity(new Intent(this, MainActivity2.class));
+        finish();
     }
 
     @Override
@@ -651,24 +655,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
     }
 
-
-    private String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } catch (Exception e) {
-            return "";
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
     public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -678,8 +664,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options,
-                                            int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
@@ -715,7 +700,6 @@ public class AddPostActivity2 extends AppCompatActivity{
         return Bitmap.createBitmap(bitmap, 0,0, bitmap.getWidth(),
                 bitmap.getHeight(), matrix, true);
     }
-
 
 
     public void imgDialog(){
@@ -792,7 +776,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         return 5;
     }
     public boolean CheckPost(){
-        Resources res = this.getResources();
+        Resources res = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
         if(rb1.isChecked() && PriceRB.getText().toString().isEmpty()){
             Toast.makeText(this, res.getString(R.string.priceValid), Toast.LENGTH_LONG).show();
             return false;
@@ -805,26 +789,30 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
             else {
                 if (!inputValidation.isInputEditTextEmail(email)) {
-                    Toast.makeText(this, "invalid EMAIL", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, res.getString(R.string.emailValid), Toast.LENGTH_LONG).show();
                     return false;
                 }
                 else {
                     if(RegionID==null){
-                        Toast.makeText(this, "Region", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, res.getString(R.string.chooseRegion), Toast.LENGTH_LONG).show();
                         return false;
                     }
                     else {
-                        if(!inputValidation.validatePhoneNumber(editTexts[0])){
-                            Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_LONG).show();
-                            return  false;
+                        if(CityID==null){
+                            Toast.makeText(this, res.getString(R.string.chooseCity), Toast.LENGTH_LONG).show();
+                            return false;
                         }
                         else {
-                            if(title.getText().toString().isEmpty()) {
-                                Toast.makeText(this, "Title", Toast.LENGTH_LONG).show();
+                            if (!inputValidation.validatePhoneNumber(editTexts[0])) {
+                                Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_LONG).show();
                                 return false;
+                            } else {
+                                if (title.getText().toString().isEmpty()) {
+                                    Toast.makeText(this, res.getString(R.string.titleValid), Toast.LENGTH_LONG).show();
+                                    return false;
+                                } else
+                                    return true;
                             }
-                            else
-                                return true;
                         }
                     }
                 }
@@ -842,17 +830,12 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return aa;
     }
-
     public void newPost(){
         if(CheckPost()){
             postAds();
         }
     }
-
-
-
-
-    public void postAds()    {
+    public void postAds(){
         final OkHttpClient client = new OkHttpClient();
         ArrayList<File> files = getImages();
         ArrayList<String> phones = getPhones();
@@ -892,6 +875,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         postBodyHelper.setExchange(exchange);
         postBodyHelper.setFiles(files);
         postBodyHelper.setPhones(phones);
+        postBodyHelper.setAddress(address.getText().toString());
         postBodyHelper.setEmail(email.getText().toString());
         postBodyHelper.setHasImages(HasImages);
 
@@ -936,35 +920,21 @@ public class AddPostActivity2 extends AppCompatActivity{
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 if (s != null) {
-                    addPost.setText(s);
+                    ok = true;
+                    setContentView(R.layout.add_post_success);
+                    back = (ImageView) findViewById(R.id.arr);
+                    back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(AddPostActivity2.this, MainActivity2.class));
+                            finish();
+                        }
+                    });
                 }
             }
         };
         asyncTask.execute();
     }
-
-
-    public class NonFocusingScrollView extends ScrollView {
-
-        public NonFocusingScrollView(Context context) {
-            super(context);
-        }
-
-        public NonFocusingScrollView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public NonFocusingScrollView(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-        }
-
-        @Override
-        protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
-            return true;
-        }
-
-    }
-
     public void getCities(){
         try {
             for (int i=0; i<fileHelper.getRegionsFromFile().size();i++) {
@@ -981,7 +951,6 @@ public class AddPostActivity2 extends AppCompatActivity{
             e.printStackTrace();
         }
     }
-
     public ArrayList<File> getImages(){
         ArrayList<File> array2 = new ArrayList<>();
         Bitmap bitmap2 = null;
@@ -1020,16 +989,4 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         return array2;
     }
-
-
-    public int ImgCount(){
-        int k=0;
-        for(int i=0;i<8;i++){
-            if(imageViews[i].getVisibility()==View.VISIBLE){
-                k++;
-            }
-        }
-        return k;
-    }
-
 }

@@ -174,6 +174,8 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        search.setText(LocaleHelper.setLocale(getActivity(), Maltabu.lang).getResources().getString(R.string.Search));
+        count.setText(LocaleHelper.setLocale(getActivity(), Maltabu.lang).getResources().getString(R.string.postFound));
         if(Maltabu.byTime==false||Maltabu.increment==false){
             post();
         }
@@ -215,7 +217,7 @@ public class SearchFragment extends Fragment {
             protected void onPostExecute(String result) {
                 try {
                     JSONObject Obj = new JSONObject(result);
-                    count.setText(getActivity().getResources().getString(R.string.postFound)+String.valueOf(Obj.getInt("count")));
+                    count.setText(LocaleHelper.setLocale(getActivity(), Maltabu.lang).getResources().getString(R.string.postFound)+String.valueOf(Obj.getInt("count")));
                     if(Obj.getInt("count")==0)
                     {
                         epicDialog.dismiss();
