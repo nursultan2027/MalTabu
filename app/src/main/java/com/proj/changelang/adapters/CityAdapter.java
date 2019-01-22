@@ -53,6 +53,8 @@ public class CityAdapter extends ArrayAdapter<City> {
                     Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                     Maltabu.s6 = regionID;
                     Maltabu.s4 = regionName;
+                    Maltabu.s3 = null;
+                    Maltabu.searchPage=1;
                     getContext().startActivity(nextSelect);
                     ((Activity) getContext()).finish();
                 }
@@ -60,6 +62,7 @@ public class CityAdapter extends ArrayAdapter<City> {
                     Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                     Maltabu.s3 = city.getId();
                     Maltabu.s4 = city.getName();
+                    Maltabu.searchPage=1;
                     getContext().startActivity(nextSelect);
                     ((Activity) getContext()).finish();
                 }

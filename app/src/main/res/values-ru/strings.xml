@@ -120,7 +120,7 @@
     <string name="noPostTitle">Объявлений нет</string>
     <string name="noPostText">К сожалению, по данному запросу еще нет объявлений.</string>
 
-    <string name="postFound">Объявлений найдено: </string>
+    <string name="postFound">Объявлений найдено: 0</string>
 
     <string name="addPostTitle">Объявление отправлено на проверку!</string>
     <string name="addPostText">Ваше объявление находится у модератора, после проверки оно появится на сайте и будет доступно для редактирования в личном кабинете.</string>

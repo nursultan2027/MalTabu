@@ -51,7 +51,7 @@
                 android:background="@drawable/rounded"
                 android:hint="@string/SearchText2"
                 android:maxLines="1"
-                android:padding="5dp"
+                android:padding="7dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -61,7 +61,7 @@
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="33dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/rounded"
@@ -76,7 +76,7 @@
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="33dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/rounded"
@@ -91,7 +91,7 @@
             <Button
                 android:id="@+id/button5"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="33dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -148,6 +148,7 @@
             android:id="@+id/imageView36"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/cone"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline26"

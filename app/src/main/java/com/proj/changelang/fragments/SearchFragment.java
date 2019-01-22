@@ -71,7 +71,6 @@ public class SearchFragment extends Fragment {
     private boolean can = true;
     private EndlessListener listener;
     private ProgressBar button;
-    private int page;
     private View view;
     private RecyclerView lst;
     private PostRecycleAdapter adapter;
@@ -86,7 +85,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.search_fragment3, container, false);
-        page = 1;
+        Maltabu.searchPage = 1;
         epicDialog = new Dialog(getActivity());
         epicDialog.setCanceledOnTouchOutside(false);
         btn1 = view.findViewById(R.id.button2);
@@ -129,6 +128,13 @@ public class SearchFragment extends Fragment {
                     Maltabu.text = editText.getText().toString();
                 }
                 getActivity().startActivity(new Intent(getActivity(), SecondSelect1.class));
+            }
+        });
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Maltabu.searchPage=1;
+                return false;
             }
         });
         try {
@@ -192,9 +198,6 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    public View load(View view) {
-        return view;
-    }
 
     private void post() {
         AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
@@ -217,15 +220,19 @@ public class SearchFragment extends Fragment {
             protected void onPostExecute(String result) {
                 try {
                     JSONObject Obj = new JSONObject(result);
-                    count.setText(LocaleHelper.setLocale(getActivity(), Maltabu.lang).getResources().getString(R.string.postFound)+String.valueOf(Obj.getInt("count")));
+                    String ccc = LocaleHelper.setLocale(getActivity(), Maltabu.lang).getResources().getString(R.string.postFound);
+                    ccc = ccc.replace("0", String.valueOf(Obj.getInt("count")));
+                    count.setText(ccc);
                     if(Obj.getInt("count")==0)
                     {
                         epicDialog.dismiss();
                         img.setVisibility(View.VISIBLE);
                         title.setVisibility(View.VISIBLE);
                         text.setVisibility(View.VISIBLE);
+                        lst.setVisibility(View.INVISIBLE);
                     }
                     else {
+                        lst.setVisibility(View.VISIBLE);
                         img.setVisibility(View.GONE);
                         title.setVisibility(View.GONE);
                         text.setVisibility(View.GONE);
@@ -292,11 +299,11 @@ public class SearchFragment extends Fragment {
         jsonObject.accumulate("byTime", Maltabu.byTime);
         jsonObject.accumulate("increment", Maltabu.increment);
         jsonObject.accumulate("countPosts", true);
-        jsonObject.accumulate("page", this.page);
+        jsonObject.accumulate("page", Maltabu.searchPage);
         jsonObject.accumulate("onlyEmergency", false);
         jsonObject.accumulate("onlyExchange", false);
         jsonObject.accumulate("onlyImages", false);
-        page++;
+        Maltabu.searchPage++;
         return jsonObject;
     }
 

@@ -55,6 +55,8 @@ public class CatalogAdapter extends ArrayAdapter<Catalog> {
                     Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                     Maltabu.s5 = regionID;
                     Maltabu.s2 = regionName;
+                    Maltabu.s1 = null;
+                    Maltabu.searchPage=1;
                     getContext().startActivity(nextSelect);
                     ((Activity) getContext()).finish();
                 }
@@ -62,6 +64,7 @@ public class CatalogAdapter extends ArrayAdapter<Catalog> {
                     Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                     Maltabu.s2 = city.getName();
                     Maltabu.s1 = city.getId();
+                    Maltabu.searchPage=1;
                     getContext().startActivity(nextSelect);
                     ((Activity) getContext()).finish();
                 }

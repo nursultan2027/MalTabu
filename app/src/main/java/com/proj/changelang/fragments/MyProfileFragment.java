@@ -79,7 +79,7 @@ public class MyProfileFragment extends Fragment {
         });
         try {
             object = new JSONObject(fileHelper.readUserFile());
-            email.setText(object.getString("name"));
+            email.setText(object.getString("mail"));
             number.setText(String.valueOf(object.getInt("number")));
             balance.setText(String.valueOf(object.getInt("balance"))+" ед.");
         } catch (JSONException e) {

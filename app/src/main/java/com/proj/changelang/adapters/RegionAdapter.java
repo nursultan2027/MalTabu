@@ -49,6 +49,7 @@ public class RegionAdapter extends ArrayAdapter<Region> {
                     Maltabu.s4=categories.get(position).getName();
                     Maltabu.s3=null;
                     Maltabu.s6=null;
+                    Maltabu.searchPage=1;
                     Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                     getContext().startActivity(nextSelect);
                     ((Activity) getContext()).finish();

@@ -39,6 +39,7 @@ import com.proj.changelang.fragments.HotFragment;
 import com.proj.changelang.models.Image;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -52,8 +53,8 @@ public class MainActivity2 extends AppCompatActivity
 
     private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange, hottitle;
     private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag, search;
-    private ImageView filter, flag;
-    private ImageView sort;
+    private ImageView filter, flag,sort, menuLogo;
+    private JSONObject object;
     private FileHelper fileHelper;
     private DrawerLayout drawer;
     private Dialog epicDialog, sortDialog;
@@ -63,8 +64,8 @@ public class MainActivity2 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SetActivityView();
         fileHelper = new FileHelper(this);
+        SetActivityView();
         epicDialog = new Dialog(this);
         sortDialog = new Dialog(this);
         opentCurrentFragment(Maltabu.fragmentNumb);
@@ -109,6 +110,7 @@ public class MainActivity2 extends AppCompatActivity
         menu5  = (TextView) view.findViewById(R.id.menu5);
         menu6  = (TextView) view.findViewById(R.id.menu6);
         menu7  = (TextView) view.findViewById(R.id.menu7);
+        menuLogo = (ImageView) view.findViewById(R.id.imageView37);
         hottitle = (TextView) findViewById(R.id.hottitle);
         lange = (TextView) view.findViewById(R.id.langText);
         cLnag = (ConstraintLayout) view.findViewById(R.id.constraintLayout29);
@@ -130,6 +132,11 @@ public class MainActivity2 extends AppCompatActivity
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+        try {
+            object = new JSONObject(fileHelper.readUserFile());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         updateView((String) Paper.book().read("language"));
     }
     private void initListeners() {
@@ -149,6 +156,13 @@ public class MainActivity2 extends AppCompatActivity
                     updateView((String)Paper.book().read("language"));
                     opentCurrentFragment(Maltabu.fragmentNumb);
                 }
+            }
+        });
+        menuLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentMain();
+                Maltabu.selectedFragment = 0;
             }
         });
         cab1.setOnClickListener(new View.OnClickListener() {
@@ -326,7 +340,15 @@ public class MainActivity2 extends AppCompatActivity
             flag.setImageResource(R.drawable.ru);
         Resources resources = context.getResources();
         setTitle("");
-        cab.setText(resources.getString(R.string.Cabinet));
+        if(Maltabu.isAuth.equals("false")) {
+            cab.setText(resources.getString(R.string.Cabinet));
+        } else {
+            try {
+                cab.setText(object.getString("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         menu1.setText(resources.getString(R.string.menu1));
         menu2.setText(resources.getString(R.string.menu2));
         menu3.setText(resources.getString(R.string.menu3));
@@ -350,7 +372,11 @@ public class MainActivity2 extends AppCompatActivity
                 if (back_pressed + 2000 > System.currentTimeMillis()) {
                     super.onBackPressed();
                 } else {
-                    Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show();
+                    if(Maltabu.lang.equals("ru"))
+                        Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getBaseContext(), "Шығу үшін тағы басыңыз", Toast.LENGTH_SHORT).show();
+
                 }
                 back_pressed = System.currentTimeMillis();
             } else {
@@ -380,9 +406,6 @@ public class MainActivity2 extends AppCompatActivity
         return true;
     }
 
-    private String CutString(String str){
-        return str.substring(0, 11)+"...";
-    }
     private void fragmentMain(){
         filter.setVisibility(View.GONE);
         sort.setVisibility(View.GONE);
@@ -401,6 +424,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.s6= null;
         Maltabu.s4= null;
         Maltabu.s2= null;
+        Maltabu.text = null;
     }
     private void fragment1() throws JSONException {
         filter.setVisibility(View.VISIBLE);
@@ -425,6 +449,7 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.s5= null;
         Maltabu.s4= null;
         Maltabu.s2= null;
+        Maltabu.text = null;
         Maltabu.s6= null;
     }
     private void fragment2() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -444,6 +469,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 2;
         Maltabu.s1= null;
+        Maltabu.text = null;
         Maltabu.s4= null;
         Maltabu.s2= null;
         Maltabu.s3= null;
@@ -466,6 +492,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 3;
         Maltabu.s1= null;
+        Maltabu.text = null;
         Maltabu.s4= null;
         Maltabu.s2= null;
         Maltabu.s3= null;
@@ -486,6 +513,7 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 4;
+        Maltabu.text = null;
         Maltabu.s1= null;
         Maltabu.s4= null;
         Maltabu.s2= null;
@@ -509,6 +537,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        Maltabu.text = null;
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 5;
         Maltabu.s4= null;
@@ -537,6 +566,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 6;
         Maltabu.s1= null;
+        Maltabu.text = null;
         Maltabu.s4= null;
         Maltabu.s2= null;
         Maltabu.s3= null;
@@ -559,6 +589,7 @@ public class MainActivity2 extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 7;
         Maltabu.s1= null;
+        Maltabu.text = null;
         Maltabu.s3= null;
         Maltabu.s4= null;
         Maltabu.s2= null;
@@ -664,8 +695,8 @@ public class MainActivity2 extends AppCompatActivity
 
     protected void soDialog() {
         sortDialog.setContentView(R.layout.sort_dialog);
-        final TextView txt1 = (TextView) sortDialog.findViewById(R.id.textView57);
         Resources resources = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
+        final TextView txt1 = (TextView) sortDialog.findViewById(R.id.textView57);
         final TextView txt2 = (TextView) sortDialog.findViewById(R.id.textView59);
         final TextView txt3 = (TextView) sortDialog.findViewById(R.id.textView60);
         final TextView txt4 = (TextView) sortDialog.findViewById(R.id.textView61);

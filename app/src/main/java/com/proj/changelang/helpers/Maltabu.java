@@ -18,6 +18,7 @@ public class Maltabu {
     public static String s5 = null;
     public static String s6 = null;
     public static String text = null;
+    public static int searchPage = 1;
     public static ArrayList<Post> posts;
     public static PostRecycleAdapter adapter;
     public static boolean byTime = true;

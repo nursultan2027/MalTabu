@@ -65,6 +65,7 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
                     Maltabu.s2=categories.get(position).getName();
                     Maltabu.s1=null;
                     Maltabu.s5=null;
+                    Maltabu.searchPage=1;
                     Intent nextSelect = new Intent(getContext(), MainActivity2.class);
                     getContext().startActivity(nextSelect);
                     ((Activity) getContext()).finish();

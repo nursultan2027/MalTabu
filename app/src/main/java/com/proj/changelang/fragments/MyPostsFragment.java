@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.proj.changelang.R;
@@ -59,6 +61,8 @@ public class MyPostsFragment extends Fragment {
     private Spinner spinner;
     private JSONObject object;
     private FileHelper fileHelper;
+    private TextView txt;
+    private ImageView img;
     private ListView prodss;
     private MyPostsAdapter adapter1, adapter2, adapter3, adapter4;
     @Override
@@ -73,24 +77,47 @@ public class MyPostsFragment extends Fragment {
         spinner = (Spinner) view.findViewById(R.id.spinner1);
         fileHelper = new FileHelper(getActivity());
         prodss = (ListView) view.findViewById(R.id.prodss);
+        txt = (TextView) view.findViewById(R.id.textView56);
+        img = (ImageView) view.findViewById(R.id.imageView36);
         categList();
         ArrayList<String> arr = new ArrayList<>();
         arr.add("Активные объявления");
         arr.add("Объявления на модерации");
         arr.add("Объявления в архиве");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, arr);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, arr);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                     prodss.setAdapter(adapter2);
+                    if(adapter2.getCount()<1){
+                        img.setVisibility(View.VISIBLE);
+                        txt.setVisibility(View.VISIBLE);
+                    } else {
+                        img.setVisibility(View.GONE);
+                        txt.setVisibility(View.GONE);
+                    }
                 } else {
                     if(position==1){
                         prodss.setAdapter(adapter4);
+                        if(adapter4.getCount()<1){
+                            img.setVisibility(View.VISIBLE);
+                            txt.setVisibility(View.VISIBLE);
+                        } else {
+                            img.setVisibility(View.GONE);
+                            txt.setVisibility(View.GONE);
+                        }
                     } else {
                         if(position==2){
                             prodss.setAdapter(adapter3);
+                            if(adapter3.getCount()<1){
+                                img.setVisibility(View.VISIBLE);
+                                txt.setVisibility(View.VISIBLE);
+                            } else {
+                                img.setVisibility(View.GONE);
+                                txt.setVisibility(View.GONE);
+                            }
                         }
                     }
                 }
