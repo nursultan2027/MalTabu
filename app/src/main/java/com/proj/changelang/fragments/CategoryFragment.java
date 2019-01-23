@@ -79,7 +79,6 @@ public class CategoryFragment extends Fragment {
         posts = new ArrayList<>();
         Bundle bundle = this.getArguments();
         epicDialog = new Dialog(getActivity());
-        epicDialog.setCanceledOnTouchOutside(false);
         fileHelper = new FileHelper(getActivity());
         isCatalog = bundle.getBoolean("isCatalog");
         catalog = bundle.getString("catalog");

@@ -127,5 +127,6 @@
     <string name="postFound">Объявлений найдено: 0</string>
     <string name="addPostTitle">Объявление отправлено на проверку!</string>
     <string name="addPostText">Ваше объявление находится у модератора, после проверки оно появится на сайте и будет доступно для редактирования в личном кабинете.</string>
-
+    <string name="photo1">Галерея</string>
+    <string name="photo2">Камера</string>
 </resources>
