@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.proj.changelang"
+        applicationId "kz.maltabu.app.maltabukz"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 4

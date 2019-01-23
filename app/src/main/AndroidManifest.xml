@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.proj.changelang">
+    package="kz.maltabu.app.maltabukz">
 
     <application
-        android:name=".MainApplication"
+        android:name="kz.maltabu.app.maltabukz.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/momo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/momo"
         android:supportsRtl="true"
         android:noHistory="false"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.proj.changelang.fileprovider"
+            android:authorities="kz.maltabu.app.maltabukz.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data
@@ -23,32 +23,32 @@
                 android:resource="@xml/filepaths" />
         </provider>
         <activity
-            android:name=".activities.MainActivity"
+            android:name="kz.maltabu.app.maltabukz.activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FirstSelect1"/>
-        <activity android:name=".activities.MainActivity2"/>
-        <activity android:name=".activities.FirstSelect2"/>
-        <activity android:name=".activities.SecondSelect1"/>
-        <activity android:name=".activities.SecondSelect2"/>
-        <activity android:name=".activities.FilterActivity"/>
-        <activity android:name=".activities.ShowDetails"/>
-        <activity android:name=".activities.PdfActivity"/>
-        <activity android:name=".activities.AuthAvtivity"/>
-        <activity android:name=".activities.RegisterAvtivity"/>
-        <activity android:name=".activities.ShowDetailsImages"/>
-        <activity android:name=".activities.AddPostActivity"/>
-        <activity android:name=".activities.AddPostActivity2"/>
-        <activity android:name=".activities.CabinetActivity"/>
-        <activity android:name=".activities.AddScore"/>
-        <activity android:name=".activities.TopHotActivity"/>
-        <activity android:name=".activities.NoConnection"/>
-        <activity android:name=".activities.ChangePassword"/>
-        <activity android:name=".activities.UpdatePassword">
+        <activity android:name="kz.maltabu.app.maltabukz.activities.FirstSelect1"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.MainActivity2"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.FirstSelect2"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.SecondSelect1"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.SecondSelect2"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.FilterActivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetails"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.PdfActivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.AuthAvtivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.RegisterAvtivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetailsImages"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.AddPostActivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.AddPostActivity2"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.CabinetActivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.AddScore"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.TopHotActivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.NoConnection"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ChangePassword"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.UpdatePassword">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
