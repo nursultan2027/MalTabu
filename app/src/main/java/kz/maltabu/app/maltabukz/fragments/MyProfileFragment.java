@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.AddScore;
 import kz.maltabu.app.maltabukz.activities.AuthAvtivity;
 import kz.maltabu.app.maltabukz.activities.ChangePassword;

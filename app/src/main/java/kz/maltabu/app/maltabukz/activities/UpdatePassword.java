@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 
 public class UpdatePassword extends AppCompatActivity {
     private Button button;

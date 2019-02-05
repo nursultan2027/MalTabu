@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapter;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;

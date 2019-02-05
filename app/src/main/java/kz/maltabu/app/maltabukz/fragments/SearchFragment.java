@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 
 import kz.maltabu.app.maltabukz.activities.FirstSelect1;
 import kz.maltabu.app.maltabukz.activities.SecondSelect1;

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.ViewPagerAdapter;
 import kz.maltabu.app.maltabukz.fragments.MyPostsFragment;
 import kz.maltabu.app.maltabukz.fragments.MyProfileFragment;

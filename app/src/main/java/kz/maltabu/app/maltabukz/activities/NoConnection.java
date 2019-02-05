@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 
 public class NoConnection extends AppCompatActivity{
 

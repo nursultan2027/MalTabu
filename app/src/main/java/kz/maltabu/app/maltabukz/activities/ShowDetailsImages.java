@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.fragments.ImageFragment2;
 import kz.maltabu.app.maltabukz.models.Post;
 

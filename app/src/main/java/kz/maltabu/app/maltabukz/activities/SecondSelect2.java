@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.CityAdapter;
 import kz.maltabu.app.maltabukz.models.Region;
 import kz.maltabu.app.maltabukz.models.City;

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 
 public class PdfActivity extends AppCompatActivity {
     private PDFView pdfView;

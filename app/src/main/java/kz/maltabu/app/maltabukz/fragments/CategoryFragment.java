@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.FilterActivity;
 import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapter;
 import kz.maltabu.app.maltabukz.helpers.EndlessListener;

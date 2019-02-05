@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.FirstSelect2;
 import kz.maltabu.app.maltabukz.activities.MainActivity2;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;

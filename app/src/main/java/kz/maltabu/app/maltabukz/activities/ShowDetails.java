@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -233,7 +233,6 @@ public class ShowDetails extends AppCompatActivity {
             protected void onPostExecute(String s1) {
                 super.onPostExecute(s1);
                 if (s1 != null) {
-                    Toast.makeText(ShowDetails.this, s1, Toast.LENGTH_LONG).show();
                 }
             }
         };

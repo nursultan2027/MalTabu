@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;

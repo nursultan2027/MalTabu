@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.maltabu.app.R;
+import kz.maltabu.app.maltabukz.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
