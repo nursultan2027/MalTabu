@@ -678,7 +678,9 @@ public class AddPostActivity2 extends AppCompatActivity{
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-                imgDialog.dismiss();
+                if (imgDialog != null && imgDialog.isShowing()) {
+                    imgDialog.dismiss();
+                }
             }
         });
         asd2.setOnClickListener(new View.OnClickListener() {
@@ -699,7 +701,9 @@ public class AddPostActivity2 extends AppCompatActivity{
 
                         if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                            imgDialog.dismiss();
+                            if (imgDialog != null && imgDialog.isShowing()) {
+                                imgDialog.dismiss();
+                            }
                         }
                     }
                 }

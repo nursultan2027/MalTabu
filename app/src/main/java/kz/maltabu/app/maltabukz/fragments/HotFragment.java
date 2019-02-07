@@ -148,7 +148,9 @@ public class HotFragment extends Fragment {
             posts.add(post);
         }
         myAdapter.notifyDataSetChanged();
-        epicDialog.dismiss();
+        if (epicDialog != null && epicDialog.isShowing()) {
+            epicDialog.dismiss();
+        }
     }
 
     protected void sDialog() {

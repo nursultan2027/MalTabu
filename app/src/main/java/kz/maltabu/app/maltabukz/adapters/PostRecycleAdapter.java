@@ -274,14 +274,18 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
                             Intent details = new Intent(context, ShowDetails.class);
                             details.putExtra("post", post);
                             context.startActivity(details);
-                            epicDialog.dismiss();
+                            if (epicDialog != null && epicDialog.isShowing()) {
+                                epicDialog.dismiss();
+                            }
                         } else {
                             Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
                             post.setPhones(phones);
                             Intent details = new Intent(context, ShowDetails.class);
                             details.putExtra("post", post);
                             context.startActivity(details);
-                            epicDialog.dismiss();
+                            if (epicDialog != null && epicDialog.isShowing()) {
+                                epicDialog.dismiss();
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -157,7 +157,9 @@ public class CategoryFragment extends Fragment {
                             imageView36.setVisibility(View.VISIBLE);
                             textView56.setVisibility(View.VISIBLE);
                             noPostsText.setVisibility(View.VISIBLE);
-                            epicDialog.dismiss();
+                            if (epicDialog != null && epicDialog.isShowing()) {
+                                epicDialog.dismiss();
+                            }
                         } else {
                             imageView36.setVisibility(View.GONE);
                             textView56.setVisibility(View.GONE);
@@ -310,7 +312,9 @@ public class CategoryFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            epicDialog.dismiss();
+            if (epicDialog != null && epicDialog.isShowing()) {
+                epicDialog.dismiss();
+            }
         }
     }
 

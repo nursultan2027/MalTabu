@@ -65,7 +65,9 @@ public class ShowDetails extends AppCompatActivity {
 
     private void setInfo() {
         title.setText(post.getTitle());
-        content.setText(post.getContent());
+        if (post.getContent()!=null) {
+            content.setText(post.getContent());
+        }
         price.setText(post.getPrice());
         location.setText(post.getCityID());
         String dates [] = post.getCreatedAt().split(",");

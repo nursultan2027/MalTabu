@@ -219,7 +219,9 @@ public class SearchFragment extends Fragment {
                     count.setText(ccc);
                     if(Obj.getInt("count")==0)
                     {
-                        epicDialog.dismiss();
+                        if (epicDialog != null && epicDialog.isShowing()) {
+                            epicDialog.dismiss();
+                        }
                         img.setVisibility(View.VISIBLE);
                         title.setVisibility(View.VISIBLE);
                         text.setVisibility(View.VISIBLE);
@@ -371,7 +373,9 @@ public class SearchFragment extends Fragment {
                 e.printStackTrace();
             }
         }  else {
-            epicDialog.dismiss();
+            if (epicDialog != null && epicDialog.isShowing()) {
+                epicDialog.dismiss();
+            }
         }
     }
 

@@ -118,7 +118,9 @@ public class FilterActivity extends AppCompatActivity{
                         } else {
                             CityID = null;
                         }
-                        epicDialog.dismiss();
+                        if (epicDialog != null && epicDialog.isShowing()) {
+                            epicDialog.dismiss();
+                        }
                     }
 
                     @Override

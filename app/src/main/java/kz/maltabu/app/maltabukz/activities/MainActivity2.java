@@ -671,7 +671,9 @@ public class MainActivity2 extends AppCompatActivity
                 super.onPostExecute(s1);
                 if (s1 != null) {
                     fileHelper.writeUserFile(s1);
-                    epicDialog.dismiss();
+                    if (epicDialog != null && epicDialog.isShowing()) {
+                        epicDialog.dismiss();
+                    }
                     startActivity(new Intent(MainActivity2.this, CabinetActivity.class));
                     finish();
                 }
@@ -703,7 +705,9 @@ public class MainActivity2 extends AppCompatActivity
                 Maltabu.byTime = true;
                 Maltabu.increment = true;
                 opentCurrentFragment(Maltabu.fragmentNumb);
-                sortDialog.dismiss();
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
             }
         });
         txt2.setOnClickListener(new View.OnClickListener() {
@@ -712,7 +716,9 @@ public class MainActivity2 extends AppCompatActivity
                 Maltabu.byTime = true;
                 Maltabu.increment = false;
                 opentCurrentFragment(Maltabu.fragmentNumb);
-                sortDialog.dismiss();
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
             }
         });
         txt3.setOnClickListener(new View.OnClickListener() {
@@ -721,7 +727,9 @@ public class MainActivity2 extends AppCompatActivity
                 Maltabu.byTime = false;
                 Maltabu.increment = false;
                 opentCurrentFragment(Maltabu.fragmentNumb);
-                sortDialog.dismiss();
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
             }
         });
         txt4.setOnClickListener(new View.OnClickListener() {
@@ -730,7 +738,9 @@ public class MainActivity2 extends AppCompatActivity
                 Maltabu.byTime = false;
                 Maltabu.increment = true;
                 opentCurrentFragment(Maltabu.fragmentNumb);
-                sortDialog.dismiss();
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
             }
         });
 

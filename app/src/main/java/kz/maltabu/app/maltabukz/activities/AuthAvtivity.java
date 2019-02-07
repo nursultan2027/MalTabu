@@ -115,8 +115,9 @@ public class AuthAvtivity extends AppCompatActivity {
                     super.onPostExecute(s);
                     if (s != null) {
                         if(s.equals("INVALID Password")){
-
-                            epicDialog.dismiss();
+                            if (epicDialog != null && epicDialog.isShowing()) {
+                                epicDialog.dismiss();
+                            }
                             Toast.makeText(AuthAvtivity.this, s, Toast.LENGTH_LONG).show();
                         }
                             else {
@@ -185,7 +186,9 @@ public class AuthAvtivity extends AppCompatActivity {
                     super.onPostExecute(s1);
                     if (s1 != null) {
                         fileHelper.writeUserFile(s1);
-                        epicDialog.dismiss();
+                        if (epicDialog != null && epicDialog.isShowing()) {
+                            epicDialog.dismiss();
+                        }
                         startActivity(new Intent(AuthAvtivity.this, CabinetActivity.class));
                         finish();
                     }
