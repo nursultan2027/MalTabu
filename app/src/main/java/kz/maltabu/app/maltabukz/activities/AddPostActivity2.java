@@ -91,7 +91,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private Catalog catalog;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    private Dialog imgDialog;
+    private Dialog imgDialog, epicDialog;
     private ImageView back;
     private ImageView [] imageViews= new ImageView[8];
     private ConstraintLayout[] cls= new ConstraintLayout[5];
@@ -106,6 +106,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         getCities();
         imgDialog = new Dialog(this);
+        epicDialog = new Dialog(this);
         inputValidation = new InputValidation(this);
         catalog = getIntent().getParcelableExtra("catalog");
         initViews();
@@ -800,6 +801,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
     public void newPost(){
         if(CheckPost()){
+            sDialog();
             postAds();
         }
     }
@@ -818,12 +820,12 @@ public class AddPostActivity2 extends AppCompatActivity{
             price = "value";
             value = PriceRB.getText().toString();
         } else {
-            if(rb2.isChecked()){
+            if(rb3.isChecked()){
                 price = "trade";
                 value = "";
             }
             else {
-                if(rb3.isChecked()){
+                if(rb2.isChecked()){
                     price="free";
                     value="";
                 }
@@ -875,6 +877,9 @@ public class AddPostActivity2 extends AppCompatActivity{
                 try {
                     Response response = client.newCall(finalRequest).execute();
                     if (!response.isSuccessful()) {
+                        if (epicDialog != null && epicDialog.isShowing()) {
+                            epicDialog.dismiss();
+                        }
                         return null;
                     }
                     return response.body().string();
@@ -888,6 +893,9 @@ public class AddPostActivity2 extends AppCompatActivity{
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 if (s != null) {
+                    if (epicDialog != null && epicDialog.isShowing()) {
+                        epicDialog.dismiss();
+                    }
                     ok = true;
                     setContentView(R.layout.add_post_success);
                     back = (ImageView) findViewById(R.id.arr);
@@ -924,7 +932,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         Bitmap bitmap2 = null;
         byte[] b = new byte[]{};
         FileOutputStream fos = null;
-        File f = new File(this.getCacheDir(), "filephotos");
+        File f = new File(this.getCacheDir(), "filephotos.jpg");
         try {
             f.createNewFile();
         } catch (IOException e) {
@@ -956,5 +964,11 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
         }
         return array2;
+    }
+
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
     }
 }
