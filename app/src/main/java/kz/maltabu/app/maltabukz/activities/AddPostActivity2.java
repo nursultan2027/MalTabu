@@ -932,15 +932,16 @@ public class AddPostActivity2 extends AppCompatActivity{
         Bitmap bitmap2 = null;
         byte[] b = new byte[]{};
         FileOutputStream fos = null;
-        File f = new File(this.getCacheDir(), "filephotos.jpg");
-        try {
-            f.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        File f = null;
         for (int i=0;i<8;i++){
             if(imageViews[i].getVisibility()==View.VISIBLE){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                f = new File(this.getCacheDir(), "filephotos"+String.valueOf(i)+".jpg");
+                try {
+                    f.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 bitmap2 = ((BitmapDrawable) imageViews[i].getDrawable()).getBitmap();
                 bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 b = stream.toByteArray();

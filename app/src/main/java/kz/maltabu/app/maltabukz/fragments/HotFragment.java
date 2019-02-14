@@ -15,8 +15,11 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.RecycleHotAdapter;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
@@ -39,6 +42,7 @@ public class HotFragment extends Fragment {
     private JSONArray jsonArray;
     private Dialog epicDialog;
     private RecyclerView recyclerView;
+    private ImageView banner;
     private RecycleHotAdapter myAdapter;
     private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
@@ -53,8 +57,10 @@ public class HotFragment extends Fragment {
         post();
         Resources resources = getActivity().getResources();
         recyclerView = (RecyclerView) view.findViewById(R.id.hots);
+        banner = (ImageView) view.findViewById(R.id.reclama);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
         myAdapter = new RecycleHotAdapter(posts,getActivity());
+        Picasso.with(getActivity()).load("http://maltabu.kz/"+fileHelper.getBanner()).into(banner);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
         recyclerView.setLayoutManager(manager);

@@ -125,6 +125,17 @@ public class FileHelper {
         }
         return categoryArrayList;
     }
+
+    public String getBanner(){
+        String banner="";
+        try {
+            JSONObject banners = new JSONObject(readDataFile()).getJSONObject("banner");
+            banner = banners.getString("mobile_main");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return banner;
+    }
     public JSONObject diction() throws JSONException {
         return new JSONObject(readDictionary());
     }

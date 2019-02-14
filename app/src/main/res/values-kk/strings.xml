@@ -127,4 +127,11 @@
     <string name="photo1">Галерея</string>
     <string name="photo2">Камера</string>
 
+
+    <string name="descr1">рет қаралынды</string>
+    <string name="descr2">рет телефон қаралынды</string>
+    <string name="descr3">пікірлер саны</string>
+
+    <string name="descr4">Қалпына келтіру</string>
+    <string name="descr5">Архивтен жою</string>
 </resources>

@@ -7,8 +7,32 @@ public class PostAtMyPosts{
     private String createdAt;
     private String status;
     private String title;
+    private String catalog;
+    private String category;
+    private String number;
+    private String price;
+    private String visitors;
+    private String comments;
+    private String phones;
+
+
+
     private ArrayList<String> img;
 
+
+    public PostAtMyPosts(String visitors, String comments, String phones, String number, String price, String catalog, String category, String createdAt, String status, String title) {
+        this.category = category;
+        this.catalog = catalog;
+        this.createdAt = createdAt;
+        this.number = number;
+        this.price = price;
+        this.status = status;
+        this.title = title;
+        this.comments= comments;
+        this.visitors = visitors;
+        this.phones= phones;
+        this.img = new ArrayList<>();
+    }
 
     public PostAtMyPosts(String name, String createdAt, String status, String title) {
         this.name = name;
@@ -18,6 +42,38 @@ public class PostAtMyPosts{
         this.img = new ArrayList<>();
     }
 
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public ArrayList<String> getImg() {
         return img;
@@ -57,5 +113,29 @@ public class PostAtMyPosts{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(String visitors) {
+        this.visitors = visitors;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getPhones() {
+        return phones;
+    }
+
+    public void setPhones(String phones) {
+        this.phones = phones;
     }
 }

@@ -11,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import kz.maltabu.app.maltabukz.R;
 
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapter;
+import kz.maltabu.app.maltabukz.adapters.MyPostsAdapterActive;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
 
 import org.json.JSONArray;
@@ -24,17 +27,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MyPostsFragment extends Fragment {
     private View view;
     private Spinner spinner;
-    private JSONObject object;
+    private JSONObject object, dictionary;
     private FileHelper fileHelper;
     private TextView txt;
     private ImageView img;
     private ListView prodss;
-    private MyPostsAdapter adapter1, adapter2, adapter3, adapter4;
+    private MyPostsAdapter adapter1, adapter4;
+    private MyPostsAdapterActive adapter3, adapter2;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +56,16 @@ public class MyPostsFragment extends Fragment {
         img = (ImageView) view.findViewById(R.id.imageView36);
         categList();
         ArrayList<String> arr = new ArrayList<>();
-        arr.add("Активные объявления");
-        arr.add("Объявления на модерации");
-        arr.add("Объявления в архиве");
+        if(Maltabu.lang.equals("ru")) {
+            arr.add("Активные объявления");
+            arr.add("Объявления на модерации");
+            arr.add("Объявления в архиве");
+        }
+        else {
+            arr.add("Ағымдағы хабарландырулар");
+            arr.add("Модерацияға жіберілген хабарландырулар");
+            arr.add("Архивтегі хабарландырулар");
+        }
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, arr);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -109,10 +121,10 @@ public class MyPostsFragment extends Fragment {
         ArrayList<PostAtMyPosts> myPostsRej = new ArrayList<>();
         try {
             object = new JSONObject(fileHelper.readPostingFile());
+            dictionary = fileHelper.diction();
             Gson googleJson = new Gson();
             JSONArray resObj = object.getJSONArray("ads");
             ArrayList transObjList = googleJson.fromJson(String.valueOf(resObj), ArrayList.class);
-            String catalogID="";
             String name="";
             String createdAt="";
             String status="";
@@ -138,28 +150,80 @@ public class MyPostsFragment extends Fragment {
                 if(imagesArrayList.size()>0){
                     postAtMyPosts.setImg(imagesArrayList);
                 }
-//                myPosts.add(postAtMyPosts);
                 if(status.equals("rejected")){
                     myPostsRej.add(postAtMyPosts);
                 } else {
                     if(status.equals("waiting")) {
                         myPostsWait.add(postAtMyPosts);
+                    }
+                }
+            }
+
+
+            JSONArray resObj2 = object.getJSONArray("posts");
+            ArrayList transObjList2 = googleJson.fromJson(String.valueOf(resObj2), ArrayList.class);
+            PostAtMyPosts postAtMyPosts2 = null;
+            String catalogID="";
+            String categoryID="";
+            String number="";
+            String price="";
+            String visitors="";
+            String phones="";
+            String comments="";
+            for(int i=0; i<transObjList2.size();i++){
+                JSONObject postsJsonObject = resObj2.getJSONObject(i);
+                ArrayList<String> imagesArrayList = new ArrayList<>();
+                if(postsJsonObject.has("images")) {
+                    JSONArray arr = postsJsonObject.getJSONArray("images");
+                    ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
+                    for (int j = 0; j < imgObjList.size(); j++) {
+                        imgJson = arr.getString(j);
+                        imagesArrayList.add(imgJson);
+                    }
+                }
+                JSONArray arr = postsJsonObject.getJSONArray("comments");
+                ArrayList commObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
+                comments = String.valueOf(commObjList.size());
+                visitors = String.valueOf(postsJsonObject.getJSONObject("stat").getInt("phone"));
+                phones = String.valueOf(postsJsonObject.getJSONObject("stat").getInt("visitors"));
+                obj = postsJsonObject.getJSONObject("catalogID");
+                catalogID = obj.getString("name");
+                obj = postsJsonObject.getJSONObject("categoryID");
+                categoryID = obj.getString("name");
+                createdAt = postsJsonObject.getString("createdAt");
+                status = postsJsonObject.getString("status");
+                title = postsJsonObject.getString("title");
+                price = postsJsonObject.getJSONObject("price").getString("kind");
+                if (price.equals("value")) {
+                    price = String.valueOf(postsJsonObject.getJSONObject("price").getInt("value"))+" ₸";
+                } else {
+                    if (price.equals("trade")) {
+                        price = "Договорная цена";
                     } else {
-                        if(status.equals("confirmed")){
-                            myPostsActiv.add(postAtMyPosts);
-                        } else{
-                            if(status.equals("recovery")){
-                                myPostsArch.add(postAtMyPosts);
-                            }
+                        if (price.equals("free")) {
+                            price = "Отдам даром";
                         }
+                    }
+                }
+                number = String.valueOf(postsJsonObject.getInt("number"));
+                postAtMyPosts2 = new PostAtMyPosts(visitors, comments, phones, number,price,catalogID,categoryID,createdAt,status,title);
+                if(imagesArrayList.size()>0){
+                    postAtMyPosts2.setImg(imagesArrayList);
+                }
+                if(status.equals("archived")){
+                    myPostsArch.add(postAtMyPosts2);
+                } else {
+                    if(status.equals("active")) {
+                        myPostsActiv.add(postAtMyPosts2);
                     }
                 }
             }
             adapter1 = new MyPostsAdapter(getActivity(),R.layout.my_posts_item,myPostsRej);
-            adapter2 = new MyPostsAdapter(getActivity(),R.layout.my_posts_item,myPostsActiv);
-            adapter3 = new MyPostsAdapter(getActivity(),R.layout.my_posts_item,myPostsArch);
+            Collections.reverse(myPostsActiv);
+            Collections.reverse(myPostsArch);
+            adapter2 = new MyPostsAdapterActive(getActivity(),R.layout.my_posts_activ_item,myPostsActiv);
+            adapter3 = new MyPostsAdapterActive(getActivity(),R.layout.my_posts_arch_item,myPostsArch);
             adapter4 = new MyPostsAdapter(getActivity(),R.layout.my_posts_item,myPostsWait);
-            prodss.setAdapter(adapter1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
