@@ -60,7 +60,7 @@ public class HotFragment extends Fragment {
         banner = (ImageView) view.findViewById(R.id.reclama);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
         myAdapter = new RecycleHotAdapter(posts,getActivity());
-        Picasso.with(getActivity()).load("http://maltabu.kz/"+fileHelper.getBanner()).into(banner);
+        Picasso.with(getActivity()).load("http://maltabu.kz/"+fileHelper.getBanner()).fit().into(banner);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
         recyclerView.setLayoutManager(manager);

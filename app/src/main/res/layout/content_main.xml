@@ -42,13 +42,11 @@
         <ImageView
             android:id="@+id/reclama"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:background="@color/MaltabuGrey3"
-            app:layout_constraintBottom_toTopOf="@+id/guideline31"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tool"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/tool" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hots"
@@ -61,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline31"></android.support.v7.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/reclama"></android.support.v7.widget.RecyclerView>
 
 
     </android.support.constraint.ConstraintLayout>
