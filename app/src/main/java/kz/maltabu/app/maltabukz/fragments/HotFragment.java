@@ -16,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -60,7 +62,12 @@ public class HotFragment extends Fragment {
         banner = (ImageView) view.findViewById(R.id.reclama);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
         myAdapter = new RecycleHotAdapter(posts,getActivity());
-        Picasso.with(getActivity()).load("http://maltabu.kz/"+fileHelper.getBanner()).fit().into(banner);
+        String url = fileHelper.getBanner();
+        String gif = url.substring(url.length()-3,url.length());
+        if(gif.equals("gif"))
+            Glide.with(getActivity()).asGif().load("http://maltabu.kz/"+url).into(banner);
+        else
+            Picasso.with(getActivity()).load("http://maltabu.kz/"+url).fit().into(banner);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
         recyclerView.setLayoutManager(manager);
