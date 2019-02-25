@@ -18,6 +18,7 @@ import kz.maltabu.app.maltabukz.R;
 
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapter;
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapterActive;
+import kz.maltabu.app.maltabukz.adapters.MyPostsAdapterArch;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
@@ -39,7 +40,8 @@ public class MyPostsFragment extends Fragment {
     private ImageView img;
     private ListView prodss;
     private MyPostsAdapter adapter1, adapter4;
-    private MyPostsAdapterActive adapter3, adapter2;
+    private MyPostsAdapterActive  adapter2;
+    private MyPostsAdapterArch adapter3;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -222,7 +224,7 @@ public class MyPostsFragment extends Fragment {
             Collections.reverse(myPostsActiv);
             Collections.reverse(myPostsArch);
             adapter2 = new MyPostsAdapterActive(getActivity(),R.layout.my_posts_activ_item,myPostsActiv);
-            adapter3 = new MyPostsAdapterActive(getActivity(),R.layout.my_posts_arch_item,myPostsArch);
+            adapter3 = new MyPostsAdapterArch(getActivity(),R.layout.my_posts_arch_item,myPostsArch);
             adapter4 = new MyPostsAdapter(getActivity(),R.layout.my_posts_item,myPostsWait);
         } catch (JSONException e) {
             e.printStackTrace();

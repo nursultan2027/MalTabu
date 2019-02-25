@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.ViewPagerAdapter;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
@@ -28,6 +31,7 @@ import org.json.JSONObject;
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ImageView banner;
     private View headerView;
     private FileHelper fileHelper;
     private Category category;
@@ -41,6 +45,13 @@ public class CatalogFragment extends Fragment {
         setupViewPager(viewPager);
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+        banner = (ImageView) view.findViewById(R.id.reclama2);
+        String url = fileHelper.getBanner();
+        String gif = url.substring(url.length()-3,url.length());
+        if(gif.equals("gif"))
+            Glide.with(getActivity()).asGif().load("http://maltabu.kz/"+url).into(banner);
+        else
+            Picasso.with(getActivity()).load("http://maltabu.kz/"+url).fit().into(banner);
         printWhiteBoxes();
         final Resources resources = getResources();;
         final int [] textRes = new int[]{R.id.text, R.id.text1,R.id.text2,R.id.text3,R.id.text4,R.id.text5,R.id.text6,R.id.text7};

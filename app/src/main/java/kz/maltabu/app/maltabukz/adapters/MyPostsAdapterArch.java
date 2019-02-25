@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
-import kz.maltabu.app.maltabukz.activities.TopHotActivity;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Image;
@@ -32,13 +30,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
+public class MyPostsAdapterArch extends ArrayAdapter<PostAtMyPosts> {
     private LayoutInflater inflater;
     private int layout;
     private FileHelper fileHelper;
     private ArrayList<PostAtMyPosts> myPosts;
 
-    public MyPostsAdapterActive(Context context, int resource, ArrayList<PostAtMyPosts> posts) {
+    public MyPostsAdapterArch(Context context, int resource, ArrayList<PostAtMyPosts> posts) {
         super(context, resource, posts);
         this.myPosts = posts;
         this.layout = resource;
@@ -57,8 +55,6 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         TextView phonesCount = (TextView) view.findViewById(R.id.phonesVisCount);
         TextView commentsCount = (TextView) view.findViewById(R.id.commentsCount);
         ImageView img = (ImageView) view.findViewById(R.id.imageView38);
-        Button btn1 = (Button) view.findViewById(R.id.button7);
-        Button btn2 = (Button) view.findViewById(R.id.bunntonHot);
         String date = getDate(post.getCreatedAt());
         String [] asd = date.split(",");
         if(Maltabu.lang.equals("ru"))
@@ -99,24 +95,6 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
             public void onClick(View v) {
                 SecondThread thread = new SecondThread(post.getNumber());
                 thread.start();
-            }
-        });
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent hotIntent = new Intent(getContext(), TopHotActivity.class);
-                hotIntent.putExtra("number", post.getNumber());
-                hotIntent.putExtra("rrr", post.getTitle());
-                getContext().startActivity(hotIntent);
-            }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent hotIntent = new Intent(getContext(), TopHotActivity.class);
-                hotIntent.putExtra("number", post.getNumber());
-                hotIntent.putExtra("rrr", post.getTitle());
-                getContext().startActivity(hotIntent);
             }
         });
         return view;
