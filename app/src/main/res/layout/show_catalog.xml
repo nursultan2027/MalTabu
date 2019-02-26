@@ -31,17 +31,20 @@
             android:background="@color/MaltabuYellow"
             app:layout_scrollFlags="scroll|enterAlways" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/MaltabuYellow"
-            android:paddingStart="0dp"
-            app:tabGravity="fill"
-            app:tabMode="scrollable"
-            app:tabPaddingEnd="0dp" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/MaltabuYellow"
+        android:paddingStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:tabGravity="fill"
+        app:tabMode="scrollable"
+        app:tabPaddingEnd="0dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -50,7 +53,7 @@
         app:layout_constraintBottom_toTopOf="@+id/reclama2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/tablayout">
 
     </android.support.v4.view.ViewPager>
 
