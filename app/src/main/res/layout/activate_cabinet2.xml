@@ -63,7 +63,7 @@
             android:id="@+id/textView38"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/noAvtivation1"
+            android:text="@string/activateTit"
             android:textColor="@color/Black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -78,14 +78,55 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:text="@string/noActivation2"
-            android:textSize="18sp"
+            android:gravity="left"
+            android:text="@string/activateMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="left"
+            android:id="@+id/textView40"
+            android:layout_marginEnd="16dp"
+            android:text="@string/activateRepeat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/MaltabuGrey2"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="@string/activateRepeat2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+        <Button
+            android:id="@+id/again"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rounded"
+            android:text="@string/activateRepeatButton"
+            android:textColor="@color/Black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView41" />
         <android.support.constraint.Guideline
             android:id="@+id/guideline10"
             android:layout_width="wrap_content"

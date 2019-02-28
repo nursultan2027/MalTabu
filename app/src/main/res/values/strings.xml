@@ -137,5 +137,10 @@
     <string name="descr4"> Восстановить</string>
     <string name="descr5">Удалить из архива</string>
 
+    <string name="noAvtivation1">Создание личного кабинета</string>
+    <string name="noActivation2">Вы можете пользоваться вашим личным кабинетом.</string>
+
+    <string name="cab01">Редактировать</string>
+    <string name="cab02">Удалить</string>
 
 </resources>

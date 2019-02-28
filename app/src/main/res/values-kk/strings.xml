@@ -134,4 +134,10 @@
 
     <string name="descr4">Қалпына келтіру</string>
     <string name="descr5">Архивтен жою</string>
+
+    <string name="noAvtivation1">Создание личного кабинета</string>
+    <string name="noActivation2">Вы можете пользоваться вашим личным кабинетом.</string>
+
+    <string name="cab01">Өңдеу</string>
+    <string name="cab02">Жою</string>
 </resources>

@@ -135,4 +135,6 @@
     <string name="descr4"> Восстановить</string>
     <string name="descr5">Удалить из архива</string>
 
+    <string name="cab01">Редактировать</string>
+    <string name="cab02">Удалить</string>
 </resources>

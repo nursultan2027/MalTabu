@@ -1,7 +1,11 @@
 package kz.maltabu.app.maltabukz.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +32,16 @@ import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
     private LayoutInflater inflater;
     private int layout;
+    private Dialog epicDialog;
     private FileHelper fileHelper;
     private ArrayList<PostAtMyPosts> myPosts;
 
@@ -43,10 +50,11 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         this.myPosts = posts;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
+        this.epicDialog = new Dialog(getContext());
         this.fileHelper = new FileHelper(getContext());
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view=inflater.inflate(this.layout, parent, false);
         final PostAtMyPosts post = myPosts.get(position);
         TextView title = (TextView) view.findViewById(R.id.textView65);
@@ -59,6 +67,8 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         ImageView img = (ImageView) view.findViewById(R.id.imageView38);
         Button btn1 = (Button) view.findViewById(R.id.button7);
         Button btn2 = (Button) view.findViewById(R.id.bunntonHot);
+        Button btn3 = (Button) view.findViewById(R.id.button72);
+        Button btn4 = (Button) view.findViewById(R.id.bunntonHot2);
         String date = getDate(post.getCreatedAt());
         String [] asd = date.split(",");
         if(Maltabu.lang.equals("ru"))
@@ -99,6 +109,12 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
             public void onClick(View v) {
                 SecondThread thread = new SecondThread(post.getNumber());
                 thread.start();
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sDialog(position, post.getNumber());
             }
         });
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -294,6 +310,44 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         asyncTask1.execute();
     }
 
+    public void archPost(final int position, String number){
+        final OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .build();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/cabinet/posts/"+number+"/archive")
+                .post(formBody)
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    myPosts.remove(position);
+                    notifyDataSetChanged();
+                    epicDialog.dismiss();
+                }
+            }
+        };
+        asyncTask1.execute();
+    }
+
     public class SecondThread extends Thread{
         String numb;
         SecondThread (String numb){
@@ -304,5 +358,31 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         public void run() {
             getPost(numb);
         }
+    }
+
+    protected void sDialog(final int position, final String number) {
+        epicDialog.setContentView(R.layout.auth_logout);
+        final Button asd = (Button) epicDialog.findViewById(R.id.buttonCancel);
+        final Button asd3 = (Button) epicDialog.findViewById(R.id.buttonOkok);
+        asd.setTextColor(Color.parseColor("#69aef3"));
+        final TextView asd2 = (TextView) epicDialog.findViewById(R.id.changeText);
+        asd2.setText("Удалить объявление");
+        asd.setText("Удалить");
+        asd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                archPost(position, number);
+                epicDialog.setContentView(R.layout.progress_bar);
+            }
+        });
+        asd3.setText("Отмена");
+        asd3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epicDialog.dismiss();
+            }
+        });
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
     }
 }
