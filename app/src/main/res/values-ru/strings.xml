@@ -15,7 +15,7 @@
     <string name="chooseCategoty">Выберите категорию</string>
     <string name="menu3">Корм</string>
     <string name="menu4">Оптовая торговля</string>
-    <string name="menu5">Услиги и техника</string>
+    <string name="menu5">Услуги и техника</string>
     <string name="menu6">Продукты питания</string>
     <string name="menu7">Работа</string>
     <string name="menu8">Подать объявление бесплатно</string>
@@ -137,4 +137,10 @@
 
     <string name="cab01">Редактировать</string>
     <string name="cab02">Удалить</string>
+
+    <string name="comments1">Комментарии</string>
+    <string name="comments2">Написать комментарий</string>
+
+    <string name="comments3">Для добавления комментария, Вам необходимо войти или зарегистрироваться в системе</string>
+
 </resources>

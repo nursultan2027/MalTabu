@@ -40,9 +40,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ShowDetails extends AppCompatActivity {
-    private TextView title, content, price, phone, location, date, photos;
+    private TextView title, content, price, phone, location, date, photos, commen;
     private ImageView img;
-    private ConstraintLayout cs1, hot, top;
+    private ConstraintLayout cs1, hot, top, comments;
     private Post post;
     private FileHelper fileHelper;
     private LinearLayout layout;
@@ -68,6 +68,7 @@ public class ShowDetails extends AppCompatActivity {
         if (post.getContent()!=null) {
             content.setText(post.getContent());
         }
+        commen.setText(commen.getText().toString()+"("+String.valueOf(post.getComments().size())+")");
         price.setText(post.getPrice());
         location.setText(post.getCityID());
         String dates [] = post.getCreatedAt().split(",");
@@ -162,12 +163,24 @@ public class ShowDetails extends AppCompatActivity {
                 }
             }
         });
+
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent comIntent = new Intent(ShowDetails.this, CommentsActivity.class);
+                comIntent.putExtra("post", post);
+                startActivity(comIntent);
+                finish();
+            }
+        });
     }
 
     private void initViews() {
         post = getIntent().getParcelableExtra("post");
         cs1 = findViewById(R.id.callPhone);
+        commen = findViewById(R.id.commentxt);
         img = (ImageView) findViewById(R.id.finish);
+        comments = (ConstraintLayout) findViewById(R.id.constraintLayout19);
         layout = (LinearLayout) findViewById(R.id.lin);
         title = (TextView) findViewById(R.id.textView2);
         content = (TextView) findViewById(R.id.textView777);

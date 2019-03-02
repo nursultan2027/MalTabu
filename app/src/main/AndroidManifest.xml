@@ -48,6 +48,7 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.TopHotActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.NoConnection"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.ChangePassword"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.CommentsActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.UpdatePassword">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

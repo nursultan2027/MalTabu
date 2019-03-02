@@ -19,6 +19,7 @@ import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.models.Comment;
 import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
 import com.squareup.picasso.Picasso;
@@ -65,6 +66,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         holder.nameView.setText(post.getTitle());
         holder.visitors.setText(post.getVisitors());
         holder.nameView2.setText(post.getPrice());
+        holder.commCount.setText(String.valueOf(post.getComments().size()));
         String dates [] = post.getCreatedAt().split(",");
         if (Maltabu.lang.equals("ru")) {
             holder.nameView3.setText(post.getCityID()+", "+dates[0]+ " "+dates[1]);
@@ -87,9 +89,9 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         holder.selected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    sDialog();
-                    SecondThread thread = new SecondThread(post.getNumber());
-                    thread.start();
+                sDialog();
+                SecondThread thread = new SecondThread(post.getNumber());
+                thread.start();
             }
         });
     }
@@ -105,6 +107,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
         public TextView nameView2;
         public TextView nameView3;
         public TextView photoCount;
+        public TextView commCount;
         public TextView visitors;
         public ConstraintLayout selected;
         public ImageView img;
@@ -115,6 +118,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
             nameView = (TextView) itemView.findViewById(R.id.textView3);
             nameView2 = (TextView) itemView.findViewById(R.id.textView4);
             nameView3 = (TextView) itemView.findViewById(R.id.textView5);
+            commCount = (TextView) itemView.findViewById(R.id.textView9);
             photoCount = (TextView) itemView.findViewById(R.id.textView11);
             visitors = (TextView) itemView.findViewById(R.id.textView10);
             img = (ImageView) itemView.findViewById(R.id.imageView17);
@@ -225,15 +229,31 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
                         JSONArray arr = postObject.getJSONArray("images");
                         ArrayList<Image> imagesArrayList = new ArrayList<>();
                         ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
+                        Image image = null;
+                        Comment com = null;
                         for (int j = 0; j < imgObjList.size(); j++) {
                             JSONObject imgJson = arr.getJSONObject(j);
-                            Image image = new Image(
+                            image = new Image(
                                     imgJson.getString("extra_small"),
                                     imgJson.getString("small"),
                                     imgJson.getString("medium"),
                                     imgJson.getString("big"));
                             imagesArrayList.add(image);
                         }
+
+                        JSONArray commentsArr = postObject.getJSONArray("comments");
+                        ArrayList<Comment> commentsArrayList = new ArrayList<>();
+                        ArrayList commObjList = googleJson.fromJson(String.valueOf(commentsArr), ArrayList.class);
+                        for (int k = 0; k < commObjList.size(); k++) {
+                            JSONObject imgJson = commentsArr.getJSONObject(k);
+                            com = new Comment(
+                                    imgJson.getString("content"),
+                                    imgJson.getString("createdAt"),
+                                    imgJson.getString("name"),
+                                    imgJson.getString("mail"));
+                            commentsArrayList.add(com);
+                        }
+
                         String phones = "";
                         JSONArray arr2 = postObject.getJSONArray("phones");
                         ArrayList ObjList = googleJson.fromJson(String.valueOf(arr2), ArrayList.class);
@@ -269,7 +289,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
                         }
                         if (postObject.getBoolean("hasContent")) {
                             String content = postObject.getString("content");
-                            Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                            Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList, commentsArrayList);
                             post.setPhones(phones);
                             Intent details = new Intent(context, ShowDetails.class);
                             details.putExtra("post", post);
@@ -278,7 +298,7 @@ public class PostRecycleAdapter extends RecyclerView.Adapter<PostRecycleAdapter.
                                 epicDialog.dismiss();
                             }
                         } else {
-                            Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
+                            Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList, commentsArrayList);
                             post.setPhones(phones);
                             Intent details = new Intent(context, ShowDetails.class);
                             details.putExtra("post", post);

@@ -35,10 +35,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.asd);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
-        if(!fileHelper.readToken().isEmpty()){
-            Maltabu.token=fileHelper.readToken();
-            Maltabu.isAuth="true";
-        }
         if (isConnected())
         {
             GetVersion();
@@ -127,8 +123,14 @@ public class MainActivity extends AppCompatActivity{
                     try {
                         JSONObject dict = new JSONObject(s).getJSONObject("kk_KZ");
                         fileHelper.writeDictionary(dict.toString());
-                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                        finish();
+                        if(!fileHelper.readToken().isEmpty()){
+                            Maltabu.token=fileHelper.readToken();
+                            Maltabu.isAuth="true";
+                            getPosting();
+                        } else {
+                            startActivity(new Intent(MainActivity.this, MainActivity2.class));
+                            finish();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -220,5 +222,84 @@ public class MainActivity extends AppCompatActivity{
         });
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+    public void getPosting(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/cabinet/posting")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        Maltabu.token = null;
+                        Maltabu.isAuth = "false";
+                        fileHelper.writeUserFile("");
+                        fileHelper.writeToken("");
+                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
+                        finish();
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    fileHelper.writePostingFile(s1);
+                    getUser();
+                }
+            }
+        };
+        asyncTask1.execute();
+    }
+
+    public void getUser(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/login/clients")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    fileHelper.writeUserFile(s1);
+                    if (epicDialog != null && epicDialog.isShowing()) {
+                        epicDialog.dismiss();
+                    }
+                    startActivity(new Intent(MainActivity.this, MainActivity2.class));
+                    finish();
+                }
+            }
+        };
+        asyncTask1.execute();
     }
 }

@@ -411,6 +411,8 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 0;
+        Maltabu.byTime = true;
+        Maltabu.increment = true;
         Maltabu.s1= null;
         Maltabu.s3= null;
         Maltabu.s5= null;
@@ -600,6 +602,8 @@ public class MainActivity2 extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 8;
+        Maltabu.byTime = true;
+        Maltabu.increment = true;
     }
 
 

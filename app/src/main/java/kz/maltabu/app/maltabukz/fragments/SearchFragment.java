@@ -31,6 +31,7 @@ import kz.maltabu.app.maltabukz.helpers.EndlessListener;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.models.Comment;
 import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
 
@@ -310,6 +311,7 @@ public class SearchFragment extends Fragment {
         JSONObject postObject = new JSONObject();
         JSONObject imgJson = new JSONObject();
         Image image = new Image();
+        Comment com = new Comment();
         Post post = new Post();
         for (int i = 0; i < postObjList.size(); i++) {
             postObject = resObj.getJSONObject(i);
@@ -324,6 +326,13 @@ public class SearchFragment extends Fragment {
                         imgJson.getString("medium"),
                         imgJson.getString("big"));
                 imagesArrayList.add(image);
+            }
+            JSONArray commentsArr = postObject.getJSONArray("comments");
+            ArrayList<Comment> commentsArrayList = new ArrayList<>();
+            ArrayList commObjList = googleJson.fromJson(String.valueOf(commentsArr), ArrayList.class);
+            for (int k = 0; k < commObjList.size(); k++) {
+                com = new Comment();
+                commentsArrayList.add(com);
             }
             int visitors = postObject.getJSONObject("stat").getInt("visitors");
             String createdAt = postObject.getString("createdAt");
@@ -354,10 +363,10 @@ public class SearchFragment extends Fragment {
             }
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
-                post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                 posts.add(post);
             } else {
-                post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                 posts.add(post);
             }
         }

@@ -20,8 +20,49 @@ public class Post implements Parcelable{
     private String priceValue;
     private String address;
     private String number;
+    private ArrayList<Comment> comments;
     private ArrayList<Image> images;
     private boolean exchange;
+
+    protected Post(Parcel in) {
+        createdAt = in.readString();
+        phones = in.readString();
+        updatedAt = in.readString();
+        title = in.readString();
+        visitors = in.readString();
+        content = in.readString();
+        catalogID = in.readString();
+        categoryID = in.readString();
+        regionID = in.readString();
+        cityID = in.readString();
+        price = in.readString();
+        priceValue = in.readString();
+        address = in.readString();
+        number = in.readString();
+        comments = in.createTypedArrayList(Comment.CREATOR);
+        images = in.createTypedArrayList(Image.CREATOR);
+        exchange = in.readByte() != 0;
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     public String getPhones() {
         return phones;
@@ -161,6 +202,18 @@ public class Post implements Parcelable{
         this.images = images;
     }
 
+    public Post(int visitors, String createdAt, String title, String content, String cityID, String price, String number, ArrayList<Image> images, ArrayList<Comment> comments) {
+        this.visitors = String.valueOf(visitors);
+        this.createdAt = createdAt;
+        this.title = title;
+        this.content = content;
+        this.cityID = cityID;
+        this.price = price;
+        this.number = number;
+        this.images = images;
+        this.comments = comments;
+    }
+
 
     public Post(int visitors, String createdAt, String title, String cityID, String price, String number, ArrayList<Image> images) {
         this.createdAt = createdAt;
@@ -172,38 +225,16 @@ public class Post implements Parcelable{
         this.images = images;
     }
 
-
-    protected Post(Parcel in) {
-        phones = in.readString();
-        visitors = in.readString();
-        createdAt = in.readString();
-        updatedAt = in.readString();
-        title = in.readString();
-        content = in.readString();
-        catalogID = in.readString();
-        categoryID = in.readString();
-        regionID = in.readString();
-        cityID = in.readString();
-        price = in.readString();
-        priceValue = in.readString();
-        address = in.readString();
-        number = in.readString();
-        images = new ArrayList<Image>();
-        in.readTypedList(images, Image.CREATOR);
-        exchange = in.readByte() != 0;
+    public Post(int visitors, String createdAt, String title, String cityID, String price, String number, ArrayList<Image> images, ArrayList<Comment> comments) {
+        this.createdAt = createdAt;
+        this.title = title;
+        this.visitors = String.valueOf(visitors);
+        this.cityID = cityID;
+        this.price = price;
+        this.number = number;
+        this.images = images;
+        this.comments = comments;
     }
-
-    public static final Creator<Post> CREATOR = new Creator<Post>() {
-        @Override
-        public Post createFromParcel(Parcel in) {
-            return new Post(in);
-        }
-
-        @Override
-        public Post[] newArray(int size) {
-            return new Post[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -212,11 +243,11 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(phones);
-        dest.writeString(visitors);
         dest.writeString(createdAt);
+        dest.writeString(phones);
         dest.writeString(updatedAt);
         dest.writeString(title);
+        dest.writeString(visitors);
         dest.writeString(content);
         dest.writeString(catalogID);
         dest.writeString(categoryID);
@@ -226,6 +257,7 @@ public class Post implements Parcelable{
         dest.writeString(priceValue);
         dest.writeString(address);
         dest.writeString(number);
+        dest.writeTypedList(comments);
         dest.writeTypedList(images);
         dest.writeByte((byte) (exchange ? 1 : 0));
     }

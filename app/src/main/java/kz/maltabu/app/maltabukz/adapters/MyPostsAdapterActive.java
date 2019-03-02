@@ -29,6 +29,7 @@ import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.activities.TopHotActivity;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.models.Comment;
 import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
@@ -242,14 +243,28 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
                         JSONArray arr = postObject.getJSONArray("images");
                         ArrayList<Image> imagesArrayList = new ArrayList<>();
                         ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
+                        Image image = null;
+                        Comment com = null;
                         for (int j = 0; j < imgObjList.size(); j++) {
                             JSONObject imgJson = arr.getJSONObject(j);
-                            Image image = new Image(
+                            image = new Image(
                                     imgJson.getString("extra_small"),
                                     imgJson.getString("small"),
                                     imgJson.getString("medium"),
                                     imgJson.getString("big"));
                             imagesArrayList.add(image);
+                        }
+                        JSONArray commentsArr = postObject.getJSONArray("comments");
+                        ArrayList<Comment> commentsArrayList = new ArrayList<>();
+                        ArrayList commObjList = googleJson.fromJson(String.valueOf(commentsArr), ArrayList.class);
+                        for (int k = 0; k < commObjList.size(); k++) {
+                            JSONObject imgJson = commentsArr.getJSONObject(k);
+                            com = new Comment(
+                                    imgJson.getString("content"),
+                                    imgJson.getString("createdAt"),
+                                    imgJson.getString("name"),
+                                    imgJson.getString("mail"));
+                            commentsArrayList.add(com);
                         }
                         String phones = "";
                         JSONArray arr2 = postObject.getJSONArray("phones");
@@ -286,13 +301,13 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
                         }
                         if (postObject.getBoolean("hasContent")) {
                             String content = postObject.getString("content");
-                            Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                            Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post.setPhones(phones);
                             Intent details = new Intent(getContext(), ShowDetails.class);
                             details.putExtra("post", post);
                             getContext().startActivity(details);
                         } else {
-                            Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
+                            Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post.setPhones(phones);
                             Intent details = new Intent(getContext(), ShowDetails.class);
                             details.putExtra("post", post);

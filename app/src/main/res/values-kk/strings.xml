@@ -140,4 +140,9 @@
 
     <string name="cab01">Өңдеу</string>
     <string name="cab02">Жою</string>
+
+    <string name="comments1">Пікірлер</string>
+    <string name="comments2">Пікір қалдыру</string>
+    <string name="comments3">Пікіріңізді қалдыру үшін, Сізге жүйеге Кіру немесе Тіркелу қажет</string>
+
 </resources>

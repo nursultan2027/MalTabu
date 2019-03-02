@@ -24,6 +24,7 @@ import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapter;
 import kz.maltabu.app.maltabukz.helpers.EndlessListener;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.models.Comment;
 import kz.maltabu.app.maltabukz.models.FilterModel;
 import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
@@ -149,9 +150,6 @@ public class CategoryFragment extends Fragment {
                 protected void onPostExecute(String result) {
                     try {
                         JSONObject Obj = new JSONObject(result);
-//                        if(page==2)
-//                        Toast.makeText(getActivity(), "Найдено постов:"+
-//                                String.valueOf(Obj.getInt("count")), Toast.LENGTH_SHORT).show();
                         if(Obj.getInt("count")==0)
                         {
                             imageView36.setVisibility(View.VISIBLE);
@@ -246,6 +244,7 @@ public class CategoryFragment extends Fragment {
         ArrayList postObjList = googleJson.fromJson(String.valueOf(resObj), ArrayList.class);
         JSONObject postObject = new JSONObject();
         Image image = new Image();
+        Comment com = new Comment();
         Post post = new Post();
         JSONObject imgJson = new JSONObject();
         for (int i = 0; i < postObjList.size(); i++) {
@@ -261,6 +260,13 @@ public class CategoryFragment extends Fragment {
                         imgJson.getString("medium"),
                         imgJson.getString("big"));
                 imagesArrayList.add(image);
+            }
+            JSONArray commentsArr = postObject.getJSONArray("comments");
+            ArrayList<Comment> commentsArrayList = new ArrayList<>();
+            ArrayList commObjList = googleJson.fromJson(String.valueOf(commentsArr), ArrayList.class);
+            for (int k = 0; k < commObjList.size(); k++) {
+                com = new Comment();
+                commentsArrayList.add(com);
             }
             int visitors = postObject.getJSONObject("stat").getInt("visitors");
             String createdAt = postObject.getString("createdAt");
@@ -291,10 +297,10 @@ public class CategoryFragment extends Fragment {
             }
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
-                post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                 posts.add(post);
             } else {
-                post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList);
+                post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                 posts.add(post);
             }
         }

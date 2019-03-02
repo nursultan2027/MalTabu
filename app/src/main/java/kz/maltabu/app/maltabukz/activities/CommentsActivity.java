@@ -1,91 +1,153 @@
-package kz.maltabu.app.maltabukz.adapters;
+package kz.maltabu.app.maltabukz.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.constraint.ConstraintLayout;
-import android.view.LayoutInflater;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.barteksc.pdfviewer.PDFView;
 import com.google.gson.Gson;
-import kz.maltabu.app.maltabukz.R;
-
-import kz.maltabu.app.maltabukz.activities.ShowDetails;
-import kz.maltabu.app.maltabukz.helpers.FileHelper;
-import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.models.Comment;
-import kz.maltabu.app.maltabukz.models.Image;
-import kz.maltabu.app.maltabukz.models.Post;
-import kz.maltabu.app.maltabukz.models.Transaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.Instant;
 import java.util.ArrayList;
 
+import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.adapters.CommentRecycleAdapter;
+import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
+import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.models.Comment;
+import kz.maltabu.app.maltabukz.models.FilterModel;
+import kz.maltabu.app.maltabukz.models.Image;
+import kz.maltabu.app.maltabukz.models.Post;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TransactionAdapter extends ArrayAdapter<Transaction> {
-    private LayoutInflater inflater;
-    private int layout;
+public class CommentsActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private CommentRecycleAdapter adapter;
+    private TextView title;
     private FileHelper fileHelper;
-    private ArrayList<Transaction> transactions;
-
-    public TransactionAdapter(Context context, int resource, ArrayList<Transaction> transactions) {
-        super(context, resource, transactions);
-        this.transactions = transactions;
-        this.layout = resource;
-        this.inflater = LayoutInflater.from(context);
+    private Button sendComment;
+    private EditText editText;
+    private Dialog epicDialog;
+    private ImageView arr;
+    private Post post;
+    private ArrayList<Comment> comments;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.comments_activity);
+        fileHelper = new FileHelper(this);
+        epicDialog = new Dialog(this);
+        post = getIntent().getParcelableExtra("post");
+        initViews();
+        initList();
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view=inflater.inflate(this.layout, parent, false);
-        final Transaction transaction = transactions.get(position);
-        TextView date = (TextView) view.findViewById(R.id.date);
-        fileHelper = new FileHelper(getContext());
-//        TextView time = (TextView) view.findViewById(R.id.time);
-        TextView value = (TextView) view.findViewById(R.id.value);
-        TextView title = (TextView) view.findViewById(R.id.postTitle);
-        TextView kind = (TextView) view.findViewById(R.id.postKind);
-        ConstraintLayout select = (ConstraintLayout) view.findViewById(R.id.selected);
-        String [] ss = transaction.getCreatedAt().split("uu");
-//        time.setText(ss[1]);
-        String dates [] = ss[0].split(",");
-        if (Maltabu.lang.equals("ru"))
-            date.setText(dates[0]+" "+dates[1]);
-        else
-            date.setText(dates[0]+" "+dates[2]);
-        if(transaction.getSource().equals("cabinet")) {
-            title.setText(transaction.getTitle());
-            value.setText("-" + transaction.getValue());
-            if(transaction.getValue().equals("250")){
-                kind.setText("Добавление в горячие");
-            } else if(transaction.getValue().equals("150")){
-                kind.setText("Поднятие наверх");
-            }
-        }
-        else {
-            value.setText("+" + transaction.getValue());
-            kind.setText("Пополнение через Касса 24");
-        }
+    public void initViews(){
+        arr = (ImageView) findViewById(R.id.arr);
+        recyclerView = (RecyclerView) findViewById(R.id.comments);
+        title=(TextView)findViewById(R.id.textView66);
+        sendComment=(Button) findViewById(R.id.button8);
+        editText = (EditText) findViewById(R.id.editText16);
 
-        select.setOnClickListener(new View.OnClickListener() {
+    }
+
+    public void initList(){
+        comments = post.getComments();
+        Context context = LocaleHelper.setLocale(this, Maltabu.lang);
+        Resources resources = context.getResources();
+        title.setText(resources.getString(R.string.comments1));
+        sendComment.setText(resources.getString(R.string.comments2));
+        if(Maltabu.isAuth.equals("false")){
+            sendComment.setText(resources.getString(R.string.auth2));
+            editText.setText(resources.getString(R.string.comments3));
+            editText.setEnabled(false);
+            sendComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent AuthIntent = new Intent(CommentsActivity.this, AuthAvtivity.class);
+                    startActivity(AuthIntent);
+                    finish();
+                }
+            });
+        } else {
+            sendComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!editText.getText().toString().isEmpty())
+                    {
+                        JSONObject object = null;
+                        try {
+                            object = new JSONObject(fileHelper.readUserFile());
+                            String name = object.getString("name");
+
+                            Comment comment = new Comment();
+                            comment.setContent(editText.getText().toString());
+                            comment.setCreatedAt("");
+                            comment.setName(name);
+                            comments.add(comment);
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        sDialog();
+                        post();
+                    }
+                }
+            });
+        }
+        adapter = new CommentRecycleAdapter(comments,this);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
+        arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SecondThread thread = new SecondThread(transaction.getPostNumber());
+                sDialog();
+                SecondThread thread = new SecondThread(post.getNumber());
                 thread.start();
             }
         });
-
-        return view;
     }
 
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+    }
 
     public void getPost(String numb){
         final OkHttpClient client = new OkHttpClient();
@@ -155,7 +217,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
                         String title = postObject.getString("title");
                         String price = postObject.getJSONObject("price").getString("kind");
                         if (price.equals("value")) {
-                            price = String.valueOf(postObject.getJSONObject("price").getInt("value"));
+                            price = String.valueOf(postObject.getJSONObject("price").getInt("value")+" ₸");
                         } else {
                             if (price.equals("trade")) {
                                 if (Maltabu.lang.toLowerCase().equals("ru")) {
@@ -177,17 +239,19 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
                         }
                         if (postObject.getBoolean("hasContent")) {
                             String content = postObject.getString("content");
-                            Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList, commentsArrayList);
+                            Post post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post.setPhones(phones);
-                            Intent details = new Intent(getContext(), ShowDetails.class);
+                            Intent details = new Intent(CommentsActivity.this, ShowDetails.class);
                             details.putExtra("post", post);
-                            getContext().startActivity(details);
+                            startActivity(details);
+                            finish();
                         } else {
-                            Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList, commentsArrayList);
+                            Post post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post.setPhones(phones);
-                            Intent details = new Intent(getContext(), ShowDetails.class);
+                            Intent details = new Intent(CommentsActivity.this, ShowDetails.class);
                             details.putExtra("post", post);
-                            getContext().startActivity(details);
+                            startActivity(details);
+                            finish();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -200,6 +264,14 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         };
         asyncTask1.execute();
     }
+
+    @Override
+    public void onBackPressed() {
+        sDialog();
+        SecondThread thread = new SecondThread(post.getNumber());
+        thread.start();
+    }
+
     public String getDate(String s)    {
         String [] ss = s.split("T");
         String [] ss2 = ss[0].split("-");
@@ -282,5 +354,74 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         public void run() {
             getPost(numb);
         }
+    }
+
+
+    private void post() {
+        AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
+
+
+            @Override
+            protected String doInBackground(String... urls) {
+                try {
+                    try {
+                        return HttpPost2("http://maltabu.kz/v1/api/clients/posts/"+post.getNumber()+"/comments");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return "Error!";
+                    }
+                } catch (IOException e) {
+                    return "Unable to retrieve web page. URL may be invalid.";
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (epicDialog != null && epicDialog.isShowing()) {
+                    editText.setText("");
+                    epicDialog.dismiss();
+                }
+            }
+        };
+        task.execute();
+    }
+
+    private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
+        OutputStream os = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        writer.write(jsonObject.toString());
+        writer.flush();
+        writer.close();
+        os.close();
+    }
+
+    private JSONObject buidJsonObject2() throws JSONException {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("content", editText.getText().toString());
+        jsonObject.accumulate("postNum", Integer.parseInt(post.getNumber()));
+        jsonObject.accumulate("isReply", false);
+        return jsonObject;
+    }
+
+    private String HttpPost2(String myUrl) throws IOException, JSONException {
+        StringBuilder res = new StringBuilder();
+        URL url = new URL(myUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        conn.setRequestProperty("isAuthorized", "true");
+        conn.setRequestProperty("token", Maltabu.token);
+        conn.setDoOutput(true);
+        JSONObject jsonObject = buidJsonObject2();
+        setPostRequestContent(conn, jsonObject);
+        conn.connect();
+        InputStream in = new BufferedInputStream(conn.getInputStream());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            res.append(line);
+        }
+        return res.toString();
     }
 }
