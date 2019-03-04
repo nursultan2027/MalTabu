@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,6 +95,9 @@ public class CommentsActivity extends AppCompatActivity {
             sendComment.setText(resources.getString(R.string.auth2));
             editText.setText(resources.getString(R.string.comments3));
             editText.setEnabled(false);
+            editText.setGravity(Gravity.CENTER);
+            editText.setTextColor(resources.getColor(R.color.White));
+            editText.setBackgroundColor(resources.getColor(R.color.MaltabuYellow));
             sendComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

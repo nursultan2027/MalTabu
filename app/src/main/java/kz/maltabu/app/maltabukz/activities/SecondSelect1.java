@@ -1,5 +1,6 @@
 package kz.maltabu.app.maltabukz.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.RegionAdapter;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
+import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Region;
 
 import org.json.JSONException;
@@ -30,10 +33,11 @@ public class SecondSelect1 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select);
         fileHelper = new FileHelper(this);
+        Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         RegionAdapter adapter = null;
         try {
             categories = new ArrayList<>();
-            categories.add(new Region(getResources().getString(R.string.Option2)));
+            categories.add(new Region(context.getResources().getString(R.string.Option2)));
             categories.addAll(fileHelper.getRegionsFromFile());
             adapter = new RegionAdapter(this, R.layout.category_item, categories);
             LinearLayout listViewReplacement = (LinearLayout) findViewById(R.id.categories);

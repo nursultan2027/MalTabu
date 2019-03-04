@@ -757,11 +757,6 @@ public class AddPostActivity2 extends AppCompatActivity{
                 return false;
             }
             else {
-                if (!inputValidation.isInputEditTextEmail(email)) {
-                    Toast.makeText(this, res.getString(R.string.emailValid), Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                else {
                     if(RegionID==null){
                         Toast.makeText(this, res.getString(R.string.chooseRegion), Toast.LENGTH_LONG).show();
                         return false;
@@ -779,14 +774,26 @@ public class AddPostActivity2 extends AppCompatActivity{
                                 if (title.getText().toString().isEmpty()) {
                                     Toast.makeText(this, res.getString(R.string.titleValid), Toast.LENGTH_LONG).show();
                                     return false;
-                                } else
-                                    return true;
+                                }
+                                else {
+                                    if(!email.getText().toString().isEmpty()){
+                                        if (!inputValidation.isInputEditTextEmail(email)) {
+                                            Toast.makeText(this, res.getString(R.string.emailValid), Toast.LENGTH_LONG).show();
+                                            return false;
+                                        }
+                                        else {
+                                            return true;
+                                        }
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-        }
     }
     public ArrayList<String> getPhones(){
         ArrayList<String>  aa = new ArrayList<>();

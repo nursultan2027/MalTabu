@@ -78,7 +78,7 @@ public class MainActivity2 extends AppCompatActivity
         Paper.init(this);
         String lgg = Paper.book().read("language");
         if(lgg==null){
-            Paper.book().write("language", "ru");
+            Paper.book().write("language", "kk");
         } else {
             Maltabu.lang = lgg;
         }
