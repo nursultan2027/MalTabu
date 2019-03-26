@@ -72,10 +72,30 @@
     <string name="sort3">Показать сначала дешевые объявления</string>
     <string name="sort4">Показать сначала дорогие объявления</string>
 
+    <string name="or">или</string>
+    <string name="savePassword">Сохранить пароль</string>
+    <string name="mailExist">Данный электронный адрес уже существует</string>
+    <string name="phoneExist">Данный номер телефона уже существует</string>
+    <string name="forgetPass">Забыли пароль?</string>
+    <string name="forgetPassTitle">Восстановление пароля</string>
+    <string name="forgetPassPhone">Регистрировался(-acь) через телефон</string>
+    <string name="forgetPassMail">Регистрировался(-acь) через эл.почту</string>
+    <string name="forgetPassSuccess">Вы успешно сменили пароль</string>
+    <string name="infoCode">На ваш номер будет отправлено sms-сообщение с 4-x значным кодом для восстановления пароля</string>
+
+    <string name="iHaveCode">У меня есть код</string>
+    <string name="recoverPass">Восстановить пароль</string>
+    <string name="wrongPassOrLogin">Неправильный логин или пароль</string>
+
+
     <string name="reg11">Имя или название компании</string>
     <string name="reg12">Будет отбражаться в ваших комментариях</string>
     <string name="reg21">Эл. почта(логин для входа)</string>
+
+    <string name="reg211">Номер телефона(логин для входа)</string>
     <string name="reg22">Никому не показывается, кроме вас</string>
+    <string name="chooseReg1">Зарегистрироваться через номер телефона</string>
+    <string name="chooseReg2">Зарегистрироваться через электронную почту</string>
     <string name="reg31">Пароль</string>
     <string name="reg32">Пароль должен состоять минимум из 6 символов</string>
     <string name="reg41">Повторите пароль</string>

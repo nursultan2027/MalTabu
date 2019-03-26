@@ -1,5 +1,6 @@
 package kz.maltabu.app.maltabukz.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,12 +12,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrPosition;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.fragments.ImageFragment2;
 import kz.maltabu.app.maltabukz.models.Post;
 
 public class ShowDetailsImages extends AppCompatActivity {
     private ImageView img;
+    private SlidrInterface slidrInterface;
     private Post post;
     private int PAGE_COUNT, selectedImg;
     private ViewPager pager;
@@ -27,6 +35,41 @@ public class ShowDetailsImages extends AppCompatActivity {
         post = getIntent().getParcelableExtra("post");
         selectedImg = getIntent().getIntExtra("select",0);
         PAGE_COUNT = post.getImages().size();
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                                .position(SlidrPosition.BOTTOM)
+                                .sensitivity(1f)
+                                .scrimColor(Color.BLACK)
+                                .scrimStartAlpha(0.8f)
+                                .scrimEndAlpha(0f)
+                                .velocityThreshold(2400)
+                                .distanceThreshold(0.25f)
+                                .edge(true|false)
+                                .edgeSize(0.7f) // The % of the screen that counts as the edge, default 18%
+                                .listener(new SlidrListener(){
+                                    @Override
+                                    public void onSlideStateChanged(int state) {
+
+                                    }
+
+                                    @Override
+                                    public void onSlideChange(float percent) {
+
+                                    }
+
+                                    @Override
+                                    public void onSlideOpened() {
+
+                                    }
+
+                                    @Override
+                                    public void onSlideClosed() {
+
+                                    }})
+                                .build();
+
+        Slidr.attach(this, config);
+
         setContentView(R.layout.image_dialog);
         pager = (ViewPager) findViewById(R.id.pages);
         img = (ImageView) findViewById(R.id.arr);

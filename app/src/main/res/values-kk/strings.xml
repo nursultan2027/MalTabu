@@ -65,6 +65,22 @@
     <string name="phonePlus">Қосымша телефон номірін қосу</string>
     <string name="catalog">Санат</string>
 
+    <string name="or">немесе</string>
+    <string name="savePassword">Құпия сөзді сақтау</string>
+    <string name="mailExist">Бұл эл. пошта тіркелген</string>
+    <string name="phoneExist">Бұл телефон номірі тіркелген</string>
+    <string name="forgetPass">Құпия сөзіңізді ұмытып қалдыңыз ба?</string>
+    <string name="forgetPassTitle">Құпия сөзді қалпына келтіру</string>
+    <string name="forgetPassPhone">Телефон арқылы тіркелгем</string>
+    <string name="forgetPassMail">Эл.пошта арқылы тіркелгем</string>
+    <string name="forgetPassSuccess">Құпия сөз өзгертілді</string>
+    <string name="infoCode">Сіздін телефонызға смс-хабарлама жіберілeді</string>
+
+    <string name="iHaveCode">Менде код бар</string>
+    <string name="recoverPass">Құпия сөзді қалпына келтіру</string>
+    <string name="wrongPassOrLogin">Логин немесе құпия сөз қате</string>
+
+
     <string name="sort0">Сортировка</string>
     <string name="sort1">Жаңа хабаралндыруларды көрсету</string>
     <string name="sort2">Бұрынғы хабаралндыруларды көрсету</string>
@@ -72,9 +88,11 @@
     <string name="sort4">Бағасы жоғары хабаралндыруларды көрсету</string>
 
     <string name="reg11">Компанияның аты немесе атауы</string>
-    <string name="reg12">Сіздің қалдырған пікірлеріңізде көрсетіліп тұрады
-</string>
+    <string name="reg12">Сіздің қалдырған пікірлеріңізде көрсетіліп тұрады</string>
+    <string name="chooseReg1">Телефон арқылы тіркелу</string>
+    <string name="chooseReg2">Эл.пошта арқылы тіркелу</string>
     <string name="reg21">Эл.пошта(логин)</string>
+    <string name="reg211">Телефон(логин)</string>
     <string name="reg22">Сізден басқа ешкімге көрсетілмейді</string>
     <string name="reg31">Құпия сөз</string>
     <string name="reg32">Құпия сөз кем дегенде 6 таңбадан құралу керек</string>

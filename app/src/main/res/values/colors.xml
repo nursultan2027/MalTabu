@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ffbf25</color>
+    <color name="secondary">#ffbf25</color>
+    <color name="primary">#ffbf25</color>
     <color name="colorPrimaryDark">#ffbf25</color>
     <color name="colorAccent">#ffbf25</color>
     <color name="MaltabuBlue">#617ffb</color>

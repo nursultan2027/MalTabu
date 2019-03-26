@@ -25,4 +25,9 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/White</item>
     </style>
+
+    <style name="AppTheme.SlidrActivityTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

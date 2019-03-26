@@ -341,7 +341,7 @@ public class SearchFragment extends Fragment {
             String title = postObject.getString("title");
             String price = postObject.getJSONObject("price").getString("kind");
             if (price.equals("value")) {
-                price = String.valueOf(postObject.getJSONObject("price").getInt("value"));
+                price = uiPrice(String.valueOf(postObject.getJSONObject("price").getInt("value")))+" ₸";
             } else {
                 if (price.equals("trade")) {
                     if (Maltabu.lang.toLowerCase().equals("ru")) {
@@ -393,6 +393,61 @@ public class SearchFragment extends Fragment {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+    public String uiPrice(String value){
+        int length = value.length();
+        String result = value;
+        if(length>3){
+            if(length==4){
+                result = value.substring(0,1)+" "+value.substring(1);
+            } else {
+                if(length==5){
+                    result = value.substring(0,2)+" "+value.substring(2);
+                } else {
+                    if(length==6){
+                        result = value.substring(0,3)+" "+value.substring(3);
+                    } else {
+                        if(length==7){
+                            result = value.substring(0,1)+" "+value.substring(1,4)+" "+value.substring(4);
+                        } else {
+                            if(length==8){
+                                result = value.substring(0,2)+" "+value.substring(2,5)+" "+value.substring(5);
+                            } else {
+                                if(length==9){
+                                    result = value.substring(0,3)+" "+value.substring(3,6)+" "+value.substring(6);
+                                } else {
+                                    if(length==10){
+                                        result = value.substring(0,1)+" "+value.substring(1,4)+" "+value.substring(4,7) + " "+value.substring(7);
+                                    } else {
+                                        if(length==11){
+                                            result = value.substring(0,2)+" "+value.substring(2,5)+" "+value.substring(5,8) + " "+value.substring(8);
+                                        } else {
+                                            if(length==12){
+                                                result = value.substring(0,3)+" "+value.substring(3,6)+" "+value.substring(6,9) + " "+value.substring(9);
+                                            } else {
+                                                if(length==13){
+                                                    result = value.substring(0,1)+" "+value.substring(1,4)+" "+value.substring(4,7) + " "+value.substring(7,10)+" "+value.substring(10);
+                                                } else {
+                                                    if(length==14){
+                                                        result = value.substring(0,2)+" "+value.substring(2,5)+" "+value.substring(5,8) + " "+value.substring(8,11)+" "+value.substring(11);
+                                                    } else {
+                                                        if(length==15){
+                                                            result = value.substring(0,3)+" "+value.substring(3,6)+" "+value.substring(6,9) + " "+value.substring(9,12)+" "+value.substring(12);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     public String getDate(String s)    {

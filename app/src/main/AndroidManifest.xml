@@ -40,7 +40,9 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.PdfActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.AuthAvtivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.RegisterAvtivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetailsImages"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.PhoneRegisterAvtivity"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ChooseRegistration"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetailsImages" android:theme="@style/AppTheme.SlidrActivityTheme"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.AddPostActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.AddPostActivity2"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.CabinetActivity"/>
@@ -49,15 +51,10 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.NoConnection"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.ChangePassword"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.CommentsActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.UpdatePassword">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http"
-                    android:host="maltabu.kz"/>
-            </intent-filter>
-        </activity>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPassword"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPasswordPhone"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.NewPassword"/>
+
     </application>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />

@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
@@ -36,9 +37,11 @@ import okhttp3.Response;
 public class AuthAvtivity extends AppCompatActivity {
     private Button register, auth;
     private ImageView arr;
+    private TextView forgetPass;
     private Dialog epicDialog;
     private InputValidation validation;
     private FileHelper fileHelper;
+    private Resources res;
     private EditText edtLog, edtPass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,19 @@ public class AuthAvtivity extends AppCompatActivity {
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
         validation = new InputValidation(this);
+        forgetPass = (TextView) findViewById(R.id.textView72);
         arr = (ImageView)findViewById(R.id.arr);
         auth = (Button) findViewById(R.id.button2);
         edtLog = (EditText) findViewById(R.id.editText9);
         edtPass = (EditText) findViewById(R.id.editText10);
         UpdateViews();
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AuthAvtivity.this, ForgetPassword.class));
+                finish();
+            }
+        });
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +74,8 @@ public class AuthAvtivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AuthAvtivity.this, RegisterAvtivity.class));
+                startActivity(new Intent(AuthAvtivity.this, ChooseRegistration.class));
+                finish();
             }
         });
         getWindow().setSoftInputMode(
@@ -86,8 +98,14 @@ public class AuthAvtivity extends AppCompatActivity {
 
     private void Author() {
             final OkHttpClient client = new OkHttpClient();
+            String login = "";
+            if(validation.isInputEditTextEmail(edtLog)){
+                login = edtLog.getText().toString();
+            } else {
+                login = ValidPhoneNumb(edtLog.getText().toString());
+            }
             RequestBody formBody = new FormBody.Builder()
-                    .add("login", edtLog.getText().toString())
+                    .add("login", login)
                     .add("password", edtPass.getText().toString())
                     .build();
             final Request request = new Request.Builder()
@@ -101,7 +119,7 @@ public class AuthAvtivity extends AppCompatActivity {
                     try {
                         Response response = client.newCall(request).execute();
                         if (!response.isSuccessful()) {
-                            return "INVALID Password";
+                            return response.body().string();
                         }
                         return response.body().string();
                     } catch (Exception e) {
@@ -112,25 +130,25 @@ public class AuthAvtivity extends AppCompatActivity {
 
                 @Override
                 protected void onPostExecute(String s) {
-                    super.onPostExecute(s);
-                    if (s != null) {
-                        if(s.equals("INVALID Password")){
-                            if (epicDialog != null && epicDialog.isShowing()) {
-                                epicDialog.dismiss();
+                    super.onPostExecute(s);{
+                        try {
+                            epicDialog.dismiss();
+                            JSONObject obj = new JSONObject(s);
+                            if(obj.has("name")){
+                                if(obj.getString("name").equals("noRecord"))
+                                {
+                                    Toast.makeText(AuthAvtivity.this,  res.getString(R.string.wrongPassOrLogin), Toast.LENGTH_LONG).show();
+                                }
                             }
-                            Toast.makeText(AuthAvtivity.this, s, Toast.LENGTH_LONG).show();
-                        }
                             else {
-                            try {
-                                JSONObject obj = new JSONObject(s);
                                 String pageName = obj.getString("token");
                                 fileHelper.writeToken(pageName);
                                 Maltabu.token = pageName;
                                 Maltabu.isAuth = "true";
                                 getPosting();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -150,11 +168,7 @@ public class AuthAvtivity extends AppCompatActivity {
             return false;
         }
         else {
-            if (!validation.isInputEditTextEmail(edtLog)){
-                Toast.makeText(this, "Invalid EMAIL", Toast.LENGTH_LONG).show();
-                return false;
-            } else
-                return true;
+            return true;
         }
     }
 
@@ -233,7 +247,7 @@ public class AuthAvtivity extends AppCompatActivity {
     }
 
     private void UpdateViews(){
-        Resources res = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
+        res = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
 
         edtLog.setHint(res.getString(R.string.auth3));
         edtPass.setHint(res.getString(R.string.reg31));
@@ -257,4 +271,21 @@ public class AuthAvtivity extends AppCompatActivity {
         return connected;
     }
 
+
+    public String ValidPhoneNumb(String number){
+        int length = number.length();
+        if(length==10)
+            return number;
+        else {
+            if (length == 11) {
+                return number.substring(1);
+            } else {
+                if (length == 12) {
+                    return number.substring(2);
+                } else {
+                    return "invalid";
+                }
+            }
+        }
+    }
 }

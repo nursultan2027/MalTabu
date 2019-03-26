@@ -6,8 +6,8 @@ android {
         applicationId "kz.maltabu.app.maltabukz"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 19
-        versionName "1.0.11"
+        versionCode 22
+        versionName "1.0.14"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.0'
     implementation 'com.squareup.picasso:picasso:2.3.2'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
 }

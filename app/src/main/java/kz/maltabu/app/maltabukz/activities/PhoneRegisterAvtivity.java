@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,34 +21,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterAvtivity extends AppCompatActivity {
+public class PhoneRegisterAvtivity extends AppCompatActivity {
     private TextView rules, email406, title1,title2,title3,title4, posk1,posk2,posk3,posk4;
     private CheckBox agree;
     private InputValidation validation;
     private ImageView arr;
     private String email;
-    private Resources res;
     private Button register;
+    private Resources res;
     private Dialog epicDialog;
     private EditText name, mail, pass1, pass2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_activity);
+        setContentView(R.layout.register_phone_activity);
         epicDialog = new Dialog(this);
         validation = new InputValidation(this);
         email406 = (TextView) findViewById(R.id.sameEmail);
@@ -71,14 +71,14 @@ public class RegisterAvtivity extends AppCompatActivity {
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterAvtivity.this, ChooseRegistration.class));
+                startActivity(new Intent(PhoneRegisterAvtivity.this, ChooseRegistration.class));
                 finish();
             }
         });
         rules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterAvtivity.this, PdfActivity.class));
+                startActivity(new Intent(PhoneRegisterAvtivity.this, PdfActivity.class));
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
@@ -86,11 +86,11 @@ public class RegisterAvtivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(isConnected()) {
                     if (Check()) {
-                        sDialog();
+                        email406.setText("");
                         registration();
                     }
                 } else {
-                    Toast.makeText(RegisterAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PhoneRegisterAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -142,7 +142,7 @@ public class RegisterAvtivity extends AppCompatActivity {
                                 arr.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        startActivity(new Intent(RegisterAvtivity.this, AuthAvtivity.class));
+                                        startActivity(new Intent(PhoneRegisterAvtivity.this, AuthAvtivity.class));
                                         finish();
                                     }
                                 });
@@ -151,7 +151,7 @@ public class RegisterAvtivity extends AppCompatActivity {
                         else {
                             if (obj.has("name")){
                                 if(obj.getString("name").toLowerCase().equals("notaceptable")){
-                                    Toast.makeText(RegisterAvtivity.this,res.getString(R.string.mailExist),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PhoneRegisterAvtivity.this,res.getString(R.string.phoneExist),Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -208,8 +208,8 @@ public class RegisterAvtivity extends AppCompatActivity {
             Toast.makeText(this, "Name", Toast.LENGTH_LONG).show();
             return false;
         } else {
-        if(!validation.isInputEditTextEmail(mail)){
-            Toast.makeText(this, "invalid EMAIL", Toast.LENGTH_LONG).show();
+        if(!validation.validatePhoneNumber(mail)){
+            Toast.makeText(this, "invalid phone numb", Toast.LENGTH_LONG).show();
                 return false;
             }
             else {
@@ -225,6 +225,9 @@ public class RegisterAvtivity extends AppCompatActivity {
                     else {
                         if(!agree.isChecked()){
                             Toast.makeText(this, "checkbox", Toast.LENGTH_LONG).show();
+                            return false;
+                        } else if(mail.length()!=10){
+                            Toast.makeText(this, "phone Numb", Toast.LENGTH_LONG).show();
                             return false;
                         }
                     }
@@ -255,7 +258,7 @@ public class RegisterAvtivity extends AppCompatActivity {
     private void UpdateViews(){
         res = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
         title1.setText(res.getString(R.string.reg11));
-        title2.setText(res.getString(R.string.reg21));
+        title2.setText(res.getString(R.string.reg211));
         title3.setText(res.getString(R.string.reg31));
         title4.setText(res.getString(R.string.reg41));
         posk1.setText(res.getString(R.string.reg12));
