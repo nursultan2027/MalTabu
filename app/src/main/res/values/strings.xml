@@ -80,6 +80,7 @@
     <string name="forgetPassPhone">Регистрировался(-acь) через телефон</string>
     <string name="forgetPassMail">Регистрировался(-acь) через эл.почту</string>
     <string name="forgetPassSuccess">Вы успешно сменили пароль</string>
+    <string name="wrongCode">Неверный код</string>
 
     <string name="infoCode">На ваш номер будет отправлено sms-сообщение с 4-x значным кодом для восстановления пароля</string>
     <string name="iHaveCode">Далее</string>

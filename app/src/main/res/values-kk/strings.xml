@@ -75,7 +75,7 @@
     <string name="forgetPassMail">Эл.пошта арқылы тіркелгем</string>
     <string name="forgetPassSuccess">Құпия сөз өзгертілді</string>
     <string name="infoCode">Сіздін телефонызға смс-хабарлама жіберілeді</string>
-
+    <string name="wrongCode">Қате код</string>
     <string name="iHaveCode">Менде код бар</string>
     <string name="recoverPass">Құпия сөзді қалпына келтіру</string>
     <string name="wrongPassOrLogin">Логин немесе құпия сөз қате</string>

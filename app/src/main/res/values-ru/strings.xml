@@ -82,7 +82,7 @@
     <string name="forgetPassMail">Регистрировался(-acь) через эл.почту</string>
     <string name="forgetPassSuccess">Вы успешно сменили пароль</string>
     <string name="infoCode">На ваш номер будет отправлено sms-сообщение с 4-x значным кодом для восстановления пароля</string>
-
+    <string name="wrongCode">Неверный код</string>
     <string name="iHaveCode">У меня есть код</string>
     <string name="recoverPass">Восстановить пароль</string>
     <string name="wrongPassOrLogin">Неправильный логин или пароль</string>

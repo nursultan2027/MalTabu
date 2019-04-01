@@ -9,8 +9,11 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
@@ -70,7 +73,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private ArrayList<Region> regions = new ArrayList();
     private ArrayList<ArrayList<String>> citiesArr = new ArrayList<>();
     private LinearLayout linearLayout;
-    private Bitmap bitmap;
+    private Bitmap bitmap, original;
     private RadioButton rb1, rb2, rb3;
     private EditText title, PriceRB, content, email, address;
     private EditText [] editTexts = new EditText[5];
@@ -567,11 +570,12 @@ public class AddPostActivity2 extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),180,100);
+                bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),512,284);
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setVisibility(View.VISIBLE);
-                    imageViews[getImgNumb()].setImageBitmap(rotateImag(bitmap, photoFile.getAbsolutePath()));
+                    original = rotateImag(bitmap, photoFile.getAbsolutePath());
+                    imageViews[getImgNumb()].setImageBitmap(ProcessingBitmap());
                     checked[getImgNumb()] = true;
                 }
             }
@@ -589,7 +593,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                                imageViews[getImgNumb()].setImageBitmap(scaled);
+                                original = scaled;
+                                imageViews[getImgNumb()].setImageBitmap(ProcessingBitmap());
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
@@ -606,7 +611,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                                imageViews[getImgNumb()].setImageBitmap(scaled);
+                                original = scaled;
+                                imageViews[getImgNumb()].setImageBitmap(ProcessingBitmap());
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
@@ -978,5 +984,35 @@ public class AddPostActivity2 extends AppCompatActivity{
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+
+    private Bitmap ProcessingBitmap(){
+        Bitmap bm1 = null;
+        Bitmap newBitmap = null;
+
+        bm1 = original;
+
+        Bitmap.Config config = bm1.getConfig();
+        if(config == null){
+            config = Bitmap.Config.ARGB_8888;
+        }
+
+        newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
+        newBitmap = Bitmap.createScaledBitmap(newBitmap, 180, 67, true);
+        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
+        return mergedImages;
+    }
+
+    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
+
+        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
+        Canvas canvas = new Canvas(result);
+        int x2 = secondImage.getWidth()/2;
+        int x = (firstImage.getWidth()/2)-x2;
+        int y = (canvas.getHeight()-secondImage.getHeight())-(secondImage.getHeight()/4);
+        canvas.drawBitmap(firstImage, 0f, 0f, null);
+        canvas.drawBitmap(secondImage, x, y, null);
+        return result;
     }
 }

@@ -165,6 +165,12 @@ public class ForgetPasswordPhone extends AppCompatActivity {
                                 newPass.putExtra("mail", email);
                                 startActivity(newPass);
                             }
+                        } else {
+                            if(obj.has("name")){
+                                if(obj.getString("name").toLowerCase().equals("norecord")){
+                                    Toast.makeText(ForgetPasswordPhone.this, getResources().getString(R.string.wrongCode), Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -8,6 +8,7 @@
     <color name="MaltabuBlue">#617ffb</color>
     <color name="MaltabuGreen">#1ea502</color>
     <color name="MaltabuBlueLight">#879ffc</color>
+    <color name="MaltabuBlueARGB">#80FFFFFF</color>
     <color name="MaltabuYellow">#ffbf25</color>
     <color name="MaltabuGrey">#f4f5f6</color>
     <color name="MaltabuGrey2">#bdc3c7</color>
