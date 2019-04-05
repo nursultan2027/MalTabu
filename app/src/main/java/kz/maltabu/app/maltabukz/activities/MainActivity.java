@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     if(isConnected()){
-                        GetCategories();
-                        GetDictionary();
+                        noRecord();
                     }
                 }
             });
@@ -126,11 +125,9 @@ public class MainActivity extends AppCompatActivity{
                         if(!fileHelper.readToken().isEmpty()){
                             Maltabu.token=fileHelper.readToken();
                             Maltabu.isAuth="true";
-                            getPosting();
-                        } else {
-                            startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                            finish();
                         }
+                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
+                        finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -154,8 +151,7 @@ public class MainActivity extends AppCompatActivity{
                 try {
                     Response response2 = client.newCall(request2).execute();
                     if (!response2.isSuccessful()) {
-                        GetCategories();
-                        GetDictionary();
+                        noRecord();
                         return null;
                     }
                     return response2.body().string();
@@ -173,8 +169,7 @@ public class MainActivity extends AppCompatActivity{
                         JSONObject jsonObject = new JSONObject(s1);
                         if (jsonObject.has("android_version")) {
                             if (Maltabu.version.equals(jsonObject.getString("android_version"))) {
-                                GetCategories();
-                                GetDictionary();
+                                noRecord();
                             }
                             else{
                                 if(jsonObject.has("android_link"))
@@ -216,90 +211,25 @@ public class MainActivity extends AppCompatActivity{
                 if (epicDialog != null && epicDialog.isShowing()) {
                     epicDialog.dismiss();
                 }
-                GetCategories();
-                GetDictionary();
+                noRecord();
             }
         });
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
     }
 
-    public void getPosting(){
-        final OkHttpClient client = new OkHttpClient();
-        final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/cabinet/posting")
-                .get()
-                .addHeader("isAuthorized", Maltabu.isAuth)
-                .addHeader("token", Maltabu.token)
-                .build();
-        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    Response response2 = client.newCall(request2).execute();
-                    if (!response2.isSuccessful()) {
-                        Maltabu.token = null;
-                        Maltabu.isAuth = "false";
-                        fileHelper.writeUserFile("");
-                        fileHelper.writeToken("");
-                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                        finish();
-                        return null;
-                    }
-                    return response2.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
+    public void noRecord(){
+        if(fileHelper.readDataFile().isEmpty())
+            GetCategories();
+        if(fileHelper.readDictionary().isEmpty())
+            GetDictionary();
+        else {
+            if(!fileHelper.readToken().isEmpty()) {
+                Maltabu.token = fileHelper.readToken();
+                Maltabu.isAuth = "true";
             }
-
-            @Override
-            protected void onPostExecute(String s1) {
-                super.onPostExecute(s1);
-                if (s1 != null) {
-                    fileHelper.writePostingFile(s1);
-                    getUser();
-                }
-            }
-        };
-        asyncTask1.execute();
-    }
-
-    public void getUser(){
-        final OkHttpClient client = new OkHttpClient();
-        final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/login/clients")
-                .get()
-                .addHeader("isAuthorized", Maltabu.isAuth)
-                .addHeader("token", Maltabu.token)
-                .build();
-        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    Response response2 = client.newCall(request2).execute();
-                    if (!response2.isSuccessful()) {
-                        return null;
-                    }
-                    return response2.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-            @Override
-            protected void onPostExecute(String s1) {
-                super.onPostExecute(s1);
-                if (s1 != null) {
-                    fileHelper.writeUserFile(s1);
-                    if (epicDialog != null && epicDialog.isShowing()) {
-                        epicDialog.dismiss();
-                    }
-                    startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                    finish();
-                }
-            }
-        };
-        asyncTask1.execute();
+            startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            finish();
+        }
     }
 }

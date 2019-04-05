@@ -159,7 +159,10 @@ public class AddPostActivity2 extends AppCompatActivity{
             try {
                 JSONObject user = new JSONObject(fileHelper.readUserFile());
                 String mail = user.getString("mail");
-                email.setText(mail);
+                if(mail.contains("@"))
+                    email.setText(mail);
+                else
+                    editTexts[0].setText(mail);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -999,7 +1002,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
 
         newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
-        newBitmap = Bitmap.createScaledBitmap(newBitmap, 180, 67, true);
+        newBitmap = Bitmap.createScaledBitmap(newBitmap, 150, 50, true);
         Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
         return mergedImages;
     }
