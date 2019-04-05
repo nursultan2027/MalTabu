@@ -68,7 +68,6 @@ public class ShowDetails extends AppCompatActivity {
         if (post.getContent()!=null) {
             content.setText(post.getContent());
         }
-        commen.setText(commen.getText().toString()+"("+String.valueOf(post.getComments().size())+")");
         price.setText(post.getPrice());
         location.setText(post.getCityID());
         String dates [] = post.getCreatedAt().split(",");
@@ -267,6 +266,10 @@ public class ShowDetails extends AppCompatActivity {
         String placeHplder="+7("+gg[0].substring(0,3);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         Resources resources = context.getResources();
+        if(post.getComments().size()>0)
+            commen.setText(resources.getString(R.string.showComments)+"("+String.valueOf(post.getComments().size())+")");
+        else
+            commen.setText(resources.getString(R.string.comments2));
         phone.setText(placeHplder+") "+resources.getString(R.string.showPhone));
     }
 

@@ -48,7 +48,7 @@ public class CatalogFragment extends Fragment {
         banner = (ImageView) view.findViewById(R.id.reclama2);
         String url = fileHelper.getBanner();
         String gif = url.substring(url.length()-3,url.length());
-        if(gif.equals("gif"))
+        if(gif.toLowerCase().equals("gif"))
             Glide.with(getActivity()).asGif().load("http://maltabu.kz/"+url).into(banner);
         else
             Picasso.with(getActivity()).load("http://maltabu.kz/"+url).fit().into(banner);

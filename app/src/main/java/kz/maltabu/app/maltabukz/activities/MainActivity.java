@@ -219,8 +219,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void noRecord(){
-        if(fileHelper.readDataFile().isEmpty())
-            GetCategories();
+        GetCategories();
         if(fileHelper.readDictionary().isEmpty())
             GetDictionary();
         else {
