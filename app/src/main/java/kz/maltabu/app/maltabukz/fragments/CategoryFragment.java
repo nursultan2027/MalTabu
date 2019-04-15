@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.FilterActivity;
-import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapter;
+import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapterNew;
 import kz.maltabu.app.maltabukz.helpers.EndlessListener;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -64,7 +64,7 @@ public class CategoryFragment extends Fragment {
     private boolean can = true;
     private FileHelper fileHelper;
     private EndlessListener listener;
-    private PostRecycleAdapter adapter;
+    private PostRecycleAdapterNew adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +93,7 @@ public class CategoryFragment extends Fragment {
         button = (ProgressBar) view.findViewById(R.id.button);
         lst = (RecyclerView) view.findViewById(R.id.prodss);
         filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
-        adapter = new PostRecycleAdapter(posts,getActivity());
+        adapter = new PostRecycleAdapterNew(posts,getActivity());
         imageView36 = (ImageView) view.findViewById(R.id.imageView36);
         textView56 = (TextView) view.findViewById(R.id.textView56);
         noPostsText = (TextView) view.findViewById(R.id.noPostsText);

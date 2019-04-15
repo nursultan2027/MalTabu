@@ -1,10 +1,13 @@
 package kz.maltabu.app.maltabukz.activities;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -28,11 +31,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrPosition;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.fragments.ImageFragment;
+import kz.maltabu.app.maltabukz.models.Comment;
+import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
 
 import okhttp3.OkHttpClient;
@@ -49,6 +66,7 @@ public class ShowDetails extends AppCompatActivity {
     private int PAGE_COUNT;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
+    private Dialog epicDialog;
     private int selectedImg;
     private Intent imagesIntent;
     private static final int PERMISSION_REQUEST_CODE = 123;
@@ -58,9 +76,301 @@ public class ShowDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_details);
         fileHelper = new FileHelper(this);
+        epicDialog = new Dialog(this);
         imagesIntent = new Intent(this, ShowDetailsImages.class);
-        initViews();
-        setInfo();
+        closeLeftSwipe();
+        sDialog();
+        getPost(getIntent().getStringExtra("postNumb"));
+    }
+
+    private void closeLeftSwipe() {
+        SlidrConfig config = new SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
+                .sensitivity(1f)
+                .scrimColor(Color.BLACK)
+                .scrimStartAlpha(0.8f)
+                .scrimEndAlpha(0f)
+                .velocityThreshold(2400)
+                .distanceThreshold(0.5f)
+                .edge(true|false)
+                .edgeSize(0.18f) // The % of the screen that counts as the edge, default 18%
+                .listener(new SlidrListener(){
+                    @Override
+                    public void onSlideStateChanged(int state) {
+
+                    }
+
+                    @Override
+                    public void onSlideChange(float percent) {
+
+                    }
+
+                    @Override
+                    public void onSlideOpened() {
+
+                    }
+
+                    @Override
+                    public void onSlideClosed() {
+
+                    }})
+                .build();
+
+        Slidr.attach(this, config);
+    }
+
+    protected void sDialog() {
+        epicDialog.setContentView(R.layout.progress_dialog);
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+    }
+    public String uiPrice(String value){
+        int length = value.length();
+        String result = value;
+        if(length>3){
+            if(length==4){
+                result = value.substring(0,1)+" "+value.substring(1);
+            } else {
+                if(length==5){
+                    result = value.substring(0,2)+" "+value.substring(2);
+                } else {
+                    if(length==6){
+                        result = value.substring(0,3)+" "+value.substring(3);
+                    } else {
+                        if(length==7){
+                            result = value.substring(0,1)+" "+value.substring(1,4)+" "+value.substring(4);
+                        } else {
+                            if(length==8){
+                                result = value.substring(0,2)+" "+value.substring(2,5)+" "+value.substring(5);
+                            } else {
+                                if(length==9){
+                                    result = value.substring(0,3)+" "+value.substring(3,6)+" "+value.substring(6);
+                                } else {
+                                    if(length==10){
+                                        result = value.substring(0,1)+" "+value.substring(1,4)+" "+value.substring(4,7) + " "+value.substring(7);
+                                    } else {
+                                        if(length==11){
+                                            result = value.substring(0,2)+" "+value.substring(2,5)+" "+value.substring(5,8) + " "+value.substring(8);
+                                        } else {
+                                            if(length==12){
+                                                result = value.substring(0,3)+" "+value.substring(3,6)+" "+value.substring(6,9) + " "+value.substring(9);
+                                            } else {
+                                                if(length==13){
+                                                    result = value.substring(0,1)+" "+value.substring(1,4)+" "+value.substring(4,7) + " "+value.substring(7,10)+" "+value.substring(10);
+                                                } else {
+                                                    if(length==14){
+                                                        result = value.substring(0,2)+" "+value.substring(2,5)+" "+value.substring(5,8) + " "+value.substring(8,11)+" "+value.substring(11);
+                                                    } else {
+                                                        if(length==15){
+                                                            result = value.substring(0,3)+" "+value.substring(3,6)+" "+value.substring(6,9) + " "+value.substring(9,12)+" "+value.substring(12);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private void getPost(String numb) {
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("http://maltabu.kz/v1/api/clients/posts/"+numb)
+                .get()
+                .addHeader("isAuthorized", "false")
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                Gson googleJson = new Gson();
+                if (s1 != null) {
+                    try {
+                        JSONObject postObject = new JSONObject(s1);
+                        JSONArray arr = postObject.getJSONArray("images");
+                        ArrayList<Image> imagesArrayList = new ArrayList<>();
+                        ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
+                        Image image = null;
+                        Comment com = null;
+                        for (int j = 0; j < imgObjList.size(); j++) {
+                            JSONObject imgJson = arr.getJSONObject(j);
+                            image = new Image(
+                                    imgJson.getString("extra_small"),
+                                    imgJson.getString("small"),
+                                    imgJson.getString("medium"),
+                                    imgJson.getString("big"));
+                            imagesArrayList.add(image);
+                        }
+                        JSONArray commentsArr = postObject.getJSONArray("comments");
+                        ArrayList<Comment> commentsArrayList = new ArrayList<>();
+                        ArrayList commObjList = googleJson.fromJson(String.valueOf(commentsArr), ArrayList.class);
+                        for (int k = 0; k < commObjList.size(); k++) {
+                            JSONObject imgJson = commentsArr.getJSONObject(k);
+                            com = new Comment(
+                                    imgJson.getString("content"),
+                                    imgJson.getString("createdAt"),
+                                    imgJson.getString("name"),
+                                    imgJson.getString("mail"));
+                            commentsArrayList.add(com);
+                        }
+                        String phones = "";
+                        JSONArray arr2 = postObject.getJSONArray("phones");
+                        ArrayList ObjList = googleJson.fromJson(String.valueOf(arr2), ArrayList.class);
+                        for (int k=0; k<ObjList.size();k++){
+                            phones+=arr2.getString(k)+";";
+                        }
+                        int visitors = postObject.getJSONObject("stat").getInt("visitors");
+                        String createdAt = postObject.getString("createdAt");
+                        String cityID = postObject.getJSONObject("cityID").getString("name");
+                        int number = postObject.getInt("number");
+                        String title = postObject.getString("title");
+                        String price = postObject.getJSONObject("price").getString("kind");
+                        if (price.equals("value")) {
+                            price = uiPrice(String.valueOf(postObject.getJSONObject("price").getInt("value")))+" ₸";
+                        } else {
+                            if (price.equals("trade")) {
+                                if (Maltabu.lang.toLowerCase().equals("ru")) {
+                                    price = "Договорная цена";
+                                } else {
+                                    String kazName = fileHelper.diction().getString("Договорная цена");
+                                    price = kazName;
+                                }
+                            } else {
+                                if (price.equals("free")) {
+                                    if (Maltabu.lang.toLowerCase().equals("ru")) {
+                                        price = "Отдам даром";
+                                    } else {
+                                        String kazName = fileHelper.diction().getString("Отдам даром");
+                                        price = kazName;
+                                    }
+                                }
+                            }
+                        }
+                        if (postObject.getBoolean("hasContent")) {
+                            String content = postObject.getString("content");
+                            Post post2 = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
+                            post2.setPhones(phones);
+                            post = post2;
+                            initViews();
+                            setInfo();
+                            if(epicDialog.isShowing()) {
+                                epicDialog.dismiss();
+                            }
+                        } else {
+                            Post post2 = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
+                            post2.setPhones(phones);
+                            post = post2;
+                            initViews();
+                            setInfo();
+                            if(epicDialog.isShowing()) {
+                                epicDialog.dismiss();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+        };
+        asyncTask1.execute();
+    }
+
+
+    public String getDate(String s)    {
+        String [] ss = s.split("T");
+        String [] ss2 = ss[0].split("-");
+        if (ss2[1].equals("01"))
+        {
+            ss2[1] = "Января,қаңтар";
+        } else {
+            if (ss2[1].equals("02"))
+            {
+                ss2[1] = "Февраля,ақпан";
+            }
+            else {
+                if (ss2[1].equals("03"))
+                {
+                    ss2[1] = "Марта,наурыз";
+                }
+                else {
+                    if (ss2[1].equals("04"))
+                    {
+                        ss2[1] = "Апреля,сәуiр";
+                    } else {
+                        if (ss2[1].equals("05"))
+                        {
+                            ss2[1] = "Мая,мамыр";
+                        } else {
+                            if (ss2[1].equals("06"))
+                            {
+                                ss2[1] = "Июня,маусым";
+                            }
+                            else {
+                                if (ss2[1].equals("07"))
+                                {
+                                    ss2[1] = "Июля,шiлде";
+                                } else {
+                                    if (ss2[1].equals("08"))
+                                    {
+                                        ss2[1] = "Августа,тамыз";
+                                    }
+                                    else {
+                                        if (ss2[1].equals("09"))
+                                        {
+                                            ss2[1] = "Сентября,қыркүйек";
+                                        }
+                                        else {
+                                            if (ss2[1].equals("10"))
+                                            {
+                                                ss2[1] = "Октября,қазан";
+                                            }
+                                            else {
+                                                if (ss2[1].equals("11"))
+                                                {
+                                                    ss2[1] = "Ноября,қараша";
+                                                }
+                                                else {
+                                                    if (ss2[1].equals("12"))
+                                                    {
+                                                        ss2[1] = "Декабря,желтоқсан";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ss2[2] +","+ss2[1];
     }
 
     private void setInfo() {
@@ -175,7 +485,6 @@ public class ShowDetails extends AppCompatActivity {
     }
 
     private void initViews() {
-        post = getIntent().getParcelableExtra("post");
         cs1 = findViewById(R.id.callPhone);
         commen = findViewById(R.id.commentxt);
         img = (ImageView) findViewById(R.id.finish);

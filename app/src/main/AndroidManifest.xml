@@ -36,7 +36,7 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.SecondSelect1"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.SecondSelect2"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.FilterActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetails"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetails" android:theme="@style/AppTheme.SlidrActivityTheme"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.PdfActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.AuthAvtivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.RegisterAvtivity"/>

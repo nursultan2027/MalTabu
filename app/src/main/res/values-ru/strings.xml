@@ -147,7 +147,7 @@
 
     <string name="photo1">Галерея</string>
     <string name="photo2">Камера</string>
-
+    <string name="rotate">Повернуть</string>
     <string name="descr1">просмотров объявления</string>
     <string name="descr2">просмотров телефона</string>
     <string name="descr3">оставлено комментариев</string>

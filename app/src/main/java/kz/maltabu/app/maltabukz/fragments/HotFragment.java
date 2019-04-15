@@ -16,14 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.adapters.RecycleHotAdapter;
+import kz.maltabu.app.maltabukz.adapters.RecycleHotAdapterNew;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -45,7 +44,7 @@ public class HotFragment extends Fragment {
     private Dialog epicDialog;
     private RecyclerView recyclerView;
     private ImageView banner;
-    private RecycleHotAdapter myAdapter;
+    private RecycleHotAdapterNew myAdapter;
     private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
 
@@ -61,13 +60,18 @@ public class HotFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.hots);
         banner = (ImageView) view.findViewById(R.id.reclama);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
-        myAdapter = new RecycleHotAdapter(posts,getActivity());
+        myAdapter = new RecycleHotAdapterNew(posts,getActivity());
         String url = fileHelper.getBanner();
-        String gif = url.substring(url.length()-3,url.length());
-        if(gif.toLowerCase().equals("gif"))
-            Glide.with(getActivity()).asGif().load("http://maltabu.kz/"+url).into(banner);
-        else
-            Picasso.with(getActivity()).load("http://maltabu.kz/"+url).fit().into(banner);
+        if(!url.isEmpty()) {
+            String gif = url.substring(url.length() - 3, url.length());
+            if (gif.toLowerCase().equals("gif"))
+                Glide.with(getActivity()).asGif().load("http://maltabu.kz/" + url).into(banner);
+            else
+                Picasso.with(getActivity()).load("http://maltabu.kz/" + url).fit().into(banner);
+        }
+        else {
+            banner.setVisibility(View.GONE);
+        }
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
         recyclerView.setLayoutManager(manager);
@@ -123,7 +127,7 @@ public class HotFragment extends Fragment {
     private void catalogList() throws JSONException {
         Gson googleJson = new Gson();
         ArrayList postObjList = googleJson.fromJson(String.valueOf(jsonArray), ArrayList.class);
-        for (int i = 0; i < postObjList.size(); i++) {
+        for (int i = 0; i < 12; i++) {
             JSONObject postObject = jsonArray.getJSONObject(i);
             JSONArray arr = postObject.getJSONArray("images");
             ArrayList<Image> imagesArrayList = new ArrayList<>();

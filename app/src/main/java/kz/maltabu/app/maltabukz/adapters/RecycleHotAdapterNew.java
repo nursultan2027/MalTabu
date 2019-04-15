@@ -4,22 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import kz.maltabu.app.maltabukz.R;
-
-import kz.maltabu.app.maltabukz.activities.ShowDetails;
-import kz.maltabu.app.maltabukz.helpers.FileHelper;
-import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.models.Comment;
-import kz.maltabu.app.maltabukz.models.Image;
-import kz.maltabu.app.maltabukz.models.Post;
-import kz.maltabu.app.maltabukz.models.Transaction;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,73 +20,95 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.activities.ShowDetails;
+import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.models.Comment;
+import kz.maltabu.app.maltabukz.models.Image;
+import kz.maltabu.app.maltabukz.models.Post;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class TransactionAdapter extends ArrayAdapter<Transaction> {
-    private LayoutInflater inflater;
-    private int layout;
-    private FileHelper fileHelper;
-    private ArrayList<Transaction> transactions;
+public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapterNew.vHolder>{
 
-    public TransactionAdapter(Context context, int resource, ArrayList<Transaction> transactions) {
-        super(context, resource, transactions);
-        this.transactions = transactions;
-        this.layout = resource;
-        this.inflater = LayoutInflater.from(context);
+    private ArrayList<Post> posts;
+    private Context context;
+    private FileHelper fileHelper;
+    private JSONObject object;
+    private boolean can;
+    public RecycleHotAdapterNew(ArrayList<Post> posts, Context context) {
+        this.posts = posts;
+        this.context = context;
+        fileHelper = new FileHelper(context);
+        can =true;
+        try {
+            object = fileHelper.diction();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public vHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context)
+                .inflate(R.layout.item_hot,parent,false);
+        return new vHolder(v);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view=inflater.inflate(this.layout, parent, false);
-        final Transaction transaction = transactions.get(position);
-        TextView date = (TextView) view.findViewById(R.id.date);
-        fileHelper = new FileHelper(getContext());
-//        TextView time = (TextView) view.findViewById(R.id.time);
-        TextView value = (TextView) view.findViewById(R.id.value);
-        TextView title = (TextView) view.findViewById(R.id.postTitle);
-        TextView kind = (TextView) view.findViewById(R.id.postKind);
-        ConstraintLayout select = (ConstraintLayout) view.findViewById(R.id.selected);
-        String [] ss = transaction.getCreatedAt().split("uu");
-//        time.setText(ss[1]);
-        String dates [] = ss[0].split(",");
-        if (Maltabu.lang.equals("ru"))
-            date.setText(dates[0]+" "+dates[1]);
-        else
-            date.setText(dates[0]+" "+dates[2]);
-        if(transaction.getSource().equals("cabinet")) {
-            title.setText(transaction.getTitle());
-            value.setText("-" + transaction.getValue());
-            if(transaction.getValue().equals("250")){
-                kind.setText("Добавление в горячие");
-            } else if(transaction.getValue().equals("150")){
-                kind.setText("Поднятие наверх");
-            }
-        }
-        else {
-            value.setText("+" + transaction.getValue());
-            kind.setText("Пополнение через Касса 24");
+    @Override
+    public void onBindViewHolder(final vHolder holder, int position) {
+        final Post post = posts.get(position);
+        holder.nameView.setText(post.getPrice());
+        holder.location.setText(post.getCityID());
+        if(post.getImages().size()>0) {
+                Picasso.with(context).load("http://maltabu.kz/"
+                        +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);
+                holder.photoCount.setText(String.valueOf(post.getImages().size()));
+        } else {
+            holder.img.setImageResource(R.drawable.listempty);
+            holder.photoCount.setText(String.valueOf(0));
         }
 
-        select.setOnClickListener(new View.OnClickListener() {
+        holder.cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!transaction.getKind().equals("refill")) {
-                    SecondThread thread = new SecondThread(transaction.getPostNumber());
-                    thread.start();
-                }
+                SecondThread thread = new SecondThread(post.getNumber());
+                thread.start();
             }
         });
 
-        return view;
+    }
+
+    @Override
+    public int getItemCount() {
+        return posts.size();
+    }
+
+    public class vHolder extends RecyclerView.ViewHolder{
+        public TextView nameView;
+        public TextView photoCount;
+        public TextView location;
+        public ImageView img;
+        public ConstraintLayout cl1;
+
+        public vHolder(View itemView) {
+            super(itemView);
+            nameView = (TextView) itemView.findViewById(R.id.textView3);
+            photoCount = (TextView) itemView.findViewById(R.id.textView11);
+            location = (TextView) itemView.findViewById(R.id.textView5);
+            img = (ImageView) itemView.findViewById(R.id.imageView17);
+            cl1 = (ConstraintLayout) itemView.findViewById(R.id.selectedPost);
+        }
     }
 
 
     public void getPost(String numb){
-        Intent details = new Intent(getContext(), ShowDetails.class);
+        Intent details = new Intent(context, ShowDetails.class);
         details.putExtra("postNumb", numb);
-        getContext().startActivity(details);
+        context.startActivity(details);
     }
+
     public String getDate(String s)    {
         String [] ss = s.split("T");
         String [] ss2 = ss[0].split("-");

@@ -100,6 +100,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private ConstraintLayout[] cls= new ConstraintLayout[5];
     private ConstraintLayout[] climgs= new ConstraintLayout[8];
     private ConstraintLayout[] closes= new ConstraintLayout[8];
+    private ConstraintLayout[] roatates = new ConstraintLayout[8];
     private Spinner spinnerRegion, spinnerCity;
     private int PICK_IMAGE_REQUEST = 8;
     @Override
@@ -339,6 +340,54 @@ public class AddPostActivity2 extends AppCompatActivity{
                 }
             }
         });
+        roatates[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[0]);
+            }
+        });
+        roatates[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[1]);
+            }
+        });
+        roatates[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[2]);
+            }
+        });
+        roatates[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[3]);
+            }
+        });
+        roatates[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[4]);
+            }
+        });
+        roatates[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[5]);
+            }
+        });
+        roatates[6].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[6]);
+            }
+        });
+        roatates[7].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateImageView(imageViews[7]);
+            }
+        });
         cls[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -485,6 +534,14 @@ public class AddPostActivity2 extends AppCompatActivity{
         updts[13] = (TextView)findViewById(R.id.textView26);
         updts[14] = (TextView)findViewById(R.id.textView27);
         updts[15] = (TextView)findViewById(R.id.textView28);
+        roatates[0] = (ConstraintLayout)findViewById(R.id.rotate1);
+        roatates[1] = (ConstraintLayout)findViewById(R.id.rotate2);
+        roatates[2] = (ConstraintLayout)findViewById(R.id.rotate3);
+        roatates[3] = (ConstraintLayout)findViewById(R.id.rotate4);
+        roatates[4] = (ConstraintLayout)findViewById(R.id.rotate5);
+        roatates[5] = (ConstraintLayout)findViewById(R.id.rotate6);
+        roatates[6] = (ConstraintLayout)findViewById(R.id.rotate7);
+        roatates[7] = (ConstraintLayout)findViewById(R.id.rotate8);
         checked[0] = true;
         checked[1] = false;
         checked[2] = false;
@@ -578,7 +635,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                     original = rotateImag(bitmap, photoFile.getAbsolutePath());
-                    imageViews[getImgNumb()].setImageBitmap(ProcessingBitmap());
+                    imageViews[getImgNumb()].setImageBitmap(original);
                     checked[getImgNumb()] = true;
                 }
             }
@@ -596,8 +653,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                                original = scaled;
-                                imageViews[getImgNumb()].setImageBitmap(ProcessingBitmap());
+//                                original = scaled;
+                                imageViews[getImgNumb()].setImageBitmap(scaled);
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
@@ -614,8 +671,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                             if (getImgNumb() < 8) {
                                 int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                                original = scaled;
-                                imageViews[getImgNumb()].setImageBitmap(ProcessingBitmap());
+//                                original = scaled;
+                                imageViews[getImgNumb()].setImageBitmap(scaled);
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
@@ -674,6 +731,16 @@ public class AddPostActivity2 extends AppCompatActivity{
         return Bitmap.createBitmap(bitmap, 0,0, bitmap.getWidth(),
                 bitmap.getHeight(), matrix, true);
     }
+
+
+    public void rotateImageView(ImageView img){
+        Bitmap bitmap  = ((BitmapDrawable) img.getDrawable()).getBitmap();
+        Matrix matrix = new Matrix();
+        matrix.setRotate(90);
+        img.setImageBitmap( Bitmap.createBitmap(bitmap, 0,0, bitmap.getWidth(),
+                bitmap.getHeight(), matrix, true));
+    }
+
 
 
     public void imgDialog(){
@@ -959,6 +1026,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                     e.printStackTrace();
                 }
                 bitmap2 = ((BitmapDrawable) imageViews[i].getDrawable()).getBitmap();
+                original = bitmap2;
+                bitmap2 = ProcessingBitmap();
                 bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 b = stream.toByteArray();
                 try {

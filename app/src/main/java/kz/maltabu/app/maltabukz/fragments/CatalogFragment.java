@@ -47,11 +47,16 @@ public class CatalogFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         banner = (ImageView) view.findViewById(R.id.reclama2);
         String url = fileHelper.getBanner();
-        String gif = url.substring(url.length()-3,url.length());
-        if(gif.toLowerCase().equals("gif"))
-            Glide.with(getActivity()).asGif().load("http://maltabu.kz/"+url).into(banner);
-        else
-            Picasso.with(getActivity()).load("http://maltabu.kz/"+url).fit().into(banner);
+        if(!url.isEmpty()) {
+            String gif = url.substring(url.length() - 3, url.length());
+            if (gif.toLowerCase().equals("gif"))
+                Glide.with(getActivity()).asGif().load("http://maltabu.kz/" + url).into(banner);
+            else
+                Picasso.with(getActivity()).load("http://maltabu.kz/" + url).fit().into(banner);
+        }
+        else {
+            banner.setVisibility(View.GONE);
+        }
         printWhiteBoxes();
         final Resources resources = getResources();;
         final int [] textRes = new int[]{R.id.text, R.id.text1,R.id.text2,R.id.text3,R.id.text4,R.id.text5,R.id.text6,R.id.text7};

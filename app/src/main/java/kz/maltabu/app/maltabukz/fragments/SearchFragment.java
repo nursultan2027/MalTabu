@@ -26,7 +26,7 @@ import kz.maltabu.app.maltabukz.R;
 
 import kz.maltabu.app.maltabukz.activities.FirstSelect1;
 import kz.maltabu.app.maltabukz.activities.SecondSelect1;
-import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapter;
+import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapterNew;
 import kz.maltabu.app.maltabukz.helpers.EndlessListener;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment {
     private ProgressBar button;
     private View view;
     private RecyclerView lst;
-    private PostRecycleAdapter adapter;
+    private PostRecycleAdapterNew adapter;
     private ArrayList<Post> posts = new ArrayList<>();
 
     @Override
@@ -94,7 +94,7 @@ public class SearchFragment extends Fragment {
         editText = view.findViewById(R.id.editText9);
         lst = view.findViewById(R.id.prods);
         count = view.findViewById(R.id.postCount);
-        adapter = new PostRecycleAdapter(posts,getActivity());
+        adapter = new PostRecycleAdapterNew(posts,getActivity());
         manager = new LinearLayoutManager(getActivity());
         lst.setLayoutManager(manager);
         lst.setAdapter(adapter);
