@@ -57,24 +57,24 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ShowDetails extends AppCompatActivity {
-    private TextView title, content, price, phone, location, date, photos, commen;
+    private TextView callPhoneText, title, content, price, phone, location, date, photos, commen;
     private ImageView img;
     private ConstraintLayout cs1, hot, top, comments;
     private Post post;
+    private String currentNumber;
     private FileHelper fileHelper;
     private LinearLayout layout;
     private int PAGE_COUNT;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private Dialog epicDialog;
-    private int selectedImg;
+    private int selectedImg, phonecount=1;;
     private Intent imagesIntent;
     private static final int PERMISSION_REQUEST_CODE = 123;
     private GestureDetector tapGestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.post_details);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
         imagesIntent = new Intent(this, ShowDetailsImages.class);
@@ -273,6 +273,7 @@ public class ShowDetails extends AppCompatActivity {
                             Post post2 = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post2.setPhones(phones);
                             post = post2;
+                            setContentView(R.layout.post_details);
                             initViews();
                             setInfo();
                             if(epicDialog.isShowing()) {
@@ -282,6 +283,7 @@ public class ShowDetails extends AppCompatActivity {
                             Post post2 = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post2.setPhones(phones);
                             post = post2;
+                            setContentView(R.layout.post_details);
                             initViews();
                             setInfo();
                             if(epicDialog.isShowing()) {
@@ -436,18 +438,8 @@ public class ShowDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String [] gg = phonesArr(post.getPhones());
-                phone.setText("+7("+gg[0].substring(0,3)+")"+gg[0].substring(3,gg[0].length()));
-                if(gg.length>1){
-                    for (int j=1; j<gg.length; j++){
-                        TextView phone2 = new TextView(ShowDetails.this);
-                        phone2.setText("+7("+gg[j].substring(0,3)+")"+gg[j].substring(3,gg[j].length()));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            phone2.setTextColor(getColor(R.color.MaltabuBlue));
-                        }
-                        layout.addView(phone2);
-                    }
-                }
-                showPhone(post.getNumber());
+                currentNumber = gg[0];
+                showPhoneNumber();
             }
         });
 
@@ -484,9 +476,39 @@ public class ShowDetails extends AppCompatActivity {
         });
     }
 
+    private void showPhoneNumber(){
+        final String [] gg = phonesArr(post.getPhones());
+        phone.setText("+7("+gg[0].substring(0,3)+")"+gg[0].substring(3,gg[0].length()));
+        Toast.makeText(ShowDetails.this, currentNumber, Toast.LENGTH_SHORT).show();
+        if(phonecount<gg.length) {
+            if (gg.length > 1) {
+                for (int j = 1; j < gg.length; j++) {
+                    TextView phone2 = new TextView(ShowDetails.this);
+                    phone2.setPadding(5,5,5,5);
+                    phone2.setText("+7(" + gg[j].substring(0, 3) + ")" + gg[j].substring(3, gg[j].length()));
+                    final int finalJ = j;
+                    phone2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            currentNumber = gg[finalJ];
+                            Toast.makeText(ShowDetails.this, gg[finalJ], Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    phonecount++;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        phone2.setTextColor(getColor(R.color.MaltabuBlue));
+                    }
+                    layout.addView(phone2);
+                }
+            }
+            showPhone(post.getNumber());
+        }
+    }
+
     private void initViews() {
-        cs1 = findViewById(R.id.callPhone);
-        commen = findViewById(R.id.commentxt);
+        cs1 = (ConstraintLayout) findViewById(R.id.callPhone);
+        callPhoneText = (TextView) findViewById(R.id.textView32);
+        commen = (TextView) findViewById(R.id.commentxt);
         img = (ImageView) findViewById(R.id.finish);
         comments = (ConstraintLayout) findViewById(R.id.constraintLayout19);
         layout = (LinearLayout) findViewById(R.id.lin);
@@ -510,7 +532,7 @@ public class ShowDetails extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImageFragment.newInstance(position, post.getImages().get(position).getMedium());
+            return ImageFragment.newInstance(position, post.getImages().get(position).getSmall());
         }
 
         @Override
@@ -572,9 +594,11 @@ public class ShowDetails extends AppCompatActivity {
 
     public void phonePlaceholder(){
         String [] gg = phonesArr(post.getPhones());
+        currentNumber = gg[0];
         String placeHplder="+7("+gg[0].substring(0,3);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         Resources resources = context.getResources();
+        callPhoneText.setText(resources.getString(R.string.CallPhone));
         if(post.getComments().size()>0)
             commen.setText(resources.getString(R.string.showComments)+"("+String.valueOf(post.getComments().size())+")");
         else
@@ -583,11 +607,11 @@ public class ShowDetails extends AppCompatActivity {
     }
 
     public void makeCall(){
-        String [] gg= phonesArr(post.getPhones());
         if (hasPermissions())
         {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:+7"+gg[0]));
+            callIntent.setData(Uri.parse("tel:+7"+currentNumber));
+            showPhoneNumber();
             startActivity(callIntent);
         }
         else {

@@ -23,7 +23,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -93,6 +97,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private File photoFile;
     private Catalog catalog;
     private static final int CAMERA_REQUEST = 1888;
+    private static final int PERMISSION_REQUEST_CODE = 123;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Dialog imgDialog, epicDialog;
     private ImageView back;
@@ -630,7 +635,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),512,284);
+                bitmap = decodeSampledBitmapFromResource(photoFile.getAbsolutePath(),1024,568);
                 if(getImgNumb()<8) {
                     climgs[getImgNumb()].setVisibility(View.VISIBLE);
                     imageViews[getImgNumb()].setVisibility(View.VISIBLE);
@@ -651,9 +656,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
                             if (getImgNumb() < 8) {
-                                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
-                                scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-//                                original = scaled;
+                                int nh = (int) ( bitmap.getHeight() * (1024.0 / bitmap.getWidth()) );
+                                scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
                                 imageViews[getImgNumb()].setImageBitmap(scaled);
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
@@ -669,9 +673,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             if (getImgNumb() < 8) {
-                                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
-                                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-//                                original = scaled;
+                                int nh = (int) ( bitmap.getHeight() * (1024.0 / bitmap.getWidth()) );
+                                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
                                 imageViews[getImgNumb()].setImageBitmap(scaled);
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
@@ -764,13 +767,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    MY_CAMERA_PERMISSION_CODE);
-                        }
-                    } else {
+                    if(hasPermissions()) {
                         photoFile = getPhotoFileUri(photoFileName);
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         Uri fileProvider = FileProvider.getUriForFile(AddPostActivity2.this, "kz.maltabu.app.maltabukz.fileprovider", photoFile);
@@ -782,12 +779,114 @@ public class AddPostActivity2 extends AppCompatActivity{
                                 imgDialog.dismiss();
                             }
                         }
+                    } else {
+                        requestPermissionWithRationale();
                     }
                 }
             }
         });
         imgDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         imgDialog.show();
+    }
+
+    private boolean hasPermissions(){
+        int res = 0;
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
+
+        for (String perms : permissions){
+            res = checkCallingOrSelfPermission(perms);
+            if (!(res == PackageManager.PERMISSION_GRANTED)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public void requestPermissionWithRationale() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            final String message = "Storage permission is needed to show files count";
+            Snackbar.make(AddPostActivity2.this.findViewById(R.id.scrolled), message, Snackbar.LENGTH_LONG)
+                    .setAction("GRANT", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            requestPerms();
+                        }
+                    })
+                    .show();
+        } else {
+            requestPerms();
+        }
+    }
+
+    private void requestPerms(){
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            requestPermissions(permissions,MY_CAMERA_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean allowed = true;
+
+        switch (requestCode) {
+            case MY_CAMERA_PERMISSION_CODE:
+
+                for (int res : grantResults) {
+                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
+                }
+
+                break;
+            default:
+                allowed = false;
+                break;
+        }
+
+        if (allowed) {
+            photoFile = getPhotoFileUri(photoFileName);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri fileProvider = FileProvider.getUriForFile(AddPostActivity2.this, "kz.maltabu.app.maltabukz.fileprovider", photoFile);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+            if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                if (imgDialog != null && imgDialog.isShowing()) {
+                    imgDialog.dismiss();
+                }
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    Toast.makeText(this, "Storage Permissions denied.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    showNoStoragePermissionSnackbar();
+                }
+            }
+        }
+    }
+
+    public void showNoStoragePermissionSnackbar() {
+        Snackbar.make(AddPostActivity2.this.findViewById(R.id.scrolled),
+                "Storage permission isn't granted" , Snackbar.LENGTH_LONG)
+                .setAction("SETTINGS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openApplicationSettings();
+
+                        Toast.makeText(getApplicationContext(),
+                                "Open Permissions and grant the Storage permission",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    public void openApplicationSettings() {
+        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + getPackageName()));
+        startActivityForResult(appSettingsIntent, MY_CAMERA_PERMISSION_CODE);
     }
 
     public File getPhotoFileUri(String fileName) {
@@ -1075,6 +1174,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
         return mergedImages;
     }
+
 
     private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
 

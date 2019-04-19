@@ -78,7 +78,7 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
         }
         if(post.getImages().size()>0) {
             Picasso.with(context).load("http://maltabu.kz/"
-                    +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).centerCrop().fit().into(holder.img);
+                    +post.getImages().get(0).getExtra_small()).placeholder(R.drawable.listempty).centerCrop().fit().into(holder.img);
             holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
             holder.img.setImageDrawable(context.getDrawable(R.drawable.listempty));
