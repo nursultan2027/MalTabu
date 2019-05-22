@@ -84,6 +84,11 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
             holder.img.setImageDrawable(context.getDrawable(R.drawable.listempty));
             holder.photoCount.setText(String.valueOf(0));
         }
+        if(post.isPromoted()){
+            holder.top.setVisibility(View.VISIBLE);
+        } else {
+            holder.top.setVisibility(View.GONE);
+        }
         holder.selected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +113,7 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
         public TextView visitors;
         public ConstraintLayout selected;
         public ImageView img;
+        public ImageView top;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -119,6 +125,7 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
             photoCount = (TextView) itemView.findViewById(R.id.textView11);
             visitors = (TextView) itemView.findViewById(R.id.textView10);
             img = (ImageView) itemView.findViewById(R.id.imageView17);
+            top = (ImageView) itemView.findViewById(R.id.topIcon);
         }
     }
 

@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -92,6 +93,19 @@ public class AuthAvtivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(AuthAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        edtPass.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    if (CheckEditTexts()) {
+                        sDialog();
+                        Author();
+                    }
+                    return true;
+                }
+                return false;
             }
         });
     }

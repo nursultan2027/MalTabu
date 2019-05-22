@@ -1125,8 +1125,6 @@ public class AddPostActivity2 extends AppCompatActivity{
                     e.printStackTrace();
                 }
                 bitmap2 = ((BitmapDrawable) imageViews[i].getDrawable()).getBitmap();
-                original = bitmap2;
-                bitmap2 = ProcessingBitmap();
                 bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 b = stream.toByteArray();
                 try {
@@ -1158,33 +1156,33 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
 
-    private Bitmap ProcessingBitmap(){
-        Bitmap bm1 = null;
-        Bitmap newBitmap = null;
-
-        bm1 = original;
-
-        Bitmap.Config config = bm1.getConfig();
-        if(config == null){
-            config = Bitmap.Config.ARGB_8888;
-        }
-
-        newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
-        newBitmap = Bitmap.createScaledBitmap(newBitmap, 150, 50, true);
-        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
-        return mergedImages;
-    }
-
-
-    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
-
-        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
-        Canvas canvas = new Canvas(result);
-        int x2 = secondImage.getWidth()/2;
-        int x = (firstImage.getWidth()/2)-x2;
-        int y = (canvas.getHeight()-secondImage.getHeight())-(secondImage.getHeight()/4);
-        canvas.drawBitmap(firstImage, 0f, 0f, null);
-        canvas.drawBitmap(secondImage, x, y, null);
-        return result;
-    }
+//    private Bitmap ProcessingBitmap(){
+//        Bitmap bm1 = null;
+//        Bitmap newBitmap = null;
+//
+//        bm1 = original;
+//
+//        Bitmap.Config config = bm1.getConfig();
+//        if(config == null){
+//            config = Bitmap.Config.ARGB_8888;
+//        }
+//
+//        newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
+//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 150, 50, true);
+//        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
+//        return mergedImages;
+//    }
+//
+//
+//    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
+//
+//        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
+//        Canvas canvas = new Canvas(result);
+//        int x2 = secondImage.getWidth()/2;
+//        int x = (firstImage.getWidth()/2)-x2;
+//        int y = (canvas.getHeight()-secondImage.getHeight())-(secondImage.getHeight()/4);
+//        canvas.drawBitmap(firstImage, 0f, 0f, null);
+//        canvas.drawBitmap(secondImage, x, y, null);
+//        return result;
+//    }
 }
