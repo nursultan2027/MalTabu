@@ -45,6 +45,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
@@ -72,6 +74,7 @@ import okhttp3.Response;
 
 public class AddPostActivity2 extends AppCompatActivity{
     private Button addPhoneNumber, addImg, addPost;
+    private String [] aa = {"","","","",""};
     private CheckBox checkBox;
     private FileHelper fileHelper;
     private ArrayList<Region> regions = new ArrayList();
@@ -459,6 +462,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
         });
 
+        setPhoneMasks();
         for (int i=0; i<8; i++){
             final int finalI = i;
             closes[i].setOnClickListener(new View.OnClickListener() {
@@ -905,16 +909,40 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
     }
 
+    public void setPhoneMasks(){
+        for (int i=0; i<5;i++) {
+            EditText editText = editTexts[i];
+            final int finalI = i;
+            MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
+                    editText,
+                    "+7 ([000]) [000]-[00]-[00]",
+                    new MaskedTextChangedListener.ValueListener() {
+                        @Override
+                        public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue, @NonNull final String formattedValue) {
+                            Log.d("TAG", extractedValue);
+                            Log.d("TAG", String.valueOf(maskFilled));
+                            if(extractedValue.length()==10){
+                                aa[finalI]=extractedValue;
+                            } else {
+                                aa[finalI]="";
+                            }
+                        }
+                    }
+            );
+            editText.setHint(listener.placeholder());
+        }
+    }
+
     public int getImgNumb(){
         for (int i=0; i<8; i++){
-            if (checked[i]==false)
+            if (!checked[i])
                 return i;
         }
         return 8;
     }
     public int getPhoneNumb(){
         for (int i=1; i<5; i++){
-            if (check[i]==false)
+            if (!check[i])
                 return i;
         }
         return 5;
@@ -971,15 +999,15 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
     }
     public ArrayList<String> getPhones(){
-        ArrayList<String>  aa = new ArrayList<>();
-        for (int i=0;i<5;i++){
-            if(editTexts[i].getVisibility()==View.VISIBLE){
-                if (inputValidation.validatePhoneNumber(editTexts[i])){
-                    aa.add(editTexts[i].getText().toString());
-                }
+        ArrayList<String> result = new ArrayList<>();
+        for (int y=0; y<5; y++){
+            if(aa[y].length()==10){
+                result.add(aa[y]);
+            } else {
+                editTexts[y].setText("");
             }
         }
-        return aa;
+        return result;
     }
     public void newPost(){
         if(CheckPost()){
