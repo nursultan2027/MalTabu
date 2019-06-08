@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity{
     public void GetCategories() {
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/data")
+                .url("https://maltabu.kz/v1/api/clients/data")
                 .get()
                 .addHeader("isAuthorized", "false")
                 .build();
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity{
     public void GetDictionary() {
         final OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/dist/translations/kk_KZ.json")
+                .url("https://maltabu.kz/dist/translations/kk_KZ.json")
                 .get()
                 .build();
         AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity{
     {
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/data/apps")
+                .url("https://maltabu.kz/v1/api/clients/data/apps")
                 .get()
                 .build();
         AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
@@ -220,15 +219,12 @@ public class MainActivity extends AppCompatActivity{
 
     public void noRecord(){
         GetCategories();
-        if(fileHelper.readDictionary().isEmpty())
-            GetDictionary();
-        else {
-            if(!fileHelper.readToken().isEmpty()) {
-                Maltabu.token = fileHelper.readToken();
-                Maltabu.isAuth = "true";
-            }
-            startActivity(new Intent(MainActivity.this, MainActivity2.class));
-            finish();
+        GetDictionary();
+        if(!fileHelper.readToken().isEmpty()) {
+            Maltabu.token = fileHelper.readToken();
+            Maltabu.isAuth = "true";
         }
+        startActivity(new Intent(MainActivity.this, MainActivity2.class));
+        finish();
     }
 }

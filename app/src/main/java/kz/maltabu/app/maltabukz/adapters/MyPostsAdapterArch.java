@@ -101,7 +101,7 @@ public class MyPostsAdapterArch extends ArrayAdapter<PostAtMyPosts> {
             }
         });
         if(post.getImg().size()>0) {
-            Picasso.with(getContext()).load("http://maltabu.kz/" + post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
+            Picasso.with(getContext()).load("https://maltabu.kz/" + post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
         } else {
             img.setImageResource(R.drawable.listempty);
         }
@@ -209,7 +209,7 @@ public class MyPostsAdapterArch extends ArrayAdapter<PostAtMyPosts> {
     public void deletePost(final int position, String number){
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/cabinet/posts/"+number)
+                .url("https://maltabu.kz/v1/api/clients/cabinet/posts/"+number)
                 .delete()
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .addHeader("token", Maltabu.token)

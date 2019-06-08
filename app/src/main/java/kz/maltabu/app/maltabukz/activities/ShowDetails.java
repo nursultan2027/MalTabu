@@ -183,7 +183,7 @@ public class ShowDetails extends AppCompatActivity {
     private void getPost(String numb) {
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/posts/"+numb)
+                .url("https://maltabu.kz/v1/api/clients/posts/"+numb)
                 .get()
                 .addHeader("isAuthorized", "false")
                 .build();
@@ -555,7 +555,7 @@ public class ShowDetails extends AppCompatActivity {
     public void showPhone(String numb){
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/posts/"+numb+"/phone")
+                .url("https://maltabu.kz/v1/api/clients/posts/"+numb+"/phone")
                 .get()
                 .addHeader("isAuthorized", "false")
                 .build();
@@ -729,7 +729,7 @@ public class ShowDetails extends AppCompatActivity {
     public void getPosting(){
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/cabinet/posting")
+                .url("https://maltabu.kz/v1/api/clients/cabinet/posting")
                 .get()
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .addHeader("token", Maltabu.token)
@@ -770,7 +770,7 @@ public class ShowDetails extends AppCompatActivity {
     public void getUser(){
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/login/clients")
+                .url("https://maltabu.kz/v1/api/login/clients")
                 .get()
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .addHeader("token", Maltabu.token)

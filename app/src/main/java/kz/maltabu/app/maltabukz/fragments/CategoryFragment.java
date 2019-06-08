@@ -138,7 +138,7 @@ public class CategoryFragment extends Fragment {
                 protected String doInBackground(String... urls) {
                     try {
                         try {
-                            return HttpPost2("http://maltabu.kz/v1/api/clients/posts");
+                            return HttpPost2("https://maltabu.kz/v1/api/clients/posts");
                         } catch (JSONException e) {
                             e.printStackTrace();
                             return "Error!";

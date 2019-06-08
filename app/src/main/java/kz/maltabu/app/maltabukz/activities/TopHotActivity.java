@@ -107,7 +107,7 @@ public class TopHotActivity extends AppCompatActivity{
                 .add("number", numer)
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/promotion/hot")
+                .url("https://maltabu.kz/v1/api/clients/promotion/hot")
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .addHeader("token", Maltabu.token)
                 .post(formBody)
@@ -151,7 +151,7 @@ public class TopHotActivity extends AppCompatActivity{
                 .add("number", numer)
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/promotion/rise")
+                .url("https://maltabu.kz/v1/api/clients/promotion/rise")
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .addHeader("token", Maltabu.token)
                 .post(formBody)

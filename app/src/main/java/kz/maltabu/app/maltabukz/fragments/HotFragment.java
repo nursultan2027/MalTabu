@@ -65,9 +65,9 @@ public class HotFragment extends Fragment {
         if(!url.isEmpty()) {
             String gif = url.substring(url.length() - 3, url.length());
             if (gif.toLowerCase().equals("gif"))
-                Glide.with(getActivity()).asGif().load("http://maltabu.kz/" + url).into(banner);
+                Glide.with(getActivity()).asGif().load("https://maltabu.kz/" + url).into(banner);
             else
-                Picasso.with(getActivity()).load("http://maltabu.kz/" + url).fit().into(banner);
+                Picasso.with(getActivity()).load("https://maltabu.kz/" + url).fit().into(banner);
         }
         else {
             banner.setVisibility(View.GONE);
@@ -85,7 +85,7 @@ public class HotFragment extends Fragment {
     }
     private void post() {
 
-        String url = "http://maltabu.kz/v1/api/clients/data/hot";
+        String url = "https://maltabu.kz/v1/api/clients/data/hot";
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
                 .url(url)

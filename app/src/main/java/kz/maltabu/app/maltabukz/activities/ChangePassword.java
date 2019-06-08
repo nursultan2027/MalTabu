@@ -67,7 +67,7 @@ public class ChangePassword extends AppCompatActivity {
                 .add("pass", newPass.getText().toString())
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/self/pass")
+                .url("https://maltabu.kz/v1/api/clients/self/pass")
                 .addHeader("isAuthorized", Maltabu.isAuth.toLowerCase())
                 .addHeader("token", Maltabu.token)
                 .put(formBody)

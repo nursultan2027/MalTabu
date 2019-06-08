@@ -60,7 +60,7 @@ public class NewPassword extends AppCompatActivity {
                 .add("pass", newPass.getText().toString())
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/self/newPassword")
+                .url("https://maltabu.kz/v1/api/clients/self/newPassword")
                 .addHeader("isAuthorized", Maltabu.isAuth.toLowerCase())
                 .post(formBody)
                 .build();

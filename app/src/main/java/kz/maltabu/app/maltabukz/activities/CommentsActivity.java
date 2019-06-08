@@ -260,7 +260,7 @@ public class CommentsActivity extends AppCompatActivity {
             protected String doInBackground(String... urls) {
                 try {
                     try {
-                        return HttpPost2("http://maltabu.kz/v1/api/clients/posts/"+post.getNumber()+"/comments");
+                        return HttpPost2("https://maltabu.kz/v1/api/clients/posts/"+post.getNumber()+"/comments");
                     } catch (JSONException e) {
                         e.printStackTrace();
                         return "Error!";

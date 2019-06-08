@@ -50,9 +50,9 @@ public class CatalogFragment extends Fragment {
         if(!url.isEmpty()) {
             String gif = url.substring(url.length() - 3, url.length());
             if (gif.toLowerCase().equals("gif"))
-                Glide.with(getActivity()).asGif().load("http://maltabu.kz/" + url).into(banner);
+                Glide.with(getActivity()).asGif().load("https://maltabu.kz/" + url).into(banner);
             else
-                Picasso.with(getActivity()).load("http://maltabu.kz/" + url).fit().into(banner);
+                Picasso.with(getActivity()).load("https://maltabu.kz/" + url).fit().into(banner);
         }
         else {
             banner.setVisibility(View.GONE);

@@ -62,7 +62,7 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
         holder.nameView.setText(post.getPrice());
         holder.location.setText(post.getCityID());
         if(post.getImages().size()>0) {
-                Picasso.with(context).load("http://maltabu.kz/"
+                Picasso.with(context).load("https://maltabu.kz/"
                         +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);
                 holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {

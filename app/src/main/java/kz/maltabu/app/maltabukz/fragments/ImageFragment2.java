@@ -43,7 +43,7 @@ public class ImageFragment2 extends Fragment {
         if (this.getArguments() != null && getArguments().containsKey(ARGUMENT_PAGE_NUMBER)) {
             String url = bundle.getString(ARGUMENT_PAGE_NUMBER);
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.load);
-            Picasso.with(getContext()).load("http://maltabu.kz/"
+            Picasso.with(getContext()).load("https://maltabu.kz/"
                     +url).into(card, new Callback() {
                 @Override
                 public void onSuccess() {

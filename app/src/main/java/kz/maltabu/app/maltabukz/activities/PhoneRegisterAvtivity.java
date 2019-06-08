@@ -108,7 +108,7 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
                 .add("confPass", pass2.getText().toString())
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/self/reg")
+                .url("https://maltabu.kz/v1/api/clients/self/reg")
                 .addHeader("isAuthorized", "false")
                 .post(formBody)
                 .build();
@@ -174,7 +174,7 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
     public void sendActivationMail(){
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/self/reg?mail="+email)
+                .url("https://maltabu.kz/v1/api/clients/self/reg?mail="+email)
                 .get()
                 .addHeader("isAuthorized", "false")
                 .build();

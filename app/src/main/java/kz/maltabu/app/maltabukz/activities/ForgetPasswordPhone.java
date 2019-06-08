@@ -69,7 +69,7 @@ public class ForgetPasswordPhone extends AppCompatActivity {
                 .add("mail", input.getText().toString())
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/self/forget")
+                .url("https://maltabu.kz/v1/api/clients/self/forget")
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .post(formBody)
                 .build();
@@ -134,7 +134,7 @@ public class ForgetPasswordPhone extends AppCompatActivity {
                 .add("code", input.getText().toString())
                 .build();
         final Request request = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/self/code")
+                .url("https://maltabu.kz/v1/api/clients/self/code")
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .post(formBody)
                 .build();

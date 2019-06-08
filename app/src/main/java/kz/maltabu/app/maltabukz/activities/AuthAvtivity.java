@@ -123,7 +123,7 @@ public class AuthAvtivity extends AppCompatActivity {
                     .add("password", edtPass.getText().toString())
                     .build();
             final Request request = new Request.Builder()
-                    .url("http://maltabu.kz/v1/api/login/clients")
+                    .url("https://maltabu.kz/v1/api/login/clients")
                     .addHeader("isAuthorized",Maltabu.isAuth)
                     .post(formBody)
                     .build();
@@ -228,7 +228,7 @@ public class AuthAvtivity extends AppCompatActivity {
     public void getPosting(){
         final OkHttpClient client = new OkHttpClient();
         final Request request2 = new Request.Builder()
-                .url("http://maltabu.kz/v1/api/clients/cabinet/posting")
+                .url("https://maltabu.kz/v1/api/clients/cabinet/posting")
                 .get()
                 .addHeader("isAuthorized", Maltabu.isAuth)
                 .addHeader("token", Maltabu.token)

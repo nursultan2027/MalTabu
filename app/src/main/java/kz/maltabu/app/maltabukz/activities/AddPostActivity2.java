@@ -1037,7 +1037,7 @@ public class AddPostActivity2 extends AppCompatActivity{
 
         if(Maltabu.isAuth.equals("false")) {
             request = new Request.Builder()
-                    .url("http://maltabu.kz/v1/api/clients/posting")
+                    .url("https://maltabu.kz/v1/api/clients/posting")
                     .addHeader("Content-Type", "multipart/form-data")
                     .addHeader("isAuthorized", "false")
                     .post(body)
@@ -1045,7 +1045,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         }
         else {
             request = new Request.Builder()
-                    .url("http://maltabu.kz/v1/api/clients/posting")
+                    .url("https://maltabu.kz/v1/api/clients/posting")
                     .addHeader("Content-Type", "multipart/form-data")
                     .addHeader("isAuthorized", Maltabu.isAuth)
                     .addHeader("token", Maltabu.token)
@@ -1125,6 +1125,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                     e.printStackTrace();
                 }
                 bitmap2 = ((BitmapDrawable) imageViews[i].getDrawable()).getBitmap();
+//                original = bitmap2;
+//                bitmap2 = ProcessingBitmap();
                 bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 b = stream.toByteArray();
                 try {
@@ -1172,8 +1174,8 @@ public class AddPostActivity2 extends AppCompatActivity{
 //        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
 //        return mergedImages;
 //    }
-//
-//
+
+
 //    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
 //
 //        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
