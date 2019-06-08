@@ -90,11 +90,21 @@ public class AddPostActivity extends AppCompatActivity{
             ArrayList<String> arr = new ArrayList<>();
             if(Maltabu.lang.equals("ru"))
                 arr.add(cat.getName());
-            else
-                arr.add(dict.getString(cat.getName()));
+            else {
+                String kazName = dict.getString(cat.getName());
+                if(kazName.toLowerCase().equals("жем")){
+                    kazName = "Жем-шөп";
+                }
+                arr.add(kazName);
+            }
             for (int j=0; j<catalogs.size();j++) {
-                if (Maltabu.lang.equals("ru"))
-                    arr.add(catalogs.get(j).getName());
+                if (Maltabu.lang.equals("ru")) {
+                    String tabName = catalogs.get(j).getName();
+                    if (tabName.toLowerCase().equals("бараны")) {
+                        tabName = "Овцы";
+                    }
+                    arr.add(tabName);
+                }
                 else
                     arr.add(dict.getString(catalogs.get(j).getName()));
             }

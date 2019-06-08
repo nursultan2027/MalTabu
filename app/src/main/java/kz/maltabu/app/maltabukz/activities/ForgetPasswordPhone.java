@@ -6,18 +6,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.microedition.khronos.egl.EGLDisplay;
-
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import okhttp3.FormBody;
@@ -30,7 +28,7 @@ public class ForgetPasswordPhone extends AppCompatActivity {
     private Button phone;
     private EditText input;
     private ImageView arr;
-    private String email;
+    private String email,phoneStr;
     private Dialog epicDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +52,33 @@ public class ForgetPasswordPhone extends AppCompatActivity {
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(input.getText().toString().length()==10) {
+                if(!phoneStr.isEmpty()) {
                     sDialog();
                     recoverPass();
                 }
             }
         });
+        MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
+                input,
+                "+7 ([000]) [000]-[00]-[00]",
+                new MaskedTextChangedListener.ValueListener() {
+                    @Override
+                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue, @NonNull final String formattedValue) {
+                        if(extractedValue.length()==10){
+                            phoneStr=extractedValue;
+                        } else {
+                            phoneStr="";
+                        }
+                    }
+                }
+        );
+        input.setHint(listener.placeholder());
     }
 
     private void recoverPass() {
         final OkHttpClient client = new OkHttpClient();
-        email = input.getText().toString();
         RequestBody formBody = new FormBody.Builder()
-                .add("mail", input.getText().toString())
+                .add("mail", phoneStr)
                 .build();
         final Request request = new Request.Builder()
                 .url("https://maltabu.kz/v1/api/clients/self/forget")
@@ -162,7 +174,7 @@ public class ForgetPasswordPhone extends AppCompatActivity {
                         if(obj.has("message")){
                             if(obj.getString("message").toLowerCase().equals("success")){
                                 Intent newPass = new Intent(ForgetPasswordPhone.this, NewPassword.class);
-                                newPass.putExtra("mail", email);
+                                newPass.putExtra("mail", phoneStr);
                                 startActivity(newPass);
                             }
                         } else {

@@ -136,6 +136,9 @@ public class CatalogFragment extends Fragment {
             try {
                 adapter.addFragment(fragobj1, "Барлық");
                 String kazName = object.getString(category.getName());
+                if(kazName.toString().toLowerCase().equals("жем")){
+                    kazName = "Жем-шөп";
+                }
                 txtv.setText(kazName);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -200,7 +203,11 @@ public class CatalogFragment extends Fragment {
             imgs.setImageResource(draw1[i]);
             TextView txt = (TextView) headerView.findViewById(textRes[i]);
             if(Maltabu.lang.toLowerCase().equals("ru")) {
-                txt.setText(category.catalogs.get(i).getName());
+                String tabName = category.catalogs.get(i).getName();
+                if(tabName.toLowerCase().equals("бараны")){
+                    tabName = "Овцы";
+                }
+                txt.setText(tabName);
             } else {
                 try {
                     String kame = object.getString(category.catalogs.get(i).getName());

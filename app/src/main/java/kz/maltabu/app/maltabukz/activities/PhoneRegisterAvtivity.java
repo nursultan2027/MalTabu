@@ -10,8 +10,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +43,7 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
     private CheckBox agree;
     private InputValidation validation;
     private ImageView arr;
-    private String email;
+    private String email, phoneNumb;
     private Button register;
     private Resources res;
     private Dialog epicDialog;
@@ -94,6 +98,23 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
                 }
             }
         });
+        MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
+                mail,
+                "+7 ([000]) [000]-[00]-[00]",
+                new MaskedTextChangedListener.ValueListener() {
+                    @Override
+                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue, @NonNull final String formattedValue) {
+                        Log.d("TAG", extractedValue);
+                        Log.d("TAG", String.valueOf(maskFilled));
+                        if(extractedValue.length()==10){
+                            phoneNumb=extractedValue;
+                        } else {
+                            phoneNumb="";
+                        }
+                    }
+                }
+        );
+        mail.setHint(listener.placeholder());
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
@@ -208,7 +229,7 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
             Toast.makeText(this, "Name", Toast.LENGTH_LONG).show();
             return false;
         } else {
-        if(!validation.validatePhoneNumber(mail)){
+        if(phoneNumb.isEmpty()){
             Toast.makeText(this, "invalid phone numb", Toast.LENGTH_LONG).show();
                 return false;
             }

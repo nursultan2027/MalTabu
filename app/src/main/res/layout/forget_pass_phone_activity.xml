@@ -13,7 +13,7 @@
         android:background="@color/MaltabuYellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,7 +42,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar3">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="1.0">
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline33"
@@ -97,33 +98,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText17" />
 
-        <TextView
-            android:id="@+id/textView73"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="+7"
-            android:textAllCaps="false"
-            android:textColor="@color/Black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/editText17"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText17" />
-
         <EditText
             android:id="@+id/editText17"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded"
             android:gravity="left"
-            android:hint="@string/phone"
+            android:digits="1234567890+-() "
             android:inputType="phone"
-            android:maxLength="10"
             android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView73"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView74" />
 
     </android.support.constraint.ConstraintLayout>

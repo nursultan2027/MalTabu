@@ -9,11 +9,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
@@ -44,9 +41,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
-
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
@@ -55,17 +50,14 @@ import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.helpers.PostBodyHelper;
 import kz.maltabu.app.maltabukz.models.Catalog;
 import kz.maltabu.app.maltabukz.models.Region;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import io.paperdb.Paper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -123,8 +115,13 @@ public class AddPostActivity2 extends AppCompatActivity{
         catalog = getIntent().getParcelableExtra("catalog");
         initViews();
         ClearFocus();
-        if(Maltabu.lang.equals("ru"))
-            ctlg.setText(catalog.getName());
+        if(Maltabu.lang.equals("ru")) {
+            String catalogName = catalog.getName();
+            if(catalogName.toLowerCase().equals("бараны")) {
+                catalogName = "Овцы";
+            }
+            ctlg.setText(catalogName);
+        }
         else {
             try {
                 ctlg.setText(fileHelper.diction().getString(catalog.getName()));
