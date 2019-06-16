@@ -6,8 +6,8 @@ android {
         applicationId "kz.maltabu.app.maltabukz"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 37
-        versionName "1.0.29"
+        versionCode 39
+        versionName "1.0.31"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

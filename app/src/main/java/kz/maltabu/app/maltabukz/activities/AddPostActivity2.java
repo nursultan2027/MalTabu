@@ -166,10 +166,10 @@ public class AddPostActivity2 extends AppCompatActivity{
             try {
                 JSONObject user = new JSONObject(fileHelper.readUserFile());
                 String mail = user.getString("mail");
+                setPhoneMasks();
                 if(mail.contains("@"))
                     email.setText(mail);
                 else
-                    setPhoneMasks();
                     editTexts[0].setText('7'+mail);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -183,9 +183,6 @@ public class AddPostActivity2 extends AppCompatActivity{
                 startActivity(new Intent(AddPostActivity2.this, PdfActivity.class));
             }
         });
-        if(Maltabu.isAuth.equals("true")){
-//            email.setText(fileHelper.readUserFile());
-        }
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
