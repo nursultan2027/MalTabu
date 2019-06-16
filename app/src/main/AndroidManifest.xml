@@ -4,6 +4,7 @@
     package="kz.maltabu.app.maltabukz">
 
     <application
+        android:hardwareAccelerated="true"
         android:name="kz.maltabu.app.maltabukz.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/momo"
@@ -54,6 +55,7 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPassword"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPasswordPhone"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.NewPassword"/>
+        <activity android:name="kz.maltabu.app.maltabukz.activities.NewFilterActivity"/>
 
     </application>
     <uses-permission android:name="android.permission.CALL_PHONE" />

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.FilterActivity;
@@ -95,7 +94,7 @@ public class CategoryFragment extends Fragment {
         button = (ProgressBar) view.findViewById(R.id.button);
         lst = (RecyclerView) view.findViewById(R.id.prodss);
         filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
-        adapter = new PostRecycleAdapterNew(posts,getActivity());
+        adapter = new PostRecycleAdapterNew(posts, getActivity(),catalog);
         imageView36 = (ImageView) view.findViewById(R.id.imageView36);
         textView56 = (TextView) view.findViewById(R.id.textView56);
         noPostsText = (TextView) view.findViewById(R.id.noPostsText);
@@ -116,18 +115,22 @@ public class CategoryFragment extends Fragment {
         else {
             filterButton.setVisibility(View.GONE);
         }
-        listener = new EndlessListener(manager) {
+        setListener();
+        return view;
+    }
+
+    private void setListener(){
+        listener = new EndlessListener((LinearLayoutManager) lst.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 button.setVisibility(View.VISIBLE);
                 button.setIndeterminate(true);
-                    can = false;
-                    SecondThread thread = new SecondThread();
-                    thread.start();
+                can = false;
+                SecondThread thread = new SecondThread();
+                thread.start();
             }
         };
         lst.addOnScrollListener(listener);
-        return view;
     }
 
 
@@ -330,7 +333,6 @@ public class CategoryFragment extends Fragment {
             }
         }
     }
-
     private void catalogList2(JSONArray promosArr) throws JSONException {
         Gson googleJson = new Gson();
         object = fileHelper.diction();
@@ -417,12 +419,12 @@ public class CategoryFragment extends Fragment {
         }
         promosAdded=true;
     }
+
     protected void sDialog() {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
     }
-
 
     public String uiPrice(String value){
         int length = value.length();
@@ -479,6 +481,7 @@ public class CategoryFragment extends Fragment {
 
         return result;
     }
+
     public String getDate(String s)    {
         String [] ss = s.split("T");
         String [] ss2 = ss[0].split("-");

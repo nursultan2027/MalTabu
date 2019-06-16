@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -43,12 +44,14 @@ public class RegisterAvtivity extends AppCompatActivity {
     private Resources res;
     private Button register;
     private Dialog epicDialog;
+    private ConnectionHelper connectionHelper;
     private EditText name, mail, pass1, pass2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         epicDialog = new Dialog(this);
+        connectionHelper = new ConnectionHelper(this);
         validation = new InputValidation(this);
         email406 = (TextView) findViewById(R.id.sameEmail);
         agree = (CheckBox) findViewById(R.id.checkBox5);
@@ -84,7 +87,7 @@ public class RegisterAvtivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                     if (Check()) {
                         sDialog();
                         registration();
@@ -233,19 +236,6 @@ public class RegisterAvtivity extends AppCompatActivity {
         }
         return true;
     }
-
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
-    }
-
     protected void sDialog() {
         epicDialog.setContentView(R.layout.progress_dialog);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

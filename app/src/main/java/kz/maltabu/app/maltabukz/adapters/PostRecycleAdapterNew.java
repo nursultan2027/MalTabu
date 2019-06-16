@@ -40,9 +40,22 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
     private Context context;
     private FileHelper fileHelper;
     private JSONObject object;
+    private String catalogID;
+    public PostRecycleAdapterNew(ArrayList<Post> posts, Context context, String catalogId) {
+        this.posts = posts;
+        this.context = context;
+        this.catalogID = catalogId;
+        this.fileHelper = new FileHelper(context);
+        try {
+            object = fileHelper.diction();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public PostRecycleAdapterNew(ArrayList<Post> posts, Context context) {
         this.posts = posts;
         this.context = context;
+        this.catalogID = null;
         this.fileHelper = new FileHelper(context);
         try {
             object = fileHelper.diction();
@@ -76,12 +89,18 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
                 e.printStackTrace();
             }
         }
+        int res = 0;
+        if(catalogID!=null) {
+            res = getImgSrc(catalogID);
+        } else {
+            res = R.drawable.listempty;
+        }
         if(post.getImages().size()>0) {
             Picasso.with(context).load("https://maltabu.kz/"
-                    +post.getImages().get(0).getExtra_small()).placeholder(R.drawable.listempty).centerCrop().fit().into(holder.img);
+                    +post.getImages().get(0).getExtra_small()).placeholder(res).centerCrop().fit().into(holder.img);
             holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
-            holder.img.setImageDrawable(context.getDrawable(R.drawable.listempty));
+            holder.img.setImageDrawable(context.getDrawable(res));
             holder.photoCount.setText(String.valueOf(0));
         }
         if(post.isPromoted()){
@@ -201,7 +220,81 @@ public class PostRecycleAdapterNew extends RecyclerView.Adapter<PostRecycleAdapt
         return ss2[2] +","+ss2[1];
     }
 
-    public void getPost(String numb){
+    private int getImgSrc(String id){
+        switch (id) {
+            case("5ab672c9559d5e049c25a62c"):
+                return R.drawable.cammel;
+            case("5ab672c9559d5e049c25a62d"):
+                return R.drawable.horse;
+            case("5ab672c9559d5e049c25a62e"):
+                return R.drawable.cow;
+            case("5ab672c9559d5e049c25a62f"):
+                return R.drawable.sheep;
+            case("5ab672c9559d5e049c25a630"):
+                return R.drawable.chicken;
+            case("5ab672c9559d5e049c25a631"):
+                return R.drawable.goat;
+            case("5ab672c9559d5e049c25a632"):
+                return R.drawable.rabbit;
+            case("5ab672c9559d5e049c25a645"):
+                return R.drawable.dog;
+            case("5ab672c9559d5e049c25a646"):
+                return R.drawable.cat;
+            case("5ab672c9559d5e049c25a647"):
+                return R.drawable.parrot;
+            case("5ab672c9559d5e049c25a648"):
+                return R.drawable.hamster;
+            case("5ab672c9559d5e049c25a649"):
+                return R.drawable.goldfish;
+            case("5ab672c9559d5e049c25a64a"):
+                return R.drawable.turtle;
+            case("5b0bffe2530c6256285a19b1"):
+                return R.drawable.equipment;
+            case("5b0bffe2530c6256285a1933"):
+                return R.drawable.tractor;
+            case("5ab672c9559d5e049c25a643"):
+                return R.drawable.otherservice;
+            case("5ab672c9559d5e049c25a642"):
+                return R.drawable.medother;
+            case("5ab672c9559d5e049c25a641"):
+                return R.drawable.training;
+            case("5ab672c9559d5e049c25a640"):
+                return R.drawable.shaver;
+            case("5ab672c9559d5e049c25a63f"):
+                return R.drawable.transportation;
+            case("5ab672c9559d5e049c25a638"):
+                return R.drawable.otherfeed;
+            case("5ab672c9559d5e049c25a637"):
+                return R.drawable.dobavki;
+            case("5ab672c9559d5e049c25a636"):
+                return R.drawable.grain;
+            case("5ab672c9559d5e049c25a635"):
+                return R.drawable.hay;
+            case("5ab672c9559d5e049c25a634"):
+                return R.drawable.kombikorm;
+            case("5ab672c9559d5e049c25a64c"):
+                return R.drawable.meat;
+            case("5ab672c9559d5e049c25a64d"):
+                return R.drawable.milk;
+            case("5ab672c9559d5e049c25a64e"):
+                return R.drawable.vegetables;
+            case("5ab672c9559d5e049c25a64f"):
+                return R.drawable.fruits;
+            case("5ab672c9559d5e049c25a650"):
+                return R.drawable.otherproducts;
+            case("5afeb741d151e32d5cc245c5"):
+                return R.drawable.job;
+            case("5afeb741d151e32d5cc245c4"):
+                return R.drawable.work2;
+            case("5ab672c9559d5e049c25a63b"):
+                return R.drawable.wholesale2;
+            case("5ab672c9559d5e049c25a63a"):
+                return R.drawable.wholesale;
+
+        }
+        return R.drawable.listempty;
+    }
+    private void getPost(String numb){
         Intent details = new Intent(context, ShowDetails.class);
         details.putExtra("postNumb", numb);
         context.startActivity(details);

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -28,13 +29,15 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity{
     private FileHelper fileHelper;
     private Dialog epicDialog;
+    private ConnectionHelper connectionHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.asd);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
-        if (isConnected())
+        connectionHelper = new ConnectionHelper(this);
+        if (connectionHelper.isConnected())
         {
             GetVersion();
         } else {
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity{
             refresh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(isConnected()){
+                    if(connectionHelper.isConnected()){
                         noRecord();
                     }
                 }
@@ -81,17 +84,6 @@ public class MainActivity extends AppCompatActivity{
             }
         };
         asyncTask1.execute();
-    }
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
     }
     public void GetDictionary() {
         final OkHttpClient client = new OkHttpClient();

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -25,6 +26,7 @@ import okhttp3.Response;
 
 public class ChangePassword extends AppCompatActivity {
     private Button button;
+    private ConnectionHelper connectionHelper;
     private ImageView arr;
     private FileHelper fileHelper;
     private boolean ok = true;
@@ -36,6 +38,7 @@ public class ChangePassword extends AppCompatActivity {
         button = (Button) findViewById(R.id.button4);
         arr = (ImageView) findViewById(R.id.arr);
         fileHelper = new FileHelper(this);
+        connectionHelper = new ConnectionHelper(this);
         oldPass = (EditText) findViewById(R.id.editText13);
         newPass = (EditText) findViewById(R.id.editText14);
         confPass = (EditText) findViewById(R.id.editText15);
@@ -50,7 +53,7 @@ public class ChangePassword extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(newPass.getText().toString().equals(confPass.getText().toString()))
-                    if (isConnected())
+                    if (connectionHelper.isConnected())
                         changePass();
                     else
                         Toast.makeText(ChangePassword.this, "Нет подключения", Toast.LENGTH_LONG).show();
@@ -120,17 +123,5 @@ public class ChangePassword extends AppCompatActivity {
             startActivity(new Intent(ChangePassword.this, AuthAvtivity.class));
             finish();
         }
-    }
-
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
     }
 }

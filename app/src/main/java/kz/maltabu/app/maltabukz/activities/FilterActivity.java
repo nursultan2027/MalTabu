@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -38,6 +39,7 @@ public class FilterActivity extends AppCompatActivity{
     private int pos1 = 101, pos2 = 101;
     private Button btn3, btn4;
     private EditText ed1, ed2;
+    private ConnectionHelper connectionHelper;
     private Dialog epicDialog;
     private Spinner regSpin, citySpin;
     private TextView [] texts = new TextView[7];
@@ -54,6 +56,7 @@ public class FilterActivity extends AppCompatActivity{
         setContentView(R.layout.fiter);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
+        connectionHelper = new ConnectionHelper(this);
         texts[0] = findViewById(R.id.titlet);
         texts[1] = findViewById(R.id.textView7);
         texts[2] = findViewById(R.id.textView12);
@@ -155,7 +158,7 @@ public class FilterActivity extends AppCompatActivity{
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnected()) {
+                if (connectionHelper.isConnected()) {
                     PostThread thread2 = new PostThread();
                     thread2.start();
                 }
@@ -287,18 +290,6 @@ public class FilterActivity extends AppCompatActivity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
     }
 
     public class PostThread extends Thread{

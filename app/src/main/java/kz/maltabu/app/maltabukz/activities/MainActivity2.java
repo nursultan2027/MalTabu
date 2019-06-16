@@ -1,14 +1,15 @@
 package kz.maltabu.app.maltabukz.activities;
 
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
@@ -26,7 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.fragments.CategoryFragment;
 import kz.maltabu.app.maltabukz.fragments.SearchFragment;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -49,6 +52,7 @@ public class MainActivity2 extends AppCompatActivity
     private ImageView filter, flag,sort, menuLogo;
     private JSONObject object;
     private FileHelper fileHelper;
+    private ConnectionHelper connectionHelper;
     private DrawerLayout drawer;
     private Dialog epicDialog, sortDialog;
     private Intent filterIntent;
@@ -61,6 +65,7 @@ public class MainActivity2 extends AppCompatActivity
         SetActivityView();
         epicDialog = new Dialog(this);
         sortDialog = new Dialog(this);
+        connectionHelper = new ConnectionHelper(this);
         opentCurrentFragment(Maltabu.fragmentNumb);
     }
 
@@ -161,7 +166,7 @@ public class MainActivity2 extends AppCompatActivity
         cab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                     if(Maltabu.isAuth.equals("false")) {
                         startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
                         finish();
@@ -183,7 +188,7 @@ public class MainActivity2 extends AppCompatActivity
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                     fragmentSearch();
                     Maltabu.selectedFragment = 0;
                     sort.setVisibility(View.VISIBLE);
@@ -195,10 +200,9 @@ public class MainActivity2 extends AppCompatActivity
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                     sDialog();
-                    SecThread secThread = new SecThread();
-                    secThread.start();
+                    startActivity(filterIntent);
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -207,7 +211,7 @@ public class MainActivity2 extends AppCompatActivity
         m1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                     try {
                         fragment1();
                         Maltabu.selectedFragment = 0;
@@ -223,7 +227,7 @@ public class MainActivity2 extends AppCompatActivity
         m2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                 try {
                     fragment2();
                     Maltabu.selectedFragment = 0;
@@ -239,7 +243,7 @@ public class MainActivity2 extends AppCompatActivity
         m3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                 try {
                     fragment3();
                     Maltabu.selectedFragment = 0;
@@ -255,7 +259,7 @@ public class MainActivity2 extends AppCompatActivity
         m4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                 try {
                     fragment4();
                     Maltabu.selectedFragment = 0;
@@ -271,7 +275,7 @@ public class MainActivity2 extends AppCompatActivity
         m5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                 try {
                     fragment5();
                     Maltabu.selectedFragment = 0;
@@ -299,7 +303,7 @@ public class MainActivity2 extends AppCompatActivity
         m7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                 try {
                     fragment7();
                     Maltabu.selectedFragment = 0;
@@ -315,7 +319,7 @@ public class MainActivity2 extends AppCompatActivity
         cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()) {
+                if(connectionHelper.isConnected()) {
                     startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
                     finish();
                 } else {
@@ -409,6 +413,7 @@ public class MainActivity2 extends AppCompatActivity
         HotFragment fragment = new HotFragment();
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 0;
         Maltabu.byTime = true;
@@ -437,6 +442,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 1;
         Maltabu.s1= null;
@@ -461,6 +467,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 2;
         Maltabu.s1= null;
@@ -484,6 +491,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 3;
         Maltabu.s1= null;
@@ -506,6 +514,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 4;
         Maltabu.text = null;
@@ -532,6 +541,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         Maltabu.text = null;
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 5;
@@ -558,6 +568,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 6;
         Maltabu.s1= null;
@@ -581,6 +592,7 @@ public class MainActivity2 extends AppCompatActivity
         fragment.setArguments(bundle1);
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 7;
         Maltabu.s1= null;
@@ -600,6 +612,7 @@ public class MainActivity2 extends AppCompatActivity
         SearchFragment fragment = new SearchFragment();
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
+        removeAllFragments(fragmentManager, fragment);
         drawer.closeDrawer(GravityCompat.START);
         Maltabu.fragmentNumb = 8;
         Maltabu.byTime = true;
@@ -752,18 +765,6 @@ public class MainActivity2 extends AppCompatActivity
         sortDialog.show();
     }
 
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
-    }
-
     public void opentCurrentFragment(int numb){
         switch (numb) {
             case 0:
@@ -824,13 +825,27 @@ public class MainActivity2 extends AppCompatActivity
         }
     }
 
-    public class SecThread extends Thread{
-        SecThread(){};
+    public void removeAllFragments(android.support.v4.app.FragmentManager fragmentManager, HotFragment fragment){
+            for (int i=0; i<fragmentManager.getFragments().size(); i++){
+                if(fragmentManager.getFragments().get(i)!=fragment){
+                    fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
+                }
+            }
+    }
 
-        @Override
-        public void run() {
-            startActivity(filterIntent);
-            finish();
+    public void removeAllFragments(android.support.v4.app.FragmentManager fragmentManager, CatalogFragment fragment){
+        for (int i=0; i<fragmentManager.getFragments().size(); i++){
+            if(fragmentManager.getFragments().get(i)!=fragment){
+                fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
+            }
+        }
+    }
+
+    public void removeAllFragments(android.support.v4.app.FragmentManager fragmentManager, SearchFragment fragment){
+        for (int i=0; i<fragmentManager.getFragments().size(); i++){
+            if(fragmentManager.getFragments().get(i)!=fragment){
+                fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
+            }
         }
     }
 }

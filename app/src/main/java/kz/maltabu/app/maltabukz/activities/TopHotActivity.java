@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -31,6 +32,7 @@ public class TopHotActivity extends AppCompatActivity{
     private ImageView arr;
     private TextView numb, score;
     private FileHelper fileHelper;
+    private ConnectionHelper connectionHelper;
     private JSONObject userObject;
     private Button addScore, topButton, hotButton;
 
@@ -39,6 +41,7 @@ public class TopHotActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hot_top_activity);
         fileHelper = new FileHelper(this);
+        connectionHelper = new ConnectionHelper(this);
         numb = (TextView) findViewById(R.id.title);
         addScore = (Button)findViewById(R.id.addScore);
         score = (TextView) findViewById(R.id.textView58);
@@ -74,7 +77,7 @@ public class TopHotActivity extends AppCompatActivity{
             public void onClick(View v) {
                 try {
                     if(userObject.getInt("balance")>149) {
-                        if (isConnected())
+                        if (connectionHelper.isConnected())
                             rise(getIntent().getStringExtra("number"));
                         else
                             Toast.makeText(TopHotActivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
@@ -89,7 +92,7 @@ public class TopHotActivity extends AppCompatActivity{
             public void onClick(View v) {
                 try {
                     if(userObject.getInt("balance")>249) {
-                        if (isConnected())
+                        if (connectionHelper.isConnected())
                             hot(getIntent().getStringExtra("number"));
                         else
                             Toast.makeText(TopHotActivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
@@ -187,17 +190,5 @@ public class TopHotActivity extends AppCompatActivity{
             }
         };
         asyncTask.execute();
-    }
-
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
     }
 }

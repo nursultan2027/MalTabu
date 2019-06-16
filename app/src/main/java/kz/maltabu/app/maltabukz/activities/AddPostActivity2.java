@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
@@ -168,10 +169,13 @@ public class AddPostActivity2 extends AppCompatActivity{
                 if(mail.contains("@"))
                     email.setText(mail);
                 else
-                    editTexts[0].setText(mail);
+                    setPhoneMasks();
+                    editTexts[0].setText('7'+mail);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            setPhoneMasks();
         }
         pdf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -459,7 +463,6 @@ public class AddPostActivity2 extends AppCompatActivity{
             }
         });
 
-        setPhoneMasks();
         for (int i=0; i<8; i++){
             final int finalI = i;
             closes[i].setOnClickListener(new View.OnClickListener() {
@@ -651,15 +654,18 @@ public class AddPostActivity2 extends AppCompatActivity{
                 if(data.getClipData()!=null){
                     ClipData mClipData = data.getClipData();
                     ClipData.Item item = null;
-                    Bitmap scaled = null;
                     for (int i = 0; i < mClipData.getItemCount(); i++) {
                         item = mClipData.getItemAt(i);
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getUri());
                             if (getImgNumb() < 8) {
-                                int nh = (int) ( bitmap.getHeight() * (1024.0 / bitmap.getWidth()) );
-                                scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
-                                imageViews[getImgNumb()].setImageBitmap(scaled);
+                                if(bitmap.getWidth()>2560 || bitmap.getHeight()>2560) {
+                                    int nh = (int) (bitmap.getHeight() * (1300.0 / bitmap.getWidth()));
+                                    bitmap = Bitmap.createScaledBitmap(bitmap, 1300, nh, true);
+                                }
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                                imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
@@ -674,9 +680,13 @@ public class AddPostActivity2 extends AppCompatActivity{
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             if (getImgNumb() < 8) {
-                                int nh = (int) ( bitmap.getHeight() * (1024.0 / bitmap.getWidth()) );
-                                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
-                                imageViews[getImgNumb()].setImageBitmap(scaled);
+                                if(bitmap.getWidth()>2560 || bitmap.getHeight()>2560) {
+                                    int nh = (int) (bitmap.getHeight() * (1300.0 / bitmap.getWidth()));
+                                    bitmap = Bitmap.createScaledBitmap(bitmap, 1300, nh, true);
+                                }
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                                imageViews[getImgNumb()].setImageBitmap(bitmap);
                                 imageViews[getImgNumb()].setVisibility(View.VISIBLE);
                                 climgs[getImgNumb()].setVisibility(View.VISIBLE);
                                 checked[getImgNumb()] = true;
@@ -967,10 +977,6 @@ public class AddPostActivity2 extends AppCompatActivity{
                             return false;
                         }
                         else {
-                            if (!inputValidation.validatePhoneNumber(editTexts[0])) {
-                                Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_LONG).show();
-                                return false;
-                            } else {
                                 if (title.getText().toString().isEmpty()) {
                                     Toast.makeText(this, res.getString(R.string.titleValid), Toast.LENGTH_LONG).show();
                                     return false;
@@ -989,11 +995,19 @@ public class AddPostActivity2 extends AppCompatActivity{
                                         return true;
                                     }
                                 }
-                            }
                         }
                     }
                 }
             }
+    }
+
+    private boolean CheckPhones(){
+        if (getPhones().size()>0){
+            return true;
+        } else {
+            Toast.makeText(this, "PhoneNumber", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
     public ArrayList<String> getPhones(){
         ArrayList<String> result = new ArrayList<>();
@@ -1007,7 +1021,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         return result;
     }
     public void newPost(){
-        if(CheckPost()){
+        if(CheckPost() && CheckPhones()){
             sDialog();
             postAds();
         }
@@ -1150,8 +1164,8 @@ public class AddPostActivity2 extends AppCompatActivity{
                     e.printStackTrace();
                 }
                 bitmap2 = ((BitmapDrawable) imageViews[i].getDrawable()).getBitmap();
-//                original = bitmap2;
-//                bitmap2 = ProcessingBitmap();
+                original = bitmap2;
+                bitmap2 = ProcessingBitmap();
                 bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 b = stream.toByteArray();
                 try {
@@ -1183,33 +1197,33 @@ public class AddPostActivity2 extends AppCompatActivity{
     }
 
 
-//    private Bitmap ProcessingBitmap(){
-//        Bitmap bm1 = null;
-//        Bitmap newBitmap = null;
-//
-//        bm1 = original;
-//
-//        Bitmap.Config config = bm1.getConfig();
-//        if(config == null){
-//            config = Bitmap.Config.ARGB_8888;
-//        }
-//
-//        newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
-//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 150, 50, true);
-//        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
-//        return mergedImages;
-//    }
+    private Bitmap ProcessingBitmap(){
+        Bitmap bm1 = null;
+        Bitmap newBitmap = null;
+
+        bm1 = original;
+
+        Bitmap.Config config = bm1.getConfig();
+        if(config == null){
+            config = Bitmap.Config.ARGB_8888;
+        }
+
+        newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
+        newBitmap = Bitmap.createScaledBitmap(newBitmap, 150, 50, true);
+        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
+        return mergedImages;
+    }
 
 
-//    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
-//
-//        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
-//        Canvas canvas = new Canvas(result);
-//        int x2 = secondImage.getWidth()/2;
-//        int x = (firstImage.getWidth()/2)-x2;
-//        int y = (canvas.getHeight()-secondImage.getHeight())-(secondImage.getHeight()/4);
-//        canvas.drawBitmap(firstImage, 0f, 0f, null);
-//        canvas.drawBitmap(secondImage, x, y, null);
-//        return result;
-//    }
+    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
+
+        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
+        Canvas canvas = new Canvas(result);
+        int x2 = secondImage.getWidth()/2;
+        int x = (firstImage.getWidth()/2)-x2;
+        int y = (canvas.getHeight()-secondImage.getHeight())-(secondImage.getHeight()/4);
+        canvas.drawBitmap(firstImage, 0f, 0f, null);
+        canvas.drawBitmap(secondImage, x, y, null);
+        return result;
+    }
 }

@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -47,12 +48,14 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
     private Button register;
     private Resources res;
     private Dialog epicDialog;
+    private ConnectionHelper connectionHelper;
     private EditText name, mail, pass1, pass2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_phone_activity);
         epicDialog = new Dialog(this);
+        connectionHelper = new ConnectionHelper(this);
         validation = new InputValidation(this);
         email406 = (TextView) findViewById(R.id.sameEmail);
         agree = (CheckBox) findViewById(R.id.checkBox5);
@@ -85,19 +88,6 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
                 startActivity(new Intent(PhoneRegisterAvtivity.this, PdfActivity.class));
             }
         });
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isConnected()) {
-                    if (Check()) {
-                        email406.setText("");
-                        registration();
-                    }
-                } else {
-                    Toast.makeText(PhoneRegisterAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
                 mail,
                 "+7 ([000]) [000]-[00]-[00]",
@@ -107,14 +97,27 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
                         Log.d("TAG", extractedValue);
                         Log.d("TAG", String.valueOf(maskFilled));
                         if(extractedValue.length()==10){
-                            phoneNumb=extractedValue;
+                            email=extractedValue;
                         } else {
-                            phoneNumb="";
+                            email="";
                         }
                     }
                 }
         );
         mail.setHint(listener.placeholder());
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(connectionHelper.isConnected()) {
+                    if (Check()) {
+                        email406.setText("");
+                        registration();
+                    }
+                } else {
+                    Toast.makeText(PhoneRegisterAvtivity.this, "Нет подключения", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
@@ -124,7 +127,7 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
         final OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
                 .add("name", name.getText().toString())
-                .add("mail", mail.getText().toString())
+                .add("mail", email)
                 .add("password", pass1.getText().toString())
                 .add("confPass", pass2.getText().toString())
                 .build();
@@ -192,45 +195,13 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
         finish();
     }
 
-    public void sendActivationMail(){
-        final OkHttpClient client = new OkHttpClient();
-        final Request request2 = new Request.Builder()
-                .url("https://maltabu.kz/v1/api/clients/self/reg?mail="+email)
-                .get()
-                .addHeader("isAuthorized", "false")
-                .build();
-        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    Response response2 = client.newCall(request2).execute();
-                    if (!response2.isSuccessful()) {
-                        return null;
-                    }
-                    return response2.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(String s1) {
-                super.onPostExecute(s1);
-                if (s1 != null) {
-                }
-            }
-        };
-        asyncTask1.execute();
-    }
-
     public boolean Check(){
         if(!validation.isInputEditTextFilled(name)){
             Toast.makeText(this, "Name", Toast.LENGTH_LONG).show();
             return false;
         } else {
-        if(phoneNumb.isEmpty()){
-            Toast.makeText(this, "invalid phone numb", Toast.LENGTH_LONG).show();
+        if(email.equals("")){
+            Toast.makeText(this, "Неверный номер телефона", Toast.LENGTH_LONG).show();
                 return false;
             }
             else {
@@ -247,27 +218,13 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
                         if(!agree.isChecked()){
                             Toast.makeText(this, "checkbox", Toast.LENGTH_LONG).show();
                             return false;
-                        } else if(mail.length()!=10){
-                            Toast.makeText(this, "phone Numb", Toast.LENGTH_LONG).show();
-                            return false;
+                        } else {
+                            return true;
                         }
                     }
                 }
             }
         }
-        return true;
-    }
-
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
     }
 
     protected void sDialog() {

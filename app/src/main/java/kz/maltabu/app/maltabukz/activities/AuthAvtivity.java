@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
@@ -39,6 +40,7 @@ public class AuthAvtivity extends AppCompatActivity {
     private Button register, auth;
     private ImageView arr;
     private TextView forgetPass;
+    private ConnectionHelper connectionHelper;
     private Dialog epicDialog;
     private InputValidation validation;
     private FileHelper fileHelper;
@@ -50,6 +52,7 @@ public class AuthAvtivity extends AppCompatActivity {
         setContentView(R.layout.authorize_activity);
         register = (Button) findViewById(R.id.button3);
         fileHelper = new FileHelper(this);
+        connectionHelper = new ConnectionHelper(this);
         epicDialog = new Dialog(this);
         validation = new InputValidation(this);
         forgetPass = (TextView) findViewById(R.id.textView72);
@@ -85,7 +88,7 @@ public class AuthAvtivity extends AppCompatActivity {
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnected()) {
+                if (connectionHelper.isConnected()) {
                     if (CheckEditTexts()) {
                         sDialog();
                         Author();
@@ -273,18 +276,6 @@ public class AuthAvtivity extends AppCompatActivity {
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
     }
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
-    }
-
 
     public String ValidPhoneNumb(String number){
         int length = number.length();

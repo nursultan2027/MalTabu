@@ -230,4 +230,8 @@ public class CatalogFragment extends Fragment {
         tabLayout.getTabAt(0).setCustomView(con);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

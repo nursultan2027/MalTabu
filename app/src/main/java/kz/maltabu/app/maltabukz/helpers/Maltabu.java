@@ -21,7 +21,7 @@ public class Maltabu {
     public static boolean increment = true;
     public static String lang = null;
     public static String token=null;
-    public static String version = "1.0.27";
+    public static String version = "1.0.29";
     public static String isAuth="false";
     public static int fragmentNumb = 0;
     public static int selectedFragment = 0;

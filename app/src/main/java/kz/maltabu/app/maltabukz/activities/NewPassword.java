@@ -101,16 +101,4 @@ public class NewPassword extends AppCompatActivity {
             startActivity(new Intent(NewPassword.this, AuthAvtivity.class));
             finish();
     }
-
-    public boolean isConnected() {
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-        }
-        return connected;
-    }
 }
