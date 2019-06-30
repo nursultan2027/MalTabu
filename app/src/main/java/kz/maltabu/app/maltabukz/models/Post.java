@@ -42,6 +42,38 @@ public class Post implements Parcelable{
         this.number = number;
         this.images = images;
     }
+    public Post(String createdAt, String title, String content, String cityID, String price, String number, ArrayList<Image> images) {
+        this.createdAt = createdAt;
+        this.title = title;
+        this.content = content;
+        this.cityID = cityID;
+        this.price = price;
+        this.number = number;
+        this.images = images;
+    }
+    public Post(String createdAt, String title,String cityID, String price, String number, ArrayList<Image> images) {
+        this.createdAt = createdAt;
+        this.title = title;
+        this.cityID = cityID;
+        this.price = price;
+        this.number = number;
+        this.images = images;
+    }
+    public Post(String createdAt, String title, String content, String cityID, ArrayList<Image> images, String price) {
+        this.createdAt = createdAt;
+        this.title = title;
+        this.content = content;
+        this.cityID = cityID;
+        this.price = price;
+        this.images = images;
+    }
+    public Post(String createdAt, String title,String cityID, String price, ArrayList<Image> images) {
+        this.createdAt = createdAt;
+        this.title = title;
+        this.cityID = cityID;
+        this.price = price;
+        this.images = images;
+    }
     public Post(int visitors, String createdAt, String title, String content, String cityID, String price, String number, ArrayList<Image> images, ArrayList<Comment> comments) {
         this.visitors = String.valueOf(visitors);
         this.createdAt = createdAt;

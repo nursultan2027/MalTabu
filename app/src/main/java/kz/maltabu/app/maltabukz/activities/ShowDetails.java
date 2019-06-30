@@ -45,6 +45,7 @@ import java.util.ArrayList;
 
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.fragments.ImageFragment;
@@ -67,6 +68,7 @@ public class ShowDetails extends AppCompatActivity {
     private int PAGE_COUNT;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
+    private InputValidation inputValidation;
     private Dialog epicDialog;
     private int selectedImg, phonecount=1;;
     private Intent imagesIntent;
@@ -77,6 +79,7 @@ public class ShowDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
+        inputValidation = new InputValidation(this);
         imagesIntent = new Intent(this, ShowDetailsImages.class);
         closeLeftSwipe();
         sDialog();
@@ -270,7 +273,7 @@ public class ShowDetails extends AppCompatActivity {
                         }
                         if (postObject.getBoolean("hasContent")) {
                             String content = postObject.getString("content");
-                            Post post2 = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
+                            Post post2 = new Post(visitors, inputValidation.getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post2.setPhones(phones);
                             post = post2;
                             setContentView(R.layout.post_details);
@@ -280,7 +283,7 @@ public class ShowDetails extends AppCompatActivity {
                                 epicDialog.dismiss();
                             }
                         } else {
-                            Post post2 = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
+                            Post post2 = new Post(visitors, inputValidation.getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
                             post2.setPhones(phones);
                             post = post2;
                             setContentView(R.layout.post_details);
@@ -300,79 +303,6 @@ public class ShowDetails extends AppCompatActivity {
             }
         };
         asyncTask1.execute();
-    }
-
-
-    public String getDate(String s)    {
-        String [] ss = s.split("T");
-        String [] ss2 = ss[0].split("-");
-        if (ss2[1].equals("01"))
-        {
-            ss2[1] = "Января,қаңтар";
-        } else {
-            if (ss2[1].equals("02"))
-            {
-                ss2[1] = "Февраля,ақпан";
-            }
-            else {
-                if (ss2[1].equals("03"))
-                {
-                    ss2[1] = "Марта,наурыз";
-                }
-                else {
-                    if (ss2[1].equals("04"))
-                    {
-                        ss2[1] = "Апреля,сәуiр";
-                    } else {
-                        if (ss2[1].equals("05"))
-                        {
-                            ss2[1] = "Мая,мамыр";
-                        } else {
-                            if (ss2[1].equals("06"))
-                            {
-                                ss2[1] = "Июня,маусым";
-                            }
-                            else {
-                                if (ss2[1].equals("07"))
-                                {
-                                    ss2[1] = "Июля,шiлде";
-                                } else {
-                                    if (ss2[1].equals("08"))
-                                    {
-                                        ss2[1] = "Августа,тамыз";
-                                    }
-                                    else {
-                                        if (ss2[1].equals("09"))
-                                        {
-                                            ss2[1] = "Сентября,қыркүйек";
-                                        }
-                                        else {
-                                            if (ss2[1].equals("10"))
-                                            {
-                                                ss2[1] = "Октября,қазан";
-                                            }
-                                            else {
-                                                if (ss2[1].equals("11"))
-                                                {
-                                                    ss2[1] = "Ноября,қараша";
-                                                }
-                                                else {
-                                                    if (ss2[1].equals("12"))
-                                                    {
-                                                        ss2[1] = "Декабря,желтоқсан";
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return ss2[2] +","+ss2[1];
     }
 
     private void setInfo() {

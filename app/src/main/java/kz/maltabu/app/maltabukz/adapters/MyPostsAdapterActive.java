@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +14,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.activities.EditPostActivity;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.activities.TopHotActivity;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.models.Comment;
-import kz.maltabu.app.maltabukz.models.Image;
-import kz.maltabu.app.maltabukz.models.Post;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -43,7 +38,9 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
     private LayoutInflater inflater;
     private int layout;
     private Dialog epicDialog;
+    private Dialog newDialog;
     private FileHelper fileHelper;
+    private InputValidation inputValidation;
     private ArrayList<PostAtMyPosts> myPosts;
 
     public MyPostsAdapterActive(Context context, int resource, ArrayList<PostAtMyPosts> posts) {
@@ -52,6 +49,8 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
         this.epicDialog = new Dialog(getContext());
+        this.newDialog = new Dialog(getContext());
+        this.inputValidation = new InputValidation(getContext());
         this.fileHelper = new FileHelper(getContext());
     }
 
@@ -70,7 +69,7 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         Button btn2 = (Button) view.findViewById(R.id.bunntonHot);
         Button btn3 = (Button) view.findViewById(R.id.button72);
         Button btn4 = (Button) view.findViewById(R.id.bunntonHot2);
-        String date = getDate(post.getCreatedAt());
+        String date = this.inputValidation.getDate(post.getCreatedAt());
         String [] asd = date.split(",");
         if(Maltabu.lang.equals("ru"))
             date = asd[0]+" "+asd[1];
@@ -136,79 +135,19 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
                 getContext().startActivity(hotIntent);
             }
         });
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNewDialog();
+                Intent editActivityIntent = new Intent(getContext(), EditPostActivity.class);
+                editActivityIntent.putExtra("number", post.getNumber());
+                editActivityIntent.putExtra("adID", post.getAdID());
+                editActivityIntent.putExtra("catalogID", post.getCatalogID());
+                newDialog.dismiss();
+                getContext().startActivity(editActivityIntent);
+            }
+        });
         return view;
-    }
-
-    public String getDate(String s)    {
-        String [] ss = s.split("T");
-        String [] ss2 = ss[0].split("-");
-        if (ss2[1].equals("01"))
-        {
-            ss2[1] = "Января,қаңтар";
-        } else {
-            if (ss2[1].equals("02"))
-            {
-                ss2[1] = "Февраля,ақпан";
-            }
-            else {
-                if (ss2[1].equals("03"))
-                {
-                    ss2[1] = "Марта,наурыз";
-                }
-                else {
-                    if (ss2[1].equals("04"))
-                    {
-                        ss2[1] = "Апреля,сәуiр";
-                    } else {
-                        if (ss2[1].equals("05"))
-                        {
-                            ss2[1] = "Мая,мамыр";
-                        } else {
-                            if (ss2[1].equals("06"))
-                            {
-                                ss2[1] = "Июня,маусым";
-                            }
-                            else {
-                                if (ss2[1].equals("07"))
-                                {
-                                    ss2[1] = "Июля,шiлде";
-                                } else {
-                                    if (ss2[1].equals("08"))
-                                    {
-                                        ss2[1] = "Августа,тамыз";
-                                    }
-                                    else {
-                                        if (ss2[1].equals("09"))
-                                        {
-                                            ss2[1] = "Сентября,қыркүйек";
-                                        }
-                                        else {
-                                            if (ss2[1].equals("10"))
-                                            {
-                                                ss2[1] = "Октября,қазан";
-                                            }
-                                            else {
-                                                if (ss2[1].equals("11"))
-                                                {
-                                                    ss2[1] = "Ноября,қараша";
-                                                }
-                                                else {
-                                                    if (ss2[1].equals("12"))
-                                                    {
-                                                        ss2[1] = "Декабря,желтоқсан";
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return ss2[2] +","+ss2[1];
     }
 
     public void getPost(String numb){
@@ -291,5 +230,11 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         });
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
+    }
+
+    protected void showNewDialog(){
+        newDialog.setContentView(R.layout.progress_dialog);
+        newDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        newDialog.show();
     }
 }

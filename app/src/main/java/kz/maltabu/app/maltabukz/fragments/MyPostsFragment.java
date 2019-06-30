@@ -199,6 +199,8 @@ public class MyPostsFragment extends Fragment {
                 visitors = String.valueOf(postsJsonObject.getJSONObject("stat").getInt("phone"));
                 phones = String.valueOf(postsJsonObject.getJSONObject("stat").getInt("visitors"));
                 obj = postsJsonObject.getJSONObject("catalogID");
+                String catID = obj.getString("_id");
+                String adID = postsJsonObject.getString("adID");
                 catalogID = obj.getString("name");
                 obj = postsJsonObject.getJSONObject("categoryID");
                 categoryID = obj.getString("name");
@@ -218,7 +220,7 @@ public class MyPostsFragment extends Fragment {
                     }
                 }
                 number = String.valueOf(postsJsonObject.getInt("number"));
-                postAtMyPosts2 = new PostAtMyPosts(visitors, comments, phones, number,price,catalogID,categoryID,createdAt,status,title);
+                postAtMyPosts2 = new PostAtMyPosts(adID,catID,visitors, comments, phones, number,price,catalogID,categoryID,createdAt,status,title);
                 if(imagesArrayList.size()>0){
                     postAtMyPosts2.setImg(imagesArrayList);
                 }

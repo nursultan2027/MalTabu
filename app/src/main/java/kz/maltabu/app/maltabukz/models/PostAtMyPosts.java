@@ -14,13 +14,17 @@ public class PostAtMyPosts{
     private String visitors;
     private String comments;
     private String phones;
+    private String adID;
+    private String catalogID;
 
 
 
     private ArrayList<String> img;
 
 
-    public PostAtMyPosts(String visitors, String comments, String phones, String number, String price, String catalog, String category, String createdAt, String status, String title) {
+    public PostAtMyPosts(String adID, String catalogID, String visitors, String comments, String phones, String number, String price, String catalog, String category, String createdAt, String status, String title) {
+        this.adID = adID;
+        this.catalogID = catalogID;
         this.category = category;
         this.catalog = catalog;
         this.createdAt = createdAt;
@@ -137,5 +141,21 @@ public class PostAtMyPosts{
 
     public void setPhones(String phones) {
         this.phones = phones;
+    }
+
+    public String getAdID() {
+        return adID;
+    }
+
+    public void setAdID(String adID) {
+        this.adID = adID;
+    }
+
+    public String getCatalogID() {
+        return catalogID;
+    }
+
+    public void setCatalogID(String catalogID) {
+        this.catalogID = catalogID;
     }
 }

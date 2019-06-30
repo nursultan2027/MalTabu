@@ -1022,6 +1022,8 @@ public class AddPostActivity2 extends AppCompatActivity{
             sDialog();
             postAds();
         }
+//        Log.d("valid String",inputValidation.validateContent(content.getText().toString()));
+
     }
     public void postAds(){
         final OkHttpClient client = new OkHttpClient();
