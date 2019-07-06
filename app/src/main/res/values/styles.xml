@@ -12,6 +12,9 @@
         <!--<item name="android:textColorPrimary">@color/colorTextPrimary</item>-->
         <!--<item name="android:textColorSecondary">@color/colorTextSecondary</item>-->
     </style>
+    <style name="myTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

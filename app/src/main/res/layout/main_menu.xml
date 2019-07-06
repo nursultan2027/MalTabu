@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/White"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -14,18 +15,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline30"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.25" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/asdasdasd"
                 android:layout_width="match_parent"
                 android:background="@color/White"
@@ -33,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout228"
                     android:layout_width="wrap_content"
                     android:background="@drawable/ripple"
@@ -59,16 +60,16 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline29"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.6" />
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,15 +80,15 @@
                     android:id="@+id/imageView37"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
-                    android:src="@drawable/maltabulogonew"
+                    android:src="@drawable/maltabulogonew_min"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline29"
                     app:layout_constraintStart_toStartOf="@+id/guideline28"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:clickable="true"
                 android:focusable="true"
@@ -123,9 +124,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
                 android:clickable="true"
                 android:focusable="true"
@@ -161,9 +162,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"
                 android:clickable="true"
                 android:focusable="true"
@@ -199,9 +200,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout4"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -237,9 +238,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView5"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout5"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
@@ -275,9 +276,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout6"
                 android:clickable="true"
                 android:focusable="true"
@@ -313,9 +314,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView7"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout9"
                 android:clickable="true"
                 android:focusable="true"
@@ -351,9 +352,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView8"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout10"
                 android:clickable="true"
                 android:focusable="true"
@@ -389,7 +390,7 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView82"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/view13"
@@ -410,7 +411,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout29" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout29"
                 android:clickable="true"
                 android:focusable="true"
@@ -444,9 +445,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView30"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

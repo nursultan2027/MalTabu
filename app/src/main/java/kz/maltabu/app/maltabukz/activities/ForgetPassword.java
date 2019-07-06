@@ -2,13 +2,12 @@ package kz.maltabu.app.maltabukz.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.models.Image;
 
 public class ForgetPassword extends AppCompatActivity {
     private Button phone,mail;

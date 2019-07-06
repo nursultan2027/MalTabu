@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:noHistory="false"
         android:largeHeap="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/myTheme">
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="kz.maltabu.app.maltabukz.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false">
@@ -55,7 +55,6 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPassword"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPasswordPhone"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.NewPassword"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.NewFilterActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.EditPostActivity"/>
 
     </application>

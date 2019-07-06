@@ -2,19 +2,17 @@ package kz.maltabu.app.maltabukz.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,13 +21,7 @@ import java.util.ArrayList;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
-import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.models.Comment;
-import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapterNew.vHolder>{
 

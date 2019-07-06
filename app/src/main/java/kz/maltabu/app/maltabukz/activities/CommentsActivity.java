@@ -8,21 +8,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.barteksc.pdfviewer.PDFView;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +31,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.Instant;
 import java.util.ArrayList;
 
 import kz.maltabu.app.maltabukz.R;
@@ -45,14 +39,7 @@ import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Comment;
-import kz.maltabu.app.maltabukz.models.FilterModel;
-import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class CommentsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;

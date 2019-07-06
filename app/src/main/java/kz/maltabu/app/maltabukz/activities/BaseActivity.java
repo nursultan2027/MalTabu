@@ -1,7 +1,7 @@
 package kz.maltabu.app.maltabukz.activities;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity{
     @Override

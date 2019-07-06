@@ -3,7 +3,7 @@ package kz.maltabu.app.maltabukz.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/MaltabuGrey">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/MaltabuYellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,14 +44,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar3">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout36"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar3">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout25"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,9 +90,9 @@
                     android:background="@color/MaltabuGrey3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout35"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -182,9 +182,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView53" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout37"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout35">
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -276,9 +276,9 @@
                     app:layout_constraintHorizontal_bias="0.378"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView55" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -288,7 +288,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout37">
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -350,9 +350,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline22"
                     app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

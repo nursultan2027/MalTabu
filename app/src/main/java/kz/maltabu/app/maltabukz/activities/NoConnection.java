@@ -1,12 +1,8 @@
 package kz.maltabu.app.maltabukz.activities;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import kz.maltabu.app.maltabukz.R;

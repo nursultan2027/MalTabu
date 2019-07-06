@@ -1,12 +1,7 @@
 package kz.maltabu.app.maltabukz.fragments;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +11,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import kz.maltabu.app.maltabukz.R;
 
-import kz.maltabu.app.maltabukz.activities.AuthAvtivity;
-import kz.maltabu.app.maltabukz.activities.CabinetActivity;
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapter;
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapterActive;
 import kz.maltabu.app.maltabukz.adapters.MyPostsAdapterArch;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;

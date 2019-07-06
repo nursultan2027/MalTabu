@@ -1,24 +1,23 @@
 package kz.maltabu.app.maltabukz.activities;
 
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.fragments.CategoryFragment;
 import kz.maltabu.app.maltabukz.fragments.SearchFragment;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
@@ -60,6 +58,8 @@ public class MainActivity2 extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         fileHelper = new FileHelper(this);
         SetActivityView();
@@ -408,8 +408,8 @@ public class MainActivity2 extends AppCompatActivity
         sort.setVisibility(View.GONE);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         hottitle.setText(context.getResources().getString(R.string.hotTitle));
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         HotFragment fragment = new HotFragment();
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
@@ -428,8 +428,8 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment1() throws JSONException {
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(1));
@@ -453,9 +453,9 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.text = null;
         Maltabu.s6= null;
     }
-    private void fragment2() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment2() throws JSONException { FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(4));
@@ -478,9 +478,9 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.s5= null;
         Maltabu.s6= null;
     }
-    private void fragment3() throws JSONException { android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment3() throws JSONException { FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(2));
@@ -502,9 +502,9 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.s5= null;
         Maltabu.s6= null;
     }
-    private void fragment4() throws JSONException {  android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private void fragment4() throws JSONException {  FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(0));
@@ -526,9 +526,9 @@ public class MainActivity2 extends AppCompatActivity
         Maltabu.s6= null;
         }
     private void fragment5() throws JSONException {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(3));
@@ -554,8 +554,8 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment6() throws JSONException {
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
 
@@ -581,8 +581,8 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment7() throws JSONException {
         filter.setVisibility(View.VISIBLE);
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(6));
@@ -607,8 +607,8 @@ public class MainActivity2 extends AppCompatActivity
         filter.setVisibility(View.GONE);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         hottitle.setText(context.getResources().getString(R.string.SearchText));
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         SearchFragment fragment = new SearchFragment();
         fragmentTransaction.replace(R.id.main, fragment);
         fragmentTransaction.commit();
@@ -825,7 +825,7 @@ public class MainActivity2 extends AppCompatActivity
         }
     }
 
-    public void removeAllFragments(android.support.v4.app.FragmentManager fragmentManager, HotFragment fragment){
+    public void removeAllFragments(FragmentManager fragmentManager, HotFragment fragment){
             for (int i=0; i<fragmentManager.getFragments().size(); i++){
                 if(fragmentManager.getFragments().get(i)!=fragment){
                     fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
@@ -833,7 +833,7 @@ public class MainActivity2 extends AppCompatActivity
             }
     }
 
-    public void removeAllFragments(android.support.v4.app.FragmentManager fragmentManager, CatalogFragment fragment){
+    public void removeAllFragments(FragmentManager fragmentManager, CatalogFragment fragment){
         for (int i=0; i<fragmentManager.getFragments().size(); i++){
             if(fragmentManager.getFragments().get(i)!=fragment){
                 fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
@@ -841,7 +841,7 @@ public class MainActivity2 extends AppCompatActivity
         }
     }
 
-    public void removeAllFragments(android.support.v4.app.FragmentManager fragmentManager, SearchFragment fragment){
+    public void removeAllFragments(FragmentManager fragmentManager, SearchFragment fragment){
         for (int i=0; i<fragmentManager.getFragments().size(); i++){
             if(fragmentManager.getFragments().get(i)!=fragment){
                 fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
