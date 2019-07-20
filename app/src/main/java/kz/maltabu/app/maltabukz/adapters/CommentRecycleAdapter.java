@@ -33,7 +33,7 @@ public class CommentRecycleAdapter extends RecyclerView.Adapter<CommentRecycleAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Comment comment = comments.get(position);
         String date = "только что";
-        if(comment.getCreatedAt()!="") {
+        if(!comment.getCreatedAt().equals("")) {
             String dates[] = getDate(comment.getCreatedAt()).split(",");
             if (Maltabu.lang.equals("ru"))
                 date = dates[0] + " " + dates[1] + " " + dates[3];

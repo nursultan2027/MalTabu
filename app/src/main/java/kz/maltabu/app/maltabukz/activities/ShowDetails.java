@@ -32,10 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrListener;
-import com.r0adkll.slidr.model.SlidrPosition;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +66,7 @@ public class ShowDetails extends AppCompatActivity {
     private PagerAdapter pagerAdapter;
     private InputValidation inputValidation;
     private Dialog epicDialog;
-    private int selectedImg, phonecount=1;;
+    private int selectedImg, phonecount=1, COMMENT_REQUEST_CODE=105;
     private Intent imagesIntent;
     private static final int PERMISSION_REQUEST_CODE = 123;
     private GestureDetector tapGestureDetector;
@@ -81,45 +77,9 @@ public class ShowDetails extends AppCompatActivity {
         epicDialog = new Dialog(this);
         inputValidation = new InputValidation(this);
         imagesIntent = new Intent(this, ShowDetailsImages.class);
-        closeLeftSwipe();
         sDialog();
         getPost(getIntent().getStringExtra("postNumb"));
-    }
 
-    private void closeLeftSwipe() {
-        SlidrConfig config = new SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .sensitivity(1f)
-                .scrimColor(Color.BLACK)
-                .scrimStartAlpha(0.8f)
-                .scrimEndAlpha(0f)
-                .velocityThreshold(2400)
-                .distanceThreshold(0.5f)
-                .edge(true|false)
-                .edgeSize(0.18f) // The % of the screen that counts as the edge, default 18%
-                .listener(new SlidrListener(){
-                    @Override
-                    public void onSlideStateChanged(int state) {
-
-                    }
-
-                    @Override
-                    public void onSlideChange(float percent) {
-
-                    }
-
-                    @Override
-                    public void onSlideOpened() {
-
-                    }
-
-                    @Override
-                    public void onSlideClosed() {
-
-                    }})
-                .build();
-
-        Slidr.attach(this, config);
     }
 
     protected void sDialog() {
@@ -305,6 +265,7 @@ public class ShowDetails extends AppCompatActivity {
         asyncTask1.execute();
     }
 
+
     private void setInfo() {
         title.setText(post.getTitle());
         if (post.getContent()!=null) {
@@ -400,8 +361,7 @@ public class ShowDetails extends AppCompatActivity {
             public void onClick(View v) {
                 Intent comIntent = new Intent(ShowDetails.this, CommentsActivity.class);
                 comIntent.putExtra("post", post);
-                startActivity(comIntent);
-                finish();
+                startActivityForResult(comIntent, COMMENT_REQUEST_CODE);
             }
         });
     }
@@ -462,7 +422,7 @@ public class ShowDetails extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImageFragment.newInstance(position, post.getImages().get(position).getSmall());
+            return ImageFragment.newInstance(position, post.getImages().get(position).getMedium());
         }
 
         @Override
@@ -652,6 +612,20 @@ public class ShowDetails extends AppCompatActivity {
             callIntent.setData(Uri.parse("tel:+7"+gg[0]));
             startActivity(callIntent);
             return;
+        } else {
+            if(requestCode == COMMENT_REQUEST_CODE){
+                String commentsCount = data.getData().toString();
+                try {
+                    String username = new JSONObject(fileHelper.readUserFile()).getString("name");
+                    String email = new JSONObject(fileHelper.readUserFile()).getString("mail");
+                    if(!commentsCount.equals("")){
+                        post.getComments().add(new Comment(commentsCount,"",username,email));
+                        commen.setText(getString(R.string.showComments)+"("+String.valueOf(post.getComments().size())+")");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

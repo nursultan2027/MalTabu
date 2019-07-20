@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity{
         {
             GetVersion();
         } else {
+            setTheme(R.style.AppTheme);
             setContentView(R.layout.no_internet_connection);
             TextView refresh = (TextView) findViewById(R.id.textView35);
             refresh.setOnClickListener(new View.OnClickListener() {

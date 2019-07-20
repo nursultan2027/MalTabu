@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +46,7 @@ public class CommentsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CommentRecycleAdapter adapter;
     private TextView title;
+    private String addedComment="";
     private FileHelper fileHelper;
     private Button sendComment;
     private EditText editText;
@@ -105,7 +107,8 @@ public class CommentsActivity extends AppCompatActivity {
                             String name = object.getString("name");
 
                             Comment comment = new Comment();
-                            comment.setContent(editText.getText().toString());
+                            addedComment = editText.getText().toString();
+                            comment.setContent(addedComment);
                             comment.setCreatedAt("");
                             comment.setName(name);
                             comments.add(comment);
@@ -128,7 +131,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sDialog();
-                SecondThread thread = new SecondThread(post.getNumber());
+                SecondThread thread = new SecondThread();
                 thread.start();
             }
         });
@@ -140,101 +143,26 @@ public class CommentsActivity extends AppCompatActivity {
         epicDialog.show();
     }
 
-    public void getPost(String numb){
-        Intent details = new Intent(CommentsActivity.this, ShowDetails.class);
-        details.putExtra("postNumb", numb);
-        startActivity(details);
+    public void getPost(){
+        Intent details = new Intent();
+        details.setData(Uri.parse(addedComment));
+        setResult(RESULT_OK, details);
         finish();
     }
 
     @Override
     public void onBackPressed() {
         sDialog();
-        SecondThread thread = new SecondThread(post.getNumber());
+        SecondThread thread = new SecondThread();
         thread.start();
     }
 
-    public String getDate(String s)    {
-        String [] ss = s.split("T");
-        String [] ss2 = ss[0].split("-");
-        if (ss2[1].equals("01"))
-        {
-            ss2[1] = "Января,қаңтар";
-        } else {
-            if (ss2[1].equals("02"))
-            {
-                ss2[1] = "Февраля,ақпан";
-            }
-            else {
-                if (ss2[1].equals("03"))
-                {
-                    ss2[1] = "Марта,наурыз";
-                }
-                else {
-                    if (ss2[1].equals("04"))
-                    {
-                        ss2[1] = "Апреля,сәуiр";
-                    } else {
-                        if (ss2[1].equals("05"))
-                        {
-                            ss2[1] = "Мая,мамыр";
-                        } else {
-                            if (ss2[1].equals("06"))
-                            {
-                                ss2[1] = "Июня,маусым";
-                            }
-                            else {
-                                if (ss2[1].equals("07"))
-                                {
-                                    ss2[1] = "Июля,шiлде";
-                                } else {
-                                    if (ss2[1].equals("08"))
-                                    {
-                                        ss2[1] = "Августа,тамыз";
-                                    }
-                                    else {
-                                        if (ss2[1].equals("09"))
-                                        {
-                                            ss2[1] = "Сентября,қыркүйек";
-                                        }
-                                        else {
-                                            if (ss2[1].equals("10"))
-                                            {
-                                                ss2[1] = "Октября,қазан";
-                                            }
-                                            else {
-                                                if (ss2[1].equals("11"))
-                                                {
-                                                    ss2[1] = "Ноября,қараша";
-                                                }
-                                                else {
-                                                    if (ss2[1].equals("12"))
-                                                    {
-                                                        ss2[1] = "Декабря,желтоқсан";
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return ss2[2] +","+ss2[1];
-    }
-
     public class SecondThread extends Thread{
-        String numb;
-        SecondThread (String numb){
-            this.numb = numb;
-        }
+        SecondThread (){ }
 
         @Override
         public void run() {
-            getPost(numb);
+            getPost();
         }
     }
 

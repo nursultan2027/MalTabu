@@ -110,7 +110,7 @@ public class ShowDetailsImages extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImageFragment2.newInstance(position, post.getImages().get(position).getMedium());
+            return ImageFragment2.newInstance(position, post.getImages().get(position).getBig());
         }
 
         @Override
