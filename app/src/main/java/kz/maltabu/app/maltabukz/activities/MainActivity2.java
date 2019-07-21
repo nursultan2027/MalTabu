@@ -9,6 +9,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
