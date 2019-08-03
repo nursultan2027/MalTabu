@@ -155,12 +155,21 @@
     <string name="descr4"> Восстановить</string>
     <string name="descr5">Удалить из архива</string>
 
+    <string name="cab1">Мои объявления</string>
+    <string name="cab2">Настройка профиля</string>
+    <string name="cab3">Сменить пароль</string>
+    <string name="cab4">Выйти</string>
+
     <string name="cab01">Редактировать</string>
     <string name="cab02">Удалить</string>
 
+    <string name="noAvtivation1">Создание личного кабинета</string>
+    <string name="noActivation2">Вы можете пользоваться вашим личным кабинетом.</string>
+
     <string name="comments1">Комментарии</string>
     <string name="comments2">Написать комментарий</string>
-
     <string name="comments3">Для добавления комментария, Вам необходимо войти или зарегистрироваться в системе</string>
+    <string name="productionNoAuth">Вам необходимо войти или зарегистрироваться в системе</string>
+    <string name="successPay">Оплата</string>
 
 </resources>

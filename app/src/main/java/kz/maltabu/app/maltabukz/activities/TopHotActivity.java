@@ -35,6 +35,7 @@ public class TopHotActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hot_top_activity);
         fileHelper = new FileHelper(this);
@@ -132,6 +133,8 @@ public class TopHotActivity extends AppCompatActivity{
                 super.onPostExecute(s);
                 if (s != null) {
                     setContentView(R.layout.success);
+                    TextView textView = (TextView) findViewById(R.id.textView46);
+                    textView.setText(getString(R.string.successPay));
                     arr = (ImageView) findViewById(R.id.arr);
                     arr.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -176,6 +179,8 @@ public class TopHotActivity extends AppCompatActivity{
                 super.onPostExecute(s);
                 if (s != null) {
                     setContentView(R.layout.success);
+                    TextView textView = (TextView) findViewById(R.id.textView46);
+                    textView.setText(getString(R.string.successPay));
                     arr = (ImageView) findViewById(R.id.arr);
                     arr.setOnClickListener(new View.OnClickListener() {
                         @Override

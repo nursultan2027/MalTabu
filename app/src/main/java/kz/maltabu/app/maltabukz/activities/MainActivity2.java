@@ -343,7 +343,8 @@ public class MainActivity2 extends AppCompatActivity
             cab.setText(resources.getString(R.string.Cabinet));
         } else {
             try {
-                cab.setText(object.getString("name"));
+                if(object!=null)
+                    cab.setText(object.getString("name"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

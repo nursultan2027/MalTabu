@@ -15,6 +15,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -56,6 +62,7 @@ import okhttp3.Response;
 public class ShowDetails extends AppCompatActivity {
     private TextView callPhoneText, title, content, price, phone, location, date, photos, commen;
     private ImageView img;
+//    private AdView mAdView;
     private ConstraintLayout cs1, hot, top, comments;
     private Post post;
     private String currentNumber;
@@ -267,6 +274,8 @@ public class ShowDetails extends AppCompatActivity {
 
 
     private void setInfo() {
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
         title.setText(post.getTitle());
         if (post.getContent()!=null) {
             content.setText(post.getContent());
@@ -338,7 +347,7 @@ public class ShowDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(Maltabu.isAuth.equals("false")){
-                    startActivity(new Intent(ShowDetails.this, AuthAvtivity.class));
+                    Toast.makeText(ShowDetails.this, getResoursesByLang().getString(R.string.productionNoAuth),Toast.LENGTH_SHORT).show();
                 } else {
                     getPosting();
                 }
@@ -349,7 +358,7 @@ public class ShowDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(Maltabu.isAuth.equals("false")){
-                    startActivity(new Intent(ShowDetails.this, AuthAvtivity.class));
+                    Toast.makeText(ShowDetails.this, getResoursesByLang().getString(R.string.productionNoAuth),Toast.LENGTH_SHORT).show();
                 } else {
                     getPosting();
                 }
@@ -369,7 +378,13 @@ public class ShowDetails extends AppCompatActivity {
     private void showPhoneNumber(){
         final String [] gg = phonesArr(post.getPhones());
         phone.setText("+7("+gg[0].substring(0,3)+")"+gg[0].substring(3,gg[0].length()));
-        Toast.makeText(ShowDetails.this, currentNumber, Toast.LENGTH_SHORT).show();
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentNumber = gg[0];
+                makeCall();
+            }
+        });
         if(phonecount<gg.length) {
             if (gg.length > 1) {
                 for (int j = 1; j < gg.length; j++) {
@@ -381,7 +396,7 @@ public class ShowDetails extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             currentNumber = gg[finalJ];
-                            Toast.makeText(ShowDetails.this, gg[finalJ], Toast.LENGTH_SHORT).show();
+                            makeCall();
                         }
                     });
                     phonecount++;
@@ -396,6 +411,7 @@ public class ShowDetails extends AppCompatActivity {
     }
 
     private void initViews() {
+//        mAdView = findViewById(R.id.adView);
         cs1 = (ConstraintLayout) findViewById(R.id.callPhone);
         callPhoneText = (TextView) findViewById(R.id.textView32);
         commen = (TextView) findViewById(R.id.commentxt);
@@ -496,6 +512,10 @@ public class ShowDetails extends AppCompatActivity {
         phone.setText(placeHplder+") "+resources.getString(R.string.showPhone));
     }
 
+    public Resources getResoursesByLang(){
+        Context context = LocaleHelper.setLocale(this, Maltabu.lang);
+        return context.getResources();
+    }
     public void makeCall(){
         if (hasPermissions())
         {
@@ -614,16 +634,18 @@ public class ShowDetails extends AppCompatActivity {
             return;
         } else {
             if(requestCode == COMMENT_REQUEST_CODE){
-                String commentsCount = data.getData().toString();
-                try {
-                    String username = new JSONObject(fileHelper.readUserFile()).getString("name");
-                    String email = new JSONObject(fileHelper.readUserFile()).getString("mail");
-                    if(!commentsCount.equals("")){
-                        post.getComments().add(new Comment(commentsCount,"",username,email));
-                        commen.setText(getString(R.string.showComments)+"("+String.valueOf(post.getComments().size())+")");
+                if(data.getData()!=null) {
+                    String commentsCount = data.getData().toString();
+                    try {
+                        String username = new JSONObject(fileHelper.readUserFile()).getString("name");
+                        String email = new JSONObject(fileHelper.readUserFile()).getString("mail");
+                        if (!commentsCount.equals("")) {
+                            post.getComments().add(new Comment(commentsCount, "", username, email));
+                            commen.setText(getString(R.string.showComments) + "(" + String.valueOf(post.getComments().size()) + ")");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
         }

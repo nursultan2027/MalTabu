@@ -115,6 +115,7 @@ public class EditPostActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post2);
         fileHelper = new FileHelper(this);
