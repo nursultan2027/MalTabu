@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Post;
 
 public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapterNew.vHolder>{
@@ -52,7 +53,16 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
     public void onBindViewHolder(final vHolder holder, int position) {
         final Post post = posts.get(position);
         holder.nameView.setText(post.getPrice());
-        holder.location.setText(post.getCityID());
+        if(Maltabu.lang.equals("ru")) {
+            holder.location.setText(post.getCityID());
+        } else {
+            try {
+                holder.location.setText(object.getString(post.getCityID()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         if(post.getImages().size()>0) {
                 Picasso.with(context).load("https://maltabu.kz/"
                         +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);

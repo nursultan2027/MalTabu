@@ -62,7 +62,7 @@ import okhttp3.Response;
 public class ShowDetails extends AppCompatActivity {
     private TextView callPhoneText, title, content, price, phone, location, date, photos, commen;
     private ImageView img;
-//    private AdView mAdView;
+    private AdView mAdView;
     private ConstraintLayout cs1, hot, top, comments;
     private Post post;
     private String currentNumber;
@@ -274,8 +274,8 @@ public class ShowDetails extends AppCompatActivity {
 
 
     private void setInfo() {
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         title.setText(post.getTitle());
         if (post.getContent()!=null) {
             content.setText(post.getContent());
@@ -411,7 +411,7 @@ public class ShowDetails extends AppCompatActivity {
     }
 
     private void initViews() {
-//        mAdView = findViewById(R.id.adView);
+        mAdView = findViewById(R.id.adView);
         cs1 = (ConstraintLayout) findViewById(R.id.callPhone);
         callPhoneText = (TextView) findViewById(R.id.textView32);
         commen = (TextView) findViewById(R.id.commentxt);

@@ -21,11 +21,11 @@ public class MainApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-//        Fabric.with(getApplicationContext());
-//        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-//            @Override
-//            public void onInitializationComplete(InitializationStatus initializationStatus) {
-//            }
-//        });
+        Fabric.with(getApplicationContext());
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
     }
 }
