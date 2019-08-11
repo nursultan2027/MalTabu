@@ -135,7 +135,11 @@ public class CatalogFragment extends Fragment {
         } else {
             try {
                 adapter.addFragment(fragobj1, "Барлық");
-                String kazName = object.getString(category.getName());
+                String kazName;
+                if(object!=null)
+                    kazName = object.getString(category.getName());
+                else
+                    kazName=category.getName();
                 if(kazName.toString().toLowerCase().equals("жем")){
                     kazName = "Жем-шөп";
                 }

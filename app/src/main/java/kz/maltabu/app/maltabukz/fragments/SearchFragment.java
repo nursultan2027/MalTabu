@@ -316,7 +316,13 @@ public class SearchFragment extends Fragment {
         for (int i = 0; i < postObjList.size(); i++) {
             postObject = resObj.getJSONObject(i);
             ArrayList<Image> imagesArrayList = new ArrayList<>();
-            JSONArray arr = postObject.getJSONArray("images");
+            JSONArray arr;
+            if(postObject.has("img")) {
+                JSONObject imgWebObject = postObject.getJSONObject("img");
+                arr = imgWebObject.getJSONArray("web");
+            } else {
+                arr = postObject.getJSONArray("images");
+            }
             ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
             for (int j = 0; j < imgObjList.size(); j++) {
                 imgJson = arr.getJSONObject(j);

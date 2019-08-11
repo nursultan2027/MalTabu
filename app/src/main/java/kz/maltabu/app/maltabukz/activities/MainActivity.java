@@ -203,7 +203,8 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        epicDialog.show();
+        if(!this.isFinishing())
+            epicDialog.show();
     }
 
     public void noRecord(){

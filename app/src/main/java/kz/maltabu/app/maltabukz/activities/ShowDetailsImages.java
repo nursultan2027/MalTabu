@@ -110,7 +110,10 @@ public class ShowDetailsImages extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImageFragment2.newInstance(position, post.getImages().get(position).getBig());
+            if(post.getImages().get(0).getMedium().contains("http"))
+                return ImageFragment2.newInstance(position, post.getImages().get(position).getBig());
+            else
+                return ImageFragment2.newInstance(position, "https://maltabu.kz/"+post.getImages().get(position).getBig());
         }
 
         @Override

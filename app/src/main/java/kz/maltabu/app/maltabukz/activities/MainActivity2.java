@@ -11,6 +11,9 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -57,6 +60,8 @@ public class MainActivity2 extends AppCompatActivity
     private Dialog epicDialog, sortDialog;
     private Intent filterIntent;
     private static long back_pressed;
+    private InterstitialAd mInterstitialAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +133,9 @@ public class MainActivity2 extends AppCompatActivity
         menu82  = (TextView) findViewById(R.id.menu82);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
 
+        mInterstitialAd = new InterstitialAd(MainActivity2.this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         initListeners();
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -322,11 +330,22 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                    startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
-                    finish();
+                    if (mInterstitialAd.isLoaded())
+                        mInterstitialAd.show();
+                    else {
+                        startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
+                        finish();
+                    }
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
+            }
+        });
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
+                finish();
             }
         });
     }

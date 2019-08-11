@@ -57,22 +57,24 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
             holder.location.setText(post.getCityID());
         } else {
             try {
-                holder.location.setText(object.getString(post.getCityID()));
+                if(object!=null && post.getCityID()!=null)
+                    holder.location.setText(object.getString(post.getCityID()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
         if(post.getImages().size()>0) {
-                Picasso.with(context).load("https://maltabu.kz/"
-                        +post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);
-                holder.photoCount.setText(String.valueOf(post.getImages().size()));
+            if(post.getImages().get(0).getSmall().contains("http"))
+                Picasso.with(context).load(post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);
+            else
+                Picasso.with(context).load("https://maltabu.kz/"+post.getImages().get(0).getSmall()).placeholder(R.drawable.listempty).fit().centerCrop().into(holder.img);
+            holder.photoCount.setText(String.valueOf(post.getImages().size()));
         } else {
             holder.img.setImageResource(R.drawable.listempty);
             holder.photoCount.setText(String.valueOf(0));
         }
-
-        holder.cl1.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SecondThread thread = new SecondThread(post.getNumber());
@@ -92,7 +94,6 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
         public TextView photoCount;
         public TextView location;
         public ImageView img;
-        public ConstraintLayout cl1;
 
         public vHolder(View itemView) {
             super(itemView);
@@ -100,7 +101,6 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
             photoCount = (TextView) itemView.findViewById(R.id.textView11);
             location = (TextView) itemView.findViewById(R.id.textView5);
             img = (ImageView) itemView.findViewById(R.id.imageView17);
-            cl1 = (ConstraintLayout) itemView.findViewById(R.id.selectedPost);
         }
     }
 

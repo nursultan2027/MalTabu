@@ -136,7 +136,13 @@ public class MyPostsFragment extends Fragment {
             for(int i=0; i<transObjList.size();i++){
                 JSONObject postsJsonObject = resObj.getJSONObject(i);
                 ArrayList<String> imagesArrayList = new ArrayList<>();
-                JSONArray arr = postsJsonObject.getJSONArray("images");
+                JSONArray arr;
+                if(postsJsonObject.has("img")) {
+                    JSONObject imgWebObject = postsJsonObject.getJSONObject("img");
+                    arr = imgWebObject.getJSONArray("web");
+                } else {
+                    arr = postsJsonObject.getJSONArray("images");
+                }
                 ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
                 for (int j = 0; j < imgObjList.size(); j++) {
                     imgJson = arr.getString(j);

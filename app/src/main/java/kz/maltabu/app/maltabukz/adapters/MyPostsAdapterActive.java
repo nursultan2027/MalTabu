@@ -100,7 +100,10 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         visitorsCount.setText(post.getPhones());
         commentsCount.setText(post.getComments());
         if(post.getImg().size()>0) {
-            Picasso.with(getContext()).load("https://maltabu.kz/" + post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
+            if(post.getImg().get(0).contains("http"))
+                Picasso.with(getContext()).load(post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
+            else
+                Picasso.with(getContext()).load("https://maltabu.kz/"+post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
         } else {
             img.setImageResource(R.drawable.listempty);
         }
@@ -154,6 +157,11 @@ public class MyPostsAdapterActive extends ArrayAdapter<PostAtMyPosts> {
         Intent details = new Intent(getContext(), ShowDetails.class);
         details.putExtra("postNumb", numb);
         getContext().startActivity(details);
+    }
+
+    @Override
+    public int getCount() {
+        return myPosts.size();
     }
 
     public void archPost(final int position, String number){

@@ -14,12 +14,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,13 +24,9 @@ import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.models.Image;
-import kz.maltabu.app.maltabukz.models.Post;
 import kz.maltabu.app.maltabukz.models.PostAtMyPosts;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MyPostsAdapterArch extends ArrayAdapter<PostAtMyPosts> {
@@ -101,7 +94,10 @@ public class MyPostsAdapterArch extends ArrayAdapter<PostAtMyPosts> {
             }
         });
         if(post.getImg().size()>0) {
-            Picasso.with(getContext()).load("https://maltabu.kz/" + post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
+            if(post.getImg().get(0).contains("http"))
+                Picasso.with(getContext()).load(post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
+            else
+                Picasso.with(getContext()).load("https://maltabu.kz/"+post.getImg().get(0)).placeholder(R.drawable.listempty).fit().centerCrop().into(img);
         } else {
             img.setImageResource(R.drawable.listempty);
         }

@@ -48,7 +48,10 @@ public class MyPostsAdapter extends ArrayAdapter<PostAtMyPosts> {
         title2.setText(post.getTitle());
         title3.setText(date);
         if(post.getImg().size()>0) {
-            Picasso.with(getContext()).load("https://maltabu.kz/" + post.getImg().get(0)).into(img);
+            if(post.getImg().get(0).contains("http"))
+                Picasso.with(getContext()).load(post.getImg().get(0)).into(img);
+            else
+                Picasso.with(getContext()).load("https://maltabu.kz/"+post.getImg().get(0)).into(img);
         }
         return view;
     }

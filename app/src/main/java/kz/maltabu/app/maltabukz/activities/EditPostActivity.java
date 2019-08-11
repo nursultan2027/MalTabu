@@ -1132,7 +1132,8 @@ public class EditPostActivity extends AppCompatActivity {
                 if (s1 != null) {
                     try {
                         JSONObject postObject = new JSONObject(s1);
-                        JSONArray arr = postObject.getJSONArray("images");
+                        JSONObject imgWebObject = postObject.getJSONObject("img");
+                        JSONArray arr = imgWebObject.getJSONArray("web");
                         ArrayList<Image> imagesArrayList = new ArrayList<>();
                         ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
                         Image image = null;
@@ -1227,8 +1228,7 @@ public class EditPostActivity extends AppCompatActivity {
             for (int i=0; i<oldImages.size();i++) {
                 climgs[i].setVisibility(View.VISIBLE);
                 imageViews[i].setVisibility(View.VISIBLE);
-                Picasso.with(this).load("https://maltabu.kz/"
-                        + oldImages.get(i).getSmall()).placeholder(R.drawable.listempty).centerCrop().fit().into(imageViews[i]);
+                Picasso.with(this).load(oldImages.get(i).getSmall()).placeholder(R.drawable.listempty).centerCrop().fit().into(imageViews[i]);
                 checked[i] = true;
             }
         }

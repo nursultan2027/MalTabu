@@ -179,7 +179,13 @@ public class ShowDetails extends AppCompatActivity {
                 if (s1 != null) {
                     try {
                         JSONObject postObject = new JSONObject(s1);
-                        JSONArray arr = postObject.getJSONArray("images");
+                        JSONArray arr;
+                        if(postObject.has("img")) {
+                            JSONObject imgWebObject = postObject.getJSONObject("img");
+                            arr = imgWebObject.getJSONArray("web");
+                        } else {
+                            arr = postObject.getJSONArray("images");
+                        }
                         ArrayList<Image> imagesArrayList = new ArrayList<>();
                         ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
                         Image image = null;
@@ -246,7 +252,7 @@ public class ShowDetails extends AppCompatActivity {
                             setContentView(R.layout.post_details);
                             initViews();
                             setInfo();
-                            if(epicDialog.isShowing()) {
+                            if(!ShowDetails.this.isFinishing() && epicDialog!=null) {
                                 epicDialog.dismiss();
                             }
                         } else {
@@ -438,7 +444,10 @@ public class ShowDetails extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImageFragment.newInstance(position, post.getImages().get(position).getMedium());
+            if(post.getImages().get(0).getMedium().contains("http"))
+                return ImageFragment.newInstance(position, post.getImages().get(position).getMedium());
+            else
+                return ImageFragment.newInstance(position, "https://maltabu.kz/"+post.getImages().get(position).getMedium());
         }
 
         @Override
@@ -634,7 +643,7 @@ public class ShowDetails extends AppCompatActivity {
             return;
         } else {
             if(requestCode == COMMENT_REQUEST_CODE){
-                if(data.getData()!=null) {
+                if(data!=null) {
                     String commentsCount = data.getData().toString();
                     try {
                         String username = new JSONObject(fileHelper.readUserFile()).getString("name");

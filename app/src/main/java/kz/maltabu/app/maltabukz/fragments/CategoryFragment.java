@@ -56,7 +56,6 @@ public class CategoryFragment extends Fragment {
     private boolean isCatalog;
     private RecyclerView lst;
     private JSONObject object;
-    private FloatingActionButton filterButton;
     private View view;
     private Dialog epicDialog;
     private ProgressBar button;
@@ -92,8 +91,7 @@ public class CategoryFragment extends Fragment {
 
         button = (ProgressBar) view.findViewById(R.id.button);
         lst = (RecyclerView) view.findViewById(R.id.prodss);
-        filterButton = (FloatingActionButton) view.findViewById(R.id.filterButton);
-        adapter = new PostRecycleAdapterNew(posts, getActivity(),catalog);
+        adapter = new PostRecycleAdapterNew(posts, getActivity());
         imageView36 = (ImageView) view.findViewById(R.id.imageView36);
         textView56 = (TextView) view.findViewById(R.id.textView56);
         noPostsText = (TextView) view.findViewById(R.id.noPostsText);
@@ -101,19 +99,6 @@ public class CategoryFragment extends Fragment {
         lst.setHasFixedSize(true);
         lst.setAdapter(adapter);
         lst.setLayoutManager(manager);
-        if(Maltabu.filterModel!=null){
-            filterButton.setVisibility(View.VISIBLE);
-            filterButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().startActivity(new Intent(getActivity(), FilterActivity.class));
-                    getActivity().finish();
-                }
-            });
-        }
-        else {
-            filterButton.setVisibility(View.GONE);
-        }
         setListener();
         return view;
     }
@@ -259,7 +244,13 @@ public class CategoryFragment extends Fragment {
         for (int i = 0; i < postObjList.size(); i++) {
             postObject = resObj.getJSONObject(i);
             ArrayList<Image> imagesArrayList = new ArrayList<>();
-            JSONArray arr = postObject.getJSONArray("images");
+            JSONArray arr;
+            if(postObject.has("img")) {
+                JSONObject imgWebObject = postObject.getJSONObject("img");
+                arr = imgWebObject.getJSONArray("web");
+            } else {
+                arr = postObject.getJSONArray("images");
+            }
             ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
             for (int j = 0; j < imgObjList.size(); j++) {
                 imgJson = arr.getJSONObject(j);
@@ -344,7 +335,13 @@ public class CategoryFragment extends Fragment {
         for (int i = 0; i < postObjList.size(); i++) {
             postObject = promosArr.getJSONObject(i);
             ArrayList<Image> imagesArrayList = new ArrayList<>();
-            JSONArray arr = postObject.getJSONArray("images");
+            JSONArray arr;
+            if(postObject.has("img")) {
+                JSONObject imgWebObject = postObject.getJSONObject("img");
+                arr = imgWebObject.getJSONArray("web");
+            } else {
+                arr = postObject.getJSONArray("images");
+            }
             ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
             for (int j = 0; j < imgObjList.size(); j++) {
                 imgJson = arr.getJSONObject(j);
@@ -412,7 +409,7 @@ public class CategoryFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            if (epicDialog != null && epicDialog.isShowing()) {
+            if (!getActivity().isFinishing() && epicDialog != null) {
                 epicDialog.dismiss();
             }
         }
