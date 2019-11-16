@@ -21,23 +21,16 @@
             android:layout_height="match_parent">
 
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline25"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.30" />
-
             <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/percentFrameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="300dp"
                 android:layout_below="@+id/toolbar"
-                app:layout_constraintBottom_toTopOf="@+id/guideline25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.viewpager.widget.ViewPager
+                    android:transitionName="hotPhotoTransition"
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -107,6 +100,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:transitionName="hotPriceTransition"
                     android:id="@+id/textView6"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -284,7 +278,43 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayoutVisitors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout19">
 
+                    <ImageView
+                        android:id="@+id/visitors_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/ic_action_eye"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/visitors_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/showComments"
+                        android:textColor="@color/MaltabuBlue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/visitors_icon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/MaltabuGrey3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout20"
                     android:layout_width="match_parent"
@@ -414,7 +444,8 @@
                         app:layout_constraintStart_toStartOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/adView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -454,7 +485,6 @@
                 android:id="@+id/view10"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/shadow"
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

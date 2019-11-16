@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
@@ -28,6 +32,8 @@ public class ChangePassword extends AppCompatActivity {
     private FileHelper fileHelper;
     private boolean ok = true;
     private EditText oldPass, newPass, confPass;
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +49,16 @@ public class ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        mInterstitialAd = new InterstitialAd(ChangePassword.this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                startActivity(new Intent(ChangePassword.this, AuthAvtivity.class));
+                finish();
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +118,12 @@ public class ChangePassword extends AppCompatActivity {
                     arr.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(ChangePassword.this, AuthAvtivity.class));
-                            finish();
+                            if (mInterstitialAd.isLoaded())
+                                mInterstitialAd.show();
+                            else {
+                                startActivity(new Intent(ChangePassword.this, AuthAvtivity.class));
+                                finish();
+                            }
                             }
                     });
                 }
@@ -117,8 +137,12 @@ public class ChangePassword extends AppCompatActivity {
         if(ok) {
             finish();
         } else {
-            startActivity(new Intent(ChangePassword.this, AuthAvtivity.class));
-            finish();
+            if (mInterstitialAd.isLoaded())
+                mInterstitialAd.show();
+            else {
+                startActivity(new Intent(ChangePassword.this, AuthAvtivity.class));
+                finish();
+            }
         }
     }
 }

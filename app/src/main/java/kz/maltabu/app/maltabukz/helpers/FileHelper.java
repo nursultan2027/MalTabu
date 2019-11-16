@@ -33,6 +33,8 @@ public class FileHelper {
     public void writeUserFile(String s) { writeFile(s, "user");}
     public String readPostingFile(){return readFile("posting");}
     public void writePostingFile(String s) { writeFile(s, "posting");}
+    public String readBannerFile(){return readFile("banner");}
+    public void writeBannerFile(String s) { writeFile(s, "banner");}
 
     public String readFile(String str) {
         FileInputStream fin = null;
@@ -129,7 +131,7 @@ public class FileHelper {
     public String getBanner(){
         String banner="";
         try {
-            JSONObject banners = new JSONObject(readDataFile()).getJSONObject("banner");
+            JSONObject banners = new JSONObject(readBannerFile());
             banner = banners.getString("mobile_main");
         } catch (JSONException e) {
             e.printStackTrace();

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -57,6 +58,7 @@ public class ChooseRegistration extends AppCompatActivity{
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateViewBound(arr);
                 startActivity(new Intent(ChooseRegistration.this, AuthAvtivity.class));
                 finish();
             }

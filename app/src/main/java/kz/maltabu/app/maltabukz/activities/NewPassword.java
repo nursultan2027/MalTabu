@@ -9,6 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import okhttp3.FormBody;
@@ -21,6 +26,8 @@ public class NewPassword extends AppCompatActivity {
     private Button button;
     private ImageView arr;
     private EditText newPass, confPass;
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +40,16 @@ public class NewPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        mInterstitialAd = new InterstitialAd(NewPassword.this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                startActivity(new Intent(NewPassword.this, AuthAvtivity.class));
+                finish();
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +100,12 @@ public class NewPassword extends AppCompatActivity {
                     arr.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(NewPassword.this, AuthAvtivity.class));
-                            finish();
+                            if (mInterstitialAd.isLoaded())
+                                mInterstitialAd.show();
+                            else {
+                                startActivity(new Intent(NewPassword.this, AuthAvtivity.class));
+                                finish();
+                            }
                         }
                     });
                 }

@@ -6,7 +6,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">проект</string>
     <string name="nav_header_desc">Хэдер</string>
-    <string name="other_lang">Қазақша</string>
+    <string name="other_lang">Русский</string>
     <string name="action_settings">Натройки</string>
     <string name="hello">Привет</string>
     <string name="menu1">Сельхоз животные</string>
@@ -27,8 +27,8 @@
     <string name="SearchText">Быстрый поиск</string>
     <string name="SearchText2">Начинайте вводить необходимое слово</string>
     <string name="select">Выбрать</string>
-    <string name="toTop">Поднять наверх - 150 ед.</string>
-    <string name="toHot">Добавить в горячие - 250 ед.</string>
+    <string name="toTop">Поднять наверх - 150 ₸</string>
+    <string name="toHot">Добавить в горячие - 250 ₸</string>
     <string name="showPhone"><u>Показать телефон</u></string>
     <string name="showComments">Показать комментарии</string>
     <string name="download">Загрузить еще</string>
@@ -40,6 +40,7 @@
     <string name="bargain">Срочно, торг</string>
     <string name="chooseRegion">Выберите область</string>
     <string name="chooseCity">Выберите город</string>
+    <string name="choosSubCategoty">Выберите подкатегорию</string>
     <string name="filterResult">Показать результат</string>
     <string name="filterClear">Очистить список</string>
     <string name="title">Заголовок</string>
@@ -50,7 +51,7 @@
     <string name="phone">Телефон</string>
     <string name="mail">Эл. почта</string>
     <string name="address">Адрес</string>
-    <string name="rules">Размещая данное объявление, я соглашаюсь с <b>Правилами сайта</b></string>
+    <string name="rules">Размещая данное объявление, я соглашаюсь с <font color="#617ffb"> Правилами сайта</font></string>
     <string name="rules2">Я согласен с <b>Правилами сайта</b></string>
     <string name="rules3">Пользовательское соглашение Maltabu.kz</string>
     <string name="addPost">Подать объявление</string>
@@ -171,5 +172,7 @@
     <string name="comments3">Для добавления комментария, Вам необходимо войти или зарегистрироваться в системе</string>
     <string name="productionNoAuth">Вам необходимо войти или зарегистрироваться в системе</string>
     <string name="successPay">Оплата</string>
+
+    <string name="visitorsCount">просмотров</string>
 
 </resources>

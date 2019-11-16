@@ -7,7 +7,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">Проект</string>
     <string name="nav_header_desc">Хэдхэд</string>
-    <string name="other_lang">Руский</string>
+    <string name="other_lang">Қазақша</string>
     <string name="action_settings">Настройки</string>
     <string name="menu1">Төрт-түлік</string>
     <string name="menu2">Үй Жануарлары</string>
@@ -25,8 +25,8 @@
     <string name="SearchText">Жедел іздеу</string>
     <string name="SearchText2">Қажетті сөзді теруді бастаңыз</string>
     <string name="select">Тандау</string>
-    <string name="toTop">Поднять наверх - 150 ед.</string>
-    <string name="toHot">Добавить в горячие - 250 ед.</string>
+    <string name="toTop">Поднять наверх - 150 ₸</string>
+    <string name="toHot">Добавить в горячие - 250 ₸</string>
     <string name="showPhone"><u>Телефон нөмірін көрсету</u></string>
     <string name="showComments">Пікірлерді көрсету</string>
     <string name="download">Загрузить еще</string>
@@ -38,6 +38,7 @@
     <string name="bargain">Шұғыл, сауда-саттық</string>
     <string name="chooseRegion">Облысты таңдаңыз</string>
     <string name="chooseCategoty">Бөлімді таңдаңыз</string>
+    <string name="choosSubCategoty">Санатты таңдаңыз</string>
     <string name="chooseCity">Қаланы таңдаңыз</string>
     <string name="filterResult">Нәтижені көрсету</string>
     <string name="filterClear">Тізімді тазалау</string>
@@ -51,7 +52,7 @@
     <string name="mail">Эл. пошта</string>
     <string name="address">Мекен-жай</string>
     <string name="rules">Бұл хабарландыруды беру арқылы мен <b>Сайт ережелерімен</b>келісемін</string>
-    <string name="rules2">Мен <b>Сайт ережелерімен</b> келісемін</string>
+    <string name="rules2">Мен <font color="#617ffb"> Сайт ережелерімен </font> келісемін</string>
     <string name="rules3">Пользовательское соглашение Maltabu.kz</string>
     <string name="addPost">Хабарландыру беру</string>
     <string name="radioB1">Келісімді баға</string>
@@ -80,12 +81,11 @@
     <string name="recoverPass">Құпия сөзді қалпына келтіру</string>
     <string name="wrongPassOrLogin">Логин немесе құпия сөз қате</string>
 
-
     <string name="sort0">Сортировка</string>
-    <string name="sort1">Жаңа хабаралндыруларды көрсету</string>
-    <string name="sort2">Бұрынғы хабаралндыруларды көрсету</string>
-    <string name="sort3">Бағасы төмен хабаралндыруларды көрсету</string>
-    <string name="sort4">Бағасы жоғары хабаралндыруларды көрсету</string>
+    <string name="sort1">Жаңа хабарландыруларды көрсету</string>
+    <string name="sort2">Бұрынғы хабарландыруларды көрсету</string>
+    <string name="sort3">Бағасы төмен хабарландыруларды көрсету</string>
+    <string name="sort4">Бағасы жоғары хабарландыруларды көрсету</string>
 
     <string name="reg11">Компанияның аты немесе атауы</string>
     <string name="reg12">Сіздің қалдырған пікірлеріңізде көрсетіліп тұрады</string>
@@ -125,7 +125,6 @@
     <string name="payment3">3. Внесите на счет необходимую сумму</string>
     <string name="paymentF">После этого деньги поступят на Ваш личный счет на сайте maltabu.kz</string>
 
-
     <string name="changePasswordTitle">Изменить пароль</string>
     <string name="changePasswordOldPass">Старый пароль</string>
     <string name="changePasswordOldPass2">Введите старый пароль</string>
@@ -135,7 +134,6 @@
 
     <string name="noPostTitle">Хабарландырулар жоқ</string>
     <string name="noPostText">Өкінішке орай, осы сұраныс бойынша әзірге хабарландыру жоқ.</string>
-
 
     <string name="postFound">Хабарландырулардың нұсқасы: 0</string>
 
@@ -169,5 +167,6 @@
     <string name="comments3">Пікіріңізді қалдыру үшін, Сізге жүйеге Кіру немесе Тіркелу қажет</string>
     <string name="productionNoAuth">Сізге жүйеге Кіру немесе Тіркелу қажет</string>
     <string name="successPay">Төлем</string>
+    <string name="visitorsCount">рет қаралынды</string>
 
 </resources>

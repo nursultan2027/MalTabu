@@ -1,8 +1,12 @@
 package kz.maltabu.app.maltabukz.fragments;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +24,11 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.activities.ActivityFragment;
 import kz.maltabu.app.maltabukz.adapters.ViewPagerAdapter;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Category;
 
@@ -31,11 +38,19 @@ import org.json.JSONObject;
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ImageView banner;
     private View headerView;
     private FileHelper fileHelper;
     private Category category;
     private JSONObject object;
+    private Dialog sortDialog;
+    private TextView sort;
+    private ActivityFragment af;
+
+    public CatalogFragment(){}
+    public CatalogFragment(ActivityFragment af){
+        this.af=af;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,21 +59,11 @@ public class CatalogFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
+        sort = view.findViewById(R.id.sort);
+        sortDialog = new Dialog(getActivity());
         tabLayout.setupWithViewPager(viewPager);
-        banner = (ImageView) view.findViewById(R.id.reclama2);
-        String url = fileHelper.getBanner();
-        if(!url.isEmpty()) {
-            String gif = url.substring(url.length() - 3, url.length());
-            if (gif.toLowerCase().equals("gif"))
-                Glide.with(getActivity()).asGif().load("https://maltabu.kz/" + url).into(banner);
-            else
-                Picasso.with(getActivity()).load("https://maltabu.kz/" + url).fit().into(banner);
-        }
-        else {
-            banner.setVisibility(View.GONE);
-        }
         printWhiteBoxes();
-        final Resources resources = getResources();;
+        final Resources resources = getResources();
         final int [] textRes = new int[]{R.id.text, R.id.text1,R.id.text2,R.id.text3,R.id.text4,R.id.text5,R.id.text6,R.id.text7};
         final int [] imgRes = new int[]{R.id.imageView9,R.id.imageView10,R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView15,R.id.imageView16};
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -87,6 +92,19 @@ public class CatalogFragment extends Fragment {
             }
         });
         int bl = resources.getColor(R.color.Black);
+        if(Maltabu.byTime&&Maltabu.increment) {
+            sort.setText(resources.getString(R.string.sort1));
+        } else {
+            if(Maltabu.byTime&&!Maltabu.increment){
+                sort.setText(resources.getString(R.string.sort2));
+            } else {
+                if (!Maltabu.byTime&&!Maltabu.increment){
+                    sort.setText(resources.getString(R.string.sort3));
+                } else {
+                    sort.setText(resources.getString(R.string.sort4));
+                }
+            }
+        }
         for (int l=0; l<tabLayout.getTabCount();l++)
         {
             if (l==0){
@@ -134,7 +152,7 @@ public class CatalogFragment extends Fragment {
             }
         } else {
             try {
-                adapter.addFragment(fragobj1, "Барлық");
+                adapter.addFragment(fragobj1, "Барлығы");
                 String kazName;
                 if(object!=null)
                     kazName = object.getString(category.getName());
@@ -166,6 +184,7 @@ public class CatalogFragment extends Fragment {
             }
         }
         viewPager.setAdapter(adapter);
+
     }
 
     private void printWhiteBoxes() {
@@ -223,12 +242,19 @@ public class CatalogFragment extends Fragment {
             ConstraintLayout con = (ConstraintLayout) headerView.findViewById(conRes[i]);
             tabLayout.getTabAt(i+1).setCustomView(con);
         }
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CustomAnimator().animateHotViewLinear(sort);
+                soDialog();
+            }
+        });
 
         TextView txt = (TextView) headerView.findViewById(R.id.text);
         if(Maltabu.lang.equals("ru")) {
             txt.setText("Все");
         } else {
-            txt.setText("Барлық");
+            txt.setText("Барлығы");
         }
         ConstraintLayout con = (ConstraintLayout) headerView.findViewById(R.id.con);
         tabLayout.getTabAt(0).setCustomView(con);
@@ -237,5 +263,74 @@ public class CatalogFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+    protected void soDialog() {
+        sortDialog.setContentView(R.layout.sort_dialog);
+        final Resources resources = LocaleHelper.setLocale(getActivity(), Maltabu.lang).getResources();
+        final TextView txt1 = (TextView) sortDialog.findViewById(R.id.textView57);
+        final TextView txt2 = (TextView) sortDialog.findViewById(R.id.textView59);
+        final TextView txt3 = (TextView) sortDialog.findViewById(R.id.textView60);
+        final TextView txt4 = (TextView) sortDialog.findViewById(R.id.textView61);
+        txt1.setText(resources.getString(R.string.sort1));
+        txt2.setText(resources.getString(R.string.sort2));
+        txt3.setText(resources.getString(R.string.sort3));
+        txt4.setText(resources.getString(R.string.sort4));
+        txt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = true;
+                Maltabu.increment = true;
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
+                sort.setText(resources.getString(R.string.sort1));
+                af.openCurrentFragment();
+            }
+        });
+        txt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = true;
+                Maltabu.increment = false;
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
+                sort.setText(resources.getString(R.string.sort2));
+                af.openCurrentFragment();
+            }
+        });
+        txt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = false;
+                Maltabu.increment = false;
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
+                sort.setText(resources.getString(R.string.sort3));
+                af.openCurrentFragment();
+            }
+        });
+        txt4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maltabu.byTime = false;
+                Maltabu.increment = true;
+                if (sortDialog != null && sortDialog.isShowing()) {
+                    sortDialog.dismiss();
+                }
+                sort.setText(resources.getString(R.string.sort4));
+                af.openCurrentFragment();
+            }
+        });
+
+        sortDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        sortDialog.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Maltabu.filterModel=null;
     }
 }

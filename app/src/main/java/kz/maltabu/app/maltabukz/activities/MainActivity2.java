@@ -8,21 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,29 +16,45 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.fragments.SearchFragment;
-import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
-import kz.maltabu.app.maltabukz.helpers.FileHelper;
-import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
-import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.fragments.CatalogFragment;
-import kz.maltabu.app.maltabukz.fragments.HotFragment;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.paperdb.Paper;
+import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.Redesign.ui.activity.AddPostRedesign;
+import kz.maltabu.app.maltabukz.fragments.CatalogFragment;
+import kz.maltabu.app.maltabukz.fragments.HotFragment;
+import kz.maltabu.app.maltabukz.fragments.SearchFragment;
+import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
+import kz.maltabu.app.maltabukz.helpers.FileHelper;
+import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
+import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity2 extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ActivityFragment {
 
     private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange, hottitle;
     private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag, search;
-    private ImageView filter, flag,sort, menuLogo;
+    private ImageView filter, flag, menuLogo;
     private JSONObject object;
     private FileHelper fileHelper;
     private ConnectionHelper connectionHelper;
@@ -60,8 +62,6 @@ public class MainActivity2 extends AppCompatActivity
     private Dialog epicDialog, sortDialog;
     private Intent filterIntent;
     private static long back_pressed;
-    private InterstitialAd mInterstitialAd;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +74,13 @@ public class MainActivity2 extends AppCompatActivity
         sortDialog = new Dialog(this);
         connectionHelper = new ConnectionHelper(this);
         opentCurrentFragment(Maltabu.fragmentNumb);
+        drawer.openDrawer(Gravity.LEFT);
     }
 
     private void SetActivityView(){
         setContentView(R.layout.activity_main);
         Resources res = this.getResources();
         filter = (ImageView) findViewById(R.id.filter);
-        sort = (ImageView) findViewById(R.id.sort);
         filterIntent = new Intent(this, FilterActivity.class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         AppBarLayout appBar = (AppBarLayout) findViewById(R.id.appBarLayout2);
@@ -133,9 +133,6 @@ public class MainActivity2 extends AppCompatActivity
         menu82  = (TextView) findViewById(R.id.menu82);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
 
-        mInterstitialAd = new InterstitialAd(MainActivity2.this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         initListeners();
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -154,13 +151,13 @@ public class MainActivity2 extends AppCompatActivity
                 if(Maltabu.lang.equals("kk")){
                     Paper.book().write("language", "ru");
                     Maltabu.lang = "ru";
-                    flag.setImageResource(R.drawable.kz);
+                    flag.setImageResource(R.drawable.ru);
                     updateView((String)Paper.book().read("language"));
                         opentCurrentFragment(Maltabu.fragmentNumb);
                 } else {
                     Paper.book().write("language", "kk");
                     Maltabu.lang = "kk";
-                    flag.setImageResource(R.drawable.ru);
+                    flag.setImageResource(R.drawable.kz);
                     updateView((String)Paper.book().read("language"));
                     opentCurrentFragment(Maltabu.fragmentNumb);
                 }
@@ -189,19 +186,12 @@ public class MainActivity2 extends AppCompatActivity
                 }
             }
         });
-        sort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                soDialog();
-            }
-        });
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
                     fragmentSearch();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -211,6 +201,7 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
+                    new CustomAnimator().animateViewBound(filter);
                     sDialog();
                     startActivity(filterIntent);
                 } else {
@@ -225,7 +216,6 @@ public class MainActivity2 extends AppCompatActivity
                     try {
                         fragment1();
                         Maltabu.selectedFragment = 0;
-                        sort.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -241,7 +231,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment2();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -257,7 +246,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment3();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -273,7 +261,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment4();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -289,7 +276,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment5();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -304,7 +290,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment6();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -317,7 +302,6 @@ public class MainActivity2 extends AppCompatActivity
                 try {
                     fragment7();
                     Maltabu.selectedFragment = 0;
-                    sort.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -330,22 +314,12 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                    if (mInterstitialAd.isLoaded())
-                        mInterstitialAd.show();
-                    else {
-                        startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
-                        finish();
-                    }
+                    new CustomAnimator().animateViewBound(cl1.findViewById(R.id.imageView));
+                    startActivity(new Intent(MainActivity2.this, AddPostRedesign.class));
+                    finish();
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
-            }
-        });
-        mInterstitialAd.setAdListener(new AdListener(){
-            @Override
-            public void onAdClosed() {
-                startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
-                finish();
             }
         });
     }
@@ -353,9 +327,9 @@ public class MainActivity2 extends AppCompatActivity
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
         if (lang.equals("ru"))
-            flag.setImageResource(R.drawable.kz);
-        else
             flag.setImageResource(R.drawable.ru);
+        else
+            flag.setImageResource(R.drawable.kz);
         Resources resources = context.getResources();
         setTitle("");
         if(Maltabu.isAuth.equals("false")) {
@@ -368,6 +342,7 @@ public class MainActivity2 extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+
         menu1.setText(resources.getString(R.string.menu1));
         menu2.setText(resources.getString(R.string.menu2));
         menu3.setText(resources.getString(R.string.menu3));
@@ -427,7 +402,6 @@ public class MainActivity2 extends AppCompatActivity
 
     private void fragmentMain(){
         filter.setVisibility(View.GONE);
-        sort.setVisibility(View.GONE);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         hottitle.setText(context.getResources().getString(R.string.hotTitle));
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -452,7 +426,7 @@ public class MainActivity2 extends AppCompatActivity
         filter.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(1));
         String [] asd = {"5ab672c9559d5e049c25a62c",
@@ -478,7 +452,7 @@ public class MainActivity2 extends AppCompatActivity
     private void fragment2() throws JSONException { FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(4));
         String [] asd = {"5ab672c9559d5e049c25a645","5ab672c9559d5e049c25a646",
@@ -503,7 +477,7 @@ public class MainActivity2 extends AppCompatActivity
     private void fragment3() throws JSONException { FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(2));
         String [] asd = {"5ab672c9559d5e049c25a634","5ab672c9559d5e049c25a635",
@@ -527,7 +501,7 @@ public class MainActivity2 extends AppCompatActivity
     private void fragment4() throws JSONException {  FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(0));
         String [] asd = {"5ab672c9559d5e049c25a63a", "5ab672c9559d5e049c25a63b"};
@@ -551,7 +525,7 @@ public class MainActivity2 extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(3));
         String [] asd = {"5ab672c9559d5e049c25a63f","5ab672c9559d5e049c25a640",
@@ -578,7 +552,7 @@ public class MainActivity2 extends AppCompatActivity
         filter.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
 
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(5));
@@ -605,7 +579,7 @@ public class MainActivity2 extends AppCompatActivity
         filter.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CatalogFragment fragment = new CatalogFragment();
+        CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
         bundle1.putParcelable("categ", fileHelper.getCategoriesFromFile().get(6));
         String [] asd = {"5afeb741d151e32d5cc245c4","5afeb741d151e32d5cc245c5"};
@@ -727,66 +701,6 @@ public class MainActivity2 extends AppCompatActivity
         epicDialog.show();
     }
 
-    protected void soDialog() {
-        sortDialog.setContentView(R.layout.sort_dialog);
-        Resources resources = LocaleHelper.setLocale(this, Maltabu.lang).getResources();
-        final TextView txt1 = (TextView) sortDialog.findViewById(R.id.textView57);
-        final TextView txt2 = (TextView) sortDialog.findViewById(R.id.textView59);
-        final TextView txt3 = (TextView) sortDialog.findViewById(R.id.textView60);
-        final TextView txt4 = (TextView) sortDialog.findViewById(R.id.textView61);
-        txt1.setText(resources.getString(R.string.sort1));
-        txt2.setText(resources.getString(R.string.sort2));
-        txt3.setText(resources.getString(R.string.sort3));
-        txt4.setText(resources.getString(R.string.sort4));
-        txt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Maltabu.byTime = true;
-                Maltabu.increment = true;
-                opentCurrentFragment(Maltabu.fragmentNumb);
-                if (sortDialog != null && sortDialog.isShowing()) {
-                    sortDialog.dismiss();
-                }
-            }
-        });
-        txt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Maltabu.byTime = true;
-                Maltabu.increment = false;
-                opentCurrentFragment(Maltabu.fragmentNumb);
-                if (sortDialog != null && sortDialog.isShowing()) {
-                    sortDialog.dismiss();
-                }
-            }
-        });
-        txt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Maltabu.byTime = false;
-                Maltabu.increment = false;
-                opentCurrentFragment(Maltabu.fragmentNumb);
-                if (sortDialog != null && sortDialog.isShowing()) {
-                    sortDialog.dismiss();
-                }
-            }
-        });
-        txt4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Maltabu.byTime = false;
-                Maltabu.increment = true;
-                opentCurrentFragment(Maltabu.fragmentNumb);
-                if (sortDialog != null && sortDialog.isShowing()) {
-                    sortDialog.dismiss();
-                }
-            }
-        });
-
-        sortDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        sortDialog.show();
-    }
-
     public void opentCurrentFragment(int numb){
         switch (numb) {
             case 0:
@@ -869,5 +783,10 @@ public class MainActivity2 extends AppCompatActivity
                 fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(i));
             }
         }
+    }
+
+    @Override
+    public void openCurrentFragment() {
+        opentCurrentFragment(Maltabu.fragmentNumb);
     }
 }

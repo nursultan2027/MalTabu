@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -87,15 +88,19 @@ public class AddPostActivity extends AppCompatActivity{
 
             balls[i] = false;
             ArrayList<Catalog> catalogs = cat.catalogs;
-            ArrayList<String> arr = new ArrayList<>();
-            if(Maltabu.lang.equals("ru"))
-                arr.add(cat.getName());
+            ArrayList<String> arrCatalogs = new ArrayList<>();
+            ArrayList<String> arrCategories = new ArrayList<>();
+            if(Maltabu.lang.equals("ru")) {
+                arrCategories.add(cat.getName());
+                spinners.get(i).setPrompt(cat.getName());
+            }
             else {
                 String kazName = dict.getString(cat.getName());
                 if(kazName.toLowerCase().equals("жем")){
                     kazName = "Жем-шөп";
                 }
-                arr.add(kazName);
+                arrCategories.add(kazName);
+                spinners.get(i).setPrompt(kazName);
             }
             for (int j=0; j<catalogs.size();j++) {
                 if (Maltabu.lang.equals("ru")) {
@@ -103,15 +108,15 @@ public class AddPostActivity extends AppCompatActivity{
                     if (tabName.toLowerCase().equals("бараны")) {
                         tabName = "Овцы";
                     }
-                    arr.add(tabName);
+                    arrCatalogs.add(tabName);
                 }
                 else
-                    arr.add(dict.getString(catalogs.get(j).getName()));
+                    arrCatalogs.add(dict.getString(catalogs.get(j).getName()));
             }
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrCategories);
             spinners.get(i).setAdapter(adapter2);
             final int finalI = i;
-                spinners.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinners.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if(balls[finalI]) {

@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
@@ -43,6 +47,7 @@ public class RegisterAvtivity extends AppCompatActivity {
     private Dialog epicDialog;
     private ConnectionHelper connectionHelper;
     private EditText name, mail, pass1, pass2;
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +72,16 @@ public class RegisterAvtivity extends AppCompatActivity {
         posk3 = (TextView) findViewById(R.id.reg32);
         posk4 = (TextView) findViewById(R.id.reg42);
         arr = (ImageView)findViewById(R.id.arr);
+        mInterstitialAd = new InterstitialAd(RegisterAvtivity.this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                startActivity(new Intent(RegisterAvtivity.this, AuthAvtivity.class));
+                finish();
+            }
+        });
         UpdateViews();
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +157,12 @@ public class RegisterAvtivity extends AppCompatActivity {
                                 arr.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        startActivity(new Intent(RegisterAvtivity.this, AuthAvtivity.class));
-                                        finish();
+                                        if (mInterstitialAd.isLoaded())
+                                            mInterstitialAd.show();
+                                        else {
+                                            startActivity(new Intent(RegisterAvtivity.this, AuthAvtivity.class));
+                                            finish();
+                                        }
                                     }
                                 });
                             }
@@ -166,7 +185,7 @@ public class RegisterAvtivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {;
+    public void onBackPressed() {
         startActivity(new Intent(this, ChooseRegistration.class));
         finish();
     }

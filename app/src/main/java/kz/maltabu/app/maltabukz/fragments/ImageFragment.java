@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 public class ImageFragment extends Fragment {
 
+    public ImageFragment (){}
+
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     public static ImageFragment newInstance(int page, String url) {
         ImageFragment imgFragment = new ImageFragment();

@@ -41,6 +41,8 @@ public class MyPostsFragment extends Fragment {
     private MyPostsAdapter adapter1, adapter4;
     private MyPostsAdapterActive  adapter2;
     private MyPostsAdapterArch adapter3;
+
+    public MyPostsFragment(){}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

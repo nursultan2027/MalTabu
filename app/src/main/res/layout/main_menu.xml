@@ -132,7 +132,7 @@
                 android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -168,13 +168,13 @@
                 android:id="@+id/constraintLayout3"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -204,7 +204,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout4"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_width="match_parent"
@@ -243,14 +243,14 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout5"
                 android:clickable="true"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
                 <ImageView
                     android:id="@+id/imageView6"
@@ -284,11 +284,11 @@
                 android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
                 <ImageView
                     android:id="@+id/imageView7"
@@ -322,7 +322,7 @@
                 android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -360,7 +360,7 @@
                 android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -415,7 +415,7 @@
                 android:id="@+id/constraintLayout29"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/menu_background_ripple"
                 android:clickable="true"
                 android:focusable="true"
                 app:layout_constraintStart_toStartOf="parent"

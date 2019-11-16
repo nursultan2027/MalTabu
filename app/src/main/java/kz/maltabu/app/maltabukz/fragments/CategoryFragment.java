@@ -1,15 +1,18 @@
 package kz.maltabu.app.maltabukz.fragments;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +20,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import com.yandex.mobile.ads.AdRequest;
+import com.yandex.mobile.ads.AdRequestError;
+import com.yandex.mobile.ads.nativeads.NativeAdLoader;
+import com.yandex.mobile.ads.nativeads.NativeAdLoaderConfiguration;
+import com.yandex.mobile.ads.nativeads.NativeAppInstallAd;
+import com.yandex.mobile.ads.nativeads.NativeContentAd;
+import com.yandex.mobile.ads.nativeads.NativeImageAd;
+
 import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.activities.FilterActivity;
+import kz.maltabu.app.maltabukz.adapters.NativeTemplateAdapter;
 import kz.maltabu.app.maltabukz.adapters.PostRecycleAdapterNew;
+import kz.maltabu.app.maltabukz.helpers.yandex.DividerItemDecoration;
 import kz.maltabu.app.maltabukz.helpers.EndlessListener;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.helpers.yandex.Holder;
 import kz.maltabu.app.maltabukz.models.Comment;
 import kz.maltabu.app.maltabukz.models.FilterModel;
 import kz.maltabu.app.maltabukz.models.Image;
@@ -43,6 +56,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -52,7 +66,6 @@ public class CategoryFragment extends Fragment {
     private TextView textView56,noPostsText;
     private String catalog;
     private int page;
-    private ArrayList<Post> posts;
     private boolean isCatalog;
     private RecyclerView lst;
     private JSONObject object;
@@ -62,7 +75,12 @@ public class CategoryFragment extends Fragment {
     private boolean can = true, promosAdded;
     private FileHelper fileHelper;
     private EndlessListener listener;
-    private PostRecycleAdapterNew adapter;
+    private NativeAdLoader mNativeAdLoader;
+    private NativeTemplateAdapter mAdapter;
+    private final List<Pair<Integer, Object>> mData = new ArrayList<>();
+
+    public CategoryFragment(){}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +89,6 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        posts = new ArrayList<>();
         Bundle bundle = this.getArguments();
         epicDialog = new Dialog(getActivity());
         fileHelper = new FileHelper(getActivity());
@@ -88,20 +105,72 @@ public class CategoryFragment extends Fragment {
     }
 
     public View load(View view){
-
         button = (ProgressBar) view.findViewById(R.id.button);
         lst = (RecyclerView) view.findViewById(R.id.prodss);
-        adapter = new PostRecycleAdapterNew(posts, getActivity());
+        mAdapter = new NativeTemplateAdapter(getActivity());
         imageView36 = (ImageView) view.findViewById(R.id.imageView36);
         textView56 = (TextView) view.findViewById(R.id.textView56);
         noPostsText = (TextView) view.findViewById(R.id.noPostsText);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         lst.setHasFixedSize(true);
-        lst.setAdapter(adapter);
+        lst.addItemDecoration(new DividerItemDecoration(getActivity()));
+        lst.setAdapter(mAdapter);
         lst.setLayoutManager(manager);
+        createNativeAdLoader();
         setListener();
         return view;
     }
+
+    private void createNativeAdLoader() {
+        /*
+         * Replace demo R-M-DEMO-native-i with actual Block ID
+         * Please, note, that configured image sizes don't affect demo ads.
+         * Following demo Block IDs may be used for testing:
+         * app install: R-M-DEMO-native-i
+         * content: R-M-DEMO-native-c
+         */
+        final NativeAdLoaderConfiguration adLoaderConfiguration =
+                new NativeAdLoaderConfiguration.Builder("R-M-441970-2", false)
+                        .setImageSizes(NativeAdLoaderConfiguration.NATIVE_IMAGE_SIZE_SMALL).build();
+        mNativeAdLoader = new NativeAdLoader(getActivity(), adLoaderConfiguration);
+        mNativeAdLoader.setNativeAdLoadListener(mNativeAdLoadListener);
+    }
+
+    private void loadAd() {
+        mNativeAdLoader.loadAd(AdRequest.builder().build());
+    }
+
+    private NativeAdLoader.OnImageAdLoadListener mNativeAdLoadListener = new NativeAdLoader.OnImageAdLoadListener(){
+        @Override
+        public void onAppInstallAdLoaded(@NonNull final NativeAppInstallAd nativeAppInstallAd) {
+            fillData(new Pair<Integer, Object>(Holder.BlockContentProvider.NATIVE_BANNER, nativeAppInstallAd));
+        }
+
+        @Override
+        public void onContentAdLoaded(@NonNull final NativeContentAd nativeContentAd) {
+            fillData(new Pair<Integer, Object>(Holder.BlockContentProvider.NATIVE_BANNER, nativeContentAd));
+        }
+
+        @Override
+        public void onImageAdLoaded(@NonNull NativeImageAd nativeImageAd) {
+            fillData(new Pair<Integer, Object>(Holder.BlockContentProvider.NATIVE_BANNER, nativeImageAd));
+        }
+
+        @Override
+        public void onAdFailedToLoad(@NonNull final AdRequestError error) {
+            Log.d("SAMPLE_TAG", error.getDescription());
+        }
+
+        private void fillData(@NonNull final Pair<Integer, Object> nativeAd) {
+            int currPage = page;
+            int currPageItem = (currPage-1)*20;
+            try {
+                mData.add(currPageItem - 10, nativeAd);
+                mData.add(currPageItem, nativeAd);
+            } catch (Exception e){}
+            mAdapter.setData(mData);
+        }
+    };
 
     private void setListener(){
         listener = new EndlessListener((LinearLayoutManager) lst.getLayoutManager()) {
@@ -298,20 +367,19 @@ public class CategoryFragment extends Fragment {
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
                 post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
-                posts.add(post);
             } else {
                 post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList);
-                posts.add(post);
             }
+            Pair<Integer, Object> pair = new Pair<Integer, Object>(Holder.BlockContentProvider.DEFAULT, post);
+            mData.add(pair);
         }
         try {
-            lst.invalidate();
-            adapter.notifyDataSetChanged();
-            lst.refreshDrawableState();
+            loadAd();
         } catch (Exception e) {}
         if (!can) {
             can = true;
             try {
+                mAdapter.notifyDataSetChanged();
                 TimeUnit.MILLISECONDS.sleep(1000);
                 button.setVisibility(View.INVISIBLE);
             } catch (InterruptedException e) {
@@ -389,20 +457,16 @@ public class CategoryFragment extends Fragment {
             if (postObject.getBoolean("hasContent")) {
                 String content = postObject.getString("content");
                 post = new Post(visitors, getDate(createdAt), title, content, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList, true);
-                posts.add(post);
             } else {
                 post = new Post(visitors, getDate(createdAt), title, cityID, price, String.valueOf(number), imagesArrayList,commentsArrayList, true);
-                posts.add(post);
             }
+            Pair<Integer, Object> pair = new Pair<Integer, Object>(Holder.BlockContentProvider.DEFAULT, post);
+            mData.add(pair);
         }
-        try {
-            lst.invalidate();
-            adapter.notifyDataSetChanged();
-            lst.refreshDrawableState();
-        } catch (Exception e) {}
         if (!can) {
             can = true;
             try {
+                mAdapter.notifyDataSetChanged();
                 TimeUnit.MILLISECONDS.sleep(1000);
                 button.setVisibility(View.INVISIBLE);
             } catch (InterruptedException e) {

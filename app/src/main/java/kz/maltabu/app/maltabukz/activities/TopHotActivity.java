@@ -1,14 +1,25 @@
 package kz.maltabu.app.maltabukz.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
@@ -28,10 +39,12 @@ public class TopHotActivity extends AppCompatActivity{
 
     private ImageView arr;
     private TextView numb, score;
+    private String phone, code, promoType;
+    private Dialog dialog;
     private FileHelper fileHelper;
     private ConnectionHelper connectionHelper;
     private JSONObject userObject;
-    private Button addScore, topButton, hotButton;
+    private Button addScore, topButton, hotButton, topButtonMobile, hotButtonMobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,9 @@ public class TopHotActivity extends AppCompatActivity{
         arr = (ImageView) findViewById(R.id.arr);
         topButton = (Button) findViewById(R.id.topButton);
         hotButton = (Button) findViewById(R.id.hotButton);
+        topButtonMobile = findViewById(R.id.topButtonMobile);
+        hotButtonMobile = findViewById(R.id.hotButtonMobile);
+        dialog = new Dialog(this);
         String cab = null;
         try {
             userObject = new JSONObject(fileHelper.readUserFile());
@@ -98,6 +114,20 @@ public class TopHotActivity extends AppCompatActivity{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        topButtonMobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promoType="150";
+                phoneDialog();
+            }
+        });
+        hotButtonMobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promoType="250";
+                phoneDialog();
             }
         });
     }
@@ -192,5 +222,36 @@ public class TopHotActivity extends AppCompatActivity{
             }
         };
         asyncTask.execute();
+    }
+
+    private void phoneDialog(){
+        dialog.setContentView(R.layout.dialog_send_smss);
+        EditText phoneText = dialog.findViewById(R.id.phone_number);
+        MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
+                phoneText,
+                "+7 ([000]) [000]-[00]-[00]",
+                new MaskedTextChangedListener.ValueListener() {
+                    @Override
+                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue, @NonNull final String formattedValue) {
+                        if(extractedValue.length()==10){
+                            phone=extractedValue;
+                        } else {
+                            phone="";
+                        }
+                    }
+                }
+        );
+        phoneText.setHint(listener.placeholder());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    private void codeDialog(){
+        dialog.setContentView(R.layout.dialog_send_code);
+        TextView intro = dialog.findViewById(R.id.changeText);
+        intro.setText("После введения кода подтверждения с Вашего баланса будет списано"+ promoType+"₸");
+        EditText phoneText = dialog.findViewById(R.id.confirm_code);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 }

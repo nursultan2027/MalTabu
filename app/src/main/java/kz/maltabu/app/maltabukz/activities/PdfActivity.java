@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 
 public class PdfActivity extends AppCompatActivity {
     private PDFView pdfView;
@@ -22,7 +23,8 @@ public class PdfActivity extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                new CustomAnimator().animateViewBound(img);
+                onBackPressed();
             }
         });
     }

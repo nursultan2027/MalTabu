@@ -1,5 +1,6 @@
 package kz.maltabu.app.maltabukz.activities;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import org.json.JSONException;
@@ -47,6 +52,7 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
     private Dialog epicDialog;
     private ConnectionHelper connectionHelper;
     private EditText name, mail, pass1, pass2;
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,16 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
         posk3 = (TextView) findViewById(R.id.reg32);
         posk4 = (TextView) findViewById(R.id.reg42);
         arr = (ImageView)findViewById(R.id.arr);
+        mInterstitialAd = new InterstitialAd(PhoneRegisterAvtivity.this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                startActivity(new Intent(PhoneRegisterAvtivity.this, AuthAvtivity.class));
+                finish();
+            }
+        });
         UpdateViews();
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +98,9 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
         rules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Pair [] opPairs = new Pair[1];
+//                opPairs [0] = new Pair<View, String>(rules,"privacyTransition");
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(PhoneRegisterAvtivity.this,opPairs);
                 startActivity(new Intent(PhoneRegisterAvtivity.this, PdfActivity.class));
             }
         });
@@ -163,8 +182,12 @@ public class PhoneRegisterAvtivity extends AppCompatActivity {
                                 arr.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        startActivity(new Intent(PhoneRegisterAvtivity.this, AuthAvtivity.class));
-                                        finish();
+                                        if (mInterstitialAd.isLoaded())
+                                            mInterstitialAd.show();
+                                        else {
+                                            startActivity(new Intent(PhoneRegisterAvtivity.this, AuthAvtivity.class));
+                                            finish();
+                                        }
                                     }
                                 });
                             }

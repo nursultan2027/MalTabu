@@ -28,6 +28,8 @@ public class MyScoreFragment extends Fragment {
     private JSONObject object;
     private TextView txt;
     private ListView listView;
+
+    public MyScoreFragment(){}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

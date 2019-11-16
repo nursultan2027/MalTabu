@@ -107,6 +107,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline13" />
 
     <TextView
+        android:transitionName="numberTransition"
         android:id="@+id/idd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

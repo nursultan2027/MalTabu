@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -55,13 +56,12 @@ public class FilterActivity extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
         connectionHelper = new ConnectionHelper(this);
-        texts[0] = findViewById(R.id.titlet);
-        texts[1] = findViewById(R.id.textView7);
-        texts[2] = findViewById(R.id.textView12);
-        texts[3] = findViewById(R.id.textView13);
-        texts[4] = findViewById(R.id.textView8);
-        texts[5] = findViewById(R.id.textView14);
-        texts[6] = findViewById(R.id.texxx);
+        texts[0] = findViewById(R.id.textView7);
+        texts[1] = findViewById(R.id.textView12);
+        texts[2] = findViewById(R.id.textView13);
+        texts[3] = findViewById(R.id.textView8);
+        texts[4] = findViewById(R.id.textView14);
+        texts[5] = findViewById(R.id.texxx);
         regSpin = (Spinner) findViewById(R.id.regSpin);
         citySpin = (Spinner) findViewById(R.id.citySpin);
         img = (ImageView) findViewById(R.id.arrr);
@@ -97,6 +97,7 @@ public class FilterActivity extends AppCompatActivity{
                         pos2 = 102;
                         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(FilterActivity.this, android.R.layout.simple_spinner_dropdown_item, citiesArr.get(position-1));
                         citySpin.setAdapter(adapter2);
+                        citySpin.setEnabled(true);
                     }
                     else {
                         RegionID=null;
@@ -104,6 +105,7 @@ public class FilterActivity extends AppCompatActivity{
                         asd.add(LocaleHelper.setLocale(FilterActivity.this, Maltabu.lang).getResources().getString(R.string.chooseCity));
                         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(FilterActivity.this, android.R.layout.simple_spinner_dropdown_item,asd);
                         citySpin.setAdapter(adapter2);
+                        citySpin.setEnabled(false);
                     }
 
                 citySpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -146,6 +148,7 @@ public class FilterActivity extends AppCompatActivity{
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateViewBound(img);
                 startActivity(new Intent(FilterActivity.this, MainActivity2.class));
                 finish();
             }
@@ -191,11 +194,11 @@ public class FilterActivity extends AppCompatActivity{
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
         Resources resources = context.getResources();
-        int [] res = {R.string.addPost, R.string.region, R.string.city, R.string.price,
+        int [] res = {R.string.region, R.string.city, R.string.price,
                 R.string.onlyPhoto, R.string.onlyTrade, R.string.bargain};
         int [] btnRes = {R.string.chooseRegion, R.string.chooseCity,
                 R.string.filterResult, R.string.filterClear};
-        for(int i=0; i<7; i++){
+        for(int i=0; i<6; i++){
             texts[i].setText(resources.getString(res[i]));
         }
 

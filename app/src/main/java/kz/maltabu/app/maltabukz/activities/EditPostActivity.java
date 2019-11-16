@@ -117,7 +117,7 @@ public class EditPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_post2);
+        setContentView(R.layout.activity_edit_post);
         fileHelper = new FileHelper(this);
         getCities();
         imgDialog = new Dialog(this);

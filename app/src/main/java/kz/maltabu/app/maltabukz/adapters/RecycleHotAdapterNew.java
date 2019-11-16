@@ -3,8 +3,8 @@ package kz.maltabu.app.maltabukz.adapters;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ShowDetails;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Post;
@@ -30,11 +31,13 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
     private Context context;
     private FileHelper fileHelper;
     private JSONObject object;
+    private CustomAnimator animator;
     private boolean can;
     public RecycleHotAdapterNew(ArrayList<Post> posts, Context context) {
         this.posts = posts;
         this.context = context;
         fileHelper = new FileHelper(context);
+        animator = new CustomAnimator();
         can =true;
         try {
             object = fileHelper.diction();
@@ -77,6 +80,7 @@ public class RecycleHotAdapterNew extends RecyclerView.Adapter<RecycleHotAdapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animator.animateHotViewLinear(holder.itemView);
                 SecondThread thread = new SecondThread(post.getNumber());
                 thread.start();
             }

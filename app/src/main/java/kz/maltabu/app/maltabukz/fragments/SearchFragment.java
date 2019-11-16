@@ -71,6 +71,7 @@ public class SearchFragment extends Fragment {
     private PostRecycleAdapterNew adapter;
     private ArrayList<Post> posts = new ArrayList<>();
 
+    public SearchFragment(){}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

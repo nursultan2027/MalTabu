@@ -1,5 +1,8 @@
 package kz.maltabu.app.maltabukz.activities;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,10 +12,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -39,12 +45,14 @@ public class MainActivity extends AppCompatActivity{
         } else {
             setTheme(R.style.AppTheme);
             setContentView(R.layout.no_internet_connection);
-            TextView refresh = (TextView) findViewById(R.id.textView35);
+            final TextView refresh = (TextView) findViewById(R.id.textView35);
             refresh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(connectionHelper.isConnected()){
                         noRecord();
+                    } else {
+                        new CustomAnimator().animateViewBound(refresh);
                     }
                 }
             });
@@ -77,6 +85,39 @@ public class MainActivity extends AppCompatActivity{
                 super.onPostExecute(s1);
                 if (s1 != null) {
                     fileHelper.writeDataFile(s1);
+                }
+            }
+        };
+        asyncTask1.execute();
+    }
+
+    public void GetBanner() {
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("https://maltabu.kz/v1/api/clients/data/banner")
+                .get()
+                .addHeader("isAuthorized", "false")
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    fileHelper.writeBannerFile(s1);
                 }
             }
         };
@@ -208,8 +249,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void noRecord(){
-        GetCategories();
-        GetDictionary();
+        if(fileHelper.readDataFile().isEmpty())
+            GetCategories();
+        if(fileHelper.readDictionary().isEmpty())
+            GetDictionary();
+        GetBanner();
         if(!fileHelper.readToken().isEmpty()) {
             Maltabu.token = fileHelper.readToken();
             Maltabu.isAuth = "true";

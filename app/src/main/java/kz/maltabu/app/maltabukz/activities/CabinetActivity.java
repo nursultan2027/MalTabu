@@ -13,6 +13,7 @@ import kz.maltabu.app.maltabukz.adapters.ViewPagerAdapter;
 import kz.maltabu.app.maltabukz.fragments.MyPostsFragment;
 import kz.maltabu.app.maltabukz.fragments.MyProfileFragment;
 import kz.maltabu.app.maltabukz.fragments.MyScoreFragment;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -37,6 +38,7 @@ public class CabinetActivity extends AppCompatActivity{
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateViewBound(arr);
                 onBackPressed();
             }
         });

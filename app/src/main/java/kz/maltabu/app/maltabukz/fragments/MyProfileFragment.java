@@ -1,10 +1,13 @@
 package kz.maltabu.app.maltabukz.fragments;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,8 @@ public class MyProfileFragment extends Fragment {
     private TextView email, number, balance;
     private Button Score;
     private JSONObject object;
+
+    public MyProfileFragment(){}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +63,10 @@ public class MyProfileFragment extends Fragment {
                 try {
                     Intent payment = new Intent(getActivity(), AddScore.class);
                     payment.putExtra("numb", String.valueOf(object.getInt("number")));
-                    getActivity().startActivity(payment);
+                    Pair [] opPairs = new Pair[1];
+                    opPairs [0] = new Pair<View, String> (number,"numberTransition");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),opPairs);
+                    getActivity().startActivity(payment, options.toBundle());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

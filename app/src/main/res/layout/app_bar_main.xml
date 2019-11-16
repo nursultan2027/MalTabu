@@ -58,21 +58,9 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/sort"
-                app:layout_constraintHorizontal_bias="0.55"
+                app:layout_constraintEnd_toStartOf="@+id/filter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/toolbar" />
-
-            <ImageView
-                android:id="@+id/sort"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_action_sort"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-                app:layout_constraintEnd_toStartOf="@+id/filter"
-                app:layout_constraintTop_toTopOf="@+id/toolbar"
-                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"

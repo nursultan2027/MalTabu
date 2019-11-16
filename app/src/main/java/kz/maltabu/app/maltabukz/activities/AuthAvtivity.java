@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
@@ -68,6 +69,7 @@ public class AuthAvtivity extends AppCompatActivity {
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateViewBound(arr);
                 startActivity(new Intent(AuthAvtivity.this, MainActivity2.class));
                 finish();
             }

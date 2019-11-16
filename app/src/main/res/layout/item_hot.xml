@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:transitionName="hotPhotoTransition"
             android:id="@+id/imageView17"
             android:layout_width="0dp"
             android:layout_height="110dp"
@@ -66,6 +67,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:transitionName="hotPriceTransition"
             android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

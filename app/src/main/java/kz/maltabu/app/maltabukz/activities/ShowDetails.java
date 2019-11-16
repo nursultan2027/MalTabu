@@ -8,27 +8,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +22,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -44,23 +44,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.fragments.ImageFragment;
+import kz.maltabu.app.maltabukz.fragments.YandexNativeAdFragment;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
-import kz.maltabu.app.maltabukz.fragments.ImageFragment;
 import kz.maltabu.app.maltabukz.models.Comment;
 import kz.maltabu.app.maltabukz.models.Image;
 import kz.maltabu.app.maltabukz.models.Post;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class ShowDetails extends AppCompatActivity {
-    private TextView callPhoneText, title, content, price, phone, location, date, photos, commen;
+    private TextView callPhoneText, title, content, price, phone, location, date, photos, commen, visitorsText;
     private ImageView img;
     private AdView mAdView;
     private ConstraintLayout cs1, hot, top, comments;
@@ -278,7 +280,6 @@ public class ShowDetails extends AppCompatActivity {
         asyncTask1.execute();
     }
 
-
     private void setInfo() {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -287,6 +288,21 @@ public class ShowDetails extends AppCompatActivity {
             content.setText(post.getContent());
         }
         price.setText(post.getPrice());
+        if(Maltabu.lang.equals("ru")) {
+            switch (post.getVisitors()){
+                case "1": visitorsText.setText(post.getVisitors()+" просмотр");
+                case "2": visitorsText.setText(post.getVisitors()+" просмотра");
+                case "3": visitorsText.setText(post.getVisitors()+" просмотра");
+                case "4": visitorsText.setText(post.getVisitors()+" просмотра");
+                default: visitorsText.setText(post.getVisitors()+" "+getResoursesByLang().getString(R.string.visitorsCount));
+            }
+        } else {
+            visitorsText.setText(post.getVisitors()+" "+getResoursesByLang().getString(R.string.visitorsCount));
+        }
+        Drawable unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.ic_action_eye);
+        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+        DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.MaltabuBlue));
+        findViewById(R.id.visitors_icon).setBackgroundDrawable(wrappedDrawable);
         location.setText(post.getCityID());
         String dates [] = post.getCreatedAt().split(",");
         if (Maltabu.lang.equals("ru"))
@@ -299,11 +315,12 @@ public class ShowDetails extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateViewBound(img);
                 finish();
             }
         });
         pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getImageFragments());
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(0);
         phonePlaceholder();
@@ -326,8 +343,16 @@ public class ShowDetails extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 selectedImg = position;
-                if(post.getImages().size()>0)
-                    photos.setText(String.valueOf(position+1+"/"+post.getImages().size()));
+                if(post.getImages().size()>0) {
+                    photos.setText(String.valueOf(position + 1 + "/" + post.getImages().size()));
+                }
+                if(position==post.getImages().size()){
+                    photos.setVisibility(View.GONE);
+                    img.setVisibility(View.GONE);
+                } else {
+                    photos.setVisibility(View.VISIBLE);
+                    img.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -352,6 +377,7 @@ public class ShowDetails extends AppCompatActivity {
         hot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateHotViewLinear(hot);
                 if(Maltabu.isAuth.equals("false")){
                     Toast.makeText(ShowDetails.this, getResoursesByLang().getString(R.string.productionNoAuth),Toast.LENGTH_SHORT).show();
                 } else {
@@ -363,6 +389,7 @@ public class ShowDetails extends AppCompatActivity {
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateHotViewLinear(top);
                 if(Maltabu.isAuth.equals("false")){
                     Toast.makeText(ShowDetails.this, getResoursesByLang().getString(R.string.productionNoAuth),Toast.LENGTH_SHORT).show();
                 } else {
@@ -374,6 +401,7 @@ public class ShowDetails extends AppCompatActivity {
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CustomAnimator().animateHotViewLinear(comments);
                 Intent comIntent = new Intent(ShowDetails.this, CommentsActivity.class);
                 comIntent.putExtra("post", post);
                 startActivityForResult(comIntent, COMMENT_REQUEST_CODE);
@@ -433,27 +461,46 @@ public class ShowDetails extends AppCompatActivity {
         photos = (TextView) findViewById(R.id.photos);
         hot = (ConstraintLayout)findViewById(R.id.constraintLayout21);
         top = (ConstraintLayout)findViewById(R.id.constraintLayout30);
+        visitorsText = (TextView) findViewById(R.id.visitors_text);
     }
 
+    public List<Fragment> getImageFragments(){
+        List<Fragment> fragments = new ArrayList<>();
+        if(post.getImages().size()>0) {
+            for (int i = 0; i < post.getImages().size(); i++) {
+                fragments.add(ImageFragment.newInstance(i, post.getImages().get(i).getMedium()));
+            }
+            fragments.add(new YandexNativeAdFragment());
+        }
+        return fragments;
+    }
 
-    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList;
 
-        public MyFragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public MyPagerAdapter(FragmentManager fragmentManager, List<Fragment> mFragmentList) {
+            super(fragmentManager);
+            this.mFragmentList = mFragmentList;
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            if(post.getImages().get(0).getMedium().contains("http"))
-                return ImageFragment.newInstance(position, post.getImages().get(position).getMedium());
-            else
-                return ImageFragment.newInstance(position, "https://maltabu.kz/"+post.getImages().get(position).getMedium());
-        }
-
+        // Returns total number of pages
         @Override
         public int getCount() {
-            return PAGE_COUNT;
+            return mFragmentList.size();
         }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
+
     }
 
     class TapGestureListener extends GestureDetector.SimpleOnGestureListener{

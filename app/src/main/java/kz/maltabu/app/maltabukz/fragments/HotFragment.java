@@ -48,6 +48,8 @@ public class HotFragment extends Fragment {
     private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
 
+    public HotFragment(){}
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -129,19 +131,23 @@ public class HotFragment extends Fragment {
         ArrayList postObjList = googleJson.fromJson(String.valueOf(jsonArray), ArrayList.class);
         for (int i = 0; i < 12; i++) {
             JSONObject postObject = jsonArray.getJSONObject(i);
-            JSONArray arr;
+            JSONArray arr=null;
             if(postObject.has("img")) {
                 JSONObject imgWebObject = postObject.getJSONObject("img");
-                arr = imgWebObject.getJSONArray("web");
+                if(imgWebObject.has("web")) {
+                    arr = imgWebObject.getJSONArray("web");
+                }
             } else {
                 arr = postObject.getJSONArray("images");
             }
             ArrayList<Image> imagesArrayList = new ArrayList<>();
-            ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
-            for (int j = 0; j < imgObjList.size(); j++) {
-                JSONObject imgJson = arr.getJSONObject(j);
-                Image image = new Image(imgJson.getString("small"));
-                imagesArrayList.add(image);
+            if(arr!=null) {
+                ArrayList imgObjList = googleJson.fromJson(String.valueOf(arr), ArrayList.class);
+                for (int j = 0; j < imgObjList.size(); j++) {
+                    JSONObject imgJson = arr.getJSONObject(j);
+                    Image image = new Image(imgJson.getString("small"));
+                    imagesArrayList.add(image);
+                }
             }
             String cityID = postObject.getJSONObject("cityID").getString("name");
             int number = postObject.getInt("number");

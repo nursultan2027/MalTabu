@@ -7,6 +7,7 @@ import kz.maltabu.app.maltabukz.models.Post;
 import java.util.ArrayList;
 
 public class Maltabu {
+    public static final String API_key = "16364ff9-f4b0-45ac-ad8f-820d663f50a2";
     public static String s1 = null;
     public static String s2 = null;
     public static String s3 = null;
@@ -21,7 +22,7 @@ public class Maltabu {
     public static boolean increment = true;
     public static String lang = null;
     public static String token=null;
-    public static String version = "1.0.37";
+    public static String version = "1.0.45";
     public static String isAuth="false";
     public static String topPrice="150";
     public static String hotPrice="250";

@@ -16,6 +16,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 public class ImageFragment2 extends Fragment {
+    public ImageFragment2(){}
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     public static ImageFragment2 newInstance(int page, String url) {
@@ -35,7 +36,7 @@ public class ImageFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.image_item,null);
+        View view = inflater.inflate(R.layout.image_item2,null);
         Bundle bundle = this.getArguments();
         ImageView card = (ImageView) view.findViewById(R.id.imgPage);
         final PhotoViewAttacher pAttacher;

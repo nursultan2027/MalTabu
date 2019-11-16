@@ -24,6 +24,10 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -44,6 +48,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import kz.maltabu.app.maltabukz.R;
+import kz.maltabu.app.maltabukz.Redesign.ui.activity.AddPostRedesign;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
@@ -104,6 +109,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     private ConstraintLayout[] roatates = new ConstraintLayout[8];
     private Spinner spinnerRegion, spinnerCity;
     private int PICK_IMAGE_REQUEST = 8;
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,7 +200,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddPostActivity2.this, AddPostActivity.class));
+                startActivity(new Intent(AddPostActivity2.this, AddPostRedesign.class));
                 finish();
             }
         });
@@ -345,6 +351,13 @@ public class AddPostActivity2 extends AppCompatActivity{
                 if(phoneNimb==0) {
                     cls[0].setVisibility(View.GONE);
                 }
+            }
+        });
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                startActivity(new Intent(AddPostActivity2.this, MainActivity2.class));
+                finish();
             }
         });
         roatates[0].setOnClickListener(new View.OnClickListener() {
@@ -617,6 +630,9 @@ public class AddPostActivity2 extends AppCompatActivity{
         cls[4] = (ConstraintLayout)findViewById(R.id.constraintLayout20);
         spinnerRegion = (Spinner) findViewById(R.id.spinner);
         spinnerCity = (Spinner) findViewById(R.id.spinner2);
+        mInterstitialAd = new InterstitialAd(AddPostActivity2.this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8576417478026387/6126966096");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     public void GetImages(){
@@ -625,11 +641,17 @@ public class AddPostActivity2 extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        if(!ok)
-            startActivity(new Intent(this, AddPostActivity.class));
+        if(!ok) {
+            startActivity(new Intent(this, AddPostRedesign.class));
+            finish();
+        }
         else
-            startActivity(new Intent(this, MainActivity2.class));
-        finish();
+            if (mInterstitialAd.isLoaded())
+                mInterstitialAd.show();
+            else {
+                startActivity(new Intent(AddPostActivity2.this, MainActivity2.class));
+                finish();
+            }
     }
 
     @Override
@@ -1123,8 +1145,12 @@ public class AddPostActivity2 extends AppCompatActivity{
                     back.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(AddPostActivity2.this, MainActivity2.class));
-                            finish();
+                            if (mInterstitialAd.isLoaded())
+                                mInterstitialAd.show();
+                            else {
+                                startActivity(new Intent(AddPostActivity2.this, MainActivity2.class));
+                                finish();
+                            }
                         }
                     });
                 }
@@ -1195,35 +1221,4 @@ public class AddPostActivity2 extends AppCompatActivity{
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
     }
-
-
-//    private Bitmap ProcessingBitmap(){
-//        Bitmap bm1 = null;
-//        Bitmap newBitmap = null;
-//
-//        bm1 = original;
-//
-//        Bitmap.Config config = bm1.getConfig();
-//        if(config == null){
-//            config = Bitmap.Config.ARGB_8888;
-//        }
-//
-//        newBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maltabu_logo_alpha);
-//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 150, 50, true);
-//        Bitmap mergedImages = createSingleImageFromMultipleImages(bm1, newBitmap);
-//        return mergedImages;
-//    }
-//
-//
-//    private Bitmap createSingleImageFromMultipleImages(Bitmap firstImage, Bitmap secondImage){
-//
-//        Bitmap result = Bitmap.createBitmap(firstImage.getWidth(), firstImage.getHeight(), firstImage.getConfig());
-//        Canvas canvas = new Canvas(result);
-//        int x2 = secondImage.getWidth()/2;
-//        int x = (firstImage.getWidth()/2)-x2;
-//        int y = (canvas.getHeight()-secondImage.getHeight())-(secondImage.getHeight()/4);
-//        canvas.drawBitmap(firstImage, 0f, 0f, null);
-//        canvas.drawBitmap(secondImage, x, y, null);
-//        return result;
-//    }
 }
