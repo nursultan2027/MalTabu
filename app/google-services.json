@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "85511783598-baqmlb0qofgsqqv5ikmd1pfnsk49ll9f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.maltabu.app.maltabukz",
+            "certificate_hash": "808682111827a0a763d52ac03e613c9346fbdc90"
+          }
+        },
+        {
           "client_id": "85511783598-n776hkovss9cskop779s8qe8onj10rlk.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,10 +38,19 @@
             {
               "client_id": "85511783598-n776hkovss9cskop779s8qe8onj10rlk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "85511783598-p33hft7v176mklf8ga1ihb1lqanedi5l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.elefanto.Maltabu",
+                "app_store_id": "1482166555"
+              }
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-8576417478026387~8810846514"
     }
   ],
   "configuration_version": "1"

@@ -315,7 +315,7 @@ public class MainActivity2 extends AppCompatActivity
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
                     new CustomAnimator().animateViewBound(cl1.findViewById(R.id.imageView));
-                    startActivity(new Intent(MainActivity2.this, AddPostRedesign.class));
+                    startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
                     finish();
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));

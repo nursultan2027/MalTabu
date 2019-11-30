@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity{
     public void GetDictionary() {
         final OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
-                .url("https://maltabu.kz/dist/translations/kk_KZ.json")
+                .url("https://maltabu.kz/bundle/dist/translations/kk_KZ.json")
                 .get()
                 .build();
         AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity{
     public void noRecord(){
         if(fileHelper.readDataFile().isEmpty())
             GetCategories();
-        if(fileHelper.readDictionary().isEmpty())
+//        if(fileHelper.readDictionary().isEmpty())
             GetDictionary();
         GetBanner();
         if(!fileHelper.readToken().isEmpty()) {

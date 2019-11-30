@@ -161,7 +161,8 @@
                 <RadioButton
                     android:id="@+id/RB3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/freeRD"
@@ -192,7 +193,8 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/radioB1"
                 app:layout_constraintStart_toEndOf="@+id/radioGroup"
-                app:layout_constraintTop_toBottomOf="@+id/editText3" />
+                app:layout_constraintTop_toBottomOf="@+id/editText3"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView77"

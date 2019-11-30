@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import kz.maltabu.app.maltabukz.R;
@@ -40,7 +41,7 @@ public class TopHotActivity extends AppCompatActivity{
     private ImageView arr;
     private TextView numb, score;
     private String phone, code, promoType;
-    private Dialog dialog;
+    private Dialog dialog, progressDialog;
     private FileHelper fileHelper;
     private ConnectionHelper connectionHelper;
     private JSONObject userObject;
@@ -62,6 +63,7 @@ public class TopHotActivity extends AppCompatActivity{
         topButtonMobile = findViewById(R.id.topButtonMobile);
         hotButtonMobile = findViewById(R.id.hotButtonMobile);
         dialog = new Dialog(this);
+        progressDialog = new Dialog(this);
         String cab = null;
         try {
             userObject = new JSONObject(fileHelper.readUserFile());
@@ -227,6 +229,8 @@ public class TopHotActivity extends AppCompatActivity{
     private void phoneDialog(){
         dialog.setContentView(R.layout.dialog_send_smss);
         EditText phoneText = dialog.findViewById(R.id.phone_number);
+        final TextView errorText = dialog.findViewById(R.id.error_text);
+        Button sendSmsButton = dialog.findViewById(R.id.buttonOkok);
         MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
                 phoneText,
                 "+7 ([000]) [000]-[00]-[00]",
@@ -241,6 +245,18 @@ public class TopHotActivity extends AppCompatActivity{
                     }
                 }
         );
+        sendSmsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!phone.isEmpty()) {
+                    sendSms();
+                    dialog.dismiss();
+                    showProgressDialog();
+                }
+                else
+                    errorText.setText("Phone Number");
+            }
+        });
         phoneText.setHint(listener.placeholder());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
@@ -250,8 +266,145 @@ public class TopHotActivity extends AppCompatActivity{
         dialog.setContentView(R.layout.dialog_send_code);
         TextView intro = dialog.findViewById(R.id.changeText);
         intro.setText("После введения кода подтверждения с Вашего баланса будет списано"+ promoType+"₸");
-        EditText phoneText = dialog.findViewById(R.id.confirm_code);
+        final EditText phoneText = dialog.findViewById(R.id.confirm_code);
+        Button sendCodeButton = dialog.findViewById(R.id.buttonOkok);
+        sendCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(phoneText.getText().toString().length()==6) {
+                        code = phoneText.getText().toString();
+                        sendConfirmCode();
+                        dialog.dismiss();
+                        showProgressDialog();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    private void sendSms(){
+            final OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("phone", phone)
+                    .build();
+            final Request request = new Request.Builder()
+                    .url("https://maltabu.kz/v1/api/clients/promotion/sendConfirmSMS")
+                    .addHeader("isAuthorized", Maltabu.isAuth)
+                    .addHeader("token", Maltabu.token)
+                    .post(formBody)
+                    .build();
+            AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    try {
+                        Response response = client.newCall(request).execute();
+                        if (!response.isSuccessful()) {
+                            return null;
+                        }
+                        return response.body().string();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    if (s != null) {
+                        try {
+                            JSONObject result = new JSONObject(s);
+                            progressDialog.dismiss();
+                            if(result.has("message")){
+                                if(result.getString("message").toLowerCase().equals("Success".toLowerCase())){
+                                    codeDialog();
+                                }
+                            } else {
+                                if(result.has("name")){
+                                    if(result.getString("name").equals("notAceptable")){
+                                        Toast.makeText(TopHotActivity.this, "Оператор сотовой связи не обслуживается", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            asyncTask.execute();
+    }
+
+    private void sendConfirmCode() throws JSONException {
+        final OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("amount", promoType)
+                .add("clientID", userObject.getString("_id"))
+                .add("phone", phone)
+                .add("code", code)
+                .build();
+        final Request request = new Request.Builder()
+                .url("https://maltabu.kz/v1/api/clients/promotion/sendConfirmCode")
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .post(formBody)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response = client.newCall(request).execute();
+                    if (!response.isSuccessful()) {
+                        return null;
+                    }
+                    return response.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    try {
+                        JSONObject result = new JSONObject(s);
+                        progressDialog.dismiss();
+                        if(result.has("message")){
+                            if(result.getString("message").toLowerCase().equals("Success".toLowerCase())){
+                                if(promoType.equals("150"))
+                                    rise(getIntent().getStringExtra("number"));
+                                else
+                                    hot(getIntent().getStringExtra("number"));
+                            }
+                        } else {
+                            if(result.has("name")){
+                                if(result.getString("name").equals("notAceptable")){
+                                    Toast.makeText(TopHotActivity.this, "Недостаточно средств на счету или Неверный код подтверждения", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(TopHotActivity.this, "Ошибка на стороне сервера", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        asyncTask.execute();
+    }
+
+    private void showProgressDialog(){
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.show();
     }
 }

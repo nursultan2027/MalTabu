@@ -11,6 +11,7 @@ import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
 import io.fabric.sdk.android.Fabric;
+import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 
@@ -24,6 +25,7 @@ public class MainApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        Paper.init(this);
         Fabric.with(getApplicationContext());
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override

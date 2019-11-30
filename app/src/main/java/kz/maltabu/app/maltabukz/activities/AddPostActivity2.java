@@ -166,6 +166,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         addPhoneNumber.setText(resources.getString(R.string.phonePlus));
         addImg.setText(resources.getString(R.string.photoPlus));
         addPost.setText(resources.getString(R.string.addPost));
+        updts[5].setVisibility(View.GONE);
     }
 
     private void setListeners() {
@@ -200,7 +201,7 @@ public class AddPostActivity2 extends AppCompatActivity{
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddPostActivity2.this, AddPostRedesign.class));
+                startActivity(new Intent(AddPostActivity2.this, AddPostActivity.class));
                 finish();
             }
         });
@@ -642,7 +643,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         if(!ok) {
-            startActivity(new Intent(this, AddPostRedesign.class));
+            startActivity(new Intent(this, AddPostActivity.class));
             finish();
         }
         else

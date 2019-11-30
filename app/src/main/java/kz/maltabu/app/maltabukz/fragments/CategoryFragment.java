@@ -373,18 +373,18 @@ public class CategoryFragment extends Fragment {
             Pair<Integer, Object> pair = new Pair<Integer, Object>(Holder.BlockContentProvider.DEFAULT, post);
             mData.add(pair);
         }
-        try {
+//        try {
             loadAd();
-        } catch (Exception e) {}
+//        } catch (Exception e) {}
         if (!can) {
             can = true;
-            try {
+//            try {
                 mAdapter.notifyDataSetChanged();
-                TimeUnit.MILLISECONDS.sleep(1000);
+//                TimeUnit.MILLISECONDS.sleep(1000);
                 button.setVisibility(View.INVISIBLE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         } else {
             if (epicDialog != null && epicDialog.isShowing()) {
                 epicDialog.dismiss();
@@ -465,13 +465,13 @@ public class CategoryFragment extends Fragment {
         }
         if (!can) {
             can = true;
-            try {
+//            try {
                 mAdapter.notifyDataSetChanged();
-                TimeUnit.MILLISECONDS.sleep(1000);
+//                TimeUnit.MILLISECONDS.sleep(1000);
                 button.setVisibility(View.INVISIBLE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         } else {
             if (!getActivity().isFinishing() && epicDialog != null) {
                 epicDialog.dismiss();

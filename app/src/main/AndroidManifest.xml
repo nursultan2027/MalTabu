@@ -63,7 +63,11 @@
         <activity android:name="kz.maltabu.app.maltabukz.activities.NewPassword"/>
         <activity android:name="kz.maltabu.app.maltabukz.activities.EditPostActivity"/>
         <activity android:name="kz.maltabu.app.maltabukz.Redesign.ui.activity.AddPostRedesign"/>
-
+        <service android:name=".helpers.MyFarebaseService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />

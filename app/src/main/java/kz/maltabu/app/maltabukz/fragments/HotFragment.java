@@ -16,11 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.RecycleHotAdapterNew;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
@@ -65,11 +63,18 @@ public class HotFragment extends Fragment {
         myAdapter = new RecycleHotAdapterNew(posts,getActivity());
         String url = fileHelper.getBanner();
         if(!url.isEmpty()) {
-            String gif = url.substring(url.length() - 3, url.length());
-            if (gif.toLowerCase().equals("gif"))
-                Glide.with(getActivity()).asGif().load("https://maltabu.kz/" + url).into(banner);
-            else
-                Picasso.with(getActivity()).load("https://maltabu.kz/" + url).fit().into(banner);
+            if (url.endsWith("gif")) {
+                if(url.startsWith("http"))
+                    Glide.with(getActivity()).asGif().load(url).into(banner);
+                else
+                    Glide.with(getActivity()).asGif().load("https://maltabu.kz/" + url).into(banner);
+            }
+            else {
+                if(url.startsWith("http"))
+                    Picasso.with(getActivity()).load(url).fit().into(banner);
+                else
+                    Picasso.with(getActivity()).load("https://maltabu.kz/" + url).fit().into(banner);
+            }
         }
         else {
             banner.setVisibility(View.GONE);
