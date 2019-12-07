@@ -258,6 +258,7 @@ public class TopHotActivity extends AppCompatActivity{
             }
         });
         phoneText.setHint(listener.placeholder());
+        dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
@@ -283,6 +284,7 @@ public class TopHotActivity extends AppCompatActivity{
                 }
             }
         });
+        dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }

@@ -151,12 +151,6 @@ public class MainActivity extends AppCompatActivity{
                     try {
                         JSONObject dict = new JSONObject(s).getJSONObject("kk_KZ");
                         fileHelper.writeDictionary(dict.toString());
-                        if(!fileHelper.readToken().isEmpty()){
-                            Maltabu.token=fileHelper.readToken();
-                            Maltabu.isAuth="true";
-                        }
-                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                        finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -251,13 +245,8 @@ public class MainActivity extends AppCompatActivity{
     public void noRecord(){
         if(fileHelper.readDataFile().isEmpty())
             GetCategories();
-//        if(fileHelper.readDictionary().isEmpty())
-            GetDictionary();
+        GetDictionary();
         GetBanner();
-        if(!fileHelper.readToken().isEmpty()) {
-            Maltabu.token = fileHelper.readToken();
-            Maltabu.isAuth = "true";
-        }
         startActivity(new Intent(MainActivity.this, MainActivity2.class));
         finish();
     }

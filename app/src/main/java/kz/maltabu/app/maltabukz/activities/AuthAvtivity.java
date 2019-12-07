@@ -191,7 +191,7 @@ public class AuthAvtivity extends AppCompatActivity {
     public void getUser(){
             final OkHttpClient client = new OkHttpClient();
             final Request request2 = new Request.Builder()
-                    .url("http://maltabu.kz/v1/api/login/clients")
+                    .url("https://maltabu.kz/v1/api/login/clients")
                     .get()
                     .addHeader("isAuthorized", Maltabu.isAuth)
                     .addHeader("token", Maltabu.token)

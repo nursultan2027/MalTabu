@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,6 +69,7 @@ public class MainActivity2 extends AppCompatActivity
 
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+        Log.d("token1", Paper.book().read("firebaseToken",""));
         fileHelper = new FileHelper(this);
         SetActivityView();
         epicDialog = new Dialog(this);
