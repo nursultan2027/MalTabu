@@ -1,6 +1,5 @@
 package kz.maltabu.app.maltabukz.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,21 +7,19 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import org.json.JSONException;
+import org.json.JSONObject;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.ActivityFragment;
 import kz.maltabu.app.maltabukz.adapters.ViewPagerAdapter;
@@ -31,9 +28,6 @@ import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Category;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
@@ -98,15 +92,14 @@ public class CatalogFragment extends Fragment {
             if(Maltabu.byTime&&!Maltabu.increment){
                 sort.setText(resources.getString(R.string.sort2));
             } else {
-                if (!Maltabu.byTime&&!Maltabu.increment){
+                if (!Maltabu.byTime && !Maltabu.increment){
                     sort.setText(resources.getString(R.string.sort3));
                 } else {
                     sort.setText(resources.getString(R.string.sort4));
                 }
             }
         }
-        for (int l=0; l<tabLayout.getTabCount();l++)
-        {
+        for (int l=0; l<tabLayout.getTabCount();l++) {
             if (l==0){
                 TextView txt = (TextView) tabLayout.getTabAt(l).getCustomView().findViewById(textRes[l]);
                 txt.setTextColor(bl);
@@ -245,7 +238,7 @@ public class CatalogFragment extends Fragment {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateHotViewLinear(sort);
+                CustomAnimator.animateHotViewLinear(sort);
                 soDialog();
             }
         });

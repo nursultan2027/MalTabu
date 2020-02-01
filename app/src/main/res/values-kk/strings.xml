@@ -168,5 +168,6 @@
     <string name="productionNoAuth">Сізге жүйеге Кіру немесе Тіркелу қажет</string>
     <string name="successPay">Төлем</string>
     <string name="visitorsCount">рет қаралынды</string>
+    <string name="filter">Іздеу</string>
 
 </resources>

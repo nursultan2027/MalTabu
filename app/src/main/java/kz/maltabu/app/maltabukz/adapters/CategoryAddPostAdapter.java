@@ -21,8 +21,6 @@ import kz.maltabu.app.maltabukz.activities.AddPostActivity2;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Catalog;
-import kz.maltabu.app.maltabukz.models.Category;
-import kz.maltabu.app.maltabukz.models.Comment;
 
 public class CategoryAddPostAdapter extends RecyclerView.Adapter<CategoryAddPostAdapter.ViewHolder>{
 
@@ -90,6 +88,7 @@ public class CategoryAddPostAdapter extends RecyclerView.Adapter<CategoryAddPost
         Intent intent2 = new Intent(context, AddPostActivity2.class);
         intent2.putExtra("catalog", catalog);
         context.startActivity(intent2);
+        ((AddPostActivity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 

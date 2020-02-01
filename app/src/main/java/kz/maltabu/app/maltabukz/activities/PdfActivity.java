@@ -23,7 +23,7 @@ public class PdfActivity extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateViewBound(img);
+                CustomAnimator.animateViewBound(img);
                 onBackPressed();
             }
         });

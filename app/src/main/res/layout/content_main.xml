@@ -48,18 +48,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tool" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hots"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/MaltabuGrey3"
-            android:orientation="vertical"
-            android:scrollbars="none"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reclama"></androidx.recyclerview.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/reclama"
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/hots"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/MaltabuGrey3"
+                android:orientation="vertical"
+                android:scrollbars="none"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

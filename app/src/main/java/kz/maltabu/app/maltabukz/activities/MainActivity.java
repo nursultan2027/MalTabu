@@ -1,8 +1,5 @@
 package kz.maltabu.app.maltabukz.activities;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,21 +7,20 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
+import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import kz.maltabu.app.maltabukz.helpers.MyFarebaseHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         fileHelper = new FileHelper(this);
         epicDialog = new Dialog(this);
+        Log.d("token1", Paper.book().read("firebaseToken",""));
         connectionHelper = new ConnectionHelper(this);
         if (connectionHelper.isConnected())
         {
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity{
                     if(connectionHelper.isConnected()){
                         noRecord();
                     } else {
-                        new CustomAnimator().animateViewBound(refresh);
+                        CustomAnimator.animateViewBound(refresh);
                     }
                 }
             });
@@ -247,7 +244,60 @@ public class MainActivity extends AppCompatActivity{
             GetCategories();
         GetDictionary();
         GetBanner();
+        if(checkAuth())
+            getUser();
         startActivity(new Intent(MainActivity.this, MainActivity2.class));
         finish();
+    }
+
+    private boolean checkAuth() {
+        if (!fileHelper.readToken().isEmpty()){
+            Maltabu.token = fileHelper.readToken();
+            Maltabu.isAuth = "true";
+            return true;
+        } else
+            return false;
+    }
+
+    public void getUser(){
+        final OkHttpClient client = new OkHttpClient();
+        final Request request2 = new Request.Builder()
+                .url("https://maltabu.kz/v1/api/login/clients")
+                .get()
+                .addHeader("isAuthorized", Maltabu.isAuth)
+                .addHeader("token", Maltabu.token)
+                .build();
+        AsyncTask<Void, Void, String> asyncTask1 = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response2 = client.newCall(request2).execute();
+                    if (!response2.isSuccessful()) {
+                        return null;
+                    }
+                    return response2.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            @Override
+            protected void onPostExecute(String s1) {
+                super.onPostExecute(s1);
+                if (s1 != null) {
+                    try {
+                        JSONObject object = new JSONObject(s1);
+                        if(object.has("notificationToken")){
+                            if(object.getString("notificationToken").isEmpty()){
+                                new MyFarebaseHelper(MainActivity.this).sendNotificationToken(fileHelper.readToken(),Paper.book().read("firebaseToken",""));
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        asyncTask1.execute();
     }
 }

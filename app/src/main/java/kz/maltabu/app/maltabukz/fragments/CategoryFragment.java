@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.util.Pair;
@@ -76,6 +77,7 @@ public class CategoryFragment extends Fragment {
     private FileHelper fileHelper;
     private EndlessListener listener;
     private NativeAdLoader mNativeAdLoader;
+    private SwipeRefreshLayout refreshLayout;
     private NativeTemplateAdapter mAdapter;
     private final List<Pair<Integer, Object>> mData = new ArrayList<>();
 
@@ -111,6 +113,7 @@ public class CategoryFragment extends Fragment {
         imageView36 = (ImageView) view.findViewById(R.id.imageView36);
         textView56 = (TextView) view.findViewById(R.id.textView56);
         noPostsText = (TextView) view.findViewById(R.id.noPostsText);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.catalog_swipe);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         lst.setHasFixedSize(true);
         lst.addItemDecoration(new DividerItemDecoration(getActivity()));
@@ -122,13 +125,6 @@ public class CategoryFragment extends Fragment {
     }
 
     private void createNativeAdLoader() {
-        /*
-         * Replace demo R-M-DEMO-native-i with actual Block ID
-         * Please, note, that configured image sizes don't affect demo ads.
-         * Following demo Block IDs may be used for testing:
-         * app install: R-M-DEMO-native-i
-         * content: R-M-DEMO-native-c
-         */
         final NativeAdLoaderConfiguration adLoaderConfiguration =
                 new NativeAdLoaderConfiguration.Builder("R-M-441970-2", false)
                         .setImageSizes(NativeAdLoaderConfiguration.NATIVE_IMAGE_SIZE_SMALL).build();
@@ -173,6 +169,10 @@ public class CategoryFragment extends Fragment {
     };
 
     private void setListener(){
+        int c1 = getResources().getColor(R.color.MaltabuYellow);
+        int c2 = getResources().getColor(R.color.Black);
+        int c3 = getResources().getColor(R.color.MaltabuGreen);
+        refreshLayout.setColorSchemeColors(c1,c2,c3);
         listener = new EndlessListener((LinearLayoutManager) lst.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -183,6 +183,17 @@ public class CategoryFragment extends Fragment {
                 thread.start();
             }
         };
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                can = false;
+                mData.clear();
+                lst.setVisibility(View.GONE);
+                page=1;
+                SecondThread thread = new SecondThread();
+                thread.start();
+            }
+        });
         lst.addOnScrollListener(listener);
     }
 
@@ -378,13 +389,17 @@ public class CategoryFragment extends Fragment {
 //        } catch (Exception e) {}
         if (!can) {
             can = true;
-//            try {
+            try {
                 mAdapter.notifyDataSetChanged();
-//                TimeUnit.MILLISECONDS.sleep(1000);
+                TimeUnit.MILLISECONDS.sleep(1000);
                 button.setVisibility(View.INVISIBLE);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+                if(refreshLayout.isRefreshing()){
+                    refreshLayout.setRefreshing(false);
+                }
+                lst.setVisibility(View.VISIBLE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             if (epicDialog != null && epicDialog.isShowing()) {
                 epicDialog.dismiss();
@@ -465,13 +480,13 @@ public class CategoryFragment extends Fragment {
         }
         if (!can) {
             can = true;
-//            try {
+            try {
                 mAdapter.notifyDataSetChanged();
-//                TimeUnit.MILLISECONDS.sleep(1000);
+                TimeUnit.MILLISECONDS.sleep(1000);
                 button.setVisibility(View.INVISIBLE);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             if (!getActivity().isFinishing() && epicDialog != null) {
                 epicDialog.dismiss();

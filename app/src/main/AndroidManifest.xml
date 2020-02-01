@@ -6,9 +6,9 @@
     <application
         android:hardwareAccelerated="true"
         android:name="kz.maltabu.app.maltabukz.MainApplication"
-        android:icon="@mipmap/momo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/momo"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:noHistory="false"
         android:largeHeap="true"

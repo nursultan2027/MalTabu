@@ -37,7 +37,7 @@ public class NoConnection extends AppCompatActivity{
                 if(connectionHelper.isConnected()){
                     finish();
                 } else {
-                    new CustomAnimator().animateViewBound(refresh);
+                    CustomAnimator.animateViewBound(refresh);
                 }
             }
         });

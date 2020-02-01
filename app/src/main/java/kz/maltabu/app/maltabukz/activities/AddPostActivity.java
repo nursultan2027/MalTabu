@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.CategoryAddPostAdapter;
+import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
@@ -43,6 +44,7 @@ public class AddPostActivity extends AppCompatActivity implements ActivityFragme
     private ArrayList<TextView> categoriesTexts = new ArrayList<>();
     private ArrayList<ExpandableLayout> categoriesExpandLay = new ArrayList<>();
     private ArrayList<RecyclerView> categoriesRecyclers = new ArrayList<>();
+    private ArrayList<ImageView> arrows = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class AddPostActivity extends AppCompatActivity implements ActivityFragme
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity2.class));finish();
+        overridePendingTransition( R.anim.slide_out_bottom,R.anim.slide_in_up);
     }
 
     private void getCategories(){
@@ -105,6 +108,13 @@ public class AddPostActivity extends AppCompatActivity implements ActivityFragme
         categoriesLayouts.add((ConstraintLayout)findViewById(R.id.category_5_lay));
         categoriesLayouts.add((ConstraintLayout)findViewById(R.id.category_6_lay));
         categoriesLayouts.add((ConstraintLayout)findViewById(R.id.category_7_lay));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_1));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_2));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_3));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_4));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_5));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_6));
+        arrows.add((ImageView)findViewById(R.id.arrow_down_7));
         getCategories();
     }
 
@@ -131,8 +141,10 @@ public class AddPostActivity extends AppCompatActivity implements ActivityFragme
                 public void onClick(View v) {
                     if(categoriesExpandLay.get(finalI).isExpanded()){
                         categoriesExpandLay.get(finalI).collapse();
+                        new CustomAnimator().animateDownsideUp(arrows.get(finalI));
                     } else {
                         categoriesExpandLay.get(finalI).expand();
+                        new CustomAnimator().animateUpsideDown(arrows.get(finalI));
                     }
                 }
             });

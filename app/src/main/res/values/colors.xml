@@ -18,5 +18,6 @@
     <color name="White">#ffffff</color>
     <color name="Black">#000000</color>
     <color name="Red">#c0392b</color>
+    <color name="RedBadge">#ff0000</color>
 
 </resources>

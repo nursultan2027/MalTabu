@@ -450,7 +450,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="64dp"
-                android:text="© 2018-2019 Все права защищены «Малтабу»"
+                android:text="© 2018-2020 Все права защищены «Малтабу»"
                 android:textColor="@color/MaltabuGrey2"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

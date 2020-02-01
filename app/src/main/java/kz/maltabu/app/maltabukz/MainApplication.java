@@ -42,9 +42,7 @@ public class MainApplication extends Application{
         YandexMetrica.activate(getApplicationContext(), config);
         YandexMetrica.enableActivityAutoTracking(this);
         createNotificationChannel();
-        FileHelper fileHelper = new FileHelper(this);
-        Maltabu.token = fileHelper.readToken();
-        Maltabu.isAuth = "true";
+        setDefaultSettings();
     }
 
 
@@ -58,5 +56,10 @@ public class MainApplication extends Application{
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
+    }
+
+    private void setDefaultSettings(){
+        Maltabu.token = new FileHelper(this).readToken();
+        Maltabu.lang = Paper.book().read("language");
     }
 }

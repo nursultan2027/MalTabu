@@ -88,15 +88,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_1"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line1"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_1_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_1_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line1">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs1"
@@ -138,15 +153,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_2"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line2"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_2_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_2_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line2">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs2"
@@ -188,15 +218,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_3"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line3"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_3_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_3_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line3">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs3"
@@ -238,15 +283,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_4"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line4"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_4_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_4_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line4">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs4"
@@ -288,15 +348,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_5"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line5"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_5_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_5_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line5">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs5"
@@ -338,15 +413,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_6"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line6"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_6_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_6_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line6">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs6"
@@ -362,9 +452,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/White"
-                android:layout_marginBottom="32dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/category_6_lay">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -390,15 +479,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/arrow_down_7"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_download"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:id="@+id/line7"
+                    android:background="@color/MaltabuGrey"
+                    app:layout_constraintTop_toBottomOf="@id/category_7_ripple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_7_ripple">
+                    app:layout_constraintTop_toBottomOf="@id/line7">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/catalogs7"
@@ -408,6 +512,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </net.cachapa.expandablelayout.ExpandableLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -19,6 +19,7 @@ import java.util.Map;
 import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.activities.CabinetActivity;
+import kz.maltabu.app.maltabukz.activities.MainActivity;
 
 import static kz.maltabu.app.maltabukz.MainApplication.CHANNEL_ID;
 
@@ -44,6 +45,10 @@ public class MyFarebaseService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         Log.d("FirebaseTag", "Refreshed token: " + token);
+        FileHelper fileHelper = new FileHelper(this);
+        if (!fileHelper.readToken().isEmpty()){
+            new MyFarebaseHelper(this).sendNotificationToken(fileHelper.readToken(),token);
+        }
         Paper.book().write("firebaseToken", token);
     }
 

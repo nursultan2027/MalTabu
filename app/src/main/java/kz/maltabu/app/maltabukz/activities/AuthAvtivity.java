@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.helpers.ConnectionHelper;
 import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
@@ -28,6 +29,7 @@ import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kz.maltabu.app.maltabukz.helpers.MyFarebaseHelper;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -69,8 +71,9 @@ public class AuthAvtivity extends AppCompatActivity {
         arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateViewBound(arr);
+                CustomAnimator.animateViewBound(arr);
                 startActivity(new Intent(AuthAvtivity.this, MainActivity2.class));
+                overridePendingTransition( R.anim.slide_out_bottom,R.anim.slide_in_up);
                 finish();
             }
         });
@@ -155,8 +158,7 @@ public class AuthAvtivity extends AppCompatActivity {
                                 {
                                     Toast.makeText(AuthAvtivity.this,  res.getString(R.string.wrongPassOrLogin), Toast.LENGTH_LONG).show();
                                 }
-                            }
-                            else {
+                            } else {
                                 String pageName = obj.getString("token");
                                 fileHelper.writeToken(pageName);
                                 Maltabu.token = pageName;
@@ -173,8 +175,9 @@ public class AuthAvtivity extends AppCompatActivity {
         }
 
     @Override
-    public void onBackPressed() {;
+    public void onBackPressed() {
         startActivity(new Intent(this, MainActivity2.class));
+        overridePendingTransition( R.anim.slide_out_bottom,R.anim.slide_in_up);
         finish();
     }
 
@@ -182,8 +185,7 @@ public class AuthAvtivity extends AppCompatActivity {
         if(edtLog.getText().toString().isEmpty()||edtPass.getText().toString().isEmpty()) {
             Toast.makeText(this, "Заполните поля", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -216,6 +218,7 @@ public class AuthAvtivity extends AppCompatActivity {
                     super.onPostExecute(s1);
                     if (s1 != null) {
                         fileHelper.writeUserFile(s1);
+                        new MyFarebaseHelper(AuthAvtivity.this).sendNotificationToken(fileHelper.readToken(), Paper.book().read("firebaseToken",""));
                         if (epicDialog != null && epicDialog.isShowing()) {
                             epicDialog.dismiss();
                         }

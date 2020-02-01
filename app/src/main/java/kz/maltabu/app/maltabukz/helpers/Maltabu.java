@@ -22,7 +22,7 @@ public class Maltabu {
     public static boolean increment = true;
     public static String lang = null;
     public static String token=null;
-    public static String version = "1.0.51";
+    public static String version = "1.0.53";
     public static String isAuth="false";
     public static String topPrice="150";
     public static String hotPrice="250";

@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,16 +21,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -46,9 +35,31 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.material.snackbar.Snackbar;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.Redesign.ui.activity.AddPostRedesign;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.InputValidation;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
@@ -56,15 +67,6 @@ import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.helpers.PostBodyHelper;
 import kz.maltabu.app.maltabukz.models.Catalog;
 import kz.maltabu.app.maltabukz.models.Region;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import io.paperdb.Paper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -202,6 +204,7 @@ public class AddPostActivity2 extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AddPostActivity2.this, AddPostActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
             }
         });
@@ -644,6 +647,7 @@ public class AddPostActivity2 extends AppCompatActivity{
     public void onBackPressed() {
         if(!ok) {
             startActivity(new Intent(this, AddPostActivity.class));
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
         }
         else
@@ -1150,6 +1154,7 @@ public class AddPostActivity2 extends AppCompatActivity{
                                 mInterstitialAd.show();
                             else {
                                 startActivity(new Intent(AddPostActivity2.this, MainActivity2.class));
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                                 finish();
                             }
                         }

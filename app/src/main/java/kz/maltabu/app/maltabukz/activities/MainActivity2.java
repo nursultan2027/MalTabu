@@ -53,7 +53,7 @@ import okhttp3.Response;
 public class MainActivity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ActivityFragment {
 
-    private TextView menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange, hottitle;
+    private TextView filterText, menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange, hottitle;
     private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag, search;
     private ImageView filter, flag, menuLogo;
     private JSONObject object;
@@ -83,6 +83,7 @@ public class MainActivity2 extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Resources res = this.getResources();
         filter = (ImageView) findViewById(R.id.filter);
+        filterText = findViewById(R.id.filter_text);
         filterIntent = new Intent(this, FilterActivity.class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         AppBarLayout appBar = (AppBarLayout) findViewById(R.id.appBarLayout2);
@@ -145,6 +146,10 @@ public class MainActivity2 extends AppCompatActivity
             e.printStackTrace();
         }
         updateView((String) Paper.book().read("language"));
+        if(Maltabu.filterModel!=null)
+            findViewById(R.id.filter_badge).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.filter_badge).setVisibility(View.GONE);
     }
     private void initListeners() {
         cLnag.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +183,7 @@ public class MainActivity2 extends AppCompatActivity
                 if(connectionHelper.isConnected()) {
                     if(Maltabu.isAuth.equals("false")) {
                         startActivity(new Intent(MainActivity2.this, AuthAvtivity.class));
+                        setTransition();
                         finish();
                     } else {
                         sDialog();
@@ -203,7 +209,17 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                    new CustomAnimator().animateViewBound(filter);
+                    sDialog();
+                    startActivity(filterIntent);
+                } else {
+                    startActivity(new Intent(MainActivity2.this, NoConnection.class));
+                }
+            }
+        });
+        filterText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(connectionHelper.isConnected()) {
                     sDialog();
                     startActivity(filterIntent);
                 } else {
@@ -230,12 +246,12 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                try {
-                    fragment2();
-                    Maltabu.selectedFragment = 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        fragment2();
+                        Maltabu.selectedFragment = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -245,12 +261,12 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                try {
-                    fragment3();
-                    Maltabu.selectedFragment = 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        fragment3();
+                        Maltabu.selectedFragment = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -260,12 +276,12 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                try {
-                    fragment4();
-                    Maltabu.selectedFragment = 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        fragment4();
+                        Maltabu.selectedFragment = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -275,12 +291,12 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                try {
-                    fragment5();
-                    Maltabu.selectedFragment = 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        fragment5();
+                        Maltabu.selectedFragment = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -301,12 +317,12 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                try {
-                    fragment7();
-                    Maltabu.selectedFragment = 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        fragment7();
+                        Maltabu.selectedFragment = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
                 }
@@ -316,8 +332,9 @@ public class MainActivity2 extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(connectionHelper.isConnected()) {
-                    new CustomAnimator().animateViewBound(cl1.findViewById(R.id.imageView));
+                    CustomAnimator.animateViewBound(cl1.findViewById(R.id.imageView));
                     startActivity(new Intent(MainActivity2.this, AddPostActivity.class));
+                    setTransition();
                     finish();
                 } else {
                     startActivity(new Intent(MainActivity2.this, NoConnection.class));
@@ -325,6 +342,11 @@ public class MainActivity2 extends AppCompatActivity
             }
         });
     }
+
+    private void setTransition(){
+        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_up);
+    }
+
     private void updateView(String lang) {
         Context context = LocaleHelper.setLocale(this, lang);
         Maltabu.lang = lang;
@@ -355,6 +377,7 @@ public class MainActivity2 extends AppCompatActivity
         menu8.setText(resources.getString(R.string.menu8));
         menu82.setText(resources.getString(R.string.menu82));
         lange.setText(resources.getString(R.string.other_lang));
+        filterText.setText(resources.getString(R.string.filter));
     }
 
 
@@ -404,6 +427,8 @@ public class MainActivity2 extends AppCompatActivity
 
     private void fragmentMain(){
         filter.setVisibility(View.GONE);
+        filterText.setVisibility(View.GONE);
+        findViewById(R.id.filter_badge).setVisibility(View.GONE);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         hottitle.setText(context.getResources().getString(R.string.hotTitle));
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -426,6 +451,7 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment1() throws JSONException {
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
@@ -453,6 +479,7 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment2() throws JSONException { FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
@@ -478,6 +505,7 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment3() throws JSONException { FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
@@ -502,6 +530,7 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment4() throws JSONException {  FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
@@ -526,6 +555,7 @@ public class MainActivity2 extends AppCompatActivity
     private void fragment5() throws JSONException {
         FragmentManager fragmentManager = getSupportFragmentManager();
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
         Bundle bundle1 = new Bundle();
@@ -552,6 +582,7 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment6() throws JSONException {
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
@@ -579,6 +610,7 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragment7() throws JSONException {
         filter.setVisibility(View.VISIBLE);
+        filterText.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CatalogFragment fragment = new CatalogFragment(this);
@@ -603,6 +635,8 @@ public class MainActivity2 extends AppCompatActivity
     }
     private void fragmentSearch() {
         filter.setVisibility(View.GONE);
+        filterText.setVisibility(View.GONE);
+        findViewById(R.id.filter_badge).setVisibility(View.GONE);
         Context context = LocaleHelper.setLocale(this, Maltabu.lang);
         hottitle.setText(context.getResources().getString(R.string.SearchText));
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -690,6 +724,7 @@ public class MainActivity2 extends AppCompatActivity
                         epicDialog.dismiss();
                     }
                     startActivity(new Intent(MainActivity2.this, CabinetActivity.class));
+                    setTransition();
                     finish();
                 }
             }

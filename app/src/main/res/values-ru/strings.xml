@@ -174,5 +174,6 @@
     <string name="successPay">Оплата</string>
 
     <string name="visitorsCount">просмотров</string>
+    <string name="filter">Фильтр</string>
 
 </resources>

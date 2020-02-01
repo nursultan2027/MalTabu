@@ -315,7 +315,7 @@ public class ShowDetails extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateViewBound(img);
+                CustomAnimator.animateViewBound(img);
                 finish();
             }
         });
@@ -377,7 +377,7 @@ public class ShowDetails extends AppCompatActivity {
         hot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateHotViewLinear(hot);
+                CustomAnimator.animateHotViewLinear(hot);
                 if(Maltabu.isAuth.equals("false")){
                     Toast.makeText(ShowDetails.this, getResoursesByLang().getString(R.string.productionNoAuth),Toast.LENGTH_SHORT).show();
                 } else {
@@ -389,7 +389,7 @@ public class ShowDetails extends AppCompatActivity {
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateHotViewLinear(top);
+                CustomAnimator.animateHotViewLinear(top);
                 if(Maltabu.isAuth.equals("false")){
                     Toast.makeText(ShowDetails.this, getResoursesByLang().getString(R.string.productionNoAuth),Toast.LENGTH_SHORT).show();
                 } else {
@@ -401,7 +401,7 @@ public class ShowDetails extends AppCompatActivity {
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomAnimator().animateHotViewLinear(comments);
+                CustomAnimator.animateHotViewLinear(comments);
                 Intent comIntent = new Intent(ShowDetails.this, CommentsActivity.class);
                 comIntent.putExtra("post", post);
                 startActivityForResult(comIntent, COMMENT_REQUEST_CODE);

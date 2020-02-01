@@ -2,9 +2,11 @@ package kz.maltabu.app.maltabukz.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +47,7 @@ public class HotFragment extends Fragment {
     private RecyclerView recyclerView;
     private ImageView banner;
     private RecycleHotAdapterNew myAdapter;
+    private SwipeRefreshLayout refreshLayout;
     private FileHelper fileHelper;
     private ArrayList<Post> posts=new ArrayList<>();
 
@@ -57,11 +62,13 @@ public class HotFragment extends Fragment {
         sDialog();
         post();
         Resources resources = getActivity().getResources();
+        refreshLayout = view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.hots);
         banner = (ImageView) view.findViewById(R.id.reclama);
         Context context = LocaleHelper.setLocale(getActivity(), Maltabu.lang);
         myAdapter = new RecycleHotAdapterNew(posts,getActivity());
         String url = fileHelper.getBanner();
+        refreshLayout.setColorSchemeColors(getActivity().getResources().getColor(R.color.MaltabuYellow), getActivity().getResources().getColor(R.color.MaltabuBlue), getActivity().getResources().getColor(R.color.MaltabuGreen));
         if(!url.isEmpty()) {
             if (url.endsWith("gif")) {
                 if(url.startsWith("http"))
@@ -79,6 +86,14 @@ public class HotFragment extends Fragment {
         else {
             banner.setVisibility(View.GONE);
         }
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                posts.clear();
+                recyclerView.setVisibility(View.GONE);
+                post();
+            }
+        });
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,1);
         manager.setGapStrategy(2);
         recyclerView.setLayoutManager(manager);
@@ -181,7 +196,9 @@ public class HotFragment extends Fragment {
             Post post = new Post(cityID, price, String.valueOf(number), imagesArrayList);
             posts.add(post);
         }
+        refreshLayout.setRefreshing(false);
         myAdapter.notifyDataSetChanged();
+        recyclerView.setVisibility(View.VISIBLE);
         if (getActivity()!=null && !getActivity().isFinishing() && epicDialog != null) {
             epicDialog.dismiss();
         }
