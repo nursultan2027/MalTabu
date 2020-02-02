@@ -37,12 +37,13 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></Toolbar>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/reclama"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
+            android:scaleType="fitXY"
             android:background="@color/MaltabuYellow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

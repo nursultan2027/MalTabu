@@ -271,6 +271,7 @@ public class AuthAvtivity extends AppCompatActivity {
         edtLog.setHint(res.getString(R.string.auth3));
         edtPass.setHint(res.getString(R.string.reg31));
         auth.setText(res.getString(R.string.auth2));
+        forgetPass.setText(res.getString(R.string.forgetPass));
         register.setText(res.getString(R.string.auth4));
     }
     protected void sDialog() {
