@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: /code
+    working_directory: ~/code
     docker:
       - image: circleci/android:api-28-alpha
     environment:
@@ -21,7 +21,7 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Creating Apk Artifacts
+          name: Creating Dummy Artifacts
           command: |
             echo "my artifact file" > /tmp/artifact-1;
             mkdir /tmp/artifacts;
