@@ -3,79 +3,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="kz.maltabu.app.maltabukz">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
+        android:name=".MainApplication"
         android:hardwareAccelerated="true"
-        android:name="kz.maltabu.app.maltabukz.MainApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:noHistory="false"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:noHistory="false"
-        android:largeHeap="true"
         android:theme="@style/myTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".redesign.ui.activity.ReadNewsActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true"/>
+            android:value="true" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8576417478026387~8810846514"/>
+            android:value="ca-app-pub-8576417478026387~8810846514" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="kz.maltabu.app.maltabukz.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
         <activity
-            android:name="kz.maltabu.app.maltabukz.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.FirstSelect1"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.MainActivity2"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.FirstSelect2"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.SecondSelect1"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.SecondSelect2"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.FilterActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetails" android:theme="@style/AppTheme.SlidrActivityTheme"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.PdfActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.AuthAvtivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.RegisterAvtivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.PhoneRegisterAvtivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ChooseRegistration"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ShowDetailsImages" android:theme="@style/AppTheme.SlidrActivityTheme"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.AddPostActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.AddPostActivity2"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.CabinetActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.AddScore"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.TopHotActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.NoConnection"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ChangePassword"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.CommentsActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPassword"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.ForgetPasswordPhone"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.NewPassword"/>
-        <activity android:name="kz.maltabu.app.maltabukz.activities.EditPostActivity"/>
-        <activity android:name="kz.maltabu.app.maltabukz.Redesign.ui.activity.AddPostRedesign"/>
+        <activity android:name=".activities.FirstSelect1" />
+        <activity android:name=".activities.MainActivity2" />
+        <activity android:name=".activities.FirstSelect2" />
+        <activity android:name=".activities.SecondSelect1" />
+        <activity android:name=".activities.SecondSelect2" />
+        <activity android:name=".activities.FilterActivity" />
+        <activity
+            android:name=".activities.ShowDetails"
+            android:theme="@style/AppTheme.SlidrActivityTheme" />
+        <activity android:name=".activities.PdfActivity" />
+        <activity android:name=".activities.AuthAvtivity" />
+        <activity android:name=".activities.RegisterAvtivity" />
+        <activity android:name=".activities.PhoneRegisterAvtivity" />
+        <activity android:name=".activities.ChooseRegistration" />
+        <activity
+            android:name=".activities.ShowDetailsImages"
+            android:theme="@style/AppTheme.SlidrActivityTheme" />
+        <activity android:name=".activities.AddPostActivity" />
+        <activity android:name=".activities.AddPostActivity2" />
+        <activity android:name=".activities.CabinetActivity" />
+        <activity android:name=".activities.AddScore" />
+        <activity android:name=".activities.TopHotActivity" />
+        <activity android:name=".activities.NoConnection" />
+        <activity android:name=".activities.ChangePassword" />
+        <activity android:name=".activities.CommentsActivity" />
+        <activity android:name=".activities.ForgetPassword" />
+        <activity android:name=".activities.ForgetPasswordPhone" />
+        <activity android:name=".activities.NewPassword" />
+        <activity android:name=".activities.EditPostActivity" />
+        <activity android:name=".redesign.ui.activity.NewsActivity" />
+        <activity android:name=".redesign.ui.activity.AddPostRedesign" />
+
         <service android:name=".helpers.MyFarebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
 </manifest>

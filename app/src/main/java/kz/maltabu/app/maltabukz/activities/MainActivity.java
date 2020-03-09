@@ -190,8 +190,7 @@ public class MainActivity extends AppCompatActivity{
                         if (jsonObject.has("android_version")) {
                             if (Maltabu.version.equals(jsonObject.getString("android_version"))) {
                                 noRecord();
-                            }
-                            else{
+                            } else {
                                 if(jsonObject.has("android_link"))
                                 {
                                     String url = jsonObject.getString("android_link");

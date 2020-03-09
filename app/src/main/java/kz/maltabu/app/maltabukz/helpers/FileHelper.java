@@ -132,13 +132,26 @@ public class FileHelper {
         String banner="";
         try {
             JSONObject banners = new JSONObject(readBannerFile());
-            banner = banners.getString("mobile_main");
+            banner = banners.getJSONObject("site_main").getString("url");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return banner;
     }
-    public JSONObject diction() throws JSONException {
+
+    public String getTarget() {
+        String banner = "";
+        try {
+            JSONObject banners = new JSONObject(readBannerFile());
+            banner = banners.getJSONObject("site_main").getString("target_link");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return banner;
+
+    }
+
+        public JSONObject diction() throws JSONException {
         return new JSONObject(readDictionary());
     }
 

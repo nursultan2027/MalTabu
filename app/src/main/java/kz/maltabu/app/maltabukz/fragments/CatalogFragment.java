@@ -28,6 +28,7 @@ import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
 import kz.maltabu.app.maltabukz.models.Category;
+import kz.maltabu.app.maltabukz.redesign.ui.fragment.CatalogFragmentRedesign;
 
 public class CatalogFragment extends Fragment {
     private TabLayout tabLayout;
@@ -135,7 +136,7 @@ public class CatalogFragment extends Fragment {
         bundle1.putBoolean("isCatalog", false);
         bundle1.putString("catalog", category.getId());
         TextView txtv = getActivity().findViewById(R.id.hottitle);
-        CategoryFragment fragobj1=new CategoryFragment();
+        CatalogFragmentRedesign fragobj1=CatalogFragmentRedesign.newInstance();
         fragobj1.setArguments(bundle1);
         if(Maltabu.lang.equals("ru")) {
             adapter.addFragment(fragobj1, "Все");
@@ -163,7 +164,7 @@ public class CatalogFragment extends Fragment {
             Bundle bundle2 = new Bundle();
             bundle2.putBoolean("isCatalog", true);
             bundle2.putString("catalog",catalogStr[i]);
-            CategoryFragment fragobj2 =new CategoryFragment();
+            CatalogFragmentRedesign fragobj2 =CatalogFragmentRedesign.newInstance();
             fragobj2.setArguments(bundle2);
             if(Maltabu.lang.toLowerCase().equals("ru")) {
                 adapter.addFragment(fragobj2, category.catalogs.get(i).getName());

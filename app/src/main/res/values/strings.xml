@@ -173,5 +173,6 @@
 
     <string name="visitorsCount">просмотров</string>
     <string name="filter">Фильтр</string>
+    <string name="news">Новости</string>
 
 </resources>

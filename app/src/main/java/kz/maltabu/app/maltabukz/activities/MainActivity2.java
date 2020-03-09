@@ -26,9 +26,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,7 +34,6 @@ import org.json.JSONObject;
 
 import io.paperdb.Paper;
 import kz.maltabu.app.maltabukz.R;
-import kz.maltabu.app.maltabukz.Redesign.ui.activity.AddPostRedesign;
 import kz.maltabu.app.maltabukz.fragments.CatalogFragment;
 import kz.maltabu.app.maltabukz.fragments.HotFragment;
 import kz.maltabu.app.maltabukz.fragments.SearchFragment;
@@ -46,6 +42,7 @@ import kz.maltabu.app.maltabukz.helpers.CustomAnimator;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
 import kz.maltabu.app.maltabukz.helpers.LocaleHelper;
 import kz.maltabu.app.maltabukz.helpers.Maltabu;
+import kz.maltabu.app.maltabukz.redesign.ui.activity.NewsActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -53,8 +50,8 @@ import okhttp3.Response;
 public class MainActivity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ActivityFragment {
 
-    private TextView filterText, menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, cab, lange, hottitle;
-    private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7,cab1, cLnag, search;
+    private TextView filterText, menu1, menu2,menu3,menu4,menu6,menu5,menu7,menu8, menu82, menuNews1, cab, lange, hottitle;
+    private ConstraintLayout cl1, m1, m2, m3, m4, m5, m6, m7, mNews, cab1, cLnag, search;
     private ImageView filter, flag, menuLogo;
     private JSONObject object;
     private FileHelper fileHelper;
@@ -131,9 +128,11 @@ public class MainActivity2 extends AppCompatActivity
         m5  = (ConstraintLayout) view.findViewById(R.id.constraintLayout6);
         m6  = (ConstraintLayout) view.findViewById(R.id.constraintLayout9);
         m7  = (ConstraintLayout) view.findViewById(R.id.constraintLayout10);
+        mNews = (ConstraintLayout) view.findViewById(R.id.news_constraint_lay);
         search  = (ConstraintLayout) view.findViewById(R.id.constraintLayout228);
         menu8  = (TextView) findViewById(R.id.menu8);
         menu82  = (TextView) findViewById(R.id.menu82);
+        menuNews1 = (TextView) view.findViewById(R.id.menu_news);
         cl1 = (ConstraintLayout) findViewById(R.id.constraintLayout7);
 
         initListeners();
@@ -328,6 +327,13 @@ public class MainActivity2 extends AppCompatActivity
                 }
             }
         });
+        mNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity2.this, NewsActivity.class));
+                finish();
+            }
+        });
         cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -376,6 +382,7 @@ public class MainActivity2 extends AppCompatActivity
         menu7.setText(resources.getString(R.string.menu7));
         menu8.setText(resources.getString(R.string.menu8));
         menu82.setText(resources.getString(R.string.menu82));
+        menuNews1.setText(resources.getString(R.string.news));
         lange.setText(resources.getString(R.string.other_lang));
         filterText.setText(resources.getString(R.string.filter));
     }

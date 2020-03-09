@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.yandex.metrica.YandexMetrica;
+
 import kz.maltabu.app.maltabukz.R;
 import kz.maltabu.app.maltabukz.adapters.RecycleHotAdapterNew;
 import kz.maltabu.app.maltabukz.helpers.FileHelper;
@@ -99,7 +101,20 @@ public class HotFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setHasFixedSize(false);
+        setListeners();
         return view;
+    }
+
+    private void setListeners(){
+        banner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String eventParameters = "{\"platform\":\"Android\", \"version\":\"1.0.56\"}";
+                YandexMetrica.reportEvent("Banner Clicked", eventParameters);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(fileHelper.getTarget()));
+                startActivity(browserIntent);
+            }
+        });
     }
 
     private String CutString(String str){
