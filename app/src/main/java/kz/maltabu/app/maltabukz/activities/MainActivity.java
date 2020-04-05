@@ -188,11 +188,10 @@ public class MainActivity extends AppCompatActivity{
                     try {
                         JSONObject jsonObject = new JSONObject(s1);
                         if (jsonObject.has("android_version")) {
-                            if (Maltabu.version.equals(jsonObject.getString("android_version"))) {
+                            if (checkVersionFromBackend(Maltabu.version,jsonObject.getString("android_version"))) {
                                 noRecord();
                             } else {
-                                if(jsonObject.has("android_link"))
-                                {
+                                if(jsonObject.has("android_link")){
                                     String url = jsonObject.getString("android_link");
                                     sDialog(url);
                                 }
@@ -205,6 +204,12 @@ public class MainActivity extends AppCompatActivity{
             }
         };
         asyncTask1.execute();
+    }
+
+    private boolean checkVersionFromBackend(String version, String android_version) {
+        int current = Integer.parseInt(version.split("\\.")[2]);
+        int fromBack = Integer.parseInt(android_version.split("\\.")[2]);
+        return current>=fromBack;
     }
 
 

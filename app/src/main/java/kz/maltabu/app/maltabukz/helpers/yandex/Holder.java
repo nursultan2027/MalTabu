@@ -20,6 +20,7 @@ public class Holder {
         public static final int DEFAULT = 0;
         public static final int NATIVE_BANNER = 1;
         public static final int NEWS_ITEM = 2;
+        public static final int PLACE_HOLDER = 3;
     }
 
     public static class ListItemHolder extends RecyclerView.ViewHolder {
@@ -30,7 +31,7 @@ public class Holder {
         public TextView commCount;
         public TextView visitors;
         public ConstraintLayout selected;
-        public ImageView img;
+        public RoundedImageView img;
         public ImageView top;
 
         public ListItemHolder(View itemView) {
@@ -42,7 +43,7 @@ public class Holder {
             commCount = (TextView) itemView.findViewById(R.id.textView9);
             photoCount = (TextView) itemView.findViewById(R.id.textView11);
             visitors = (TextView) itemView.findViewById(R.id.textView10);
-            img = (ImageView) itemView.findViewById(R.id.imageView17);
+            img = (RoundedImageView) itemView.findViewById(R.id.imageView17);
             top = (ImageView) itemView.findViewById(R.id.topIcon);
         }
     }
@@ -76,4 +77,12 @@ public class Holder {
         }
     }
 
+    public static class PlaceHolderViewHolder extends RecyclerView.ViewHolder {
+        public ConstraintLayout background;
+
+        public PlaceHolderViewHolder(View view){
+            super(view);
+            background = (ConstraintLayout) view.findViewById(R.id.selectedPlaceHolder);
+        }
+    }
 }

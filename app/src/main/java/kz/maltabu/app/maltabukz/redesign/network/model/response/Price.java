@@ -10,7 +10,7 @@ public class Price {
     private String kind;
     @SerializedName("value")
     @Expose
-    private Integer value;
+    private Long value;
 
     public String getKind() {
         return kind;
@@ -20,11 +20,11 @@ public class Price {
         this.kind = kind;
     }
 
-    public Integer getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 }

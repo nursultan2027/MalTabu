@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.MobileAds;
@@ -33,11 +34,15 @@ public class MainApplication extends Application{
         super.onCreate();
         Paper.init(this);
         Fabric.with(getApplicationContext());
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
+        try {
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                }
+            });
+        } catch (Exception e){
+            Log.d("ERROR", e.getMessage());
+        };
         YandexMetricaConfig config = YandexMetricaConfig.newConfigBuilder(Maltabu.API_key).build();
         YandexMetrica.activate(getApplicationContext(), config);
         YandexMetrica.enableActivityAutoTracking(this);

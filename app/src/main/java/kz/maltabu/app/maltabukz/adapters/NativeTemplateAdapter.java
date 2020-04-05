@@ -3,6 +3,7 @@ package kz.maltabu.app.maltabukz.adapters;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,12 @@ public class NativeTemplateAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 viewHolder = new Holder.NewsItemHolder(view);
                 break;
             }
+
+            case Holder.BlockContentProvider.PLACE_HOLDER:{
+                final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_place_holder, parent, false);
+                viewHolder = new Holder.PlaceHolderViewHolder(view);
+                break;
+            }
         }
         return viewHolder;
     }
@@ -100,6 +107,11 @@ public class NativeTemplateAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             case Holder.BlockContentProvider.NEWS_ITEM:{
                 bindNewsItem((Holder.NewsItemHolder) holder, position);
+                break;
+            }
+            case Holder.BlockContentProvider.PLACE_HOLDER:{
+                bindPlaceHolderItem((Holder.PlaceHolderViewHolder) holder, position);
+                break;
             }
         }
     }
@@ -116,17 +128,19 @@ public class NativeTemplateAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void bindNativeBanner(final Holder.NativeBannerViewHolder holder, final int position) {
         holder.nativeBannerView.setVisibility(View.GONE);
-        final NativeGenericAd nativeAd = (NativeGenericAd) mData.get(position).second;
-
-        holder.nativeBannerView.setAd(nativeAd);
-        holder.nativeBannerView.setVisibility(View.VISIBLE);
-        holder.nativeBannerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animator.animateHotViewLinear(holder.itemView);
-            }
-        });
-        nativeAd.loadImages();
+        if(mData.get(position).second instanceof NativeGenericAd) {
+            final NativeGenericAd nativeAd = (NativeGenericAd) mData.get(position).second;
+            holder.nativeBannerView.setAd(nativeAd);
+            holder.nativeBannerView.setVisibility(View.VISIBLE);
+            holder.nativeBannerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    animator.animateHotViewLinear(holder.itemView);
+                }
+            });
+            nativeAd.loadImages();
+        } else
+            holder.nativeBannerView.setBackgroundColor(Color.parseColor("#000fff"));
     }
 
 
@@ -152,6 +166,10 @@ public class NativeTemplateAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             holder.date.setText(dates[0]+ " "+dates[2]);
         }
         holder.visitors.setText(String.valueOf(news.getStat().getVisitors()));
+    }
+
+    private void bindPlaceHolderItem(Holder.PlaceHolderViewHolder holder, int position) {
+        holder.background.setBackgroundColor(Color.parseColor("#ffffff"));
     }
 
     private void bindItem(final  Holder.ListItemHolder holder, final int position){

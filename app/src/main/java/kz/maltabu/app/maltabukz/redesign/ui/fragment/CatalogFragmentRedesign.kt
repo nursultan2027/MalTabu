@@ -32,6 +32,7 @@ import kz.maltabu.app.maltabukz.redesign.network.model.response.PostCatalogRespo
 import kz.maltabu.app.maltabukz.redesign.utils.Status
 import kz.maltabu.app.maltabukz.redesign.viewModel.CatalogFragmentViewModel
 import retrofit2.Response
+import java.util.*
 import kotlin.collections.ArrayList
 
 class CatalogFragmentRedesign : Fragment() {
@@ -43,6 +44,7 @@ class CatalogFragmentRedesign : Fragment() {
     private lateinit var yandexHelper: YandexAdHelper
     private var isCatalog=false
     private var pageNumber=1
+    private var adIndex=5
     private var promosAdded=false
     private var mData = ArrayList<Pair<Int, Any>>()
 
@@ -109,7 +111,6 @@ class CatalogFragmentRedesign : Fragment() {
         addToPair(response.body()!!.posts, false)
         if(mData.isNotEmpty()){
             haveResult()
-            loadAd()
             adapter.notifyDataSetChanged()
             adapter.setData(mData)
         }
@@ -122,24 +123,32 @@ class CatalogFragmentRedesign : Fragment() {
             for (i in list.indices) {
                 list[i].isPromoted=promo
                 mData.add(Pair(0, list[i]))
+                if(i%5==4){
+                    loadAd()
+                }
             }
     }
 
     private fun setListeners(){
         catalog_swipe.setOnRefreshListener {
             prodss.visibility=View.GONE
-            mData.clear()
-            pageNumber=1
+            resetData()
             viewModel.getCategory(buildBodyForRequest())
         }
         prodss.addOnScrollListener(
-                object : EndlessListener(prodss.layoutManager as LinearLayoutManager){
-                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView){
-                        pageNumber++
-                        viewModel.getCategory(buildBodyForRequest())
-                    }
+            object : EndlessListener(prodss.layoutManager as LinearLayoutManager){
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView){
+                    pageNumber++
+                    viewModel.getCategory(buildBodyForRequest())
                 }
+            }
         )
+    }
+
+    private fun resetData() {
+        mData.clear()
+        adIndex=5
+        pageNumber=1
     }
 
     private fun noResult(){
@@ -221,7 +230,9 @@ class CatalogFragmentRedesign : Fragment() {
         }
 
         private fun fillData(nativeAd: Pair<Int, Any>) {
-            mData.add(nativeAd)
+
+            mData.add(adIndex,nativeAd)
+            adIndex+=6
             adapter.notifyDataSetChanged()
             adapter.setData(mData)
         }
